@@ -142,12 +142,14 @@ def show_learning_evaluation(question, result):
 
 def show_interview_evaluation(result):
     evaluation = result["evaluation"]
-    st.write(f"Score: {evaluation['score']}/100")
+    st.metric("Score", f"{evaluation['score']}/100")
 
     st.write("Matched points")
     if evaluation["matched_points"]:
         for point in evaluation["matched_points"]:
-            st.write(f"- {point['point']} ({point['weight']} pts)")
+            matched_keywords = ", ".join(point.get("matched_keywords", []))
+            detail = f" - matched: {matched_keywords}" if matched_keywords else ""
+            st.write(f"- {point['point']} ({point['weight']} pts){detail}")
     else:
         st.write("- No expected points matched yet.")
 
@@ -161,11 +163,44 @@ def show_interview_evaluation(result):
     if evaluation.get("explanation"):
         st.info(evaluation["explanation"])
 
+    with st.expander("Show Ideal Answer"):
+        st.markdown(build_ideal_answer(result["question"]))
+
     follow_ups = evaluation.get("follow_ups", [])
     if follow_ups:
         st.write("Follow-up prompts")
         for follow_up in follow_ups:
             st.write(f"- {follow_up}")
+
+
+def build_ideal_answer(question):
+    expected_points = question.get("expected_points", [])
+    expected_answer = question.get("expected_answer")
+
+    if expected_answer:
+        intro = expected_answer
+    else:
+        intro = "A strong answer should cover the main rubric points clearly and connect them to the scenario."
+
+    lines = [intro, "", "A structured answer would include:"]
+    for index, point in enumerate(expected_points, start=1):
+        keywords = point.get("keywords", [])
+        keyword_text = f" Keywords to mention: {', '.join(keywords[:5])}." if keywords else ""
+        lines.append(f"{index}. {point.get('point', '')}.{keyword_text}")
+
+    if question.get("key_takeaways"):
+        lines.extend(["", "Key takeaways:"])
+        for takeaway in question["key_takeaways"]:
+            lines.append(f"- {takeaway}")
+
+    return "\n".join(lines)
+
+
+def show_progress(label, current, total):
+    safe_total = max(total, 1)
+    progress_value = min(current / safe_total, 1.0)
+    st.write(f"{label} {current}/{total}")
+    st.progress(progress_value)
 
 
 def build_interview_report(results):
@@ -180,16 +215,24 @@ def build_interview_report(results):
 
     scores = [item["evaluation"]["score"] for item in results]
     score_by_domain = {}
+    score_by_category = {}
 
     for item in results:
         domain = item["question"].get("domain", "unknown")
+        category = item["question"].get("category", "unknown")
         score_by_domain.setdefault(domain, []).append(item["evaluation"]["score"])
+        score_by_category.setdefault(category, []).append(item["evaluation"]["score"])
 
     score_by_domain = {
         domain: sum(domain_scores) / len(domain_scores)
         for domain, domain_scores in score_by_domain.items()
     }
+    score_by_category = {
+        category: sum(category_scores) / len(category_scores)
+        for category, category_scores in score_by_category.items()
+    }
     sorted_domains = sorted(score_by_domain.items(), key=lambda item: item[1], reverse=True)
+    sorted_categories = sorted(score_by_category.items(), key=lambda item: item[1], reverse=True)
 
     missing_points = []
     for item in results:
@@ -203,29 +246,34 @@ def build_interview_report(results):
     return {
         "overall_score": sum(scores) / len(scores),
         "score_by_domain": score_by_domain,
+        "score_by_category": score_by_category,
         "strongest_domains": [domain for domain, _ in sorted_domains[:3]],
         "weakest_domains": [domain for domain, _ in sorted_domains[-3:]],
+        "strongest_areas": [category for category, _ in sorted_categories[:3]],
+        "weakest_areas": [category for category, _ in sorted_categories[-3:]],
         "recommended_areas": recommended_areas,
     }
 
 
 def show_final_interview_report(results):
     report = build_interview_report(results)
-    st.write(f"Overall score: {report['overall_score']:.1f}/100")
+    st.metric("Overall score", f"{report['overall_score']:.1f}/100")
 
-    st.write("Score by domain")
+    st.write("Domain score")
     for domain, score in report["score_by_domain"].items():
         st.write(f"- {domain}: {score:.1f}/100")
 
-    st.write("Strongest domains")
-    for domain in report["strongest_domains"]:
-        st.write(f"- {domain}")
+    st.write("Strongest areas")
+    for area in report["strongest_areas"]:
+        score = report["score_by_category"].get(area, 0)
+        st.write(f"- {area}: {score:.1f}/100")
 
-    st.write("Weakest domains")
-    for domain in report["weakest_domains"]:
-        st.write(f"- {domain}")
+    st.write("Weakest areas")
+    for area in report["weakest_areas"]:
+        score = report["score_by_category"].get(area, 0)
+        st.write(f"- {area}: {score:.1f}/100")
 
-    st.write("Recommended areas to improve")
+    st.write("Recommended next topics")
     for area in report["recommended_areas"]:
         st.write(f"- {area}")
 
@@ -246,6 +294,22 @@ def build_text_report(platform, level, mode, results):
         lines.append(f"Overall score: {average_score:.1f}/100")
         lines.append("")
 
+        if mode == "Interview Mode":
+            interview_report = build_interview_report(results)
+            lines.append("Domain score:")
+            for domain, score in interview_report["score_by_domain"].items():
+                lines.append(f"- {domain}: {score:.1f}/100")
+            lines.append("")
+            lines.append("Strongest areas:")
+            lines.extend(f"- {area}" for area in interview_report["strongest_areas"])
+            lines.append("")
+            lines.append("Weakest areas:")
+            lines.extend(f"- {area}" for area in interview_report["weakest_areas"])
+            lines.append("")
+            lines.append("Recommended next topics:")
+            lines.extend(f"- {area}" for area in interview_report["recommended_areas"])
+            lines.append("")
+
     for index, item in enumerate(results, start=1):
         question = item["question"]
         evaluation = item["evaluation"]
@@ -255,6 +319,8 @@ def build_text_report(platform, level, mode, results):
                 f"Answer: {item['answer']}",
                 f"Score: {evaluation['score']}/100",
                 f"Explanation: {evaluation.get('explanation', '')}",
+                "Ideal answer:",
+                build_ideal_answer(question),
                 "",
             ]
         )
@@ -390,6 +456,8 @@ else:
     st.caption(f"{role} • {interview_domain} • {level}")
 
     if "interview_questions" not in st.session_state:
+        st.write("You will answer 5 senior-style interview questions one at a time.")
+        st.write("After each answer, you will see rubric feedback before continuing.")
         if st.button("Start Interview"):
             start_interview(interview_domain, level)
             st.rerun()
@@ -399,9 +467,11 @@ else:
         if not history:
             st.warning("No interview questions available yet for this role and domain.")
         else:
+            show_progress("Interview progress", len(history), len(st.session_state.interview_questions))
             show_final_interview_report(history)
 
             st.divider()
+            st.write("Question review")
             for result in history:
                 st.write(result["question"]["question"])
                 show_interview_evaluation(result)
@@ -427,22 +497,30 @@ else:
             st.rerun()
 
         question = questions[index]
-        st.write(f"Question {index + 1} of {len(questions)}")
+        show_progress("Question", index + 1, len(questions))
 
         if st.session_state.get("interview_waiting_for_next"):
+            st.write("Current question")
             if question.get("scenario"):
                 st.write(question["scenario"])
             st.write(question["question"])
             st.divider()
+            st.write("Evaluation")
             show_interview_evaluation(history[-1])
 
-            if st.button("Continue to Next Question"):
+            button_label = (
+                "Finish Interview"
+                if index + 1 >= len(questions)
+                else "Continue to Next Question"
+            )
+            if st.button(button_label):
                 st.session_state.interview_index += 1
                 st.session_state.interview_waiting_for_next = False
                 if st.session_state.interview_index >= len(questions):
                     st.session_state.interview_complete = True
                 st.rerun()
         else:
+            st.write("Question")
             answer = show_question_input(question, "interview")
 
             if st.button("Submit Answer"):
