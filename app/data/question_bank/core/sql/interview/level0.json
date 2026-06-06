@@ -1,0 +1,482 @@
+[
+  {
+    "id": "sql-int-l0-001",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "select",
+    "difficulty": 1,
+    "scenario": "A sales team has a warehouse table named orders with columns order_id, customer_id, order_date, and total_amount. They ask you to show the basic order details for a data quality check.",
+    "question": "How would you write a simple SQL query to retrieve order_id, customer_id, order_date, and total_amount from the orders table?",
+    "expected_points": [
+      {
+        "point": "Uses SELECT to choose specific columns",
+        "keywords": ["select", "order_id", "customer_id", "order_date", "total_amount"],
+        "weight": 40
+      },
+      {
+        "point": "Uses FROM to specify the orders table",
+        "keywords": ["from", "orders"],
+        "weight": 30
+      },
+      {
+        "point": "Avoids SELECT * and chooses only needed columns",
+        "keywords": ["specific columns", "only needed", "avoid select *", "not select *"],
+        "weight": 20
+      },
+      {
+        "point": "Explains why the query is useful for checking order data",
+        "keywords": ["data quality", "check", "validate", "review"],
+        "weight": 10
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "A strong beginner answer should show a basic SELECT statement with explicit columns and a FROM clause. Data engineers often start data validation by selecting a small set of relevant columns instead of pulling every column.",
+    "key_takeaways": [
+      "SELECT chooses which columns appear in the result.",
+      "FROM identifies the source table.",
+      "Explicit column selection is clearer and safer than SELECT *."
+    ],
+    "follow_ups": [
+      "Why might SELECT * be a bad habit in production data pipelines?",
+      "How would you limit this query to preview only 10 rows?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-002",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "where",
+    "difficulty": 1,
+    "scenario": "The operations team wants to inspect only orders from the India market. The orders table has a country column.",
+    "question": "How would you filter the orders table to return only rows where country is India?",
+    "expected_points": [
+      {
+        "point": "Uses WHERE to filter rows",
+        "keywords": ["where"],
+        "weight": 35
+      },
+      {
+        "point": "Filters the country column correctly",
+        "keywords": ["country", "india", "= 'india'", "= \"india\""],
+        "weight": 35
+      },
+      {
+        "point": "Includes a valid SELECT and FROM structure",
+        "keywords": ["select", "from", "orders"],
+        "weight": 20
+      },
+      {
+        "point": "Explains that WHERE filters rows before results are returned",
+        "keywords": ["filter rows", "before", "condition"],
+        "weight": 10
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "The WHERE clause applies row-level conditions. In this scenario, the query should filter orders where the country column equals India.",
+    "key_takeaways": [
+      "WHERE is used for row-level filtering.",
+      "String values are usually written inside quotes.",
+      "Filtering early reduces the amount of data reviewed or processed."
+    ],
+    "follow_ups": [
+      "How would you filter for orders from India and Singapore?",
+      "How would you filter orders after a specific order_date?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-003",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "order_by",
+    "difficulty": 1,
+    "scenario": "A business analyst wants to see the most recent customer orders first. The orders table contains an order_date column.",
+    "question": "How would you sort orders so the newest orders appear first?",
+    "expected_points": [
+      {
+        "point": "Uses ORDER BY to sort results",
+        "keywords": ["order by"],
+        "weight": 35
+      },
+      {
+        "point": "Sorts by order_date",
+        "keywords": ["order_date"],
+        "weight": 25
+      },
+      {
+        "point": "Uses DESC for newest first",
+        "keywords": ["desc", "descending", "newest first"],
+        "weight": 30
+      },
+      {
+        "point": "Explains that ORDER BY controls final result order",
+        "keywords": ["sort", "result order", "final output"],
+        "weight": 10
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "ORDER BY controls how rows are sorted in the final result. To show newest orders first, order_date should be sorted in descending order.",
+    "key_takeaways": [
+      "ORDER BY sorts query output.",
+      "DESC sorts from highest to lowest or newest to oldest.",
+      "Without ORDER BY, result order is not guaranteed."
+    ],
+    "follow_ups": [
+      "How would you sort by order_date first and total_amount second?",
+      "What happens if you omit DESC?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-004",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "group_by",
+    "difficulty": 2,
+    "scenario": "The sales manager wants total revenue by customer. The orders table has customer_id and total_amount columns.",
+    "question": "How would you calculate total sales amount for each customer?",
+    "expected_points": [
+      {
+        "point": "Uses SUM to add total_amount",
+        "keywords": ["sum", "total_amount"],
+        "weight": 30
+      },
+      {
+        "point": "Groups results by customer_id",
+        "keywords": ["group by", "customer_id"],
+        "weight": 35
+      },
+      {
+        "point": "Selects customer_id with the aggregate result",
+        "keywords": ["select", "customer_id"],
+        "weight": 20
+      },
+      {
+        "point": "Explains that GROUP BY creates one result row per customer",
+        "keywords": ["per customer", "one row", "group"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "GROUP BY is used with aggregate functions to calculate metrics per group. Here, each customer_id becomes a group and SUM(total_amount) calculates that customer's total revenue.",
+    "key_takeaways": [
+      "GROUP BY creates grouped results.",
+      "SUM calculates totals within each group.",
+      "The grouping column usually appears in the SELECT list."
+    ],
+    "follow_ups": [
+      "How would you sort customers by highest total sales?",
+      "How would you include only customers with total sales above 1000?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-005",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "count",
+    "difficulty": 2,
+    "scenario": "A warehouse operations team wants to know how many orders were placed each day. The orders table has order_id and order_date columns.",
+    "question": "How would you count the number of orders for each order_date?",
+    "expected_points": [
+      {
+        "point": "Uses COUNT to count orders",
+        "keywords": ["count", "count(*)", "count(order_id)"],
+        "weight": 35
+      },
+      {
+        "point": "Groups by order_date",
+        "keywords": ["group by", "order_date"],
+        "weight": 30
+      },
+      {
+        "point": "Selects order_date in the result",
+        "keywords": ["select", "order_date"],
+        "weight": 20
+      },
+      {
+        "point": "Explains the result as one count per day",
+        "keywords": ["per day", "each day", "daily", "one row"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "COUNT is used to count rows or values. Grouping by order_date produces one count for each date.",
+    "key_takeaways": [
+      "COUNT(*) counts rows.",
+      "GROUP BY order_date creates daily groups.",
+      "Daily order counts are a common operational metric."
+    ],
+    "follow_ups": [
+      "What is the difference between COUNT(*) and COUNT(order_id)?",
+      "How would you show the busiest day first?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-006",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "sum",
+    "difficulty": 2,
+    "scenario": "The finance team needs the total revenue from all orders in the orders table. The revenue value is stored in total_amount.",
+    "question": "How would you calculate the total revenue across all orders?",
+    "expected_points": [
+      {
+        "point": "Uses SUM to add revenue values",
+        "keywords": ["sum", "total_amount"],
+        "weight": 45
+      },
+      {
+        "point": "Uses the orders table as the source",
+        "keywords": ["from", "orders"],
+        "weight": 25
+      },
+      {
+        "point": "Gives the result a meaningful alias",
+        "keywords": ["as", "total_revenue", "revenue"],
+        "weight": 15
+      },
+      {
+        "point": "Explains that SUM works on numeric columns",
+        "keywords": ["numeric", "add", "total"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "SUM(total_amount) calculates the total of all numeric values in total_amount across the selected rows.",
+    "key_takeaways": [
+      "SUM is used for totals.",
+      "Aliases make aggregate results easier to read.",
+      "SUM is commonly used for revenue, quantities, and inventory metrics."
+    ],
+    "follow_ups": [
+      "How would you calculate total revenue only for completed orders?",
+      "How would you calculate total revenue by month?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-007",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "distinct",
+    "difficulty": 2,
+    "scenario": "The marketing team wants to know which customers have ever placed an order. The orders table may contain multiple rows for the same customer_id.",
+    "question": "How would you return the unique customer_id values from the orders table?",
+    "expected_points": [
+      {
+        "point": "Uses DISTINCT to remove duplicates",
+        "keywords": ["distinct"],
+        "weight": 40
+      },
+      {
+        "point": "Selects customer_id",
+        "keywords": ["customer_id"],
+        "weight": 25
+      },
+      {
+        "point": "Uses the orders table",
+        "keywords": ["from", "orders"],
+        "weight": 20
+      },
+      {
+        "point": "Explains that the result has one row per unique customer",
+        "keywords": ["unique", "duplicate", "one row", "deduplicate"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "DISTINCT returns unique combinations of the selected columns. Selecting DISTINCT customer_id returns each customer only once.",
+    "key_takeaways": [
+      "DISTINCT removes duplicate result rows.",
+      "It applies to the selected columns.",
+      "Distinct customer lists are common in marketing and retention analysis."
+    ],
+    "follow_ups": [
+      "How would the result change if you selected DISTINCT customer_id, order_date?",
+      "Why can DISTINCT sometimes hide data quality problems?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-008",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "inner_join",
+    "difficulty": 3,
+    "scenario": "You have an orders table with customer_id and a customers table with customer_id and customer_name. You need order records with customer names, but only for orders that have a matching customer.",
+    "question": "How would you join orders to customers so only matching records are returned?",
+    "expected_points": [
+      {
+        "point": "Uses INNER JOIN",
+        "keywords": ["inner join"],
+        "weight": 35
+      },
+      {
+        "point": "Joins on customer_id",
+        "keywords": ["customer_id", "on"],
+        "weight": 30
+      },
+      {
+        "point": "Selects useful columns from both tables",
+        "keywords": ["order_id", "customer_name", "orders", "customers"],
+        "weight": 20
+      },
+      {
+        "point": "Explains that unmatched rows are excluded",
+        "keywords": ["matching", "unmatched", "excluded", "both tables"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "INNER JOIN returns rows only when the join condition matches in both tables. This is useful when you only want orders that can be linked to a known customer.",
+    "key_takeaways": [
+      "INNER JOIN keeps only matching rows.",
+      "The ON clause defines the join condition.",
+      "Joining fact-like order data to customer data is a common warehouse pattern."
+    ],
+    "follow_ups": [
+      "What happens to an order if its customer_id is missing from the customers table?",
+      "How would you debug unexpected duplicate rows after a join?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-009",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "left_join",
+    "difficulty": 3,
+    "scenario": "The business wants a list of all customers and their orders if they have any. Some customers have not placed orders yet.",
+    "question": "How would you use a LEFT JOIN to keep all customers even when they have no matching orders?",
+    "expected_points": [
+      {
+        "point": "Uses LEFT JOIN",
+        "keywords": ["left join"],
+        "weight": 35
+      },
+      {
+        "point": "Places customers as the left table",
+        "keywords": ["from customers", "customers left", "customers"],
+        "weight": 25
+      },
+      {
+        "point": "Joins on customer_id",
+        "keywords": ["customer_id", "on"],
+        "weight": 25
+      },
+      {
+        "point": "Explains that customers without orders still appear with null order fields",
+        "keywords": ["no orders", "null", "all customers", "missing"],
+        "weight": 15
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "LEFT JOIN keeps every row from the left table and adds matching rows from the right table. If no order exists, order columns will be null.",
+    "key_takeaways": [
+      "LEFT JOIN preserves all rows from the left table.",
+      "Unmatched right-side columns become null.",
+      "LEFT JOIN is useful for finding customers with no activity."
+    ],
+    "follow_ups": [
+      "How would you find only customers with no orders?",
+      "Why does table order matter in a LEFT JOIN?"
+    ]
+  },
+  {
+    "id": "sql-int-l0-010",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "domain": "sql",
+    "category": "null_handling",
+    "difficulty": 3,
+    "scenario": "An inventory table has product_id, warehouse_id, and quantity_on_hand. Some quantity_on_hand values are null because the source system did not send a value.",
+    "question": "How would you handle null quantity_on_hand values when reporting inventory totals?",
+    "expected_points": [
+      {
+        "point": "Identifies that null means missing or unknown, not zero by default",
+        "keywords": ["null", "missing", "unknown", "not zero"],
+        "weight": 25
+      },
+      {
+        "point": "Uses COALESCE or similar logic to replace nulls when appropriate",
+        "keywords": ["coalesce", "ifnull", "nvl", "replace"],
+        "weight": 30
+      },
+      {
+        "point": "Explains when replacing null with 0 is appropriate for inventory reporting",
+        "keywords": ["0", "zero", "appropriate", "business rule"],
+        "weight": 25
+      },
+      {
+        "point": "Mentions checking source data quality or upstream missing values",
+        "keywords": ["data quality", "source", "upstream", "validation"],
+        "weight": 20
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "Null handling requires care. For reporting totals, COALESCE(quantity_on_hand, 0) may be useful, but only if the business agrees that missing quantity should be treated as zero.",
+    "key_takeaways": [
+      "NULL means missing or unknown.",
+      "COALESCE can provide a default value.",
+      "Replacing nulls should follow a business rule, not just convenience."
+    ],
+    "follow_ups": [
+      "What risk comes from treating every null quantity as zero?",
+      "How would you count how many inventory rows have null quantities?"
+    ]
+  }
+]

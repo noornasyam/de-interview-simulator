@@ -5,13 +5,26 @@ from app.config.platforms import PLATFORMS
 from app.services.certification_engine import (
     evaluate_question,
     load_questions,
+    load_taxonomy_questions,
     select_random_questions,
 )
-from app.services.simulator_engine import SimulatorEngine
 
 
 CERTIFICATION_QUESTION_LIMIT = 5
-INTERVIEW_QUESTION_LIMIT = 3
+INTERVIEW_QUESTION_LIMIT = 5
+ROLE_LEVELS = {
+    "Data Engineer": "Mid-Level",
+    "Senior Data Engineer": "Senior",
+    "Lead Data Engineer": "Lead",
+    "Architect": "Architect",
+}
+INTERVIEW_DOMAINS = [
+    "SQL",
+    "Python",
+    "Data Modeling",
+    "Production Engineering",
+    "GCP",
+]
 
 
 def reset_session():
@@ -23,11 +36,12 @@ def reset_session():
         "question_answered",
         "explanation_shown",
         "waiting_for_next_question",
-        "interview_engine",
-        "interview_question",
+        "interview_questions",
+        "interview_index",
         "interview_history",
         "interview_complete",
         "interview_report",
+        "interview_waiting_for_next",
     ]:
         st.session_state.pop(key, None)
 
@@ -48,19 +62,19 @@ def start_question_session(platform, level):
     st.session_state.waiting_for_next_question = False
 
 
-def start_interview(platform, level):
-    engine = SimulatorEngine(
-        platform=platform,
-        level=level,
-        question_limit=INTERVIEW_QUESTION_LIMIT,
+def start_interview(domain, level):
+    questions = load_taxonomy_questions(domain, level, bank="interview")
+    selected_questions = select_random_questions(
+        questions,
+        count=min(INTERVIEW_QUESTION_LIMIT, len(questions)),
     )
-    first_question = engine.get_next_question()
 
-    st.session_state.interview_engine = engine
-    st.session_state.interview_question = first_question
+    st.session_state.interview_questions = selected_questions
+    st.session_state.interview_index = 0
     st.session_state.interview_history = []
-    st.session_state.interview_complete = first_question is None
+    st.session_state.interview_complete = not selected_questions
     st.session_state.interview_report = ""
+    st.session_state.interview_waiting_for_next = False
 
 
 def show_question_input(question, key_prefix):
@@ -154,6 +168,68 @@ def show_interview_evaluation(result):
             st.write(f"- {follow_up}")
 
 
+def build_interview_report(results):
+    if not results:
+        return {
+            "overall_score": 0,
+            "score_by_domain": {},
+            "strongest_domains": [],
+            "weakest_domains": [],
+            "recommended_areas": [],
+        }
+
+    scores = [item["evaluation"]["score"] for item in results]
+    score_by_domain = {}
+
+    for item in results:
+        domain = item["question"].get("domain", "unknown")
+        score_by_domain.setdefault(domain, []).append(item["evaluation"]["score"])
+
+    score_by_domain = {
+        domain: sum(domain_scores) / len(domain_scores)
+        for domain, domain_scores in score_by_domain.items()
+    }
+    sorted_domains = sorted(score_by_domain.items(), key=lambda item: item[1], reverse=True)
+
+    missing_points = []
+    for item in results:
+        for point in item["evaluation"].get("missing_points", []):
+            missing_points.append(point["point"])
+
+    recommended_areas = list(dict.fromkeys(missing_points))[:5]
+    if not recommended_areas:
+        recommended_areas = ["Keep practicing senior-level trade-offs and production examples."]
+
+    return {
+        "overall_score": sum(scores) / len(scores),
+        "score_by_domain": score_by_domain,
+        "strongest_domains": [domain for domain, _ in sorted_domains[:3]],
+        "weakest_domains": [domain for domain, _ in sorted_domains[-3:]],
+        "recommended_areas": recommended_areas,
+    }
+
+
+def show_final_interview_report(results):
+    report = build_interview_report(results)
+    st.write(f"Overall score: {report['overall_score']:.1f}/100")
+
+    st.write("Score by domain")
+    for domain, score in report["score_by_domain"].items():
+        st.write(f"- {domain}: {score:.1f}/100")
+
+    st.write("Strongest domains")
+    for domain in report["strongest_domains"]:
+        st.write(f"- {domain}")
+
+    st.write("Weakest domains")
+    for domain in report["weakest_domains"]:
+        st.write(f"- {domain}")
+
+    st.write("Recommended areas to improve")
+    for area in report["recommended_areas"]:
+        st.write(f"- {area}")
+
+
 def build_text_report(platform, level, mode, results):
     lines = [
         "Data Engineering Career Accelerator",
@@ -194,13 +270,18 @@ st.set_page_config(
 
 st.title("🎯 Data Engineering Career Accelerator")
 
-mode = st.selectbox(
-    "Select mode",
-    ["Learning Mode", "Exam Mode", "Interview Mode"],
-)
+mode = st.selectbox("Select mode", ["Learning Mode", "Exam Mode", "Interview Mode"])
 
-platform = st.selectbox("Select cloud platform", PLATFORMS)
-level = st.selectbox("Select level", LEVELS)
+if mode == "Interview Mode":
+    role = st.selectbox("Select role", list(ROLE_LEVELS.keys()))
+    interview_domain = st.selectbox("Select domain", INTERVIEW_DOMAINS)
+    platform = "taxonomy"
+    level = ROLE_LEVELS[role]
+else:
+    role = None
+    interview_domain = None
+    platform = st.selectbox("Select cloud platform", PLATFORMS)
+    level = st.selectbox("Select level", LEVELS)
 
 if mode == "Exam Mode":
     explanation_mode = "At the end only"
@@ -216,7 +297,7 @@ else:
         horizontal=True,
     )
 
-selection_key = f"{mode}:{platform}:{level}:{explanation_mode}"
+selection_key = f"{mode}:{platform}:{level}:{role}:{interview_domain}:{explanation_mode}"
 if st.session_state.get("selection_key") != selection_key:
     st.session_state.selection_key = selection_key
     reset_session()
@@ -306,30 +387,26 @@ if mode in {"Learning Mode", "Exam Mode"}:
 
 else:
     st.subheader("Interview Mode")
+    st.caption(f"{role} • {interview_domain} • {level}")
 
-    if "interview_engine" not in st.session_state:
+    if "interview_questions" not in st.session_state:
         if st.button("Start Interview"):
-            start_interview(platform, level)
+            start_interview(interview_domain, level)
             st.rerun()
     elif st.session_state.interview_complete:
         history = st.session_state.interview_history
 
         if not history:
-            st.warning("No interview questions available yet for this platform and level.")
+            st.warning("No interview questions available yet for this role and domain.")
         else:
-            scores = [item["evaluation"]["score"] for item in history]
-            average_score = sum(scores) / len(scores)
-            st.write(f"Overall score: {average_score:.1f}/100")
-
-            if st.session_state.interview_report:
-                st.markdown(st.session_state.interview_report)
+            show_final_interview_report(history)
 
             st.divider()
             for result in history:
                 st.write(result["question"]["question"])
                 show_interview_evaluation(result)
 
-            report = build_text_report(platform, level, mode, history)
+            report = build_text_report(interview_domain, level, mode, history)
             st.download_button(
                 "Download text report",
                 data=report,
@@ -341,35 +418,42 @@ else:
             reset_session()
             st.rerun()
     else:
+        questions = st.session_state.interview_questions
+        index = st.session_state.interview_index
         history = st.session_state.interview_history
-        question = st.session_state.interview_question
-        question_number = len(history) + 1
 
-        st.write(f"Question {question_number} of {INTERVIEW_QUESTION_LIMIT}")
-        answer = show_question_input(question, "interview")
+        if index >= len(questions):
+            st.session_state.interview_complete = True
+            st.rerun()
 
-        if st.button("Submit Answer"):
-            if not answer.strip():
-                st.warning("Please write an answer before submitting.")
-            else:
-                engine = st.session_state.interview_engine
-                result = engine.submit_answer(question, answer.strip())
-                history.append(result)
+        question = questions[index]
+        st.write(f"Question {index + 1} of {len(questions)}")
 
-                used_ids = [item["question"]["id"] for item in history]
-                next_question = None
-                if len(history) < INTERVIEW_QUESTION_LIMIT:
-                    next_question = engine.get_next_question(used_ids=used_ids)
-
-                if next_question:
-                    st.session_state.interview_question = next_question
-                else:
-                    st.session_state.interview_complete = True
-                    st.session_state.interview_report = engine.generate_final_report(history)
-
-                st.rerun()
-
-        if explanation_mode == "After each question" and history:
+        if st.session_state.get("interview_waiting_for_next"):
+            if question.get("scenario"):
+                st.write(question["scenario"])
+            st.write(question["question"])
             st.divider()
-            st.write("Previous question result")
             show_interview_evaluation(history[-1])
+
+            if st.button("Continue to Next Question"):
+                st.session_state.interview_index += 1
+                st.session_state.interview_waiting_for_next = False
+                if st.session_state.interview_index >= len(questions):
+                    st.session_state.interview_complete = True
+                st.rerun()
+        else:
+            answer = show_question_input(question, "interview")
+
+            if st.button("Submit Answer"):
+                if not answer.strip():
+                    st.warning("Please write an answer before submitting.")
+                else:
+                    result = {
+                        "question": question,
+                        "answer": answer.strip(),
+                        "evaluation": evaluate_question(question, answer.strip()),
+                    }
+                    history.append(result)
+                    st.session_state.interview_waiting_for_next = True
+                    st.rerun()

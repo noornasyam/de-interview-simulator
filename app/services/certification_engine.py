@@ -24,12 +24,52 @@ def _level_key(level: str):
     return level.lower().replace(" ", "")
 
 
+def _taxonomy_level_key(level: str):
+    return level.lower().replace(" ", "_").replace("-", "_")
+
+
 def load_questions(platform: str, level: str, bank: str = "certification"):
     file_path = (
         Path("app/data/question_bank")
         / _platform_key(platform)
         / bank
         / f"{_level_key(level)}.json"
+    )
+
+    if not file_path.exists():
+        return []
+
+    try:
+        content = file_path.read_text().strip()
+        if not content:
+            return []
+
+        questions = json.loads(content)
+        return questions if isinstance(questions, list) else []
+    except json.JSONDecodeError:
+        return []
+
+
+def load_taxonomy_questions(domain: str, level: str, bank: str = "interview"):
+    domain_map = {
+        "SQL": ("core", "sql"),
+        "Python": ("core", "python"),
+        "Data Modeling": ("core", "data_modeling"),
+        "Production Engineering": ("core", "production_engineering"),
+        "GCP": ("cloud", "gcp"),
+    }
+
+    taxonomy_path = domain_map.get(domain)
+    if not taxonomy_path:
+        return []
+
+    group, domain_key = taxonomy_path
+    file_path = (
+        Path("app/data/question_bank")
+        / group
+        / domain_key
+        / bank
+        / f"{_taxonomy_level_key(level)}.json"
     )
 
     if not file_path.exists():
