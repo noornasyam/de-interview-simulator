@@ -84,6 +84,7 @@ def start_interview(domain, level):
 
 def show_question_input(question, key_prefix):
     question_type = question.get("type", "mcq")
+    question_id = question.get("id", "question")
 
     if question.get("scenario"):
         st.write(question["scenario"])
@@ -91,20 +92,25 @@ def show_question_input(question, key_prefix):
     st.write(question["question"])
 
     if question_type == "mcq":
+        options = question.get("options", [])
+        if not options:
+            st.warning("This multiple-choice question has no options configured.")
+            return None
+
         return st.radio(
             "Choose your answer",
-            question.get("options", []),
-            key=f"{key_prefix}_{question['id']}",
+            options,
+            key=f"{key_prefix}_{question_id}",
         )
 
     if question_type in {"interview", "rubric"}:
         return st.text_area(
             "Your answer",
-            key=f"{key_prefix}_{question['id']}",
+            key=f"{key_prefix}_{question_id}",
             height=180,
         )
 
-    return st.text_input("Your answer", key=f"{key_prefix}_{question['id']}")
+    return st.text_input("Your answer", key=f"{key_prefix}_{question_id}")
 
 
 def show_basic_evaluation(result):
@@ -189,15 +195,107 @@ def build_ideal_answer(question):
     if not isinstance(expected_points, list):
         expected_points = []
 
-    expected_answer = question.get("expected_answer")
+    key_takeaways = question.get("key_takeaways")
+    if not isinstance(key_takeaways, list):
+        key_takeaways = []
 
-    if expected_answer:
-        intro = expected_answer
+    point_texts = [
+        point.get("point", "")
+        for point in expected_points
+        if isinstance(point, dict) and point.get("point")
+    ]
+    technical_points = _format_answer_points(expected_points)
+    operational_points = _filter_answer_points(
+        expected_points,
+        ["monitor", "alert", "security", "iam", "cost", "quality", "incident", "sla"],
+    )
+    tradeoff_points = _filter_answer_points(
+        expected_points,
+        ["trade-off", "tradeoff", "cost", "latency", "freshness", "correctness", "scale"],
+    )
+
+    lines = [
+        "### Answer Summary",
+        _build_answer_summary(question, point_texts),
+        "",
+        "### Key Technical Considerations",
+    ]
+
+    if technical_points:
+        lines.extend(technical_points)
     else:
-        intro = "A strong answer should cover the main rubric points clearly and connect them to the scenario."
+        lines.append("- Clarify the business goal, data flow, constraints, and success criteria before proposing a solution.")
 
-    lines = [intro, "", "A structured answer would include:"]
-    for index, point in enumerate(expected_points, start=1):
+    lines.extend(["", "### Trade-offs"])
+    if tradeoff_points:
+        lines.extend(tradeoff_points)
+    else:
+        lines.append("- I would call out the main trade-offs explicitly, especially correctness versus speed, reliability versus complexity, and cost versus freshness.")
+
+    lines.extend(["", "### Monitoring / Security / Cost Considerations"])
+    if operational_points:
+        lines.extend(operational_points)
+    else:
+        lines.append("- I would include operational guardrails such as ownership, observability, access control, cost tracking, and validation checks before calling the design production-ready.")
+
+    if question.get("explanation"):
+        lines.extend(["", "### Why This Works", question["explanation"]])
+
+    if isinstance(key_takeaways, list) and key_takeaways:
+        lines.extend(["", "### Key Takeaways"])
+        for takeaway in key_takeaways:
+            lines.append(f"- {takeaway}")
+
+    lines.extend(
+        [
+            "",
+            "### Conclusion",
+            "In an interview, I would finish by tying the design back to the business requirement, the production risks, and the checks I would use to prove the solution is correct and maintainable.",
+        ]
+    )
+
+    return "\n".join(lines)
+
+
+def _build_answer_summary(question, point_texts):
+    domain = question.get("domain", "data engineering")
+    category = question.get("category", "production design")
+    if point_texts:
+        return (
+            f"I would approach this as a {domain} / {category} problem by first "
+            f"confirming the requirements, then addressing the highest-impact areas: "
+            f"{'; '.join(point_texts[:2])}."
+        )
+
+    return (
+        "I would start by clarifying the requirement, identifying the failure or "
+        "design risk, and then proposing a solution that is reliable, measurable, "
+        "and maintainable in production."
+    )
+
+
+def _format_answer_points(expected_points):
+    formatted_points = []
+    for point in expected_points:
+        if not isinstance(point, dict) or not point.get("point"):
+            continue
+
+        keywords = point.get("keywords", [])
+        if not isinstance(keywords, list):
+            keywords = []
+
+        keyword_text = ""
+        if keywords:
+            keyword_text = f" Mention: {', '.join(str(keyword) for keyword in keywords[:5])}."
+
+        formatted_points.append(f"- {point['point']}.{keyword_text}")
+
+    return formatted_points
+
+
+def _filter_answer_points(expected_points, terms):
+    filtered_points = []
+    for point in expected_points:
         if not isinstance(point, dict):
             continue
 
@@ -205,19 +303,17 @@ def build_ideal_answer(question):
         if not isinstance(keywords, list):
             keywords = []
 
-        keyword_text = f" Keywords to mention: {', '.join(keywords[:5])}." if keywords else ""
-        lines.append(f"{index}. {point.get('point', '')}.{keyword_text}")
+        searchable_text = " ".join(
+            [
+                str(point.get("point", "")),
+                " ".join(str(keyword) for keyword in keywords if keyword),
+            ]
+        ).lower()
 
-    if question.get("explanation"):
-        lines.extend(["", "Why this matters:", question["explanation"]])
+        if any(term in searchable_text for term in terms):
+            filtered_points.append(point)
 
-    key_takeaways = question.get("key_takeaways")
-    if isinstance(key_takeaways, list) and key_takeaways:
-        lines.extend(["", "Key takeaways:"])
-        for takeaway in key_takeaways:
-            lines.append(f"- {takeaway}")
-
-    return "\n".join(lines)
+    return _format_answer_points(filtered_points)
 
 
 def show_progress(label, current, total):
@@ -442,6 +538,14 @@ if mode in {"Learning Mode", "Exam Mode"}:
                 answer = show_question_input(question, "cert")
 
                 if st.button("Submit Answer"):
+                    if answer is None:
+                        st.warning("This question is missing answer options and cannot be submitted.")
+                        st.stop()
+
+                    if question.get("type") == "fill_blank" and not str(answer).strip():
+                        st.warning("Please enter an answer before submitting.")
+                        st.stop()
+
                     result = evaluate_question(question, answer)
                     results.append(
                         {
