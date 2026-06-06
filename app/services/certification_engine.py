@@ -3,16 +3,13 @@ import random
 from pathlib import Path
 
 
-VALID_CATEGORIES = {
-    "sql",
-    "storage",
-    "streaming",
-    "data_modeling",
-    "security",
-    "monitoring",
-    "cost",
-    "architecture",
-    "leadership",
+QUESTION_BANK_ROOT = Path("app/data/question_bank")
+TAXONOMY_DOMAINS = {
+    "SQL": ("core", "sql"),
+    "Python": ("core", "python"),
+    "Data Modeling": ("core", "data_modeling"),
+    "Production Engineering": ("core", "production_engineering"),
+    "GCP": ("cloud", "gcp"),
 }
 
 
@@ -28,14 +25,7 @@ def _taxonomy_level_key(level: str):
     return level.lower().replace(" ", "_").replace("-", "_")
 
 
-def load_questions(platform: str, level: str, bank: str = "certification"):
-    file_path = (
-        Path("app/data/question_bank")
-        / _platform_key(platform)
-        / bank
-        / f"{_level_key(level)}.json"
-    )
-
+def _read_question_file(file_path: Path):
     if not file_path.exists():
         return []
 
@@ -45,45 +35,56 @@ def load_questions(platform: str, level: str, bank: str = "certification"):
             return []
 
         questions = json.loads(content)
-        return questions if isinstance(questions, list) else []
-    except json.JSONDecodeError:
+    except (OSError, json.JSONDecodeError):
         return []
+
+    if not isinstance(questions, list):
+        return []
+
+    return [question for question in questions if _is_valid_question(question)]
+
+
+def _is_valid_question(question):
+    return (
+        isinstance(question, dict)
+        and bool(question.get("id"))
+        and bool(question.get("question"))
+        and bool(question.get("type"))
+    )
+
+
+def load_questions(platform: str, level: str, bank: str = "certification"):
+    file_path = (
+        QUESTION_BANK_ROOT
+        / _platform_key(platform)
+        / bank
+        / f"{_level_key(level)}.json"
+    )
+
+    return _read_question_file(file_path)
 
 
 def load_taxonomy_questions(domain: str, level: str, bank: str = "interview"):
-    domain_map = {
-        "SQL": ("core", "sql"),
-        "Python": ("core", "python"),
-        "Data Modeling": ("core", "data_modeling"),
-        "Production Engineering": ("core", "production_engineering"),
-        "GCP": ("cloud", "gcp"),
-    }
+    if domain == "All Domains":
+        questions = []
+        for domain_name in TAXONOMY_DOMAINS:
+            questions.extend(load_taxonomy_questions(domain_name, level, bank=bank))
+        return questions
 
-    taxonomy_path = domain_map.get(domain)
+    taxonomy_path = TAXONOMY_DOMAINS.get(domain)
     if not taxonomy_path:
         return []
 
     group, domain_key = taxonomy_path
     file_path = (
-        Path("app/data/question_bank")
+        QUESTION_BANK_ROOT
         / group
         / domain_key
         / bank
         / f"{_taxonomy_level_key(level)}.json"
     )
 
-    if not file_path.exists():
-        return []
-
-    try:
-        content = file_path.read_text().strip()
-        if not content:
-            return []
-
-        questions = json.loads(content)
-        return questions if isinstance(questions, list) else []
-    except json.JSONDecodeError:
-        return []
+    return _read_question_file(file_path)
 
 
 def select_random_questions(
@@ -94,11 +95,18 @@ def select_random_questions(
     difficulty=None,
 ):
     used_ids = set(used_ids or [])
-    available_questions = [
-        question
-        for question in questions
-        if question.get("id") not in used_ids
-    ]
+    available_questions = []
+    seen_ids = set()
+    for question in questions:
+        if not _is_valid_question(question):
+            continue
+
+        question_id = question.get("id")
+        if question_id in used_ids or question_id in seen_ids:
+            continue
+
+        seen_ids.add(question_id)
+        available_questions.append(question)
 
     if category:
         available_questions = [
@@ -119,6 +127,13 @@ def select_random_questions(
 
 
 def evaluate_question(question: dict, user_answer: str):
+    if not isinstance(question, dict):
+        return {
+            "is_correct": False,
+            "score": 0,
+            "explanation": "Invalid question structure.",
+        }
+
     question_type = question.get("type", "mcq")
 
     if question_type == "mcq":
@@ -159,12 +174,16 @@ def _evaluate_mcq(question, selected_answer):
 
 
 def _evaluate_fill_blank(question, user_answer):
-    normalized_answer = user_answer.strip().lower()
+    normalized_answer = str(user_answer).strip().lower()
+    raw_acceptable_answers = question.get("acceptable_answers") or []
+    if not isinstance(raw_acceptable_answers, list):
+        raw_acceptable_answers = []
+
     acceptable_answers = [
-        answer.strip().lower()
-        for answer in question.get("acceptable_answers", [])
+        str(answer).strip().lower()
+        for answer in raw_acceptable_answers
     ]
-    correct_answer = question.get("correct_answer", "").strip().lower()
+    correct_answer = str(question.get("correct_answer", "")).strip().lower()
     if correct_answer:
         acceptable_answers.append(correct_answer)
 
@@ -174,41 +193,55 @@ def _evaluate_fill_blank(question, user_answer):
         "is_correct": is_correct,
         "score": 100 if is_correct else 0,
         "correct_answer": question.get("correct_answer", ""),
-        "acceptable_answers": question.get("acceptable_answers", []),
+        "acceptable_answers": raw_acceptable_answers,
         "explanation": question.get("explanation", ""),
     }
 
 
 def _evaluate_interview(question, user_answer):
-    answer = user_answer.lower()
+    answer = str(user_answer).lower()
     expected_points = question.get("expected_points", [])
-    total_weight = sum(point.get("weight", 0) for point in expected_points) or 100
+    if not isinstance(expected_points, list):
+        expected_points = []
+
+    total_weight = sum(_safe_weight(point) for point in expected_points) or 100
 
     matched_points = []
     missing_points = []
     matched_weight = 0
 
     for expected_point in expected_points:
+        if not isinstance(expected_point, dict):
+            continue
+
         keywords = expected_point.get("keywords", [])
+        if not isinstance(keywords, list):
+            keywords = []
+
         matched_keywords = [
             keyword
             for keyword in keywords
-            if keyword.lower() in answer
+            if str(keyword).lower() in answer
         ]
 
+        weight = _safe_weight(expected_point)
         point_result = {
             "point": expected_point.get("point", ""),
-            "weight": expected_point.get("weight", 0),
+            "weight": weight,
             "matched_keywords": matched_keywords,
         }
 
         if matched_keywords:
-            matched_weight += expected_point.get("weight", 0)
+            matched_weight += weight
             matched_points.append(point_result)
         else:
             missing_points.append(point_result)
 
     score = round((matched_weight / total_weight) * 100)
+
+    follow_ups = question.get("follow_ups", [])
+    if not isinstance(follow_ups, list):
+        follow_ups = []
 
     return {
         "is_correct": score >= 70,
@@ -216,6 +249,16 @@ def _evaluate_interview(question, user_answer):
         "matched_points": matched_points,
         "missing_points": missing_points,
         "explanation": question.get("explanation", ""),
-        "follow_ups": question.get("follow_ups", []),
+        "follow_ups": follow_ups,
         "expected_answer": question.get("expected_answer", ""),
     }
+
+
+def _safe_weight(expected_point):
+    if not isinstance(expected_point, dict):
+        return 0
+
+    try:
+        return float(expected_point.get("weight", 0))
+    except (TypeError, ValueError):
+        return 0

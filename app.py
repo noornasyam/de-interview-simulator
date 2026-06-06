@@ -13,12 +13,13 @@ from app.services.certification_engine import (
 CERTIFICATION_QUESTION_LIMIT = 5
 INTERVIEW_QUESTION_LIMIT = 5
 ROLE_LEVELS = {
-    "Data Engineer": "Mid-Level",
+    "Data Engineer": "Senior",
     "Senior Data Engineer": "Senior",
-    "Lead Data Engineer": "Lead",
-    "Architect": "Architect",
+    "Lead Data Engineer": "Senior",
+    "Architect": "Senior",
 }
 INTERVIEW_DOMAINS = [
+    "All Domains",
     "SQL",
     "Python",
     "Data Modeling",
@@ -44,6 +45,10 @@ def reset_session():
         "interview_waiting_for_next",
     ]:
         st.session_state.pop(key, None)
+
+    for key in list(st.session_state.keys()):
+        if key.startswith("show_ideal_answer_"):
+            st.session_state.pop(key, None)
 
 
 def start_question_session(platform, level):
@@ -116,8 +121,9 @@ def show_basic_evaluation(result):
 
 
 def get_key_takeaways(question):
-    if question.get("key_takeaways"):
-        return question["key_takeaways"]
+    key_takeaways = question.get("key_takeaways")
+    if isinstance(key_takeaways, list) and key_takeaways:
+        return key_takeaways
 
     takeaways = []
     if question.get("domain"):
@@ -140,7 +146,7 @@ def show_learning_evaluation(question, result):
             st.write(f"- {takeaway}")
 
 
-def show_interview_evaluation(result):
+def show_interview_evaluation(result, key_suffix=""):
     evaluation = result["evaluation"]
     st.metric("Score", f"{evaluation['score']}/100")
 
@@ -163,18 +169,26 @@ def show_interview_evaluation(result):
     if evaluation.get("explanation"):
         st.info(evaluation["explanation"])
 
-    with st.expander("Show Ideal Answer"):
+    question_id = result["question"].get("id", "question")
+    ideal_answer_key = f"show_ideal_answer_{question_id}_{key_suffix}"
+    if st.button("Show Ideal Answer", key=f"button_{ideal_answer_key}"):
+        st.session_state[ideal_answer_key] = True
+
+    if st.session_state.get(ideal_answer_key):
         st.markdown(build_ideal_answer(result["question"]))
 
     follow_ups = evaluation.get("follow_ups", [])
     if follow_ups:
-        st.write("Follow-up prompts")
+        st.write("Follow-up questions")
         for follow_up in follow_ups:
             st.write(f"- {follow_up}")
 
 
 def build_ideal_answer(question):
     expected_points = question.get("expected_points", [])
+    if not isinstance(expected_points, list):
+        expected_points = []
+
     expected_answer = question.get("expected_answer")
 
     if expected_answer:
@@ -184,13 +198,23 @@ def build_ideal_answer(question):
 
     lines = [intro, "", "A structured answer would include:"]
     for index, point in enumerate(expected_points, start=1):
+        if not isinstance(point, dict):
+            continue
+
         keywords = point.get("keywords", [])
+        if not isinstance(keywords, list):
+            keywords = []
+
         keyword_text = f" Keywords to mention: {', '.join(keywords[:5])}." if keywords else ""
         lines.append(f"{index}. {point.get('point', '')}.{keyword_text}")
 
-    if question.get("key_takeaways"):
+    if question.get("explanation"):
+        lines.extend(["", "Why this matters:", question["explanation"]])
+
+    key_takeaways = question.get("key_takeaways")
+    if isinstance(key_takeaways, list) and key_takeaways:
         lines.extend(["", "Key takeaways:"])
-        for takeaway in question["key_takeaways"]:
+        for takeaway in key_takeaways:
             lines.append(f"- {takeaway}")
 
     return "\n".join(lines)
@@ -210,6 +234,8 @@ def build_interview_report(results):
             "score_by_domain": {},
             "strongest_domains": [],
             "weakest_domains": [],
+            "strongest_areas": [],
+            "weakest_areas": [],
             "recommended_areas": [],
         }
 
@@ -273,9 +299,19 @@ def show_final_interview_report(results):
         score = report["score_by_category"].get(area, 0)
         st.write(f"- {area}: {score:.1f}/100")
 
-    st.write("Recommended next topics")
+    st.write("Recommended topics to improve")
     for area in report["recommended_areas"]:
         st.write(f"- {area}")
+
+    st.write("Strongest domains")
+    for domain in report["strongest_domains"]:
+        score = report["score_by_domain"].get(domain, 0)
+        st.write(f"- {domain}: {score:.1f}/100")
+
+    st.write("Weakest domains")
+    for domain in report["weakest_domains"]:
+        score = report["score_by_domain"].get(domain, 0)
+        st.write(f"- {domain}: {score:.1f}/100")
 
 
 def build_text_report(platform, level, mode, results):
@@ -306,7 +342,7 @@ def build_text_report(platform, level, mode, results):
             lines.append("Weakest areas:")
             lines.extend(f"- {area}" for area in interview_report["weakest_areas"])
             lines.append("")
-            lines.append("Recommended next topics:")
+            lines.append("Recommended topics to improve:")
             lines.extend(f"- {area}" for area in interview_report["recommended_areas"])
             lines.append("")
 
@@ -343,6 +379,7 @@ if mode == "Interview Mode":
     interview_domain = st.selectbox("Select domain", INTERVIEW_DOMAINS)
     platform = "taxonomy"
     level = ROLE_LEVELS[role]
+    st.caption("MVP interview content currently uses Senior-level banks for every role selection.")
 else:
     role = None
     interview_domain = None
@@ -471,10 +508,18 @@ else:
             show_final_interview_report(history)
 
             st.divider()
-            st.write("Question review")
-            for result in history:
-                st.write(result["question"]["question"])
-                show_interview_evaluation(result)
+            st.write("Question-by-question breakdown")
+            for result_index, result in enumerate(history, start=1):
+                question = result["question"]
+                st.write(f"Question {result_index}")
+                st.caption(
+                    f"{question.get('domain', 'unknown')} • "
+                    f"{question.get('category', 'unknown')} • "
+                    f"Difficulty {question.get('difficulty', 'n/a')}"
+                )
+                st.write(question["question"])
+                show_interview_evaluation(result, key_suffix=f"review_{result_index}")
+                st.divider()
 
             report = build_text_report(interview_domain, level, mode, history)
             st.download_button(
@@ -498,6 +543,11 @@ else:
 
         question = questions[index]
         show_progress("Question", index + 1, len(questions))
+        st.caption(
+            f"{question.get('domain', 'unknown')} • "
+            f"{question.get('category', 'unknown')} • "
+            f"Difficulty {question.get('difficulty', 'n/a')}"
+        )
 
         if st.session_state.get("interview_waiting_for_next"):
             st.write("Current question")
@@ -506,7 +556,7 @@ else:
             st.write(question["question"])
             st.divider()
             st.write("Evaluation")
-            show_interview_evaluation(history[-1])
+            show_interview_evaluation(history[-1], key_suffix="active")
 
             button_label = (
                 "Finish Interview"
