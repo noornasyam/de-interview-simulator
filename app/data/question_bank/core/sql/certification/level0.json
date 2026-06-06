@@ -1,0 +1,652 @@
+[
+  {
+    "id": "sql-cert-l0-001",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "select_queries",
+    "difficulty": 1,
+    "scenario": "You need to retrieve every column from a table named customers.",
+    "question": "Which SQL query returns all columns from the customers table?",
+    "options": [
+      "SELECT * FROM customers;",
+      "GET * FROM customers;",
+      "SELECT customers;",
+      "SHOW customers;"
+    ],
+    "correct_answer": "SELECT * FROM customers;",
+    "acceptable_answers": [],
+    "expected_answer": "SELECT * FROM customers;",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "SELECT * returns every column from the specified table. In production, it is usually better to select only the columns you need.",
+    "key_takeaways": [
+      "SELECT retrieves data from a table.",
+      "The asterisk means all columns.",
+      "Use explicit column lists when possible for readability and performance."
+    ],
+    "follow_ups": [
+      "Why might SELECT * be risky in production pipelines?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-002",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "filtering",
+    "difficulty": 1,
+    "scenario": "You only want customers whose country is India.",
+    "question": "Which clause is used to filter rows in SQL?",
+    "options": [
+      "WHERE",
+      "GROUP BY",
+      "ORDER BY",
+      "SELECT"
+    ],
+    "correct_answer": "WHERE",
+    "acceptable_answers": [],
+    "expected_answer": "WHERE",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "The WHERE clause filters rows before grouping or final output.",
+    "key_takeaways": [
+      "WHERE filters rows based on conditions.",
+      "WHERE is evaluated before GROUP BY.",
+      "Filtering early reduces the amount of data processed."
+    ],
+    "follow_ups": [
+      "What is the difference between WHERE and HAVING?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-003",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "filtering",
+    "difficulty": 1,
+    "scenario": "You are writing a query to filter rows by a condition.",
+    "question": "Fill in the blank: The SQL clause used to filter rows before aggregation is ____.",
+    "options": [],
+    "correct_answer": "WHERE",
+    "acceptable_answers": [
+      "where",
+      "WHERE"
+    ],
+    "expected_answer": "WHERE",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "WHERE filters individual rows before aggregation happens.",
+    "key_takeaways": [
+      "Use WHERE for row-level filtering.",
+      "Use HAVING for filtering grouped results.",
+      "WHERE is one of the most common clauses in SQL."
+    ],
+    "follow_ups": [
+      "Can aggregate functions be used directly in WHERE?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-004",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "sorting",
+    "difficulty": 1,
+    "scenario": "You want the newest orders to appear first.",
+    "question": "Which SQL clause sorts query results?",
+    "options": [
+      "ORDER BY",
+      "GROUP BY",
+      "WHERE",
+      "JOIN"
+    ],
+    "correct_answer": "ORDER BY",
+    "acceptable_answers": [],
+    "expected_answer": "ORDER BY",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "ORDER BY sorts the final result set by one or more columns.",
+    "key_takeaways": [
+      "ORDER BY controls result ordering.",
+      "ASC sorts ascending and DESC sorts descending.",
+      "Without ORDER BY, row order is not guaranteed."
+    ],
+    "follow_ups": [
+      "How do ASC and DESC change sort order?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-005",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "sorting",
+    "difficulty": 1,
+    "scenario": "You need to sort rows from highest revenue to lowest revenue.",
+    "question": "Fill in the blank: To sort results from highest to lowest, use ORDER BY revenue ____.",
+    "options": [],
+    "correct_answer": "DESC",
+    "acceptable_answers": [
+      "desc",
+      "DESC",
+      "descending"
+    ],
+    "expected_answer": "DESC",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "DESC sorts values in descending order, such as largest to smallest or newest to oldest.",
+    "key_takeaways": [
+      "DESC means descending order.",
+      "ASC means ascending order.",
+      "Descending order is common for timestamps, revenue, and ranking metrics."
+    ],
+    "follow_ups": [
+      "What is the default sort direction if ASC or DESC is omitted?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-006",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "aggregation",
+    "difficulty": 2,
+    "scenario": "You need to count the number of rows in an orders table.",
+    "question": "Which aggregate function counts rows?",
+    "options": [
+      "COUNT",
+      "SUM",
+      "AVG",
+      "MAX"
+    ],
+    "correct_answer": "COUNT",
+    "acceptable_answers": [],
+    "expected_answer": "COUNT",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "COUNT returns the number of rows or non-null values, depending on how it is used.",
+    "key_takeaways": [
+      "COUNT(*) counts rows.",
+      "COUNT(column_name) counts non-null values in that column.",
+      "COUNT is frequently used for data quality and volume checks."
+    ],
+    "follow_ups": [
+      "What is the difference between COUNT(*) and COUNT(column_name)?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-007",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "aggregation",
+    "difficulty": 2,
+    "scenario": "You want total sales from an orders table.",
+    "question": "Fill in the blank: The aggregate function used to add numeric values is ____.",
+    "options": [],
+    "correct_answer": "SUM",
+    "acceptable_answers": [
+      "sum",
+      "SUM"
+    ],
+    "expected_answer": "SUM",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "SUM adds numeric values across rows.",
+    "key_takeaways": [
+      "SUM works on numeric columns.",
+      "SUM is commonly used for revenue, quantities, and totals.",
+      "SUM ignores null values in most SQL engines."
+    ],
+    "follow_ups": [
+      "How would null values affect SUM?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-008",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "aggregation",
+    "difficulty": 2,
+    "scenario": "You need total revenue per customer.",
+    "question": "Which clause groups rows so aggregate functions can be calculated per group?",
+    "options": [
+      "GROUP BY",
+      "ORDER BY",
+      "WHERE",
+      "LIMIT"
+    ],
+    "correct_answer": "GROUP BY",
+    "acceptable_answers": [],
+    "expected_answer": "GROUP BY",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "GROUP BY groups rows with the same values so aggregates like COUNT, SUM, and AVG can be calculated per group.",
+    "key_takeaways": [
+      "GROUP BY is used with aggregate functions.",
+      "Every non-aggregated selected column usually needs to appear in GROUP BY.",
+      "GROUP BY is central to analytical SQL."
+    ],
+    "follow_ups": [
+      "Why do selected non-aggregated columns usually need to be in GROUP BY?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-009",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "joins",
+    "difficulty": 2,
+    "scenario": "You need rows where customers have matching orders.",
+    "question": "Which join returns only rows that match in both joined tables?",
+    "options": [
+      "INNER JOIN",
+      "LEFT JOIN",
+      "FULL OUTER JOIN",
+      "CROSS JOIN"
+    ],
+    "correct_answer": "INNER JOIN",
+    "acceptable_answers": [],
+    "expected_answer": "INNER JOIN",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "INNER JOIN returns only rows where the join condition matches in both tables.",
+    "key_takeaways": [
+      "INNER JOIN keeps only matching rows.",
+      "Rows without matches are excluded.",
+      "INNER JOIN is useful when records must exist in both tables."
+    ],
+    "follow_ups": [
+      "When would a LEFT JOIN be better than an INNER JOIN?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-010",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "joins",
+    "difficulty": 2,
+    "scenario": "You need all customers even if they have no orders.",
+    "question": "Fill in the blank: A ____ JOIN keeps all rows from the left table and matching rows from the right table.",
+    "options": [],
+    "correct_answer": "LEFT",
+    "acceptable_answers": [
+      "left",
+      "LEFT",
+      "left join",
+      "LEFT JOIN"
+    ],
+    "expected_answer": "LEFT JOIN",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "LEFT JOIN preserves all rows from the left table. If no match exists on the right, right-side columns are returned as null.",
+    "key_takeaways": [
+      "LEFT JOIN preserves all rows from the left table.",
+      "Missing right-side matches become null.",
+      "LEFT JOIN is useful for finding missing related records."
+    ],
+    "follow_ups": [
+      "How can a LEFT JOIN help find customers with no orders?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-011",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "nulls",
+    "difficulty": 2,
+    "scenario": "A column may contain missing values.",
+    "question": "Which SQL keyword checks whether a value is null?",
+    "options": [
+      "IS NULL",
+      "= NULL",
+      "HAS NULL",
+      "NULLS"
+    ],
+    "correct_answer": "IS NULL",
+    "acceptable_answers": [],
+    "expected_answer": "IS NULL",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "SQL uses IS NULL to test for null values. Using = NULL does not work as expected because null represents unknown.",
+    "key_takeaways": [
+      "Use IS NULL to check for null values.",
+      "Use IS NOT NULL to check for present values.",
+      "Null means unknown or missing, not zero or an empty string."
+    ],
+    "follow_ups": [
+      "What is the difference between NULL and an empty string?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-012",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "nulls",
+    "difficulty": 2,
+    "scenario": "You need to replace null values with a default value.",
+    "question": "Fill in the blank: The function often used to return the first non-null value is ____.",
+    "options": [],
+    "correct_answer": "COALESCE",
+    "acceptable_answers": [
+      "coalesce",
+      "COALESCE"
+    ],
+    "expected_answer": "COALESCE",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "COALESCE returns the first non-null expression from its arguments.",
+    "key_takeaways": [
+      "COALESCE is useful for default values.",
+      "COALESCE can take multiple arguments.",
+      "Handling nulls explicitly makes analytical results safer."
+    ],
+    "follow_ups": [
+      "Give an example of using COALESCE in a reporting query."
+    ]
+  },
+  {
+    "id": "sql-cert-l0-013",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "deduplication",
+    "difficulty": 2,
+    "scenario": "A query returns duplicate country names.",
+    "question": "Which keyword returns only unique values from selected columns?",
+    "options": [
+      "DISTINCT",
+      "UNIQUE ONLY",
+      "DEDUP",
+      "GROUPED"
+    ],
+    "correct_answer": "DISTINCT",
+    "acceptable_answers": [],
+    "expected_answer": "DISTINCT",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "DISTINCT removes duplicate rows from the selected result columns.",
+    "key_takeaways": [
+      "DISTINCT returns unique result rows.",
+      "DISTINCT applies to the selected column combination.",
+      "Use DISTINCT carefully because it can hide data quality problems."
+    ],
+    "follow_ups": [
+      "Why can DISTINCT hide upstream duplicate data issues?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-014",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "limiting_results",
+    "difficulty": 1,
+    "scenario": "You want to preview only a few rows from a large table.",
+    "question": "Which clause is commonly used to restrict the number of rows returned?",
+    "options": [
+      "LIMIT",
+      "WHERE",
+      "COUNT",
+      "GROUP BY"
+    ],
+    "correct_answer": "LIMIT",
+    "acceptable_answers": [],
+    "expected_answer": "LIMIT",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "LIMIT restricts how many rows are returned by a query in many SQL engines.",
+    "key_takeaways": [
+      "LIMIT is useful for previewing data.",
+      "LIMIT does not guarantee which rows are returned unless ORDER BY is used.",
+      "Some SQL engines use TOP or FETCH instead of LIMIT."
+    ],
+    "follow_ups": [
+      "Why should LIMIT usually be paired with ORDER BY for deterministic results?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-015",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "aliases",
+    "difficulty": 1,
+    "scenario": "You want to rename a calculated column in the query output.",
+    "question": "Fill in the blank: SELECT total_amount AS ____ gives an output alias for total_amount.",
+    "options": [],
+    "correct_answer": "revenue",
+    "acceptable_answers": [
+      "revenue",
+      "Revenue",
+      "REVENUE"
+    ],
+    "expected_answer": "revenue",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "AS creates an alias for a column or expression in the query result. The specific alias can be any valid name; this example expects revenue.",
+    "key_takeaways": [
+      "Aliases make query outputs easier to understand.",
+      "AS can rename columns or calculated expressions.",
+      "Clear aliases improve downstream readability."
+    ],
+    "follow_ups": [
+      "Why are clear aliases important in analytics queries?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-016",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "having",
+    "difficulty": 3,
+    "scenario": "You grouped orders by customer and need customers with more than 10 orders.",
+    "question": "Which clause filters grouped aggregate results?",
+    "options": [
+      "HAVING",
+      "WHERE",
+      "ORDER BY",
+      "SELECT"
+    ],
+    "correct_answer": "HAVING",
+    "acceptable_answers": [],
+    "expected_answer": "HAVING",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "HAVING filters results after GROUP BY aggregation. WHERE filters rows before aggregation.",
+    "key_takeaways": [
+      "HAVING filters grouped results.",
+      "WHERE filters rows before aggregation.",
+      "HAVING is commonly used with COUNT, SUM, AVG, MIN, or MAX."
+    ],
+    "follow_ups": [
+      "Write a query that uses GROUP BY and HAVING together."
+    ]
+  },
+  {
+    "id": "sql-cert-l0-017",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "joins",
+    "difficulty": 3,
+    "scenario": "You join orders to customers using customer_id.",
+    "question": "Fill in the blank: The join condition is commonly written after the ____ keyword.",
+    "options": [],
+    "correct_answer": "ON",
+    "acceptable_answers": [
+      "on",
+      "ON"
+    ],
+    "expected_answer": "ON",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "The ON keyword defines the join condition that connects rows from two tables.",
+    "key_takeaways": [
+      "ON defines the relationship between joined tables.",
+      "Join conditions often compare keys like customer_id.",
+      "Incorrect join conditions can create duplicate or incorrect results."
+    ],
+    "follow_ups": [
+      "What can happen if you forget a join condition?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-018",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "data_types",
+    "difficulty": 2,
+    "scenario": "A column stores calendar dates such as 2026-06-06.",
+    "question": "Which data type is most appropriate for storing calendar dates?",
+    "options": [
+      "DATE",
+      "BOOLEAN",
+      "INTEGER",
+      "VARCHAR only"
+    ],
+    "correct_answer": "DATE",
+    "acceptable_answers": [],
+    "expected_answer": "DATE",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "DATE stores calendar dates and enables date operations such as filtering ranges and extracting date parts.",
+    "key_takeaways": [
+      "Use DATE for calendar dates.",
+      "Using strings for dates makes filtering and calculations harder.",
+      "Choose data types that match the meaning of the data."
+    ],
+    "follow_ups": [
+      "When would TIMESTAMP be better than DATE?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-019",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "domain": "sql",
+    "category": "case_expressions",
+    "difficulty": 3,
+    "scenario": "You need to label orders as high value when revenue is above 1000.",
+    "question": "Which SQL expression is commonly used for conditional logic in a SELECT statement?",
+    "options": [
+      "CASE WHEN",
+      "IF LOOP",
+      "GROUP BY",
+      "ORDER AS"
+    ],
+    "correct_answer": "CASE WHEN",
+    "acceptable_answers": [],
+    "expected_answer": "CASE WHEN",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "CASE WHEN applies conditional logic and returns different values based on conditions.",
+    "key_takeaways": [
+      "CASE WHEN is SQL's common conditional expression.",
+      "It is useful for labels, buckets, and derived fields.",
+      "Always include clear conditions and an ELSE branch when appropriate."
+    ],
+    "follow_ups": [
+      "How would you bucket revenue into low, medium, and high groups?"
+    ]
+  },
+  {
+    "id": "sql-cert-l0-020",
+    "platform": "core",
+    "cloud": null,
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "domain": "sql",
+    "category": "query_order",
+    "difficulty": 3,
+    "scenario": "You are learning the logical order of SQL clauses.",
+    "question": "Fill in the blank: In a basic grouped query, rows are filtered by WHERE before ____ BY groups them.",
+    "options": [],
+    "correct_answer": "GROUP",
+    "acceptable_answers": [
+      "group",
+      "GROUP",
+      "group by",
+      "GROUP BY"
+    ],
+    "expected_answer": "GROUP BY",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "WHERE filters rows before GROUP BY forms groups. This matters because grouped filters should use HAVING instead.",
+    "key_takeaways": [
+      "WHERE happens before GROUP BY in logical query processing.",
+      "GROUP BY creates aggregate groups.",
+      "HAVING filters after groups are created."
+    ],
+    "follow_ups": [
+      "Where does HAVING fit in the logical order of SQL?"
+    ]
+  }
+]
