@@ -1,0 +1,83 @@
+[
+  {
+    "id": "gcp-cert-l0-001",
+    "platform": "GCP",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "category": "storage",
+    "domain": "storage",
+    "difficulty": 1,
+    "scenario": "A team needs a managed place to store files, images, and raw data extracts.",
+    "question": "Which GCP service is used to store files and objects?",
+    "options": [
+      "BigQuery",
+      "Cloud Storage",
+      "Pub/Sub",
+      "Cloud Composer"
+    ],
+    "correct_answer": "Cloud Storage",
+    "acceptable_answers": [],
+    "expected_answer": "Cloud Storage is the GCP object storage service.",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "Cloud Storage is Google's managed object storage service for files, blobs, and raw data.",
+    "follow_ups": [
+      "When would you choose Cloud Storage instead of BigQuery?"
+    ]
+  },
+  {
+    "id": "gcp-cert-l0-002",
+    "platform": "GCP",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "category": "architecture",
+    "domain": "bigquery",
+    "difficulty": 2,
+    "scenario": "A data analyst needs to run SQL queries on large analytical datasets without managing servers.",
+    "question": "Which GCP service is a serverless data warehouse?",
+    "options": [
+      "Dataproc",
+      "Cloud SQL",
+      "BigQuery",
+      "Compute Engine"
+    ],
+    "correct_answer": "BigQuery",
+    "acceptable_answers": [],
+    "expected_answer": "BigQuery is Google's serverless data warehouse.",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "BigQuery is a serverless enterprise data warehouse used for analytics at scale.",
+    "follow_ups": [
+      "What kind of workload fits BigQuery best?"
+    ]
+  },
+  {
+    "id": "gcp-cert-l0-003",
+    "platform": "GCP",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "fill_blank",
+    "category": "streaming",
+    "domain": "streaming",
+    "difficulty": 2,
+    "scenario": "A pipeline receives events continuously from applications.",
+    "question": "Fill in the blank: The GCP messaging service commonly used for event ingestion is ____.",
+    "options": [],
+    "correct_answer": "Pub/Sub",
+    "acceptable_answers": [
+      "pub/sub",
+      "pubsub",
+      "cloud pub/sub",
+      "google cloud pub/sub"
+    ],
+    "expected_answer": "Pub/Sub",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "Pub/Sub is GCP's managed messaging service for event-driven and streaming ingestion patterns.",
+    "follow_ups": [
+      "How does Pub/Sub help decouple producers and consumers?"
+    ]
+  }
+]

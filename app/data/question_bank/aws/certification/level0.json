@@ -1,0 +1,22 @@
+[
+  {
+    "id": "aws-cert-l0-001",
+    "platform": "AWS",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "category": "storage",
+    "domain": "storage",
+    "difficulty": 1,
+    "scenario": "A team needs durable object storage for raw files.",
+    "question": "Which AWS service is commonly used for object storage?",
+    "options": ["Amazon S3", "Amazon Redshift", "AWS Glue", "Amazon RDS"],
+    "correct_answer": "Amazon S3",
+    "acceptable_answers": [],
+    "expected_answer": "Amazon S3 is AWS object storage.",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "Amazon S3 is the standard AWS object storage service for files, objects, and data lake landing zones.",
+    "follow_ups": ["When would you store raw data in S3 before loading a warehouse?"]
+  }
+]

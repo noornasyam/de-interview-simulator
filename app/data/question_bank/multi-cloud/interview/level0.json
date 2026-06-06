@@ -1,0 +1,32 @@
+[
+  {
+    "id": "multicloud-int-l0-001",
+    "platform": "Multi-Cloud",
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "category": "architecture",
+    "domain": "architecture",
+    "difficulty": 4,
+    "scenario": "A company wants a basic data lake pattern that could be explained across AWS, Azure, or GCP.",
+    "question": "Explain a cloud-neutral data lake pattern for landing raw files and making them available for analytics.",
+    "options": [],
+    "correct_answer": "",
+    "acceptable_answers": [],
+    "expected_answer": "A good answer mentions object storage, a processing layer, a query or warehouse layer, access control, monitoring, cost, and trade-offs.",
+    "expected_points": [
+      {"point": "Use object storage as the raw landing zone", "keywords": ["object storage", "bucket", "blob", "data lake"], "weight": 25},
+      {"point": "Include a processing or transformation layer", "keywords": ["etl", "elt", "spark", "processing", "transform"], "weight": 20},
+      {"point": "Include an analytics layer", "keywords": ["warehouse", "sql", "query", "analytics"], "weight": 20},
+      {"point": "Mention security and access control", "keywords": ["security", "iam", "rbac", "encryption", "access"], "weight": 15},
+      {"point": "Mention monitoring", "keywords": ["monitoring", "logs", "alerts", "metrics"], "weight": 10},
+      {"point": "Mention cost or trade-offs", "keywords": ["cost", "trade-off", "tradeoff", "optimize"], "weight": 10}
+    ],
+    "rubric": {"pass_score": 70},
+    "explanation": "This question checks whether you understand the pattern independent of vendor-specific service names.",
+    "follow_ups": [
+      "What changes when the workload becomes near real time?",
+      "How would you avoid cloud lock-in?"
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "multicloud-cert-l0-001",
+    "platform": "Multi-Cloud",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "category": "architecture",
+    "domain": "architecture",
+    "difficulty": 2,
+    "scenario": "A team is comparing services across AWS, Azure, and GCP.",
+    "question": "What is the general purpose of object storage across cloud platforms?",
+    "options": [
+      "Store files and unstructured objects",
+      "Run virtual machines",
+      "Manage user passwords only",
+      "Create dashboards"
+    ],
+    "correct_answer": "Store files and unstructured objects",
+    "acceptable_answers": [],
+    "expected_answer": "Object storage stores files and unstructured objects.",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "Object storage services such as S3, Blob Storage, and Cloud Storage are commonly used as raw data landing zones.",
+    "follow_ups": ["Name one object storage service from each major cloud."]
+  }
+]

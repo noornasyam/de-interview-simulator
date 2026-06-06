@@ -1,0 +1,116 @@
+[
+  {
+    "id": "gcp-int-l0-001",
+    "platform": "GCP",
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "category": "architecture",
+    "domain": "architecture",
+    "difficulty": 3,
+    "scenario": "A small analytics team receives daily CSV files and wants to query them for reports.",
+    "question": "Design a simple GCP data pipeline for ingesting daily CSV files and making them available for SQL analytics.",
+    "options": [],
+    "correct_answer": "",
+    "acceptable_answers": [],
+    "expected_answer": "A good answer mentions Cloud Storage for landing files, BigQuery for analytics, orchestration or scheduling, basic validation, monitoring, security, and cost awareness.",
+    "expected_points": [
+      {
+        "point": "Use Cloud Storage as the raw landing zone",
+        "keywords": ["cloud storage", "gcs", "bucket", "object storage"],
+        "weight": 20
+      },
+      {
+        "point": "Load or query data in BigQuery for analytics",
+        "keywords": ["bigquery", "data warehouse", "sql", "analytics"],
+        "weight": 25
+      },
+      {
+        "point": "Mention scheduling or orchestration",
+        "keywords": ["schedule", "scheduler", "composer", "airflow", "orchestration"],
+        "weight": 15
+      },
+      {
+        "point": "Include monitoring or alerting",
+        "keywords": ["monitoring", "logs", "alerts", "metrics", "observability"],
+        "weight": 15
+      },
+      {
+        "point": "Include security and access control",
+        "keywords": ["iam", "security", "permission", "encryption", "access"],
+        "weight": 15
+      },
+      {
+        "point": "Mention cost considerations",
+        "keywords": ["cost", "pricing", "partition", "lifecycle", "optimize"],
+        "weight": 10
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "This scenario tests whether you can connect object storage, warehouse analytics, operations, and governance into a simple pipeline.",
+    "follow_ups": [
+      "How would you detect and handle a malformed CSV file?",
+      "How would you reduce BigQuery query cost for this dataset?",
+      "What alerts would you configure for this pipeline?"
+    ]
+  },
+  {
+    "id": "gcp-int-l0-002",
+    "platform": "GCP",
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "category": "streaming",
+    "domain": "streaming",
+    "difficulty": 4,
+    "scenario": "An application emits user activity events throughout the day.",
+    "question": "Explain a basic streaming ingestion design on GCP for collecting user activity events.",
+    "options": [],
+    "correct_answer": "",
+    "acceptable_answers": [],
+    "expected_answer": "A good answer mentions Pub/Sub for ingestion, Dataflow or a consumer for processing, BigQuery or Cloud Storage as a sink, monitoring, security, and trade-offs.",
+    "expected_points": [
+      {
+        "point": "Use Pub/Sub for event ingestion",
+        "keywords": ["pub/sub", "pubsub", "topic", "subscription"],
+        "weight": 25
+      },
+      {
+        "point": "Process events with Dataflow or a streaming consumer",
+        "keywords": ["dataflow", "streaming", "consumer", "process"],
+        "weight": 20
+      },
+      {
+        "point": "Store processed data for analytics",
+        "keywords": ["bigquery", "cloud storage", "warehouse", "sink"],
+        "weight": 20
+      },
+      {
+        "point": "Discuss monitoring and failure handling",
+        "keywords": ["monitoring", "dead letter", "retry", "alert", "logs"],
+        "weight": 15
+      },
+      {
+        "point": "Discuss security",
+        "keywords": ["iam", "security", "permission", "encryption"],
+        "weight": 10
+      },
+      {
+        "point": "Discuss latency or cost trade-offs",
+        "keywords": ["latency", "cost", "trade-off", "tradeoff"],
+        "weight": 10
+      }
+    ],
+    "rubric": {
+      "pass_score": 70
+    },
+    "explanation": "This question checks basic streaming vocabulary and whether the answer includes production concerns beyond just moving data.",
+    "follow_ups": [
+      "How would you handle duplicate events?",
+      "What metric would tell you the pipeline is falling behind?",
+      "When would batch ingestion be better than streaming?"
+    ]
+  }
+]

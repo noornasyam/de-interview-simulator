@@ -1,24 +1,8 @@
 class LLMService:
+    """Placeholder for future AI integration.
 
-    def generate_question(
-        self,
-        platform,
-        level,
-        mode
-    ):
-        pass
+    The product currently uses local JSON-based question evaluation only.
+    """
 
-    def evaluate_answer(
-        self,
-        question,
-        answer
-    ):
-        pass
-
-    def generate_follow_up(
-        self,
-        question,
-        answer,
-        feedback
-    ):
-        pass
+    def is_available(self):
+        return False

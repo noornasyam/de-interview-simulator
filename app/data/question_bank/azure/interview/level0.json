@@ -1,0 +1,32 @@
+[
+  {
+    "id": "azure-int-l0-001",
+    "platform": "Azure",
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "category": "architecture",
+    "domain": "architecture",
+    "difficulty": 3,
+    "scenario": "A team receives daily partner files and needs reporting in Azure.",
+    "question": "Design a simple Azure data pipeline for daily files and analytics.",
+    "options": [],
+    "correct_answer": "",
+    "acceptable_answers": [],
+    "expected_answer": "A good answer mentions Blob Storage or ADLS, Data Factory, Synapse or SQL analytics, monitoring, security, and cost.",
+    "expected_points": [
+      {"point": "Use Blob Storage or ADLS as the landing zone", "keywords": ["blob storage", "adls", "data lake", "storage"], "weight": 25},
+      {"point": "Use Data Factory or an orchestration tool", "keywords": ["data factory", "adf", "orchestration", "pipeline"], "weight": 20},
+      {"point": "Use an analytics layer", "keywords": ["synapse", "sql", "warehouse", "analytics"], "weight": 20},
+      {"point": "Mention monitoring", "keywords": ["monitoring", "logs", "alerts", "metrics"], "weight": 15},
+      {"point": "Mention security", "keywords": ["security", "managed identity", "rbac", "encryption"], "weight": 10},
+      {"point": "Mention cost", "keywords": ["cost", "optimize", "pricing"], "weight": 10}
+    ],
+    "rubric": {"pass_score": 70},
+    "explanation": "This scenario checks whether you can name core Azure services and include operational basics.",
+    "follow_ups": [
+      "How would you handle failed file loads?",
+      "How would you control access to sensitive files?"
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "aws-int-l0-001",
+    "platform": "AWS",
+    "level": "Level 0",
+    "mode": "interview",
+    "type": "interview",
+    "category": "architecture",
+    "domain": "architecture",
+    "difficulty": 3,
+    "scenario": "A company receives daily sales files and needs a simple analytics pipeline.",
+    "question": "Design a simple AWS data pipeline for daily file ingestion and reporting.",
+    "options": [],
+    "correct_answer": "",
+    "acceptable_answers": [],
+    "expected_answer": "A good answer mentions S3, Glue or another processing step, Redshift or Athena for analytics, scheduling, monitoring, security, and cost.",
+    "expected_points": [
+      {"point": "Use S3 as the landing zone", "keywords": ["s3", "bucket", "object storage"], "weight": 20},
+      {"point": "Use a processing or cataloging service", "keywords": ["glue", "etl", "catalog", "crawler"], "weight": 20},
+      {"point": "Use an analytics query layer", "keywords": ["athena", "redshift", "sql", "warehouse"], "weight": 20},
+      {"point": "Mention orchestration or scheduling", "keywords": ["schedule", "eventbridge", "airflow", "orchestration"], "weight": 15},
+      {"point": "Mention monitoring", "keywords": ["cloudwatch", "monitoring", "logs", "alerts"], "weight": 15},
+      {"point": "Mention security or cost", "keywords": ["iam", "security", "encryption", "cost"], "weight": 10}
+    ],
+    "rubric": {"pass_score": 70},
+    "explanation": "This answer should connect storage, processing, analytics, and operational concerns.",
+    "follow_ups": [
+      "How would you secure the S3 bucket?",
+      "How would you monitor failed daily loads?"
+    ]
+  }
+]

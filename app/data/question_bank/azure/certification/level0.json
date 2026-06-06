@@ -1,0 +1,22 @@
+[
+  {
+    "id": "azure-cert-l0-001",
+    "platform": "Azure",
+    "level": "Level 0",
+    "mode": "certification",
+    "type": "mcq",
+    "category": "storage",
+    "domain": "storage",
+    "difficulty": 1,
+    "scenario": "A team needs object storage for raw data files in Azure.",
+    "question": "Which Azure service is commonly used for object storage?",
+    "options": ["Azure Blob Storage", "Azure Synapse", "Azure Functions", "Azure SQL Database"],
+    "correct_answer": "Azure Blob Storage",
+    "acceptable_answers": [],
+    "expected_answer": "Azure Blob Storage is Azure object storage.",
+    "expected_points": [],
+    "rubric": {},
+    "explanation": "Azure Blob Storage stores unstructured data such as files, images, logs, and raw extracts.",
+    "follow_ups": ["When would you use Blob Storage as a data lake landing zone?"]
+  }
+]
