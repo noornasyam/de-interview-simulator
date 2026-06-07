@@ -1,19 +1,20 @@
-# Data Engineering Career Accelerator
+# DailyDEHub AI Interview Coach
 
-A local-first learning, assessment, and interview preparation app for Data Engineering roles.
+AI-powered Data Engineering interview practice from Beginner to Architect level.
 
-The current MVP focuses on Senior Data Engineering interview preparation with rubric-based evaluation from JSON question banks. It does not require OpenAI, external services, a database, authentication, or environment variables.
+The current MVP is an AI-first Streamlit interview simulator powered by Google ADK + Gemini Flash. It does not require OpenAI, a database, authentication, payments, or deployment services.
 
 ## Features
 
-- Learning Mode for certification-style practice with immediate feedback.
-- Exam Mode for certification-style practice with final review.
-- Interview Mode for open-ended Senior Data Engineering interview practice.
-- Role selector for Data Engineer, Senior Data Engineer, Lead Data Engineer, and Architect.
-- Domain selector for SQL, Python, Data Modeling, Production Engineering, GCP, and All Domains.
-- Random 5-question interview sessions with duplicate prevention.
-- Local rubric scoring with matched points, missing points, explanations, follow-up questions, and ideal answers.
-- Final interview report with overall score, domain scores, strongest areas, weakest areas, recommended topics, and question-by-question review.
+- Single AI interview coach page with no mode dropdown.
+- Gemini status indicator: Gemini enabled or Setup required.
+- Level selector for Beginner, Junior, Mid-Level, Senior, Lead, and Architect.
+- Domain selector for SQL, Python, GCP / BigQuery, Data Modeling, Production Engineering, and Mixed Interview.
+- 10-question interview sessions, one question at a time.
+- Gemini evaluation after each answer with score, short feedback, missing points, explanation, ideal answer, and optional follow-up question.
+- Final report with final score, strengths, weak areas, concepts to revise, question-by-question explanations, ideal answers, and next-level readiness.
+- Legacy local learning, exam, and rubric interview code remains in the repository but is not shown in the main UI.
+- File-based JSON content remains available for grounding and future local/offline features.
 - File-based JSON content model for easy extension.
 
 ## Folder Structure
@@ -26,6 +27,12 @@ The current MVP focuses on Senior Data Engineering interview preparation with ru
 │   ├── config/
 │   │   ├── levels.py
 │   │   └── platforms.py
+│   ├── agents/
+│   │   ├── interview_orchestrator_agent.py
+│   │   ├── question_generator_agent.py
+│   │   ├── follow_up_agent.py
+│   │   ├── evaluation_agent.py
+│   │   └── final_report_agent.py
 │   ├── data/
 │   │   ├── question_bank/
 │   │   │   ├── core/
@@ -41,7 +48,8 @@ The current MVP focuses on Senior Data Engineering interview preparation with ru
 │   │   │   └── multi-cloud/
 │   │   └── session_blueprints/
 │   └── services/
-│       └── certification_engine.py
+│       ├── certification_engine.py
+│       └── adk_interview_service.py
 ├── GAP_ANALYSIS.md
 ├── CONTENT_ROADMAP.md
 ├── IMPLEMENTATION_ROADMAP.md
@@ -64,21 +72,35 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Start the app:
+3. Configure Gemini:
+
+```bash
+cp .env.template .env
+```
+
+Then edit `.env`:
+
+```bash
+GOOGLE_API_KEY=your_google_ai_studio_key
+```
+
+The main interview coach requires this key. If it is missing, the app shows setup instructions and does not start an interview.
+
+4. Start the app:
 
 ```bash
 streamlit run app.py
 ```
 
-4. Open the local Streamlit URL shown in the terminal, usually:
+5. Open the local Streamlit URL shown in the terminal, usually:
 
 ```text
 http://localhost:8501
 ```
 
-## Question Bank Paths
+## Legacy Question Bank Paths
 
-Current Senior Interview MVP content:
+Legacy Senior Interview content remains in the repo and can be reused for grounding or future offline modes:
 
 ```text
 app/data/question_bank/core/sql/interview/senior.json
@@ -98,15 +120,16 @@ app/data/question_bank/{platform}/certification/level0.json
 
 Screenshots will be added before the first tagged public release.
 
-- Learning Mode placeholder
-- Exam Mode placeholder
-- Interview Mode question placeholder
-- Interview Mode final report placeholder
+- Home page placeholder
+- Active interview question placeholder
+- Per-answer feedback placeholder
+- Final report placeholder
 
 ## Future Roadmap
 
-- Add role-specific question banks for Data Engineer, Lead Data Engineer, and Architect.
-- Add more Level 0, Junior, Mid-Level, Lead, and Architect content.
+- Add automated coverage for the 10-question AI interview flow.
+- Add exportable interview reports.
+- Add optional local/offline mode behind an advanced setting.
 - Add session blueprint support for role-weighted domain mixes.
 - Add richer report export formats.
 - Add automated tests for Streamlit session flows.

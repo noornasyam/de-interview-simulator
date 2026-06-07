@@ -8,10 +8,22 @@ from app.services.certification_engine import (
     load_taxonomy_questions,
     select_random_questions,
 )
+from app.services.adk_interview_service import (
+    AI_DOMAINS,
+    AI_ROLES,
+    MAX_QUESTIONS,
+    evaluate_ai_answer,
+    generate_ai_final_report,
+    generate_ai_follow_up,
+    generate_ai_question,
+    is_adk_configured,
+    start_ai_interview,
+)
 
 
 CERTIFICATION_QUESTION_LIMIT = 5
 INTERVIEW_QUESTION_LIMIT = 5
+AI_MODE = "AI Interview Mode"
 ROLE_LEVELS = {
     "Data Engineer": "Senior",
     "Senior Data Engineer": "Senior",
@@ -26,6 +38,31 @@ INTERVIEW_DOMAINS = [
     "Production Engineering",
     "GCP",
 ]
+
+
+AI_SESSION_DEFAULTS = {
+    "ai_started": False,
+    "ai_complete": False,
+    "ai_level": "Senior Data Engineer",
+    "ai_domain": "GCP / BigQuery",
+    "ai_question_index": 0,
+    "ai_current_question": None,
+    "ai_current_answer": "",
+    "ai_current_follow_up": None,
+    "ai_history": [],
+    "ai_answers": [],
+    "ai_evaluations": [],
+    "ai_final_report": None,
+    "ai_explanations": [],
+    "ai_phase": "main_answer",
+    "ai_interview": None,
+}
+
+
+def initialize_ai_session_state():
+    for key, value in AI_SESSION_DEFAULTS.items():
+        if key not in st.session_state:
+            st.session_state[key] = value.copy() if isinstance(value, list) else value
 
 
 def reset_session():
@@ -43,6 +80,27 @@ def reset_session():
         "interview_complete",
         "interview_report",
         "interview_waiting_for_next",
+        "ai_started",
+        "ai_complete",
+        "ai_level",
+        "ai_domain",
+        "ai_question_index",
+        "ai_current_question",
+        "ai_current_answer",
+        "ai_current_follow_up",
+        "ai_history",
+        "ai_answers",
+        "ai_evaluations",
+        "ai_final_report",
+        "ai_explanations",
+        "ai_phase",
+        "ai_interview",
+        "adk_interview",
+        "adk_current_question",
+        "adk_question_index",
+        "adk_history",
+        "adk_waiting_for_next",
+        "adk_complete",
     ]:
         st.session_state.pop(key, None)
 
@@ -461,231 +519,171 @@ def build_text_report(platform, level, mode, results):
 
 
 st.set_page_config(
-    page_title="Data Engineering Career Accelerator",
+    page_title="DailyDEHub AI Interview Coach",
     page_icon="🎯",
     layout="centered",
 )
 
-st.title("🎯 Data Engineering Career Accelerator")
+initialize_ai_session_state()
 
-mode = st.selectbox("Select mode", ["Learning Mode", "Exam Mode", "Interview Mode"])
+st.title("DailyDEHub AI Interview Coach")
+st.caption("AI-powered Data Engineering interview practice from Beginner to Architect level.")
 
-if mode == "Interview Mode":
-    role = st.selectbox("Select role", list(ROLE_LEVELS.keys()))
-    interview_domain = st.selectbox("Select domain", INTERVIEW_DOMAINS)
-    platform = "taxonomy"
-    level = ROLE_LEVELS[role]
-    st.caption("MVP interview content currently uses Senior-level banks for every role selection.")
+gemini_ready = is_adk_configured()
+if gemini_ready:
+    st.success("Gemini enabled")
 else:
-    role = None
-    interview_domain = None
-    platform = st.selectbox("Select cloud platform", PLATFORMS)
-    level = st.selectbox("Select level", LEVELS)
+    st.warning("Setup required")
+    st.write("Set `GOOGLE_API_KEY` in your shell or create a local `.env` file:")
+    st.code("GOOGLE_API_KEY=your_google_ai_studio_key", language="bash")
 
-if mode == "Exam Mode":
-    explanation_mode = "At the end only"
-    st.caption("Exam Mode shows explanations at the end only.")
-else:
-    default_explanation_mode = (
-        "After each question" if mode == "Learning Mode" else "At the end only"
-    )
-    explanation_mode = st.radio(
-        "Show explanation",
-        ["After each question", "At the end only"],
-        index=0 if default_explanation_mode == "After each question" else 1,
-        horizontal=True,
-    )
+selected_level = st.selectbox("Select level", AI_ROLES, index=3)
+selected_domain = st.selectbox("Select domain", AI_DOMAINS, index=2)
 
-selection_key = f"{mode}:{platform}:{level}:{role}:{interview_domain}:{explanation_mode}"
+selection_key = f"ai:{selected_level}:{selected_domain}"
 if st.session_state.get("selection_key") != selection_key:
     st.session_state.selection_key = selection_key
     reset_session()
+    initialize_ai_session_state()
 
+if not st.session_state.get("ai_started"):
+    st.write(f"Start a {MAX_QUESTIONS}-question AI interview. Gemini will evaluate each answer as you go.")
+    if st.button("Start Interview", disabled=not gemini_ready):
+        reset_session()
+        initialize_ai_session_state()
+        st.session_state.ai_started = True
+        st.session_state.ai_complete = False
+        st.session_state.ai_level = selected_level
+        st.session_state.ai_domain = selected_domain
+        st.session_state.ai_interview = start_ai_interview(selected_level, selected_domain)
+        st.session_state.ai_current_question = generate_ai_question(selected_level, selected_domain, [])
+        st.rerun()
 
-if mode in {"Learning Mode", "Exam Mode"}:
-    st.subheader(mode)
+    if not gemini_ready:
+        st.info("AI interviews require Gemini. The old local modes remain in the repo but are no longer shown in the main UI.")
+elif st.session_state.get("ai_complete"):
+    history = st.session_state.get("ai_history", [])
+    report = st.session_state.get("ai_final_report")
+    if not report:
+        report = generate_ai_final_report(history, st.session_state.ai_level, st.session_state.ai_domain)
+        st.session_state.ai_final_report = report
 
-    if "session_questions" not in st.session_state:
-        if st.button("Start"):
-            start_question_session(platform, level)
-            st.rerun()
-    else:
-        questions = st.session_state.session_questions
-        index = st.session_state.session_index
-        results = st.session_state.session_results
+    st.subheader("Final Interview Report")
+    show_progress("Interview progress", len(history), MAX_QUESTIONS)
+    st.metric("Final score", f"{report.get('overall_score', 0)}/100")
 
-        if not questions:
-            st.warning("No certification questions available yet for this platform and level.")
-        elif index < len(questions):
-            question = questions[index]
-            st.write(f"Question {index + 1} of {len(questions)}")
+    can_move = report.get("can_move_to_next_level") or report.get("ready_for_senior_interviews")
+    if can_move:
+        st.write("Move to next level")
+        st.write(can_move)
 
-            if mode == "Learning Mode" and st.session_state.get("waiting_for_next_question"):
-                if question.get("scenario"):
-                    st.write(question["scenario"])
-                st.write(question["question"])
+    st.write("Strengths")
+    for strength in report.get("strengths", []):
+        st.write(f"- {strength}")
 
-                st.divider()
-                show_learning_evaluation(question, results[-1]["evaluation"])
+    st.write("Weak areas")
+    for gap in report.get("gaps", []):
+        st.write(f"- {gap}")
 
-                if st.button("Continue to Next Question"):
-                    st.session_state.session_index += 1
-                    st.session_state.question_answered = False
-                    st.session_state.explanation_shown = False
-                    st.session_state.waiting_for_next_question = False
-                    st.rerun()
-            else:
-                answer = show_question_input(question, "cert")
+    concepts = report.get("concepts_to_revise") or report.get("recommended_learning_plan", [])
+    st.write("Concepts to revise")
+    for concept in concepts:
+        st.write(f"- {concept}")
 
-                if st.button("Submit Answer"):
-                    if answer is None:
-                        st.warning("This question is missing answer options and cannot be submitted.")
-                        st.stop()
-
-                    if question.get("type") == "fill_blank" and not str(answer).strip():
-                        st.warning("Please enter an answer before submitting.")
-                        st.stop()
-
-                    result = evaluate_question(question, answer)
-                    results.append(
-                        {
-                            "question": question,
-                            "answer": answer,
-                            "evaluation": result,
-                        }
-                    )
-
-                    if result["is_correct"]:
-                        st.session_state.session_score += 1
-
-                    if mode == "Learning Mode":
-                        st.session_state.question_answered = True
-                        st.session_state.explanation_shown = True
-                        st.session_state.waiting_for_next_question = True
-                    else:
-                        st.session_state.session_index += 1
-
-                    st.rerun()
-
-        else:
-            st.subheader("Final Result")
-            st.write(f"Score: {st.session_state.session_score}/{len(questions)}")
-
-            percentage = (st.session_state.session_score / len(questions)) * 100
-            st.write(f"Percentage: {percentage:.2f}%")
-
-            st.divider()
-            st.write("Review")
-            for result in results:
-                st.write(result["question"]["question"])
-                show_basic_evaluation(result["evaluation"])
-
-            report = build_text_report(platform, level, mode, results)
-            st.download_button(
-                "Download text report",
-                data=report,
-                file_name=f"{mode.lower().replace(' ', '_')}_report.txt",
-                mime="text/plain",
-            )
-
-            if st.button("Restart"):
-                reset_session()
-                st.rerun()
-
-else:
-    st.subheader("Interview Mode")
-    st.caption(f"{role} • {interview_domain} • {level}")
-
-    if "interview_questions" not in st.session_state:
-        st.write("You will answer 5 senior-style interview questions one at a time.")
-        st.write("After each answer, you will see rubric feedback before continuing.")
-        if st.button("Start Interview"):
-            start_interview(interview_domain, level)
-            st.rerun()
-    elif st.session_state.interview_complete:
-        history = st.session_state.interview_history
-
-        if not history:
-            st.warning("No interview questions available yet for this role and domain.")
-        else:
-            show_progress("Interview progress", len(history), len(st.session_state.interview_questions))
-            show_final_interview_report(history)
-
-            st.divider()
-            st.write("Question-by-question breakdown")
-            for result_index, result in enumerate(history, start=1):
-                question = result["question"]
-                st.write(f"Question {result_index}")
-                st.caption(
-                    f"{question.get('domain', 'unknown')} • "
-                    f"{question.get('category', 'unknown')} • "
-                    f"Difficulty {question.get('difficulty', 'n/a')}"
-                )
-                st.write(question["question"])
-                show_interview_evaluation(result, key_suffix=f"review_{result_index}")
-                st.divider()
-
-            report = build_text_report(interview_domain, level, mode, history)
-            st.download_button(
-                "Download text report",
-                data=report,
-                file_name="interview_report.txt",
-                mime="text/plain",
-            )
-
-        if st.button("Restart Interview"):
-            reset_session()
-            st.rerun()
-    else:
-        questions = st.session_state.interview_questions
-        index = st.session_state.interview_index
-        history = st.session_state.interview_history
-
-        if index >= len(questions):
-            st.session_state.interview_complete = True
-            st.rerun()
-
-        question = questions[index]
-        show_progress("Question", index + 1, len(questions))
-        st.caption(
-            f"{question.get('domain', 'unknown')} • "
-            f"{question.get('category', 'unknown')} • "
-            f"Difficulty {question.get('difficulty', 'n/a')}"
-        )
-
-        if st.session_state.get("interview_waiting_for_next"):
-            st.write("Current question")
+    st.write("Question review")
+    for index, item in enumerate(history, start=1):
+        evaluation = item.get("evaluation", {})
+        question = item.get("question", {})
+        with st.expander(f"Question {index}: {question.get('question', '')}", expanded=index == 1):
             if question.get("scenario"):
                 st.write(question["scenario"])
-            st.write(question["question"])
-            st.divider()
-            st.write("Evaluation")
-            show_interview_evaluation(history[-1], key_suffix="active")
+            st.write("Your answer")
+            st.write(item.get("answer", ""))
+            st.write(f"Score: {evaluation.get('score', 0)}/100")
+            if evaluation.get("short_feedback"):
+                st.write(evaluation["short_feedback"])
+            st.write("Explanation")
+            st.write(evaluation.get("explanation", ""))
+            st.write("Ideal answer")
+            st.markdown(evaluation.get("ideal_answer", ""))
+            if evaluation.get("missing_points"):
+                st.write("Missing points")
+                for point in evaluation["missing_points"]:
+                    st.write(f"- {point}")
 
-            button_label = (
-                "Finish Interview"
-                if index + 1 >= len(questions)
-                else "Continue to Next Question"
-            )
-            if st.button(button_label):
-                st.session_state.interview_index += 1
-                st.session_state.interview_waiting_for_next = False
-                if st.session_state.interview_index >= len(questions):
-                    st.session_state.interview_complete = True
-                st.rerun()
+    if report.get("recommended_learning_plan"):
+        st.write("Recommended learning plan")
+        for item in report["recommended_learning_plan"]:
+            st.write(f"- {item}")
+
+    if st.button("Start New Interview"):
+        reset_session()
+        initialize_ai_session_state()
+        st.rerun()
+else:
+    level = st.session_state.ai_level
+    domain = st.session_state.ai_domain
+    question = st.session_state.get("ai_current_question")
+    index = st.session_state.get("ai_question_index", 0)
+    history = st.session_state.get("ai_history", [])
+
+    show_progress("Question", index + 1, MAX_QUESTIONS)
+    st.caption(f"{level} • {domain} • Gemini Flash")
+
+    if not isinstance(question, dict):
+        st.error("No AI question is loaded. Restart the interview to generate a new question.")
+        if st.button("Restart Interview"):
+            reset_session()
+            initialize_ai_session_state()
+            st.rerun()
+        st.stop()
+
+    if question.get("error"):
+        st.error(question["error"])
+        if st.button("Try Again"):
+            st.session_state.ai_current_question = generate_ai_question(level, domain, history)
+            st.rerun()
+        st.stop()
+
+    if question.get("scenario"):
+        st.write(question["scenario"])
+    st.write(question.get("question", "No question available."))
+
+    answer = st.text_area("Your answer", key=f"ai_answer_{index}", height=190)
+    if st.button("Submit Answer"):
+        if not answer.strip():
+            st.warning("Please write an answer before submitting.")
         else:
-            st.write("Question")
-            answer = show_question_input(question, "interview")
+            evaluation = evaluate_ai_answer(question, answer.strip(), level, domain, history)
+            if evaluation.get("error"):
+                st.error(evaluation["error"])
+            else:
+                result = {
+                    "question": question,
+                    "answer": answer.strip(),
+                    "evaluation": evaluation,
+                }
+                st.session_state.ai_history.append(result)
+                st.session_state.ai_answers.append(
+                    {"question_id": question.get("id"), "answer": answer.strip()}
+                )
+                st.session_state.ai_evaluations.append(evaluation)
+                if evaluation.get("explanation"):
+                    st.session_state.ai_explanations.append(evaluation["explanation"])
 
-            if st.button("Submit Answer"):
-                if not answer.strip():
-                    st.warning("Please write an answer before submitting.")
+                next_index = index + 1
+                st.session_state.ai_question_index = next_index
+                if next_index >= MAX_QUESTIONS:
+                    st.session_state.ai_complete = True
+                    st.session_state.ai_final_report = generate_ai_final_report(
+                        st.session_state.ai_history,
+                        level,
+                        domain,
+                    )
                 else:
-                    result = {
-                        "question": question,
-                        "answer": answer.strip(),
-                        "evaluation": evaluate_question(question, answer.strip()),
-                    }
-                    history.append(result)
-                    st.session_state.interview_waiting_for_next = True
-                    st.rerun()
+                    st.session_state.ai_current_question = generate_ai_question(
+                        level,
+                        domain,
+                        st.session_state.ai_history,
+                    )
+                st.rerun()
