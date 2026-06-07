@@ -13,6 +13,14 @@ discussion.
 Return only valid JSON:
 {
   "score": 0,
+  "dimension_scores": {
+    "Technical Knowledge": 0,
+    "Problem Solving": 0,
+    "Communication Clarity": 0,
+    "Architecture Thinking": 0,
+    "Cost Awareness": 0,
+    "Security Awareness": 0
+  },
   "short_feedback": "",
   "strengths": [],
   "missing_points": [],

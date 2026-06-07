@@ -6,8 +6,8 @@
 - Single main UI with no Learning/Exam/Interview mode dropdown.
 - AI Interview Mode powered by Google ADK + Gemini Flash.
 - Level selector for Beginner, Junior Data Engineer, Mid-Level Data Engineer, Senior Data Engineer, Lead Data Engineer, and Architect.
-- Domain selector for SQL, Python, GCP / BigQuery, Data Modeling, Production Engineering, and Mixed Interview.
-- AI interview flow with 10 questions, one question at a time, Gemini scoring, feedback, explanations, ideal answers, and final report.
+- Domain selector for SQL, Python, GCP / BigQuery, AWS, Azure, Databricks, Git, Terraform, Airflow, dbt, Data Modeling, Production Engineering, and Mixed Interview.
+- AI interview flow with 10 questions, one question at a time, varied question types, increasing complexity, Gemini scoring, dimension scores, feedback, explanations, ideal answers, and local final summary.
 - File-based JSON question loading.
 - Legacy certification question support under `app/data/question_bank/{platform}/certification/`.
 - Taxonomy-aware senior interview question loading under `core/` and `cloud/`.
@@ -19,6 +19,7 @@
   - GCP
 - One-question-at-a-time AI interview flow.
 - Progress text and visual progress bar.
+- Final summary computes total score, readiness percentage, average score, correct count, partial count, incorrect count, domain-wise score, dimension-wise score, strengths, weak areas, top concepts to revise, next-level recommendation, and hiring recommendation.
 - Local rubric scoring based on expected points and keywords.
 - Matched points, missing points, explanations, follow-up questions, and ideal answers after each interview answer.
 - Final interview report with:
@@ -57,7 +58,7 @@
 
 ## What Should Be Built Next
 
-1. Manually validate the full 10-question AI flow with a real `GOOGLE_API_KEY`.
+1. Manually validate Beginner + SQL, Senior Data Engineer + GCP / BigQuery, and Architect + Mixed Interview with a real `GOOGLE_API_KEY`.
 2. Add automated tests for setup-required state, start flow, answer submission, final report, and mode-free UI.
 3. Add report download/export for AI interview sessions.
 4. Implement session blueprints for role-based domain mixes.

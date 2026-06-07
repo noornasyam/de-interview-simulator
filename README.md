@@ -9,10 +9,13 @@ The current MVP is an AI-first Streamlit interview simulator powered by Google A
 - Single AI interview coach page with no mode dropdown.
 - Gemini status indicator: Gemini enabled or Setup required.
 - Level selector for Beginner, Junior, Mid-Level, Senior, Lead, and Architect.
-- Domain selector for SQL, Python, GCP / BigQuery, Data Modeling, Production Engineering, and Mixed Interview.
+- Domain selector for SQL, Python, GCP / BigQuery, AWS, Azure, Databricks, Git, Terraform, Airflow, dbt, Data Modeling, Production Engineering, and Mixed Interview.
 - 10-question interview sessions, one question at a time.
-- Gemini evaluation after each answer with score, short feedback, missing points, explanation, ideal answer, and optional follow-up question.
-- Final report with final score, strengths, weak areas, concepts to revise, question-by-question explanations, ideal answers, and next-level readiness.
+- Mixed question types: conceptual, scenario-based, troubleshooting, design decision, cost optimization, security/governance, debugging/root cause analysis, and trade-off comparison.
+- Complexity increases across the session: foundation, practical scenario, then advanced decision-making.
+- Gemini evaluation after each answer with 0-10 score, dimension scores, short feedback, missing points, explanation, ideal answer, and optional follow-up question.
+- Scoring dimensions: Technical Knowledge, Problem Solving, Communication Clarity, Architecture Thinking, Cost Awareness, and Security Awareness.
+- Final report with total score out of 100, readiness percentage, correct/partial/incorrect counts, average score, domain-wise score, dimension-wise score, strengths, weak areas, top concepts to revise, question-by-question explanations, ideal answers, next-level readiness, and hiring recommendation.
 - Legacy local learning, exam, and rubric interview code remains in the repository but is not shown in the main UI.
 - File-based JSON content remains available for grounding and future local/offline features.
 - File-based JSON content model for easy extension.

@@ -14,7 +14,6 @@ from app.services.adk_interview_service import (
     MAX_QUESTIONS,
     evaluate_ai_answer,
     generate_ai_final_report,
-    generate_ai_follow_up,
     generate_ai_question,
     is_adk_configured,
     start_ai_interview,
@@ -54,6 +53,10 @@ AI_SESSION_DEFAULTS = {
     "ai_evaluations": [],
     "ai_final_report": None,
     "ai_explanations": [],
+    "ai_current_evaluation": None,
+    "ai_correct_count": 0,
+    "ai_partial_count": 0,
+    "ai_incorrect_count": 0,
     "ai_phase": "main_answer",
     "ai_interview": None,
 }
@@ -93,6 +96,10 @@ def reset_session():
         "ai_evaluations",
         "ai_final_report",
         "ai_explanations",
+        "ai_current_evaluation",
+        "ai_correct_count",
+        "ai_partial_count",
+        "ai_incorrect_count",
         "ai_phase",
         "ai_interview",
         "adk_interview",
@@ -557,6 +564,7 @@ if not st.session_state.get("ai_started"):
         st.session_state.ai_domain = selected_domain
         st.session_state.ai_interview = start_ai_interview(selected_level, selected_domain)
         st.session_state.ai_current_question = generate_ai_question(selected_level, selected_domain, [])
+        st.session_state.ai_phase = "main_answer"
         st.rerun()
 
     if not gemini_ready:
@@ -570,7 +578,20 @@ elif st.session_state.get("ai_complete"):
 
     st.subheader("Final Interview Report")
     show_progress("Interview progress", len(history), MAX_QUESTIONS)
-    st.metric("Final score", f"{report.get('overall_score', 0)}/100")
+    col_score, col_ready = st.columns(2)
+    col_score.metric("Overall score", f"{report.get('total_score', report.get('overall_score', 0))}/100")
+    col_ready.metric("Readiness", f"{report.get('readiness_percentage', 0)}%")
+    st.metric("Average score", f"{report.get('average_score', 0)}/10")
+
+    recommendation = report.get("hiring_recommendation")
+    if recommendation:
+        st.write("Hiring recommendation")
+        st.write(recommendation)
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Correct", report.get("correct_count", st.session_state.ai_correct_count))
+    col2.metric("Partially correct", report.get("partial_count", st.session_state.ai_partial_count))
+    col3.metric("Incorrect", report.get("incorrect_count", st.session_state.ai_incorrect_count))
 
     can_move = report.get("can_move_to_next_level") or report.get("ready_for_senior_interviews")
     if can_move:
@@ -586,8 +607,20 @@ elif st.session_state.get("ai_complete"):
         st.write(f"- {gap}")
 
     concepts = report.get("concepts_to_revise") or report.get("recommended_learning_plan", [])
+    domain_scores = report.get("domain_scores", {})
+    if domain_scores:
+        st.write("Domain-wise score")
+        for score_domain, score in domain_scores.items():
+            st.write(f"- {score_domain}: {score}/10")
+
+    dimension_scores = report.get("dimension_scores", {})
+    if dimension_scores:
+        st.write("Dimension-wise score")
+        for dimension, score in dimension_scores.items():
+            st.write(f"- {dimension}: {score}/10")
+
     st.write("Concepts to revise")
-    for concept in concepts:
+    for concept in concepts[:5]:
         st.write(f"- {concept}")
 
     st.write("Question review")
@@ -599,9 +632,13 @@ elif st.session_state.get("ai_complete"):
                 st.write(question["scenario"])
             st.write("Your answer")
             st.write(item.get("answer", ""))
-            st.write(f"Score: {evaluation.get('score', 0)}/100")
+            st.write(f"Score: {evaluation.get('score', 0)}/10")
             if evaluation.get("short_feedback"):
                 st.write(evaluation["short_feedback"])
+            if evaluation.get("dimension_scores"):
+                st.write("Dimension scores")
+                for dimension, score in evaluation["dimension_scores"].items():
+                    st.write(f"- {dimension}: {score}/10")
             st.write("Explanation")
             st.write(evaluation.get("explanation", ""))
             st.write("Ideal answer")
@@ -647,43 +684,82 @@ else:
 
     if question.get("scenario"):
         st.write(question["scenario"])
+    if question.get("question_type"):
+        st.caption(f"{question.get('question_type')} • {question.get('complexity', '')}")
     st.write(question.get("question", "No question available."))
 
-    answer = st.text_area("Your answer", key=f"ai_answer_{index}", height=190)
-    if st.button("Submit Answer"):
-        if not answer.strip():
-            st.warning("Please write an answer before submitting.")
-        else:
-            evaluation = evaluate_ai_answer(question, answer.strip(), level, domain, history)
-            if evaluation.get("error"):
-                st.error(evaluation["error"])
-            else:
-                result = {
-                    "question": question,
-                    "answer": answer.strip(),
-                    "evaluation": evaluation,
-                }
-                st.session_state.ai_history.append(result)
-                st.session_state.ai_answers.append(
-                    {"question_id": question.get("id"), "answer": answer.strip()}
-                )
-                st.session_state.ai_evaluations.append(evaluation)
-                if evaluation.get("explanation"):
-                    st.session_state.ai_explanations.append(evaluation["explanation"])
+    if st.session_state.get("ai_phase") == "feedback":
+        latest = st.session_state.ai_history[-1]
+        evaluation = latest.get("evaluation", {})
+        st.metric("Score", f"{evaluation.get('score', 0)}/10")
+        if evaluation.get("dimension_scores"):
+            st.write("Dimension scores")
+            for dimension, score in evaluation["dimension_scores"].items():
+                st.write(f"- {dimension}: {score}/10")
+        if evaluation.get("short_feedback"):
+            st.write(evaluation["short_feedback"])
+        st.write("Explanation")
+        st.write(evaluation.get("explanation", ""))
+        st.write("Ideal answer")
+        st.markdown(evaluation.get("ideal_answer", ""))
+        if evaluation.get("missing_points"):
+            st.write("Missing points")
+            for point in evaluation["missing_points"]:
+                st.write(f"- {point}")
+        if evaluation.get("follow_up_question"):
+            st.write("Follow-up question")
+            st.write(evaluation["follow_up_question"])
 
-                next_index = index + 1
-                st.session_state.ai_question_index = next_index
-                if next_index >= MAX_QUESTIONS:
-                    st.session_state.ai_complete = True
-                    st.session_state.ai_final_report = generate_ai_final_report(
-                        st.session_state.ai_history,
-                        level,
-                        domain,
-                    )
+        button_label = "Finish Interview" if index + 1 >= MAX_QUESTIONS else "Continue"
+        if st.button(button_label):
+            next_index = index + 1
+            st.session_state.ai_question_index = next_index
+            st.session_state.ai_current_answer = ""
+            st.session_state.ai_current_evaluation = None
+            st.session_state.ai_phase = "main_answer"
+            if next_index >= MAX_QUESTIONS:
+                st.session_state.ai_complete = True
+                st.session_state.ai_final_report = generate_ai_final_report(
+                    st.session_state.ai_history,
+                    level,
+                    domain,
+                )
+            else:
+                st.session_state.ai_current_question = generate_ai_question(
+                    level,
+                    domain,
+                    st.session_state.ai_history,
+                )
+            st.rerun()
+    else:
+        answer = st.text_area("Your answer", key=f"ai_answer_{index}", height=190)
+        if st.button("Submit Answer"):
+            if not answer.strip():
+                st.warning("Please write an answer before submitting.")
+            else:
+                evaluation = evaluate_ai_answer(question, answer.strip(), level, domain, history)
+                if evaluation.get("error"):
+                    st.error(evaluation["error"])
                 else:
-                    st.session_state.ai_current_question = generate_ai_question(
-                        level,
-                        domain,
-                        st.session_state.ai_history,
+                    result = {
+                        "question": question,
+                        "answer": answer.strip(),
+                        "evaluation": evaluation,
+                    }
+                    st.session_state.ai_history.append(result)
+                    st.session_state.ai_answers.append(
+                        {"question_id": question.get("id"), "answer": answer.strip()}
                     )
-                st.rerun()
+                    st.session_state.ai_evaluations.append(evaluation)
+                    st.session_state.ai_current_evaluation = evaluation
+                    score = int(evaluation.get("score", 0))
+                    if score >= 8:
+                        st.session_state.ai_correct_count += 1
+                    elif score >= 5:
+                        st.session_state.ai_partial_count += 1
+                    else:
+                        st.session_state.ai_incorrect_count += 1
+                    if evaluation.get("explanation"):
+                        st.session_state.ai_explanations.append(evaluation["explanation"])
+                    st.session_state.ai_phase = "feedback"
+                    st.rerun()
