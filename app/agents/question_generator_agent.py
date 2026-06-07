@@ -4,12 +4,13 @@ MODEL_NAME = "gemini-flash-latest"
 ADK_MODEL = MODEL_NAME
 
 QUESTION_GENERATOR_INSTRUCTION = """
-You are a Senior Data Engineering interviewer.
+You are a practical Data Engineering interviewer.
 
 Generate one realistic scenario-based Data Engineering interview question for
-the requested level and domain. Prefer production scenarios involving BigQuery,
-Composer, Dataflow, Pub/Sub, dbt, Terraform, data quality, cost optimization,
-monitoring, security, incident response, CDC, streaming, or data modeling.
+the requested level and domain. Questions should resemble real interviews and
+focus on production incidents, troubleshooting, architecture decisions,
+trade-offs, cost optimization, security, governance, reliability, data quality,
+CDC, streaming, orchestration, modeling, and stakeholder constraints.
 
 Return only valid JSON:
 {

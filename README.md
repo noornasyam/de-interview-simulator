@@ -10,12 +10,15 @@ The current MVP is an AI-first Streamlit interview simulator powered by Google A
 - Gemini status indicator: Gemini enabled or Setup required.
 - Level selector for Beginner, Junior, Mid-Level, Senior, Lead, and Architect.
 - Domain selector for SQL, Python, GCP / BigQuery, AWS, Azure, Databricks, Git, Terraform, Airflow, dbt, Data Modeling, Production Engineering, and Mixed Interview.
-- 10-question interview sessions, one question at a time.
+- 5-question interview sessions, one question at a time.
 - Mixed question types: conceptual, scenario-based, troubleshooting, design decision, cost optimization, security/governance, debugging/root cause analysis, and trade-off comparison.
-- Complexity increases across the session: foundation, practical scenario, then advanced decision-making.
-- Gemini evaluation after each answer with 0-10 score, dimension scores, short feedback, missing points, explanation, ideal answer, and optional follow-up question.
+- Complexity increases across the session: fundamentals, practical concepts, scenario-based, troubleshooting/RCA, then design decisions/trade-offs.
+- During the interview, each answer shows only score and short feedback to reduce fatigue.
+- The final report includes explanations, missing points, ideal answers, and detailed review.
 - Scoring dimensions: Technical Knowledge, Problem Solving, Communication Clarity, Architecture Thinking, Cost Awareness, and Security Awareness.
 - Final report with total score out of 100, readiness percentage, correct/partial/incorrect counts, average score, domain-wise score, dimension-wise score, strengths, weak areas, top concepts to revise, question-by-question explanations, ideal answers, next-level readiness, and hiring recommendation.
+- Downloadable PDF interview report for testers and candidates.
+- Level progression logic: 80+ ready for next level, 60-79 borderline, below 60 repeat level.
 - Legacy local learning, exam, and rubric interview code remains in the repository but is not shown in the main UI.
 - File-based JSON content remains available for grounding and future local/offline features.
 - File-based JSON content model for easy extension.
@@ -130,7 +133,7 @@ Screenshots will be added before the first tagged public release.
 
 ## Future Roadmap
 
-- Add automated coverage for the 10-question AI interview flow.
+- Add automated coverage for the 5-question AI interview flow.
 - Add exportable interview reports.
 - Add optional local/offline mode behind an advanced setting.
 - Add session blueprint support for role-weighted domain mixes.

@@ -12,6 +12,7 @@ from app.services.adk_interview_service import (
     AI_DOMAINS,
     AI_ROLES,
     MAX_QUESTIONS,
+    build_interview_report_pdf,
     evaluate_ai_answer,
     generate_ai_final_report,
     generate_ai_question,
@@ -653,6 +654,19 @@ elif st.session_state.get("ai_complete"):
         for item in report["recommended_learning_plan"]:
             st.write(f"- {item}")
 
+    pdf_report = build_interview_report_pdf(
+        report,
+        history,
+        st.session_state.ai_level,
+        st.session_state.ai_domain,
+    )
+    st.download_button(
+        "Download PDF report",
+        data=pdf_report,
+        file_name="dailydehub_interview_report.pdf",
+        mime="application/pdf",
+    )
+
     if st.button("Start New Interview"):
         reset_session()
         initialize_ai_session_state()
@@ -692,23 +706,8 @@ else:
         latest = st.session_state.ai_history[-1]
         evaluation = latest.get("evaluation", {})
         st.metric("Score", f"{evaluation.get('score', 0)}/10")
-        if evaluation.get("dimension_scores"):
-            st.write("Dimension scores")
-            for dimension, score in evaluation["dimension_scores"].items():
-                st.write(f"- {dimension}: {score}/10")
         if evaluation.get("short_feedback"):
             st.write(evaluation["short_feedback"])
-        st.write("Explanation")
-        st.write(evaluation.get("explanation", ""))
-        st.write("Ideal answer")
-        st.markdown(evaluation.get("ideal_answer", ""))
-        if evaluation.get("missing_points"):
-            st.write("Missing points")
-            for point in evaluation["missing_points"]:
-                st.write(f"- {point}")
-        if evaluation.get("follow_up_question"):
-            st.write("Follow-up question")
-            st.write(evaluation["follow_up_question"])
 
         button_label = "Finish Interview" if index + 1 >= MAX_QUESTIONS else "Continue"
         if st.button(button_label):

@@ -10,6 +10,7 @@ import json
 import os
 import random
 import uuid
+from datetime import date
 from pathlib import Path
 
 from app.agents.evaluation_agent import build_evaluation_agent
@@ -19,7 +20,7 @@ from app.agents.question_generator_agent import MODEL_NAME, build_question_gener
 from app.services.certification_engine import load_taxonomy_questions
 
 
-MAX_QUESTIONS = 10
+MAX_QUESTIONS = 5
 ADK_QUESTION_COUNT = MAX_QUESTIONS
 APP_NAME = "de_interview_simulator_ai"
 USER_ID = "streamlit_user"
@@ -48,15 +49,10 @@ AI_DOMAINS = [
 ]
 QUESTION_TYPES = [
     "Conceptual",
-    "Scenario-based",
-    "Troubleshooting",
     "Design decision",
-    "Cost optimization",
-    "Security/governance",
+    "Scenario-based",
     "Debugging/root cause analysis",
     "Trade-off comparison",
-    "Scenario-based",
-    "Design decision",
 ]
 SCORING_DIMENSIONS = [
     "Technical Knowledge",
@@ -205,8 +201,10 @@ def generate_ai_final_report(history, role, domain):
     )
 
     return {
-        "overall_score": total_score,
-        "total_score": total_score,
+        "overall_score": readiness_percentage,
+        "total_score": readiness_percentage,
+        "raw_score": total_score,
+        "max_raw_score": len(scores) * 10,
         "average_score": round(average_score, 1),
         "readiness_percentage": readiness_percentage,
         "correct_count": correct_count,
@@ -229,6 +227,46 @@ def generate_ai_final_report(history, role, domain):
         "raw_response": "Final summary computed locally from Gemini evaluations.",
         "error": "",
     }
+
+
+def build_interview_report_pdf(report, history, role, domain, generated_at=None):
+    generated_at = generated_at or date.today().isoformat()
+    lines = [
+        "DailyDEHub AI Interview Coach",
+        "",
+        f"Candidate level: {role}",
+        f"Domain: {domain}",
+        f"Date: {generated_at}",
+        f"Overall score: {report.get('overall_score', 0)}/100",
+        f"Readiness percentage: {report.get('readiness_percentage', 0)}%",
+        f"Hiring recommendation: {report.get('hiring_recommendation', '')}",
+        "",
+        "Strengths",
+    ]
+    lines.extend(f"- {item}" for item in report.get("strengths", []))
+    lines.extend(["", "Weak areas"])
+    lines.extend(f"- {item}" for item in report.get("gaps", []))
+    lines.extend(["", "Learning plan"])
+    lines.extend(f"- {item}" for item in report.get("recommended_learning_plan", []))
+    lines.extend(["", "Question-by-question review"])
+
+    for index, item in enumerate(history, start=1):
+        question = item.get("question", {})
+        evaluation = item.get("evaluation", {})
+        lines.extend(
+            [
+                "",
+                f"Question {index}: {question.get('question', '')}",
+                f"User answer: {item.get('answer', '')}",
+                f"Score: {evaluation.get('score', 0)}/10",
+                f"Explanation: {evaluation.get('explanation', '')}",
+                "Missing points:",
+            ]
+        )
+        lines.extend(f"- {point}" for point in evaluation.get("missing_points", []))
+        lines.extend(["Ideal answer:", evaluation.get("ideal_answer", "")])
+
+    return _build_simple_pdf(lines)
 
 
 # Backward-compatible names for older imports while app.py transitions to AI naming.
@@ -291,6 +329,9 @@ def _build_question_prompt(role, domain, history):
                 f"question type must be {question_type}",
                 f"complexity must be {complexity}",
                 "match selected level and domain",
+                "make it feel like a real interviewer asked it",
+                "prefer production scenarios over trivia",
+                "include troubleshooting, architecture decisions, trade-offs, cost, security, or governance when relevant",
                 "Beginner uses simple language and fundamentals",
                 "Architect focuses on enterprise architecture, governance, cost, scalability, reliability, and stakeholder trade-offs",
                 "avoid coding-heavy questions unless domain is Python or SQL",
@@ -446,11 +487,13 @@ def _question_type_for_index(index):
 
 
 def _complexity_for_index(index):
-    if index <= 2:
-        return "foundation"
-    if index <= 6:
-        return "practical scenario"
-    return "advanced decision-making and trade-offs"
+    return [
+        "fundamentals",
+        "practical concepts",
+        "scenario-based",
+        "troubleshooting / RCA",
+        "design decisions / trade-offs",
+    ][min(index, MAX_QUESTIONS - 1)]
 
 
 def _dedupe(values):
@@ -467,13 +510,13 @@ def _dedupe(values):
 def _recommended_next_steps(average_score, role, topics):
     if average_score >= 8:
         return [
-            f"Move toward the next level after one more {role} mixed interview.",
+            "Ready for next level.",
             "Practice explaining trade-offs with concrete production examples.",
         ]
-    if average_score >= 5:
+    if average_score >= 6:
         first_topic = topics[0] if topics else "the missed concepts"
         return [
-            "Repeat the same level after focused revision.",
+            "Borderline: repeat this level after focused revision.",
             f"Revise {first_topic}.",
             "Practice adding monitoring, failure modes, and trade-offs to every answer.",
         ]
@@ -487,12 +530,12 @@ def _recommended_next_steps(average_score, role, topics):
 
 def _move_recommendation(average_score, role, topics):
     if average_score >= 8:
-        return f"Move to the next level. Your average score is {average_score:.1f}/10."
-    if average_score >= 5:
+        return "Ready for next level."
+    if average_score >= 6:
         focus = topics[0] if topics else "the weak areas"
-        return f"Partially ready. Repeat {role} after revising {focus}."
+        return f"Borderline. Revise {focus}, then retry {role}."
     focus = topics[0] if topics else "core fundamentals"
-    return f"Repeat the same level. Focus first on {focus}."
+    return f"Repeat level. Focus first on {focus}."
 
 
 def _normalize_dimension_scores(value):
@@ -539,13 +582,102 @@ def _aggregate_domain_scores(history, selected_domain):
 
 
 def _hiring_recommendation(average_score):
-    if average_score >= 8.5:
+    if average_score >= 9:
         return "Strong Candidate"
-    if average_score >= 7:
+    if average_score >= 8:
         return "Ready"
-    if average_score >= 5:
+    if average_score >= 6:
         return "Borderline"
     return "Not Ready"
+
+
+def _build_simple_pdf(lines):
+    wrapped_lines = []
+    for line in lines:
+        wrapped_lines.extend(_wrap_pdf_line(str(line)))
+
+    pages = []
+    current_page = []
+    for line in wrapped_lines:
+        if len(current_page) >= 48:
+            pages.append(current_page)
+            current_page = []
+        current_page.append(line)
+    if current_page:
+        pages.append(current_page)
+    if not pages:
+        pages = [["DailyDEHub AI Interview Coach"]]
+
+    objects = ["<< /Type /Catalog /Pages 2 0 R >>"]
+    page_refs = []
+    content_objects = []
+    next_object_id = 3
+
+    for page_lines in pages:
+        page_id = next_object_id
+        content_id = next_object_id + 1
+        next_object_id += 2
+        page_refs.append(f"{page_id} 0 R")
+        content = _pdf_page_content(page_lines)
+        objects.append(
+            f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+            f"/Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> >> >> "
+            f"/Contents {content_id} 0 R >>"
+        )
+        content_objects.append((content_id, content))
+
+    objects.insert(1, f"<< /Type /Pages /Kids [{' '.join(page_refs)}] /Count {len(page_refs)} >>")
+
+    for content_id, content in content_objects:
+        while len(objects) < content_id - 1:
+            objects.append("<< >>")
+        stream_length = len(content.encode("latin-1", errors="replace"))
+        objects.append(f"<< /Length {stream_length} >>\nstream\n{content}\nendstream")
+
+    pdf = "%PDF-1.4\n"
+    offsets = [0]
+    for index, obj in enumerate(objects, start=1):
+        offsets.append(len(pdf.encode("latin-1", errors="replace")))
+        pdf += f"{index} 0 obj\n{obj}\nendobj\n"
+
+    xref_offset = len(pdf.encode("latin-1", errors="replace"))
+    pdf += f"xref\n0 {len(objects) + 1}\n0000000000 65535 f \n"
+    for offset in offsets[1:]:
+        pdf += f"{offset:010d} 00000 n \n"
+    pdf += f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_offset}\n%%EOF\n"
+    return pdf.encode("latin-1", errors="replace")
+
+
+def _pdf_page_content(lines):
+    commands = ["BT", "/F1 10 Tf", "50 760 Td", "14 TL"]
+    for line in lines:
+        commands.append(f"({_pdf_escape(line)}) Tj")
+        commands.append("T*")
+    commands.append("ET")
+    return "\n".join(commands)
+
+
+def _wrap_pdf_line(line, width=92):
+    if not line:
+        return [""]
+    words = line.split()
+    rows = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        if len(candidate) <= width:
+            current = candidate
+        else:
+            if current:
+                rows.append(current)
+            current = word
+    if current:
+        rows.append(current)
+    return rows or [""]
+
+
+def _pdf_escape(value):
+    return str(value).replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
 
 
 def _run_adk_agent(agent, prompt):
