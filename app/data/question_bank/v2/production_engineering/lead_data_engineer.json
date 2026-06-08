@@ -1,0 +1,192 @@
+[
+  {
+    "id": "production_engineering_lead_gov_001",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Operational ownership",
+    "scenario": "Critical pipelines exist, but ownership, support hours, and escalation paths are inconsistent.",
+    "question": "What governance model would you introduce?",
+    "expected_points": [
+      {"point": "Defines owners for pipelines/data products", "keywords": ["owner", "pipeline", "data product"], "weight": 3},
+      {"point": "Defines support model and escalation paths", "keywords": ["support", "escalation", "on-call"], "weight": 3},
+      {"point": "Defines SLAs/SLOs and operational metadata", "keywords": ["sla", "slo", "metadata"], "weight": 2},
+      {"point": "Creates review process for critical assets", "keywords": ["review", "critical", "governance"], "weight": 2}
+    ],
+    "explanation": "Operational governance ensures production systems have clear owners, expectations, and escalation paths.",
+    "ideal_answer": "I would assign owners to critical pipelines and data products, define support hours and escalation, document SLOs and runbooks, and review operational readiness for critical assets.",
+    "tags": ["production_engineering", "governance", "ownership", "operations"]
+  },
+  {
+    "id": "production_engineering_lead_reliability_002",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Reliability program",
+    "scenario": "Leadership wants fewer production incidents across data pipelines, warehouses, and ML jobs.",
+    "question": "How would you build a reliability improvement program?",
+    "expected_points": [
+      {"point": "Defines reliability metrics and SLOs", "keywords": ["metric", "slo", "sli"], "weight": 3},
+      {"point": "Prioritizes recurring incidents and high-impact systems", "keywords": ["recurring", "impact", "critical"], "weight": 3},
+      {"point": "Improves monitoring, testing, and release safety", "keywords": ["monitoring", "testing", "release"], "weight": 2},
+      {"point": "Tracks improvements and accountability", "keywords": ["track", "accountability", "review"], "weight": 2}
+    ],
+    "explanation": "Reliability programs need measurable targets, prioritization, engineering improvements, and accountability.",
+    "ideal_answer": "I would define SLIs/SLOs, identify recurring/high-impact failures, improve monitoring and tests, strengthen release controls, fund reliability work, and review progress through metrics and incident trends.",
+    "tags": ["production_engineering", "reliability", "sre", "program"]
+  },
+  {
+    "id": "production_engineering_lead_stakeholder_003",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Incident communication",
+    "scenario": "A major data incident affects executive dashboards during a board reporting cycle.",
+    "question": "How would you communicate with stakeholders?",
+    "expected_points": [
+      {"point": "Communicates impact and affected data/products", "keywords": ["impact", "affected", "dashboard"], "weight": 3},
+      {"point": "Provides status, ETA, and workaround if available", "keywords": ["status", "eta", "workaround"], "weight": 3},
+      {"point": "Uses clear update cadence and owner", "keywords": ["cadence", "owner", "update"], "weight": 2},
+      {"point": "Shares final RCA and prevention plan", "keywords": ["rca", "prevention", "postmortem"], "weight": 2}
+    ],
+    "explanation": "Stakeholder communication during incidents should be clear, honest, regular, and action-oriented.",
+    "ideal_answer": "I would explain impact, affected metrics, current status, ETA, workaround, owner, update cadence, and after resolution share RCA and prevention actions.",
+    "tags": ["production_engineering", "incident_communication", "stakeholders", "rca"]
+  },
+  {
+    "id": "production_engineering_lead_gov_004",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Change management",
+    "scenario": "Data teams deploy production changes without consistent approvals, testing, or rollback plans.",
+    "question": "What change management process would you design?",
+    "expected_points": [
+      {"point": "Classifies changes by risk", "keywords": ["risk", "critical", "classify"], "weight": 3},
+      {"point": "Requires tests and validation for production changes", "keywords": ["test", "validation", "production"], "weight": 3},
+      {"point": "Requires rollback and communication for high-risk changes", "keywords": ["rollback", "communication", "approval"], "weight": 2},
+      {"point": "Keeps process lightweight for low-risk changes", "keywords": ["lightweight", "low-risk", "automation"], "weight": 2}
+    ],
+    "explanation": "Change management should reduce production risk without creating unnecessary bureaucracy.",
+    "ideal_answer": "I would classify changes by risk, automate tests and deployment checks, require rollback/approval for critical changes, communicate high-impact releases, and keep low-risk changes fast through CI/CD.",
+    "tags": ["production_engineering", "change_management", "release_management", "governance"]
+  },
+  {
+    "id": "production_engineering_lead_reliability_005",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "On-call health",
+    "scenario": "The data engineering on-call rotation has frequent noisy alerts and engineer burnout.",
+    "question": "How would you improve the on-call system?",
+    "expected_points": [
+      {"point": "Reduces noisy or non-actionable alerts", "keywords": ["noise", "actionable", "alert"], "weight": 3},
+      {"point": "Improves runbooks and automation", "keywords": ["runbook", "automation", "self-healing"], "weight": 2},
+      {"point": "Defines severity and escalation policies", "keywords": ["severity", "escalation", "policy"], "weight": 2},
+      {"point": "Tracks on-call load and burnout indicators", "keywords": ["load", "burnout", "rotation"], "weight": 3}
+    ],
+    "explanation": "A healthy on-call system requires actionable alerts, clear process, automation, and sustainable workload.",
+    "ideal_answer": "I would audit alert noise, remove non-actionable pages, define severity/escalation rules, improve runbooks and automation, and track pages per shift, sleep interruptions, and recurring incidents.",
+    "tags": ["production_engineering", "on_call", "alerting", "operational_health"]
+  },
+  {
+    "id": "production_engineering_lead_arch_006",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Operational strategy for data platforms",
+    "scenario": "Your company is moving from best-effort pipelines to a production-grade data platform.",
+    "question": "What operational strategy would you propose?",
+    "expected_points": [
+      {"point": "Defines tiering for data products by criticality", "keywords": ["tier", "criticality", "data product"], "weight": 3},
+      {"point": "Defines monitoring, SLOs, and incident process", "keywords": ["monitor", "slo", "incident"], "weight": 3},
+      {"point": "Defines release, rollback, and DR standards", "keywords": ["release", "rollback", "dr"], "weight": 2},
+      {"point": "Defines ownership and cost governance", "keywords": ["owner", "cost", "governance"], "weight": 2}
+    ],
+    "explanation": "Production-grade platforms need operational standards based on criticality, not one-size-fits-all effort.",
+    "ideal_answer": "I would tier data products, define SLOs and ownership, standardize monitoring and incident response, enforce release and rollback practices, test DR, and add cost/security governance.",
+    "tags": ["production_engineering", "operational_strategy", "data_platform", "sre"]
+  },
+  {
+    "id": "production_engineering_lead_stakeholder_007",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Reliability vs delivery trade-off",
+    "scenario": "Product leadership wants faster data feature releases, but the team has exhausted error budgets for critical datasets.",
+    "question": "How would you handle the trade-off?",
+    "expected_points": [
+      {"point": "Explains error budget impact", "keywords": ["error budget", "slo", "reliability"], "weight": 3},
+      {"point": "Recommends pausing or reducing risky changes", "keywords": ["pause", "risky", "change"], "weight": 3},
+      {"point": "Prioritizes reliability fixes", "keywords": ["fix", "stabilize", "reliability"], "weight": 2},
+      {"point": "Communicates business trade-off clearly", "keywords": ["business", "trade-off", "communicate"], "weight": 2}
+    ],
+    "explanation": "Error budgets make reliability trade-offs explicit and help justify when stability must take priority.",
+    "ideal_answer": "I would show budget burn and user impact, recommend limiting risky releases for critical datasets, prioritize reliability fixes, and agree with stakeholders on when release velocity can safely resume.",
+    "tags": ["production_engineering", "error_budget", "stakeholders", "release_management"]
+  },
+  {
+    "id": "production_engineering_lead_gov_008",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Security operations governance",
+    "scenario": "Sensitive data access alerts are generated, but no team owns investigation or follow-up.",
+    "question": "What governance process would you introduce?",
+    "expected_points": [
+      {"point": "Defines owner for security data incidents", "keywords": ["owner", "security", "incident"], "weight": 3},
+      {"point": "Defines triage and escalation process", "keywords": ["triage", "escalation", "process"], "weight": 3},
+      {"point": "Preserves audit evidence and tracks outcomes", "keywords": ["audit", "evidence", "outcome"], "weight": 2},
+      {"point": "Reviews permissions and prevention controls", "keywords": ["permission", "review", "prevent"], "weight": 2}
+    ],
+    "explanation": "Security operations need clear ownership, escalation, evidence handling, and remediation.",
+    "ideal_answer": "I would define ownership between data, platform, and security teams, create triage/escalation procedures, preserve audit evidence, track outcomes, and require access reviews or control improvements after incidents.",
+    "tags": ["production_engineering", "security_operations", "governance", "audit"]
+  },
+  {
+    "id": "production_engineering_lead_reliability_009",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "DR readiness",
+    "scenario": "A critical data platform has backups, but no one has tested a full restore or failover.",
+    "question": "How would you improve DR readiness?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO and critical assets", "keywords": ["rto", "rpo", "critical"], "weight": 3},
+      {"point": "Tests restore and failover procedures", "keywords": ["test", "restore", "failover"], "weight": 3},
+      {"point": "Documents runbooks and ownership", "keywords": ["runbook", "owner", "procedure"], "weight": 2},
+      {"point": "Tracks gaps and remediation", "keywords": ["gap", "remediation", "review"], "weight": 2}
+    ],
+    "explanation": "DR readiness is proven through tests, not assumed from the existence of backups.",
+    "ideal_answer": "I would define RTO/RPO, inventory critical data/code/metadata, run restore and failover drills, document owners and runbooks, and track remediation for gaps found during testing.",
+    "tags": ["production_engineering", "dr", "backup_restore", "reliability"]
+  },
+  {
+    "id": "production_engineering_lead_arch_010",
+    "domain": "Production Engineering",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Cloud operations model",
+    "scenario": "Data teams use BigQuery, Composer, Vertex, and several cloud services with inconsistent operations practices.",
+    "question": "How would you standardize cloud operations?",
+    "expected_points": [
+      {"point": "Defines service-specific operational standards", "keywords": ["standard", "bigquery", "composer", "vertex"], "weight": 3},
+      {"point": "Centralizes monitoring and incident processes", "keywords": ["monitor", "incident", "central"], "weight": 3},
+      {"point": "Defines cost, security, and release guardrails", "keywords": ["cost", "security", "release"], "weight": 2},
+      {"point": "Enables teams through templates/runbooks", "keywords": ["template", "runbook", "enable"], "weight": 2}
+    ],
+    "explanation": "Cloud operations should standardize the boring but critical parts while letting teams build domain-specific data products.",
+    "ideal_answer": "I would create operational standards for each service, shared dashboards and alerting, common incident and change processes, cost/security guardrails, and reusable templates/runbooks for teams.",
+    "tags": ["production_engineering", "cloud_operations", "bigquery_operations", "composer_operations", "vertex_operations"]
+  }
+]

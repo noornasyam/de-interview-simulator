@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dbt_architect_enterprise_architecture_001",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "enterprise dbt architecture",
+    "scenario": "A global enterprise wants dbt as the standard transformation layer across several business units and cloud warehouses.",
+    "question": "What enterprise architecture would you propose?",
+    "expected_points": [
+      {"point": "Defines federated domain ownership with central standards", "keywords": ["federated", "domain", "standards"], "weight": 3},
+      {"point": "Standardizes CI/CD, environments, and metadata", "keywords": ["CI", "environment", "metadata"], "weight": 2},
+      {"point": "Addresses governance, contracts, and access control", "keywords": ["governance", "contracts", "access"], "weight": 3},
+      {"point": "Plans for observability and operating model", "keywords": ["observability", "operating model", "support"], "weight": 2}
+    ],
+    "explanation": "Enterprise dbt architecture should combine platform consistency with domain autonomy and clear governance.",
+    "ideal_answer": "I would use a federated model: central platform standards for CI/CD, environments, packages, metadata, and governance, while domain teams own their dbt models and certified data products. Cross-domain contracts, observability, and support processes would be mandatory.",
+    "tags": ["dbt", "enterprise_architecture", "federated_governance"]
+  },
+  {
+    "id": "dbt_architect_governance_002",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "data contracts",
+    "scenario": "Several downstream applications consume dbt models as product-grade datasets.",
+    "question": "How would you design a data contract strategy around dbt?",
+    "expected_points": [
+      {"point": "Defines schema and semantic expectations", "keywords": ["schema", "semantic", "expectations"], "weight": 3},
+      {"point": "Uses dbt contracts, tests, and documentation", "keywords": ["contracts", "tests", "documentation"], "weight": 3},
+      {"point": "Introduces versioning and deprecation process", "keywords": ["version", "deprecation", "breaking"], "weight": 2},
+      {"point": "Aligns producers and consumers", "keywords": ["producer", "consumer", "owner"], "weight": 2}
+    ],
+    "explanation": "Data contracts require technical checks and human process. dbt can enforce parts of the contract, but ownership and change management are essential.",
+    "ideal_answer": "I would define contracts for critical models covering schema, types, freshness, and business rules; enforce them with dbt contracts and tests; document owners and consumers; and require versioning or deprecation for breaking changes.",
+    "tags": ["dbt", "data_contracts", "governance", "change_management"]
+  },
+  {
+    "id": "dbt_architect_platform_design_003",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "operating model",
+    "scenario": "The organization wants a clear operating model for dbt ownership, support, and platform evolution.",
+    "question": "What operating model would you recommend?",
+    "expected_points": [
+      {"point": "Separates platform team and domain team responsibilities", "keywords": ["platform team", "domain", "responsibility"], "weight": 3},
+      {"point": "Defines support, incident, and escalation paths", "keywords": ["support", "incident", "escalation"], "weight": 2},
+      {"point": "Creates standards and enablement", "keywords": ["standards", "enablement", "training"], "weight": 2},
+      {"point": "Uses metrics to govern platform health", "keywords": ["metrics", "health", "adoption"], "weight": 3}
+    ],
+    "explanation": "An enterprise dbt platform needs an operating model, not just repositories. Teams need clarity on who owns standards, models, incidents, and improvements.",
+    "ideal_answer": "I would make the platform team responsible for tooling, templates, CI/CD, metadata, and standards, while domain teams own data products and incidents for their models. I would add support tiers, office hours, reliability metrics, and governance reviews.",
+    "tags": ["dbt", "operating_model", "platform_design"]
+  },
+  {
+    "id": "dbt_architect_cost_optimization_004",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "enterprise cost controls",
+    "scenario": "dbt workloads run across multiple warehouses and cost attribution is unclear.",
+    "question": "How would you architect cost governance for dbt at enterprise scale?",
+    "expected_points": [
+      {"point": "Tags or attributes cost by domain/job/model", "keywords": ["tag", "cost attribution", "domain"], "weight": 3},
+      {"point": "Optimizes schedules and materializations", "keywords": ["schedule", "materialization", "incremental"], "weight": 3},
+      {"point": "Defines budgets and guardrails", "keywords": ["budget", "guardrail", "quota"], "weight": 2},
+      {"point": "Connects cost to business freshness needs", "keywords": ["freshness", "SLA", "business"], "weight": 2}
+    ],
+    "explanation": "Enterprise dbt cost control requires visibility, ownership, guardrails, and SLA-aware scheduling decisions.",
+    "ideal_answer": "I would attribute dbt cost by domain, job, and model where possible; optimize high-cost models and schedules; require incremental strategies for large datasets; set budgets and guardrails; and review whether freshness SLAs justify compute spend.",
+    "tags": ["dbt", "cost_optimization", "governance", "enterprise"]
+  },
+  {
+    "id": "dbt_architect_reliability_005",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "resilient transformation platform",
+    "scenario": "A regulated business depends on dbt marts for daily financial reporting.",
+    "question": "What reliability controls would you require?",
+    "expected_points": [
+      {"point": "Defines SLAs for critical data products", "keywords": ["SLA", "critical", "freshness"], "weight": 3},
+      {"point": "Requires tests, contracts, and source freshness", "keywords": ["tests", "contracts", "freshness"], "weight": 3},
+      {"point": "Defines rollback, rerun, and backfill procedures", "keywords": ["rollback", "rerun", "backfill"], "weight": 2},
+      {"point": "Adds observability and incident ownership", "keywords": ["observability", "incident", "owner"], "weight": 2}
+    ],
+    "explanation": "Critical reporting needs controls before, during, and after dbt execution: validation, observability, recovery, and accountable ownership.",
+    "ideal_answer": "I would define SLAs for critical marts, enforce source freshness and model contracts, run production tests, monitor runtime and failures, maintain rollback/backfill runbooks, and assign owners for incident response.",
+    "tags": ["dbt", "reliability", "regulated_reporting", "operations"]
+  },
+  {
+    "id": "dbt_architect_security_006",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "expert",
+    "concept": "secure dbt deployment",
+    "scenario": "dbt jobs need access to production data, but the security team wants least privilege and auditability.",
+    "question": "How would you design secure dbt execution?",
+    "expected_points": [
+      {"point": "Uses service accounts with least privilege", "keywords": ["service account", "least privilege", "role"], "weight": 3},
+      {"point": "Separates dev and prod permissions", "keywords": ["dev", "prod", "permissions"], "weight": 2},
+      {"point": "Protects secrets and credentials", "keywords": ["secrets", "credentials", "vault"], "weight": 2},
+      {"point": "Audits deployments and data access", "keywords": ["audit", "logs", "deployment"], "weight": 3}
+    ],
+    "explanation": "dbt execution security depends on warehouse permissions, environment separation, credential management, and audit controls.",
+    "ideal_answer": "I would run production jobs with dedicated service accounts, grant only required schemas and operations, separate dev/prod roles, store credentials in managed secrets, and audit both deployments and warehouse access.",
+    "tags": ["dbt", "security", "least_privilege", "audit"]
+  },
+  {
+    "id": "dbt_architect_governance_007",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "metadata governance",
+    "scenario": "The chief data office wants a catalog of certified models, owners, tests, lineage, and downstream assets.",
+    "question": "How would dbt fit into the broader metadata and governance architecture?",
+    "expected_points": [
+      {"point": "Uses dbt artifacts and docs metadata", "keywords": ["artifacts", "manifest", "docs"], "weight": 3},
+      {"point": "Integrates with catalog or governance tools", "keywords": ["catalog", "governance", "metadata"], "weight": 2},
+      {"point": "Tracks owners, exposures, tests, and lineage", "keywords": ["owners", "exposures", "tests", "lineage"], "weight": 3},
+      {"point": "Defines certification and review process", "keywords": ["certification", "review", "process"], "weight": 2}
+    ],
+    "explanation": "dbt produces valuable metadata, but enterprise governance usually requires integration with cataloging, ownership, and review processes.",
+    "ideal_answer": "I would ingest dbt artifacts into the enterprise catalog, expose model descriptions, owners, tests, lineage, and exposures, and define a certification workflow for trusted data products with periodic review.",
+    "tags": ["dbt", "metadata", "catalog", "governance"]
+  },
+  {
+    "id": "dbt_architect_platform_design_008",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "multi-environment design",
+    "scenario": "An enterprise needs dbt development, QA, and production workflows across many teams.",
+    "question": "How would you design the environment strategy?",
+    "expected_points": [
+      {"point": "Separates development, QA, and production targets", "keywords": ["development", "QA", "production", "targets"], "weight": 3},
+      {"point": "Uses isolated schemas for PR validation", "keywords": ["isolated", "schema", "PR"], "weight": 2},
+      {"point": "Promotes tested code through controlled deployment", "keywords": ["promote", "deployment", "controlled"], "weight": 2},
+      {"point": "Manages secrets and permissions per environment", "keywords": ["secrets", "permissions", "environment"], "weight": 3}
+    ],
+    "explanation": "Environment design prevents accidental production impact and enables meaningful validation before release.",
+    "ideal_answer": "I would use isolated development schemas, QA or staging validation for release candidates, production-only service credentials for scheduled jobs, and promotion through CI/CD with environment-specific permissions and secrets.",
+    "tags": ["dbt", "environments", "platform_design", "ci_cd"]
+  },
+  {
+    "id": "dbt_architect_reliability_009",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "disaster recovery for transformations",
+    "scenario": "A warehouse migration or major dbt release corrupts several downstream marts.",
+    "question": "What recovery strategy should exist for dbt-managed datasets?",
+    "expected_points": [
+      {"point": "Defines rollback to known-good code", "keywords": ["rollback", "known-good", "version"], "weight": 3},
+      {"point": "Uses backups, clones, or time travel where supported", "keywords": ["backup", "clone", "time travel"], "weight": 2},
+      {"point": "Defines rebuild and backfill order using lineage", "keywords": ["rebuild", "backfill", "lineage"], "weight": 3},
+      {"point": "Validates recovered data with tests", "keywords": ["tests", "validation", "quality"], "weight": 2}
+    ],
+    "explanation": "dbt recovery combines code rollback, warehouse recovery capabilities, lineage-aware rebuilds, and validation.",
+    "ideal_answer": "I would keep versioned releases, rollback to known-good dbt code, use warehouse time travel or backups where available, rebuild affected models in lineage order, run validation tests, and communicate downstream impact until recovery is complete.",
+    "tags": ["dbt", "disaster_recovery", "rollback", "lineage"]
+  },
+  {
+    "id": "dbt_architect_enterprise_architecture_010",
+    "domain": "dbt",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "dbt in the modern data stack",
+    "scenario": "A board-level architecture review asks where dbt should sit relative to ingestion, orchestration, catalog, BI, and ML platforms.",
+    "question": "How would you explain dbt's role and boundaries?",
+    "expected_points": [
+      {"point": "Positions dbt as transformation and metadata layer", "keywords": ["transformation", "metadata", "lineage"], "weight": 3},
+      {"point": "Clarifies what dbt should not own", "keywords": ["ingestion", "orchestration", "BI", "ML"], "weight": 2},
+      {"point": "Explains integrations with orchestrators and catalogs", "keywords": ["orchestrator", "catalog", "integration"], "weight": 2},
+      {"point": "Connects dbt to governance and data product quality", "keywords": ["governance", "data product", "quality"], "weight": 3}
+    ],
+    "explanation": "Architects should define dbt as part of a broader platform, with clear responsibilities and integration boundaries.",
+    "ideal_answer": "dbt should own warehouse/lakehouse transformations, tests, documentation, and lineage metadata. It should integrate with ingestion tools, orchestrators, catalogs, BI, and ML platforms, but not replace them. Its value is governed, testable, version-controlled transformation logic for trusted data products.",
+    "tags": ["dbt", "modern_data_stack", "enterprise_architecture"]
+  }
+]

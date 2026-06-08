@@ -1,0 +1,192 @@
+[
+  {
+    "id": "git_senior_architecture_001",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "repository architecture",
+    "scenario": "Your organization has separate dbt, Airflow, and Terraform repositories, but releases often need coordinated changes across all three.",
+    "question": "How would you design the repository and release workflow?",
+    "expected_points": [
+      {"point": "Compares mono-repo and multi-repo trade-offs", "keywords": ["mono-repo", "multi-repo", "trade-off"], "weight": 3},
+      {"point": "Defines dependency and release coordination", "keywords": ["dependency", "release", "coordination"], "weight": 3},
+      {"point": "Uses CI/CD checks per repo type", "keywords": ["CI", "dbt", "Airflow", "Terraform"], "weight": 2},
+      {"point": "Addresses ownership and rollback", "keywords": ["ownership", "rollback"], "weight": 2}
+    ],
+    "explanation": "Senior engineers should design repository workflows around deployment boundaries, ownership, risk, and coordination cost.",
+    "ideal_answer": "I would choose repo boundaries based on ownership and deployment coupling. If repos stay separate, I would use linked PRs, versioned releases, CI checks per repo, clear deployment order, and rollback plans. A mono-repo may help atomic changes but needs stronger ownership and CI filtering.",
+    "tags": ["git", "repository_architecture", "release_management"]
+  },
+  {
+    "id": "git_senior_reliability_002",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "release strategy",
+    "scenario": "A critical Airflow deployment failed after a merge to main and interrupted morning data availability.",
+    "question": "What release strategy would reduce this production risk?",
+    "expected_points": [
+      {"point": "Requires CI checks before merge", "keywords": ["CI", "checks", "before merge"], "weight": 2},
+      {"point": "Uses staged deployment or environment promotion", "keywords": ["staged", "environment", "promotion"], "weight": 3},
+      {"point": "Defines rollback and hotfix process", "keywords": ["rollback", "hotfix"], "weight": 3},
+      {"point": "Aligns deployment windows with data SLAs", "keywords": ["deployment window", "SLA", "availability"], "weight": 2}
+    ],
+    "explanation": "Release strategy should reduce blast radius and support fast recovery when production pipeline code breaks.",
+    "ideal_answer": "I would require DAG validation in CI, promote changes through staging before production, schedule risky deploys outside critical SLA windows, and maintain a documented rollback or hotfix path tied to Git commits.",
+    "tags": ["git", "release_strategy", "airflow", "reliability"]
+  },
+  {
+    "id": "git_senior_troubleshooting_003",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "incident RCA with Git",
+    "scenario": "A BigQuery dataset was accidentally recreated after a Terraform repository merge.",
+    "question": "How would you use Git and CI/CD artifacts during the RCA?",
+    "expected_points": [
+      {"point": "Finds the exact commit, PR, and approvers", "keywords": ["commit", "PR", "approver"], "weight": 3},
+      {"point": "Reviews Terraform plan and CI outputs", "keywords": ["plan", "CI", "artifact"], "weight": 3},
+      {"point": "Identifies missing guardrails or review gaps", "keywords": ["guardrail", "review", "policy"], "weight": 2},
+      {"point": "Adds prevention such as policy checks", "keywords": ["policy", "prevent", "check"], "weight": 2}
+    ],
+    "explanation": "Git history and CI artifacts are key evidence in infrastructure incidents because they show intent, approval, and predicted changes.",
+    "ideal_answer": "I would trace the deployed commit and PR, review approvers and discussion, inspect the Terraform plan artifact, identify why destructive changes passed review, then add guardrails such as policy checks, stronger approvals, or protected resources.",
+    "tags": ["git", "terraform", "rca", "auditability"]
+  },
+  {
+    "id": "git_senior_governance_004",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "protected branch policy",
+    "scenario": "A data platform team wants to enforce protected branches across dbt, Airflow, and Terraform repositories.",
+    "question": "What branch protection rules would you recommend and why?",
+    "expected_points": [
+      {"point": "Requires PR review and CODEOWNERS where relevant", "keywords": ["PR review", "CODEOWNERS"], "weight": 3},
+      {"point": "Requires passing CI checks", "keywords": ["CI", "checks"], "weight": 3},
+      {"point": "Restricts direct pushes and force pushes", "keywords": ["direct push", "force push", "protected"], "weight": 2},
+      {"point": "Considers emergency break-glass process", "keywords": ["break-glass", "emergency"], "weight": 2}
+    ],
+    "explanation": "Protected branches enforce the engineering controls needed before code reaches production systems.",
+    "ideal_answer": "I would require PRs, CODEOWNERS for sensitive areas, passing CI checks, no direct or force pushes, and signed or traceable commits where needed. I would also define a monitored break-glass process for true production emergencies.",
+    "tags": ["git", "protected_branches", "governance"]
+  },
+  {
+    "id": "git_senior_architecture_005",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "CI/CD architecture",
+    "scenario": "Your team wants GitHub Actions to validate all data platform changes before deployment.",
+    "question": "How would you design CI/CD checks for dbt, Airflow, and Terraform changes?",
+    "expected_points": [
+      {"point": "Runs repo-specific validation", "keywords": ["dbt build", "DAG", "terraform plan"], "weight": 4},
+      {"point": "Uses path filters or changed-file detection", "keywords": ["path filter", "changed files", "select"], "weight": 2},
+      {"point": "Separates validation from deployment", "keywords": ["validation", "deployment", "approval"], "weight": 2},
+      {"point": "Stores artifacts and logs for audit", "keywords": ["artifact", "logs", "audit"], "weight": 2}
+    ],
+    "explanation": "Data platform CI/CD should validate the right thing for each repo type and preserve enough evidence for troubleshooting.",
+    "ideal_answer": "I would use changed-file detection to run dbt compile/build/tests for dbt changes, DAG import/lint tests for Airflow, and terraform validate/plan for infrastructure. Deployment should require approval, and plans/logs should be stored as artifacts.",
+    "tags": ["git", "github_actions", "ci_cd", "data_platform"]
+  },
+  {
+    "id": "git_senior_troubleshooting_006",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "rebase risk",
+    "scenario": "A team member rebased and force-pushed a shared release branch, confusing deployment history.",
+    "question": "How would you respond and what policy would you set?",
+    "expected_points": [
+      {"point": "Restores or reconciles branch history safely", "keywords": ["restore", "history", "reconcile"], "weight": 3},
+      {"point": "Explains why force-push is risky on shared branches", "keywords": ["force-push", "shared branch", "risk"], "weight": 3},
+      {"point": "Protects release branches", "keywords": ["protected", "release branch"], "weight": 2},
+      {"point": "Clarifies when rebase is acceptable", "keywords": ["rebase", "local", "feature branch"], "weight": 2}
+    ],
+    "explanation": "Rebase can be useful locally, but rewriting shared branch history breaks auditability and deployment traceability.",
+    "ideal_answer": "I would recover the expected branch state from remote refs or commits, communicate deployment impact, disable force-push on shared branches, and allow rebase only on private feature branches before review.",
+    "tags": ["git", "rebase", "force_push", "auditability"]
+  },
+  {
+    "id": "git_senior_reliability_007",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "rollback strategy",
+    "scenario": "A bad dbt model change has already been deployed and downstream dashboards are wrong.",
+    "question": "Compare reverting the Git commit versus applying a forward hotfix.",
+    "expected_points": [
+      {"point": "Explains revert is safer when the previous state is known-good", "keywords": ["revert", "known-good"], "weight": 3},
+      {"point": "Explains hotfix can be appropriate for small targeted correction", "keywords": ["hotfix", "targeted"], "weight": 2},
+      {"point": "Considers data correction/backfill after code fix", "keywords": ["backfill", "data correction", "rerun"], "weight": 3},
+      {"point": "Maintains review and audit trail", "keywords": ["review", "audit", "PR"], "weight": 2}
+    ],
+    "explanation": "Rollback decisions depend on risk, confidence, and whether bad data needs correction after code recovery.",
+    "ideal_answer": "If the previous version is known-good and fast recovery matters, I would revert the commit through a reviewed PR. If the bug is small and reverting would remove other needed work, I might hotfix forward. Either way, I would rerun or backfill affected data and preserve auditability.",
+    "tags": ["git", "rollback", "dbt", "incident"]
+  },
+  {
+    "id": "git_senior_governance_008",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "code ownership",
+    "scenario": "Sensitive Terraform modules and shared Airflow operators are being changed without expert review.",
+    "question": "How would you implement code ownership controls?",
+    "expected_points": [
+      {"point": "Uses CODEOWNERS for sensitive paths", "keywords": ["CODEOWNERS", "paths", "sensitive"], "weight": 3},
+      {"point": "Requires specialist approvals", "keywords": ["approval", "specialist", "review"], "weight": 2},
+      {"point": "Combines ownership with CI and branch protection", "keywords": ["CI", "branch protection", "checks"], "weight": 3},
+      {"point": "Documents ownership and escalation", "keywords": ["documentation", "owner", "escalation"], "weight": 2}
+    ],
+    "explanation": "Code ownership makes sure changes in high-risk areas are reviewed by people accountable for the platform contract.",
+    "ideal_answer": "I would define CODEOWNERS for Terraform modules, shared Airflow libraries, and release workflows, require their approval on PRs, enforce CI checks, protect main branches, and document ownership/escalation for each area.",
+    "tags": ["git", "code_ownership", "governance", "terraform", "airflow"]
+  },
+  {
+    "id": "git_senior_architecture_009",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "deployment workflow",
+    "scenario": "Data engineers merge code to main, but deployments are manual and inconsistent across environments.",
+    "question": "How would you design a Git-based deployment workflow?",
+    "expected_points": [
+      {"point": "Defines environment promotion from dev to prod", "keywords": ["dev", "staging", "prod", "promotion"], "weight": 3},
+      {"point": "Uses tags, releases, or commit SHAs", "keywords": ["tag", "release", "SHA"], "weight": 2},
+      {"point": "Automates validation and deployment gates", "keywords": ["automation", "validation", "gate"], "weight": 3},
+      {"point": "Supports rollback and auditability", "keywords": ["rollback", "audit"], "weight": 2}
+    ],
+    "explanation": "A Git-based deployment workflow should make code versions traceable and environment promotion predictable.",
+    "ideal_answer": "I would deploy from reviewed commits or release tags, promote through environments with automated validation gates, record deployed SHAs, and define rollback to known-good commits or tags.",
+    "tags": ["git", "deployment_workflow", "release_management"]
+  },
+  {
+    "id": "git_senior_troubleshooting_010",
+    "domain": "Git",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "large repository performance",
+    "scenario": "A data platform repository has become slow because it contains generated artifacts, logs, and large data samples.",
+    "question": "How would you clean this up without losing important auditability?",
+    "expected_points": [
+      {"point": "Removes generated or large files from future commits", "keywords": ["generated", "large files", "gitignore"], "weight": 3},
+      {"point": "Moves data samples/artifacts to appropriate storage", "keywords": ["object storage", "artifact", "sample"], "weight": 2},
+      {"point": "Handles history rewrite carefully if needed", "keywords": ["history", "rewrite", "careful"], "weight": 2},
+      {"point": "Defines repository hygiene standards", "keywords": ["standards", "hygiene", "policy"], "weight": 3}
+    ],
+    "explanation": "Git is not a data lake or artifact store. Large generated files make repos slow and harder to operate.",
+    "ideal_answer": "I would add .gitignore rules, move logs/artifacts/data samples to artifact or object storage, use Git LFS only if appropriate, carefully plan any history rewrite, and document standards for what belongs in the repo.",
+    "tags": ["git", "repository_hygiene", "large_files", "operations"]
+  }
+]

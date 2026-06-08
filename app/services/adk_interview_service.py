@@ -243,6 +243,12 @@ def build_interview_report_pdf(report, history, role, domain, generated_at=None)
         "",
         "Strengths",
     ]
+    domain_scores = report.get("domain_scores", {})
+    if domain_scores:
+        lines = lines[:-1] + ["Domain-wise results"]
+        lines.extend(f"- {score_domain}: {score}/10" for score_domain, score in domain_scores.items())
+        lines.extend(["", "Strengths"])
+
     lines.extend(f"- {item}" for item in report.get("strengths", []))
     lines.extend(["", "Weak areas"])
     lines.extend(f"- {item}" for item in report.get("gaps", []))
@@ -257,6 +263,7 @@ def build_interview_report_pdf(report, history, role, domain, generated_at=None)
             [
                 "",
                 f"Question {index}: {question.get('question', '')}",
+                f"Key concept: {question.get('concept') or question.get('category') or question.get('question_type') or 'General data engineering'}",
                 f"User answer: {item.get('answer', '')}",
                 f"Score: {evaluation.get('score', 0)}/10",
                 f"Explanation: {evaluation.get('explanation', '')}",

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "git_architect_enterprise_architecture_001",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "enterprise Git strategy",
+    "scenario": "A large enterprise wants one Git operating model for data engineering across cloud, analytics, ML, and platform teams.",
+    "question": "What enterprise Git strategy would you propose?",
+    "expected_points": [
+      {"point": "Defines common standards for repos, branches, reviews, and releases", "keywords": ["standards", "branches", "reviews", "releases"], "weight": 3},
+      {"point": "Supports domain autonomy with central guardrails", "keywords": ["domain", "autonomy", "guardrails"], "weight": 3},
+      {"point": "Integrates CI/CD, security, and auditability", "keywords": ["CI", "security", "audit"], "weight": 2},
+      {"point": "Defines governance and operating model", "keywords": ["governance", "operating model"], "weight": 2}
+    ],
+    "explanation": "Enterprise Git strategy should standardize controls without making every team use the exact same implementation details.",
+    "ideal_answer": "I would define enterprise standards for branch protection, PR review, CODEOWNERS, CI/CD, release traceability, and access control, while allowing domains to choose repo boundaries and workflows within those guardrails.",
+    "tags": ["git", "enterprise_strategy", "governance", "platform"]
+  },
+  {
+    "id": "git_architect_governance_002",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "SDLC governance",
+    "scenario": "The company needs SDLC governance for code that changes data pipelines, infrastructure, and access policies.",
+    "question": "How would Git fit into SDLC governance?",
+    "expected_points": [
+      {"point": "Uses Git as the system of record for code changes", "keywords": ["system of record", "code changes"], "weight": 3},
+      {"point": "Enforces review, validation, approval, and deployment evidence", "keywords": ["review", "validation", "approval", "deployment"], "weight": 3},
+      {"point": "Integrates with change management and audit tools", "keywords": ["change management", "audit", "integration"], "weight": 2},
+      {"point": "Handles emergency changes explicitly", "keywords": ["emergency", "break-glass"], "weight": 2}
+    ],
+    "explanation": "Git can anchor SDLC governance by preserving traceable evidence of review, validation, and deployment decisions.",
+    "ideal_answer": "Git should be the system of record for code changes. PRs, CI results, approvals, deployed SHAs, and linked change records should provide auditable evidence, with a controlled break-glass process for emergencies.",
+    "tags": ["git", "sdlc", "governance", "audit"]
+  },
+  {
+    "id": "git_architect_platform_design_003",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "platform engineering",
+    "scenario": "The platform team wants to provide golden paths for data engineering repositories.",
+    "question": "What should the Git-based platform include?",
+    "expected_points": [
+      {"point": "Provides repository templates and reusable workflows", "keywords": ["templates", "reusable workflows"], "weight": 3},
+      {"point": "Includes secure defaults and policy checks", "keywords": ["secure defaults", "policy", "checks"], "weight": 3},
+      {"point": "Supports observability and deployment traceability", "keywords": ["observability", "deployment", "traceability"], "weight": 2},
+      {"point": "Includes documentation and support model", "keywords": ["documentation", "support", "enablement"], "weight": 2}
+    ],
+    "explanation": "A platform approach makes safe Git workflows easy to adopt by default rather than relying on each team to design them.",
+    "ideal_answer": "The platform should provide repo templates for dbt, Airflow, Terraform, and pipeline code, reusable CI/CD workflows, secret scanning, policy checks, CODEOWNERS patterns, deployment traceability, and clear documentation/support.",
+    "tags": ["git", "platform_engineering", "golden_path", "ci_cd"]
+  },
+  {
+    "id": "git_architect_governance_004",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "compliance",
+    "scenario": "A financial services company must prove that production data pipeline changes follow separation of duties.",
+    "question": "How would you design Git controls for separation of duties?",
+    "expected_points": [
+      {"point": "Separates author, reviewer, approver, and deployer where required", "keywords": ["author", "reviewer", "approver", "deployer"], "weight": 3},
+      {"point": "Uses branch protections and required approvals", "keywords": ["branch protection", "approval"], "weight": 2},
+      {"point": "Uses auditable CI/CD and deployment records", "keywords": ["CI", "deployment", "audit"], "weight": 3},
+      {"point": "Controls admin permissions and exceptions", "keywords": ["admin", "exception", "break-glass"], "weight": 2}
+    ],
+    "explanation": "Separation of duties requires both technical enforcement and auditable evidence.",
+    "ideal_answer": "I would enforce branch protection, required independent reviewers, restricted admin access, CI checks, deployment records tied to SHAs, and monitored exception handling so the same person cannot silently author, approve, and deploy high-risk changes.",
+    "tags": ["git", "compliance", "separation_of_duties", "audit"]
+  },
+  {
+    "id": "git_architect_reliability_005",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "release reliability",
+    "scenario": "A company wants to reduce incidents caused by data platform releases without slowing delivery too much.",
+    "question": "What release reliability model would you design around Git?",
+    "expected_points": [
+      {"point": "Classifies release risk by system and data product criticality", "keywords": ["risk", "criticality", "data product"], "weight": 3},
+      {"point": "Uses automated validation and progressive promotion", "keywords": ["validation", "promotion", "environment"], "weight": 3},
+      {"point": "Defines rollback and recovery procedures", "keywords": ["rollback", "recovery"], "weight": 2},
+      {"point": "Tracks release metrics and incident outcomes", "keywords": ["metrics", "incident", "outcomes"], "weight": 2}
+    ],
+    "explanation": "Release reliability should match controls to risk, automate the basics, and preserve speed for low-risk changes.",
+    "ideal_answer": "I would classify changes by risk, require stronger approvals for critical pipeline and infrastructure changes, automate CI validation, promote through environments, record deployed SHAs, define rollback procedures, and track release incident metrics.",
+    "tags": ["git", "release_reliability", "sdlc", "operations"]
+  },
+  {
+    "id": "git_architect_security_006",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "expert",
+    "concept": "repository security",
+    "scenario": "Data engineering repositories include infrastructure code, deployment workflows, and references to production systems.",
+    "question": "What security controls should be part of the enterprise Git architecture?",
+    "expected_points": [
+      {"point": "Uses least-privilege repository access", "keywords": ["least privilege", "access"], "weight": 2},
+      {"point": "Enables secret scanning and dependency checks", "keywords": ["secret scanning", "dependency", "vulnerability"], "weight": 3},
+      {"point": "Protects workflows and deployment credentials", "keywords": ["workflow", "credentials", "OIDC"], "weight": 3},
+      {"point": "Audits admin actions and exceptions", "keywords": ["audit", "admin", "exception"], "weight": 2}
+    ],
+    "explanation": "Git repositories can become production control planes, so repository and workflow security matter as much as code review.",
+    "ideal_answer": "I would enforce least-privilege access, branch protection, secret scanning, dependency checks, workflow permission controls, short-lived cloud credentials where possible, and audit logging for admin or exception actions.",
+    "tags": ["git", "security", "repository_controls", "ci_cd"]
+  },
+  {
+    "id": "git_architect_enterprise_architecture_007",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "repo topology",
+    "scenario": "The enterprise is debating mono-repo versus multi-repo for data engineering platforms.",
+    "question": "How would you evaluate the decision?",
+    "expected_points": [
+      {"point": "Evaluates deployment coupling and ownership", "keywords": ["deployment", "coupling", "ownership"], "weight": 3},
+      {"point": "Considers CI scalability and developer experience", "keywords": ["CI", "scalability", "developer experience"], "weight": 2},
+      {"point": "Considers governance and access boundaries", "keywords": ["governance", "access", "boundary"], "weight": 3},
+      {"point": "Avoids one-size-fits-all answer", "keywords": ["trade-off", "context"], "weight": 2}
+    ],
+    "explanation": "Repo topology depends on how systems are owned, deployed, secured, and validated.",
+    "ideal_answer": "I would choose topology based on ownership, deployment coupling, access boundaries, CI scalability, and cross-repo dependencies. Mono-repos simplify atomic changes but require strong CI filtering and access design; multi-repos improve ownership isolation but need coordination for releases.",
+    "tags": ["git", "repo_topology", "enterprise_architecture", "trade_offs"]
+  },
+  {
+    "id": "git_architect_platform_design_008",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "workflow standardization",
+    "scenario": "The organization wants consistent workflows across GitHub, GitLab, and Azure DevOps repos.",
+    "question": "How would you define standards that survive different Git platforms?",
+    "expected_points": [
+      {"point": "Defines platform-neutral control objectives", "keywords": ["control objectives", "platform-neutral"], "weight": 3},
+      {"point": "Maps controls to each platform's features", "keywords": ["map", "GitHub", "GitLab", "Azure DevOps"], "weight": 2},
+      {"point": "Standardizes evidence and audit requirements", "keywords": ["evidence", "audit", "requirements"], "weight": 3},
+      {"point": "Provides templates and enablement", "keywords": ["templates", "enablement"], "weight": 2}
+    ],
+    "explanation": "Enterprises may use multiple Git platforms. Standards should describe required outcomes, then map to platform-specific settings.",
+    "ideal_answer": "I would define control objectives such as reviewed PRs, required validation, protected release branches, traceable deployments, and audit logs, then map those to GitHub, GitLab, or Azure DevOps features with templates and guidance.",
+    "tags": ["git", "workflow_standardization", "platform_design"]
+  },
+  {
+    "id": "git_architect_governance_009",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "data governance integration",
+    "scenario": "Data governance wants to connect code changes to data products, owners, and policy controls.",
+    "question": "How would Git integrate with the data governance operating model?",
+    "expected_points": [
+      {"point": "Links repos and PRs to data products or domains", "keywords": ["data product", "domain", "PR"], "weight": 3},
+      {"point": "Uses ownership metadata and CODEOWNERS", "keywords": ["ownership", "CODEOWNERS"], "weight": 2},
+      {"point": "Connects changes to policy and catalog metadata", "keywords": ["policy", "catalog", "metadata"], "weight": 3},
+      {"point": "Supports audit and incident review", "keywords": ["audit", "incident"], "weight": 2}
+    ],
+    "explanation": "Git can provide change evidence that complements catalog, lineage, ownership, and policy systems.",
+    "ideal_answer": "I would map repositories and paths to data domains/products, use CODEOWNERS for accountable review, link PRs to catalog or policy metadata where possible, and use Git history during audits and incident reviews.",
+    "tags": ["git", "data_governance", "metadata", "audit"]
+  },
+  {
+    "id": "git_architect_reliability_010",
+    "domain": "Git",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "enterprise rollback strategy",
+    "scenario": "A multi-repo release involving Terraform, Airflow, and dbt causes a production outage.",
+    "question": "What enterprise rollback strategy should exist before this happens?",
+    "expected_points": [
+      {"point": "Records coordinated release versions across repos", "keywords": ["release", "version", "repos"], "weight": 3},
+      {"point": "Defines rollback order and dependencies", "keywords": ["rollback order", "dependencies"], "weight": 3},
+      {"point": "Includes data correction and backfill procedures", "keywords": ["data correction", "backfill"], "weight": 2},
+      {"point": "Runs post-incident review and control updates", "keywords": ["post-incident", "review", "controls"], "weight": 2}
+    ],
+    "explanation": "Multi-repo rollback is hard unless release versions, dependencies, and recovery steps are defined before an incident.",
+    "ideal_answer": "I would maintain a coordinated release manifest with commit SHAs or tags for each repo, define rollback order across infrastructure, orchestration, and transformation code, include data correction/backfill steps, and update controls after RCA.",
+    "tags": ["git", "rollback", "enterprise_operations", "multi_repo"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "databricks_lead_arch_001",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Databricks platform architecture",
+    "scenario": "Multiple teams need a shared Databricks platform for batch ETL, streaming, BI, and governed data products.",
+    "question": "What reference architecture would you propose?",
+    "expected_points": [
+      {"point": "Defines medallion lakehouse layers", "keywords": ["medallion", "bronze", "silver", "gold"], "weight": 3},
+      {"point": "Includes jobs, streaming, and SQL serving", "keywords": ["jobs", "streaming", "sql"], "weight": 2},
+      {"point": "Includes Unity Catalog governance", "keywords": ["unity catalog", "governance", "lineage"], "weight": 3},
+      {"point": "Includes observability, cost, and reliability standards", "keywords": ["observability", "cost", "reliability"], "weight": 2}
+    ],
+    "explanation": "A lead-level Databricks architecture should combine lakehouse layers, compute patterns, governance, and operations.",
+    "ideal_answer": "I would define Bronze/Silver/Gold Delta layers, workflows for batch and streaming, SQL warehouses for consumption, Unity Catalog for governance, job clusters and cluster policies, quality gates, monitoring, cost controls, and CI/CD standards.",
+    "tags": ["databricks", "architecture", "lakehouse", "unity_catalog"]
+  },
+  {
+    "id": "databricks_lead_trade_002",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Shared platform vs team autonomy",
+    "scenario": "Domain teams want freedom to create clusters and tables, while the platform team wants strict standards.",
+    "question": "How would you balance autonomy and governance?",
+    "expected_points": [
+      {"point": "Separates platform guardrails from domain ownership", "keywords": ["guardrail", "domain", "ownership"], "weight": 3},
+      {"point": "Uses cluster policies and Unity Catalog standards", "keywords": ["cluster policy", "unity catalog", "standard"], "weight": 3},
+      {"point": "Supports self-service within safe defaults", "keywords": ["self-service", "default", "enablement"], "weight": 2},
+      {"point": "Defines exception and review process", "keywords": ["exception", "review", "process"], "weight": 2}
+    ],
+    "explanation": "A healthy platform gives teams autonomy through paved roads, not unrestricted access.",
+    "ideal_answer": "I would give teams self-service templates, approved cluster policies, Unity Catalog naming and access standards, and domain ownership of data products, with exceptions reviewed for cost, security, and reliability risk.",
+    "tags": ["databricks", "governance", "self_service", "operating_model"]
+  },
+  {
+    "id": "databricks_lead_stakeholder_003",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Unity Catalog adoption",
+    "scenario": "Security wants Unity Catalog enabled quickly, but analysts fear losing access to existing tables and notebooks.",
+    "question": "How would you lead the rollout?",
+    "expected_points": [
+      {"point": "Phases rollout by risk and business criticality", "keywords": ["phase", "risk", "critical"], "weight": 3},
+      {"point": "Maps existing access and communicates changes", "keywords": ["access", "communicate", "map"], "weight": 3},
+      {"point": "Provides enablement and migration support", "keywords": ["enablement", "migration", "support"], "weight": 2},
+      {"point": "Measures adoption and access friction", "keywords": ["measure", "adoption", "friction"], "weight": 2}
+    ],
+    "explanation": "Governance rollouts fail when they ignore user workflows; migration needs communication and support.",
+    "ideal_answer": "I would start with sensitive assets, inventory current permissions, define catalog/schema ownership, provide migration guides and office hours, validate key workloads, and track access issues and adoption metrics.",
+    "tags": ["databricks", "unity_catalog", "stakeholders", "migration"]
+  },
+  {
+    "id": "databricks_lead_gov_004",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Data product ownership",
+    "scenario": "Gold tables are widely used, but ownership, quality SLAs, and access approval paths are unclear.",
+    "question": "What governance model would you introduce?",
+    "expected_points": [
+      {"point": "Defines data product owners and stewards", "keywords": ["owner", "steward", "data product"], "weight": 3},
+      {"point": "Uses Unity Catalog metadata and grants", "keywords": ["unity catalog", "metadata", "grant"], "weight": 3},
+      {"point": "Defines quality SLAs and incident routes", "keywords": ["sla", "quality", "incident"], "weight": 2},
+      {"point": "Defines access workflow and reviews", "keywords": ["access", "workflow", "review"], "weight": 2}
+    ],
+    "explanation": "Trusted Gold data needs clear ownership, quality expectations, access governance, and operational accountability.",
+    "ideal_answer": "I would assign owners/stewards, document SLAs and definitions in the catalog, manage access through Unity Catalog grants and approval workflows, and define incident escalation for quality or freshness issues.",
+    "tags": ["databricks", "governance", "gold", "ownership"]
+  },
+  {
+    "id": "databricks_lead_reliability_005",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Pipeline reliability standards",
+    "scenario": "Teams build Databricks jobs differently, with inconsistent retries, quality checks, alerting, and backfill practices.",
+    "question": "What standards would you introduce?",
+    "expected_points": [
+      {"point": "Standardizes idempotency, retries, and backfills", "keywords": ["idempotent", "retry", "backfill"], "weight": 3},
+      {"point": "Defines quality checks and freshness SLAs", "keywords": ["quality", "freshness", "sla"], "weight": 3},
+      {"point": "Defines monitoring, alerting, and runbooks", "keywords": ["monitor", "alert", "runbook"], "weight": 2},
+      {"point": "Uses templates and reviews for consistency", "keywords": ["template", "review", "standard"], "weight": 2}
+    ],
+    "explanation": "Reliability standards make pipelines predictable, supportable, and easier to recover.",
+    "ideal_answer": "I would standardize idempotent writes, retries, backfills, quality gates, freshness SLAs, job alerts, runbooks, deployment templates, and post-incident reviews across Databricks workflows.",
+    "tags": ["databricks", "reliability", "standards", "operations"]
+  },
+  {
+    "id": "databricks_lead_arch_006",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Multi-workspace strategy",
+    "scenario": "Your company has separate Databricks workspaces for dev, staging, prod, and multiple business domains.",
+    "question": "How would you organize workspaces and shared governance?",
+    "expected_points": [
+      {"point": "Uses workspace separation for environment/domain isolation", "keywords": ["workspace", "environment", "isolation"], "weight": 3},
+      {"point": "Uses Unity Catalog for shared governance", "keywords": ["unity catalog", "governance", "catalog"], "weight": 3},
+      {"point": "Defines CI/CD promotion and access controls", "keywords": ["ci", "promotion", "access"], "weight": 2},
+      {"point": "Centralizes monitoring and cost management", "keywords": ["monitor", "cost", "central"], "weight": 2}
+    ],
+    "explanation": "Multi-workspace Databricks platforms need environment isolation without fragmenting governance and standards.",
+    "ideal_answer": "I would separate dev/staging/prod workspaces, use Unity Catalog for consistent metadata and access, promote code through CI/CD, apply cluster policies, and centralize monitoring, cost reporting, and platform standards.",
+    "tags": ["databricks", "multi_workspace", "unity_catalog", "platform"]
+  },
+  {
+    "id": "databricks_lead_trade_007",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Delta Live Tables standardization",
+    "scenario": "Leadership asks whether all new pipelines should be built with Delta Live Tables.",
+    "question": "How would you decide?",
+    "expected_points": [
+      {"point": "Identifies where DLT is a strong fit", "keywords": ["dlt", "expectations", "managed"], "weight": 3},
+      {"point": "Identifies workloads needing custom workflows", "keywords": ["custom", "workflow", "flexibility"], "weight": 3},
+      {"point": "Considers cost and operational maturity", "keywords": ["cost", "operation", "maturity"], "weight": 2},
+      {"point": "Defines standards rather than a blanket mandate", "keywords": ["standard", "mandate", "guideline"], "weight": 2}
+    ],
+    "explanation": "DLT standardization should be based on workload fit, not a blanket rule.",
+    "ideal_answer": "I would recommend DLT for medallion pipelines that benefit from managed dependencies and expectations, while allowing custom jobs for specialized logic, external orchestration, or portability needs.",
+    "tags": ["databricks", "delta_live_tables", "standardization", "tradeoffs"]
+  },
+  {
+    "id": "databricks_lead_stakeholder_008",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Cost accountability",
+    "scenario": "Databricks costs are growing, but teams do not know which jobs, notebooks, or clusters are responsible.",
+    "question": "How would you create cost accountability?",
+    "expected_points": [
+      {"point": "Requires tags or ownership metadata", "keywords": ["tag", "owner", "metadata"], "weight": 3},
+      {"point": "Reports cost by team/workload", "keywords": ["report", "team", "workload"], "weight": 3},
+      {"point": "Uses cluster policies and budgets", "keywords": ["cluster policy", "budget", "limit"], "weight": 2},
+      {"point": "Provides optimization guidance", "keywords": ["guidance", "optimize", "enable"], "weight": 2}
+    ],
+    "explanation": "Cost accountability requires visibility, ownership, and safe controls rather than blame.",
+    "ideal_answer": "I would require job and cluster tags, build cost dashboards by team/workload, enforce cluster policies and budgets, and provide optimization playbooks for cluster lifecycle, job tuning, and table maintenance.",
+    "tags": ["databricks", "cost", "finops", "stakeholders"]
+  },
+  {
+    "id": "databricks_lead_gov_009",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Sensitive data governance",
+    "scenario": "PII exists in Bronze and Silver tables, and many users have broad workspace access.",
+    "question": "What governance controls would you prioritize?",
+    "expected_points": [
+      {"point": "Classifies sensitive data and ownership", "keywords": ["classify", "pii", "owner"], "weight": 3},
+      {"point": "Uses Unity Catalog least-privilege grants", "keywords": ["unity catalog", "least privilege", "grant"], "weight": 3},
+      {"point": "Applies masking/filtering where appropriate", "keywords": ["mask", "filter", "row"], "weight": 2},
+      {"point": "Audits access and reviews permissions", "keywords": ["audit", "review", "access"], "weight": 2}
+    ],
+    "explanation": "Sensitive data governance requires discovery, least privilege, protection, and regular access review.",
+    "ideal_answer": "I would classify PII, assign owners, restrict access through Unity Catalog grants, use masking or row filters where needed, audit access, and review permissions regularly.",
+    "tags": ["databricks", "security", "pii", "unity_catalog"]
+  },
+  {
+    "id": "databricks_lead_reliability_010",
+    "domain": "Databricks",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Backfill strategy",
+    "scenario": "A source system bug corrupted two weeks of Bronze data, and downstream Silver and Gold tables are affected.",
+    "question": "How would you lead the recovery?",
+    "expected_points": [
+      {"point": "Identifies affected versions and lineage", "keywords": ["lineage", "version", "affected"], "weight": 3},
+      {"point": "Plans safe replay/backfill from trusted data", "keywords": ["replay", "backfill", "trusted"], "weight": 3},
+      {"point": "Validates downstream outputs", "keywords": ["validate", "silver", "gold"], "weight": 2},
+      {"point": "Communicates impact and prevention", "keywords": ["communicate", "impact", "prevent"], "weight": 2}
+    ],
+    "explanation": "Backfill recovery must be controlled, traceable, validated, and communicated.",
+    "ideal_answer": "I would identify affected Delta versions and downstream lineage, restore or replay from trusted raw data, backfill Silver and Gold in dependency order, validate results, communicate impact, and add controls to catch similar source corruption earlier.",
+    "tags": ["databricks", "backfill", "reliability", "incident"]
+  }
+]

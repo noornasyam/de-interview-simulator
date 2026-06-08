@@ -1,0 +1,153 @@
+[
+  {
+    "id": "dbt_beginner_mcq_001",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "dbt fundamentals",
+    "question": "What is dbt mainly used for in a data engineering workflow?",
+    "options": ["Transforming data in the warehouse", "Provisioning virtual machines", "Serving real-time APIs", "Managing cloud IAM policies"],
+    "correct_answer": "Transforming data in the warehouse",
+    "explanation": "dbt focuses on transforming data after it lands in a warehouse or lakehouse. It helps teams express transformations as SQL models with testing, documentation, and lineage.",
+    "ideal_answer": "dbt is used to transform data in a warehouse or lakehouse using version-controlled SQL models, tests, documentation, and lineage.",
+    "tags": ["dbt", "fundamentals", "transformation"]
+  },
+  {
+    "id": "dbt_beginner_fill_blank_002",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "models",
+    "question": "Fill in the blank: In dbt, a SQL file that builds a transformed dataset is called a ____.",
+    "acceptable_answers": ["model", "dbt model"],
+    "explanation": "A dbt model is usually a SQL select statement saved as a file. dbt materializes that model into a view, table, incremental table, or another configured form.",
+    "ideal_answer": "A dbt model is a SQL file that defines a transformed dataset and can be materialized as a view, table, or incremental model.",
+    "tags": ["dbt", "models", "basics"]
+  },
+  {
+    "id": "dbt_beginner_match_003",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "core resources",
+    "question": "Match each dbt resource to its purpose.",
+    "left_items": ["Model", "Seed", "Source"],
+    "right_items": ["SQL transformation", "Static CSV data", "Raw upstream table reference"],
+    "correct_pairs": {
+      "Model": "SQL transformation",
+      "Seed": "Static CSV data",
+      "Source": "Raw upstream table reference"
+    },
+    "explanation": "Models transform data, seeds load small static CSV files, and sources describe upstream raw data objects used by dbt models.",
+    "ideal_answer": "Models define SQL transformations, seeds represent small static CSV-backed reference data, and sources document raw upstream tables.",
+    "tags": ["dbt", "models", "seeds", "sources"]
+  },
+  {
+    "id": "dbt_beginner_mcq_004",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "materializations",
+    "question": "Which dbt materialization typically stores query results physically as a database table?",
+    "options": ["table", "ephemeral", "source", "exposure"],
+    "correct_answer": "table",
+    "explanation": "The table materialization persists the model output as a physical table. This can improve read performance but consumes storage and requires rebuilds when refreshed.",
+    "ideal_answer": "Use the table materialization when the transformed result should be persisted as a physical table for downstream reads.",
+    "tags": ["dbt", "materializations", "tables"]
+  },
+  {
+    "id": "dbt_beginner_fill_blank_005",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "tests",
+    "question": "Fill in the blank: dbt ____ check assumptions such as uniqueness, not-null values, or accepted values.",
+    "acceptable_answers": ["tests", "test"],
+    "explanation": "dbt tests validate data assumptions. Common generic tests include unique, not_null, accepted_values, and relationships.",
+    "ideal_answer": "dbt tests validate assumptions about model data, such as whether keys are unique, required fields are not null, or values are allowed.",
+    "tags": ["dbt", "tests", "data_quality"]
+  },
+  {
+    "id": "dbt_beginner_match_006",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "generic tests",
+    "question": "Match each generic dbt test to what it checks.",
+    "left_items": ["unique", "not_null", "accepted_values"],
+    "right_items": ["No duplicate values", "No missing values", "Only allowed values appear"],
+    "correct_pairs": {
+      "unique": "No duplicate values",
+      "not_null": "No missing values",
+      "accepted_values": "Only allowed values appear"
+    },
+    "explanation": "Generic tests are reusable checks that help catch common data quality issues before data reaches reporting or downstream products.",
+    "ideal_answer": "unique checks duplicate values, not_null checks missing values, and accepted_values checks whether values are within a defined allowed set.",
+    "tags": ["dbt", "generic_tests", "data_quality"]
+  },
+  {
+    "id": "dbt_beginner_mcq_007",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "schema.yml",
+    "question": "What is a common purpose of a schema.yml file in dbt?",
+    "options": ["Define model metadata and tests", "Store database passwords", "Schedule Airflow DAGs", "Create cloud networks"],
+    "correct_answer": "Define model metadata and tests",
+    "explanation": "schema.yml files commonly define model descriptions, column descriptions, tests, sources, exposures, and other metadata.",
+    "ideal_answer": "A schema.yml file documents dbt resources and configures metadata such as descriptions, tests, sources, and column-level information.",
+    "tags": ["dbt", "schema_yml", "documentation"]
+  },
+  {
+    "id": "dbt_beginner_fill_blank_008",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "lineage",
+    "question": "Fill in the blank: dbt can show data ____ so users can see how models depend on each other.",
+    "acceptable_answers": ["lineage", "dependency graph", "dependencies"],
+    "explanation": "dbt builds a dependency graph from ref and source calls. This graph helps users understand upstream and downstream model relationships.",
+    "ideal_answer": "dbt lineage shows how models, sources, and exposures depend on each other, making impact analysis easier.",
+    "tags": ["dbt", "lineage", "dependencies"]
+  },
+  {
+    "id": "dbt_beginner_match_009",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "dbt Core and dbt Cloud",
+    "question": "Match each dbt offering to the best description.",
+    "left_items": ["dbt Core", "dbt Cloud"],
+    "right_items": ["Open-source command-line tool", "Managed platform with scheduling and UI features"],
+    "correct_pairs": {
+      "dbt Core": "Open-source command-line tool",
+      "dbt Cloud": "Managed platform with scheduling and UI features"
+    },
+    "explanation": "dbt Core provides the open-source transformation engine. dbt Cloud adds managed scheduling, IDE, metadata, orchestration, and collaboration features.",
+    "ideal_answer": "dbt Core is the open-source CLI-based tool, while dbt Cloud provides managed development, scheduling, collaboration, and operational features.",
+    "tags": ["dbt", "dbt_core", "dbt_cloud"]
+  },
+  {
+    "id": "dbt_beginner_mcq_010",
+    "domain": "dbt",
+    "level": "Beginner",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Jinja",
+    "question": "Why does dbt use Jinja in SQL models?",
+    "options": ["To add templating and reusable logic", "To encrypt every table automatically", "To replace the data warehouse", "To run Python web servers"],
+    "correct_answer": "To add templating and reusable logic",
+    "explanation": "Jinja allows dbt users to write templated SQL, call macros, use refs, and avoid repeated transformation logic.",
+    "ideal_answer": "dbt uses Jinja to template SQL, call macros, reference models and sources, and make transformations more reusable.",
+    "tags": ["dbt", "jinja", "macros"]
+  }
+]

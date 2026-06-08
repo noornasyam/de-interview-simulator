@@ -17,11 +17,18 @@ V2_BANK_ROOT = Path(__file__).resolve().parents[1] / "data" / "question_bank" / 
 DOMAIN_ALIASES = {
     "sql": "sql",
     "python": "python",
+    "aws": "aws",
+    "azure": "azure",
+    "databricks": "databricks",
     "gcp": "gcp_bigquery",
     "gcp / bigquery": "gcp_bigquery",
     "bigquery": "gcp_bigquery",
     "terraform": "terraform",
     "airflow": "airflow",
+    "dbt": "dbt",
+    "git": "git",
+    "production engineering": "production_engineering",
+    "production_engineering": "production_engineering",
     "data modeling": "data_modeling",
     "data_modeling": "data_modeling",
 }
@@ -29,9 +36,15 @@ DOMAIN_ALIASES = {
 DOMAIN_LABELS = {
     "sql": "SQL",
     "python": "Python",
+    "aws": "AWS",
+    "azure": "Azure",
+    "databricks": "Databricks",
     "gcp_bigquery": "GCP / BigQuery",
     "terraform": "Terraform",
     "airflow": "Airflow",
+    "dbt": "dbt",
+    "git": "Git",
+    "production_engineering": "Production Engineering",
     "data_modeling": "Data Modeling",
 }
 

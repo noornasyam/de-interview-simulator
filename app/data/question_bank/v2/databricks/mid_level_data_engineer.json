@@ -1,0 +1,174 @@
+[
+  {
+    "id": "databricks_mid_mcq_001",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Z-ordering",
+    "question": "What is Z-ordering commonly used for in Delta tables?",
+    "options": ["Improving data skipping for commonly filtered columns", "Encrypting notebooks", "Creating user groups", "Replacing ACID transactions"],
+    "correct_answer": "Improving data skipping for commonly filtered columns",
+    "explanation": "Z-ordering colocates related data for selected columns, helping queries skip irrelevant files when predicates use those columns.",
+    "ideal_answer": "Z-ordering can improve query performance by colocating data for commonly filtered columns so Delta can skip more files.",
+    "tags": ["databricks", "z_ordering", "delta_lake", "performance"]
+  },
+  {
+    "id": "databricks_mid_short_002",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Cluster sizing",
+    "question": "What signals would you check before increasing the size of a Databricks cluster?",
+    "acceptable_answers": ["shuffle", "spill", "cpu", "memory", "task time", "skew", "utilization"],
+    "expected_points": [
+      {"point": "Checks Spark metrics such as CPU, memory, shuffle, or spill", "keywords": ["cpu", "memory", "shuffle", "spill"], "weight": 6},
+      {"point": "Checks whether the bottleneck is data/code related before scaling", "keywords": ["skew", "code", "bottleneck", "utilization"], "weight": 4}
+    ],
+    "explanation": "Scaling compute helps only when the bottleneck is actually compute capacity rather than skew, small files, or inefficient code.",
+    "ideal_answer": "I would check CPU, memory, spill, shuffle, task duration, skew, input size, and cluster utilization before increasing cluster size.",
+    "tags": ["databricks", "cluster_sizing", "spark", "performance"]
+  },
+  {
+    "id": "databricks_mid_scenario_003",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Auto Loader ingestion",
+    "scenario": "A source system writes thousands of JSON files per hour into cloud storage. The team needs reliable incremental ingestion into Bronze Delta tables.",
+    "question": "How would you design this ingestion in Databricks?",
+    "expected_points": [
+      {"point": "Uses Auto Loader for incremental file discovery", "keywords": ["auto loader", "incremental", "file"], "weight": 3},
+      {"point": "Writes to Bronze Delta tables", "keywords": ["bronze", "delta", "table"], "weight": 2},
+      {"point": "Handles schema evolution or bad records", "keywords": ["schema", "bad records", "evolution"], "weight": 3},
+      {"point": "Includes checkpointing and monitoring", "keywords": ["checkpoint", "monitor", "alert"], "weight": 2}
+    ],
+    "explanation": "Auto Loader is a common Databricks pattern for scalable, incremental file ingestion into Delta Lake.",
+    "ideal_answer": "I would use Auto Loader with checkpointing to incrementally ingest new JSON files, write them to Bronze Delta tables, capture schema evolution and bad records, and monitor ingestion lag and failures.",
+    "tags": ["databricks", "auto_loader", "bronze", "ingestion"]
+  },
+  {
+    "id": "databricks_mid_trouble_004",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Slow Spark job",
+    "scenario": "A Spark job that previously completed in 15 minutes now takes more than an hour.",
+    "question": "What would you investigate?",
+    "expected_points": [
+      {"point": "Checks data volume, file count, and small files", "keywords": ["volume", "file count", "small files"], "weight": 3},
+      {"point": "Reviews Spark UI for skew, shuffle, or spill", "keywords": ["spark ui", "skew", "shuffle", "spill"], "weight": 4},
+      {"point": "Checks recent code, cluster, or runtime changes", "keywords": ["code", "cluster", "runtime"], "weight": 3}
+    ],
+    "explanation": "Spark slowdowns usually come from data growth, skew, small files, code changes, cluster changes, or shuffle-heavy transformations.",
+    "ideal_answer": "I would compare input volume and file count, inspect Spark UI stages for skew/shuffle/spill, review recent code and runtime changes, check cluster utilization, and tune file layout or transformations.",
+    "tags": ["databricks", "spark", "troubleshooting", "performance"]
+  },
+  {
+    "id": "databricks_mid_short_005",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Delta table optimization",
+    "question": "Name two maintenance actions that can improve Delta table query performance.",
+    "acceptable_answers": ["optimize", "compaction", "z-order", "vacuum", "statistics", "partitioning"],
+    "expected_points": [
+      {"point": "Mentions compaction or OPTIMIZE", "keywords": ["optimize", "compaction"], "weight": 5},
+      {"point": "Mentions Z-ordering, partitioning, stats, or cleanup where appropriate", "keywords": ["z-order", "partition", "stats", "vacuum"], "weight": 5}
+    ],
+    "explanation": "Delta table maintenance can reduce small files, improve data skipping, and keep storage/layout efficient.",
+    "ideal_answer": "I would use OPTIMIZE for compaction, ZORDER on common filter columns when useful, partition appropriately, and use VACUUM carefully for old file cleanup.",
+    "tags": ["databricks", "delta_tables", "optimize", "z_ordering"]
+  },
+  {
+    "id": "databricks_mid_scenario_006",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Structured Streaming checkpointing",
+    "scenario": "A Structured Streaming job writes events to a Delta table and must recover safely after failures.",
+    "question": "What design details matter for reliability?",
+    "expected_points": [
+      {"point": "Uses checkpointing for progress tracking", "keywords": ["checkpoint", "progress", "state"], "weight": 4},
+      {"point": "Writes to Delta for reliable sink behavior", "keywords": ["delta", "sink", "transaction"], "weight": 2},
+      {"point": "Handles idempotency and duplicate risk", "keywords": ["idempotent", "duplicate", "exactly-once"], "weight": 2},
+      {"point": "Monitors lag, failures, and throughput", "keywords": ["lag", "monitor", "throughput"], "weight": 2}
+    ],
+    "explanation": "Streaming reliability depends on checkpointing, transactional sinks, idempotency, and observability.",
+    "ideal_answer": "I would configure stable checkpoint locations, write to Delta, design deduplication or idempotent logic where needed, and monitor throughput, lag, failures, and checkpoint health.",
+    "tags": ["databricks", "structured_streaming", "checkpointing", "reliability"]
+  },
+  {
+    "id": "databricks_mid_trouble_007",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Delta schema evolution issue",
+    "scenario": "A pipeline starts failing because a source added a new column and changed one column's type.",
+    "question": "How would you handle this schema change?",
+    "expected_points": [
+      {"point": "Distinguishes additive schema evolution from breaking type changes", "keywords": ["additive", "type", "breaking"], "weight": 4},
+      {"point": "Checks schema enforcement/evolution settings", "keywords": ["schema enforcement", "mergeSchema", "evolution"], "weight": 3},
+      {"point": "Protects downstream consumers with contracts or validation", "keywords": ["contract", "validation", "downstream"], "weight": 3}
+    ],
+    "explanation": "Schema evolution can be safe for additive changes but dangerous for type changes that break consumers or data quality assumptions.",
+    "ideal_answer": "I would allow compatible additive changes only after validation, treat type changes as breaking, update schema contracts and transformations, quarantine bad records if needed, and communicate downstream impact.",
+    "tags": ["databricks", "schema_evolution", "delta_lake", "data_contracts"]
+  },
+  {
+    "id": "databricks_mid_mcq_008",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Unity Catalog hierarchy",
+    "question": "Which Unity Catalog hierarchy is correct?",
+    "options": ["Catalog > Schema > Table", "Table > Catalog > Schema", "Cluster > Notebook > Secret", "Workspace > Row > Column"],
+    "correct_answer": "Catalog > Schema > Table",
+    "explanation": "Unity Catalog uses a three-level namespace: catalog, schema, and table or view.",
+    "ideal_answer": "The Unity Catalog hierarchy is Catalog > Schema > Table.",
+    "tags": ["databricks", "unity_catalog", "catalogs", "schemas"]
+  },
+  {
+    "id": "databricks_mid_scenario_009",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Delta Live Tables quality expectations",
+    "scenario": "A team wants a managed medallion pipeline with clear data quality rules and dependency handling.",
+    "question": "How could Delta Live Tables help?",
+    "expected_points": [
+      {"point": "Defines declarative pipeline tables and dependencies", "keywords": ["declarative", "dependencies", "tables"], "weight": 3},
+      {"point": "Uses expectations for data quality", "keywords": ["expectations", "quality", "rules"], "weight": 3},
+      {"point": "Supports medallion pipeline structure", "keywords": ["bronze", "silver", "gold", "medallion"], "weight": 2},
+      {"point": "Mentions monitoring or operational simplification", "keywords": ["monitor", "operation", "managed"], "weight": 2}
+    ],
+    "explanation": "Delta Live Tables can simplify building reliable Delta pipelines with dependencies and quality expectations.",
+    "ideal_answer": "DLT can define Bronze, Silver, and Gold tables declaratively, manage dependencies, enforce expectations for quality, and provide operational visibility for pipeline runs.",
+    "tags": ["databricks", "delta_live_tables", "data_quality", "medallion"]
+  },
+  {
+    "id": "databricks_mid_short_010",
+    "domain": "Databricks",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Cost-aware compute",
+    "question": "Name two ways to reduce Databricks compute cost for scheduled jobs.",
+    "acceptable_answers": ["job clusters", "autoscaling", "auto termination", "right sizing", "spot", "cluster policies", "schedule"],
+    "expected_points": [
+      {"point": "Mentions right-sized job clusters or autoscaling", "keywords": ["job cluster", "right", "autoscaling"], "weight": 5},
+      {"point": "Mentions auto termination, policies, spot, or scheduling", "keywords": ["auto termination", "policy", "spot", "schedule"], "weight": 5}
+    ],
+    "explanation": "Databricks costs are strongly tied to compute lifecycle, sizing, and workload design.",
+    "ideal_answer": "I would use right-sized job clusters, autoscaling, auto-termination, cluster policies, appropriate schedules, and spot instances where reliable enough.",
+    "tags": ["databricks", "cost", "job_clusters", "autoscaling"]
+  }
+]

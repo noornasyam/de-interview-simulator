@@ -1,0 +1,192 @@
+[
+  {
+    "id": "production_engineering_mid_scenario_001",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Pipeline monitoring design",
+    "scenario": "A business-critical daily pipeline feeds an executive dashboard by 8 AM.",
+    "question": "What monitoring would you add?",
+    "expected_points": [
+      {"point": "Monitors pipeline success/failure", "keywords": ["success", "failure", "status"], "weight": 3},
+      {"point": "Monitors freshness or completion before SLA", "keywords": ["freshness", "sla", "8 AM"], "weight": 3},
+      {"point": "Monitors row counts or quality checks", "keywords": ["row count", "quality", "volume"], "weight": 2},
+      {"point": "Defines alerts and owners", "keywords": ["alert", "owner", "on-call"], "weight": 2}
+    ],
+    "explanation": "Critical pipelines need monitoring for execution, freshness, data quality, and ownership.",
+    "ideal_answer": "I would monitor job status, completion before 8 AM, freshness, row counts, quality checks, runtime, and dependency failures, then alert the owning team with a runbook.",
+    "tags": ["production_engineering", "monitoring", "freshness", "data_pipeline_operations"]
+  },
+  {
+    "id": "production_engineering_mid_trouble_002",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "RCA for stale data",
+    "scenario": "A dashboard shows yesterday's data even though the pipeline status is green.",
+    "question": "How would you perform root cause analysis?",
+    "expected_points": [
+      {"point": "Checks actual data freshness and partitions", "keywords": ["freshness", "partition", "date"], "weight": 3},
+      {"point": "Checks upstream dependencies and source delivery", "keywords": ["upstream", "source", "dependency"], "weight": 3},
+      {"point": "Checks whether success criteria are incomplete", "keywords": ["success", "criteria", "green"], "weight": 2},
+      {"point": "Adds prevention through freshness checks", "keywords": ["prevent", "freshness", "alert"], "weight": 2}
+    ],
+    "explanation": "A green job can still publish stale data if success checks only verify execution and not output correctness.",
+    "ideal_answer": "I would verify the dashboard table's latest partition, trace upstream source delivery, inspect pipeline logs, check whether the job skipped data, and add freshness/output checks so a green run cannot hide stale data.",
+    "tags": ["production_engineering", "rca", "freshness", "dashboards"]
+  },
+  {
+    "id": "production_engineering_mid_scenario_003",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Alert routing",
+    "scenario": "Several pipeline alerts go to a shared channel, but no one knows who should respond.",
+    "question": "How would you improve alert routing?",
+    "expected_points": [
+      {"point": "Defines ownership for each pipeline or data product", "keywords": ["owner", "pipeline", "data product"], "weight": 3},
+      {"point": "Routes alerts to the right on-call/team", "keywords": ["route", "on-call", "team"], "weight": 3},
+      {"point": "Adds severity and escalation rules", "keywords": ["severity", "escalation", "priority"], "weight": 2},
+      {"point": "Links alerts to runbooks", "keywords": ["runbook", "link", "response"], "weight": 2}
+    ],
+    "explanation": "Alerts are only useful if they reach the right responder with enough context to act.",
+    "ideal_answer": "I would assign pipeline owners, route alerts to the owning on-call rotation, add severity levels and escalation paths, and include runbook links in alert messages.",
+    "tags": ["production_engineering", "alerting", "ownership", "on_call"]
+  },
+  {
+    "id": "production_engineering_mid_trouble_004",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "BigQuery operations",
+    "scenario": "A BigQuery query used by a scheduled pipeline suddenly becomes much more expensive and slower.",
+    "question": "What would you investigate?",
+    "expected_points": [
+      {"point": "Checks bytes scanned and query history", "keywords": ["bytes scanned", "query history", "cost"], "weight": 3},
+      {"point": "Checks partition filters and table layout", "keywords": ["partition", "filter", "layout"], "weight": 3},
+      {"point": "Checks data volume or query changes", "keywords": ["volume", "change", "query"], "weight": 2},
+      {"point": "Adds guardrails or monitoring", "keywords": ["guardrail", "monitor", "alert"], "weight": 2}
+    ],
+    "explanation": "Warehouse cost regressions often come from scan volume, layout changes, missing filters, or query changes.",
+    "ideal_answer": "I would review query history, bytes scanned, partition pruning, recent SQL/table changes, data growth, and job schedules, then add query cost alerts or guardrails.",
+    "tags": ["production_engineering", "bigquery_operations", "cost", "troubleshooting"]
+  },
+  {
+    "id": "production_engineering_mid_scenario_005",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Release management",
+    "scenario": "A team wants to deploy a change to a production transformation that feeds finance reports.",
+    "question": "What release checks would you expect before deployment?",
+    "expected_points": [
+      {"point": "Runs automated tests and data validation", "keywords": ["test", "validation", "quality"], "weight": 3},
+      {"point": "Reviews impact and stakeholder timing", "keywords": ["impact", "stakeholder", "finance"], "weight": 2},
+      {"point": "Defines rollback or recovery plan", "keywords": ["rollback", "recovery", "revert"], "weight": 3},
+      {"point": "Uses approval/change management for critical change", "keywords": ["approval", "change", "review"], "weight": 2}
+    ],
+    "explanation": "Critical data releases need tests, impact review, rollback plans, and controlled timing.",
+    "ideal_answer": "I would require automated tests, data quality validation, impact review, stakeholder communication, approval if needed, and a rollback or recovery plan before deploying.",
+    "tags": ["production_engineering", "release_management", "change_management", "finance"]
+  },
+  {
+    "id": "production_engineering_mid_trouble_006",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Composer operations",
+    "scenario": "Cloud Composer DAGs are delayed, and many tasks remain queued for a long time.",
+    "question": "How would you troubleshoot the operational issue?",
+    "expected_points": [
+      {"point": "Checks worker capacity and queues", "keywords": ["worker", "queue", "capacity"], "weight": 3},
+      {"point": "Checks scheduler health and DAG parsing", "keywords": ["scheduler", "parsing", "dag"], "weight": 3},
+      {"point": "Checks pools/concurrency limits", "keywords": ["pool", "concurrency", "limit"], "weight": 2},
+      {"point": "Adds monitoring and scaling/runbook improvements", "keywords": ["monitor", "scale", "runbook"], "weight": 2}
+    ],
+    "explanation": "Composer delays can come from scheduler issues, worker capacity, queue limits, pools, or expensive DAG parsing.",
+    "ideal_answer": "I would check scheduler and worker health, task queues, pools, concurrency settings, DAG parsing time, environment resource usage, and then tune scaling or limits with alerts and runbooks.",
+    "tags": ["production_engineering", "composer_operations", "airflow", "troubleshooting"]
+  },
+  {
+    "id": "production_engineering_mid_scenario_007",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "On-call handoff",
+    "scenario": "A long-running incident is not fully resolved before the on-call engineer's shift ends.",
+    "question": "What information should be included in the handoff?",
+    "expected_points": [
+      {"point": "Summarizes current impact and status", "keywords": ["impact", "status", "current"], "weight": 3},
+      {"point": "Lists actions already taken and findings", "keywords": ["actions", "findings", "tried"], "weight": 3},
+      {"point": "Identifies next steps and owners", "keywords": ["next steps", "owner", "escalation"], "weight": 2},
+      {"point": "Includes links to logs, dashboards, and incident channel", "keywords": ["logs", "dashboard", "incident"], "weight": 2}
+    ],
+    "explanation": "Good handoffs preserve context and reduce repeated investigation during incidents.",
+    "ideal_answer": "The handoff should include impact, timeline, current hypothesis, actions taken, evidence links, open questions, next steps, owners, and escalation status.",
+    "tags": ["production_engineering", "on_call", "incident_management", "handoff"]
+  },
+  {
+    "id": "production_engineering_mid_trouble_008",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Vertex operations",
+    "scenario": "A scheduled Vertex AI batch prediction job failed, and downstream feature tables were not updated.",
+    "question": "How would you triage this production issue?",
+    "expected_points": [
+      {"point": "Checks job error logs and status", "keywords": ["logs", "status", "error"], "weight": 3},
+      {"point": "Checks input data and model/resource dependencies", "keywords": ["input", "model", "dependency"], "weight": 3},
+      {"point": "Assesses downstream data freshness impact", "keywords": ["freshness", "downstream", "impact"], "weight": 2},
+      {"point": "Defines rerun or fallback plan", "keywords": ["rerun", "fallback", "recovery"], "weight": 2}
+    ],
+    "explanation": "ML/data operations incidents require checking job execution, input readiness, dependency health, and downstream freshness impact.",
+    "ideal_answer": "I would check Vertex job logs/status, validate input data and model dependencies, assess downstream freshness impact, notify owners, and rerun or use a fallback if safe.",
+    "tags": ["production_engineering", "vertex_operations", "mlops", "incident"]
+  },
+  {
+    "id": "production_engineering_mid_scenario_009",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Capacity planning",
+    "scenario": "A streaming data pipeline is expected to handle double the current event volume next month.",
+    "question": "How would you prepare operationally?",
+    "expected_points": [
+      {"point": "Measures current throughput, lag, and resource usage", "keywords": ["throughput", "lag", "resource"], "weight": 3},
+      {"point": "Performs load testing or capacity modeling", "keywords": ["load test", "capacity", "model"], "weight": 3},
+      {"point": "Plans scaling and cost impact", "keywords": ["scale", "cost", "budget"], "weight": 2},
+      {"point": "Updates alerts and runbooks", "keywords": ["alert", "runbook", "threshold"], "weight": 2}
+    ],
+    "explanation": "Capacity planning should be based on measured usage, load testing, and operational readiness for peaks.",
+    "ideal_answer": "I would measure current throughput, lag, errors, and utilization, run load tests or capacity estimates, scale resources, forecast cost, and update alerts/runbooks for new thresholds.",
+    "tags": ["production_engineering", "capacity_planning", "streaming", "reliability"]
+  },
+  {
+    "id": "production_engineering_mid_trouble_010",
+    "domain": "Production Engineering",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Security operations",
+    "scenario": "Audit logs show unusual access to a sensitive dataset outside normal business hours.",
+    "question": "What steps would you take?",
+    "expected_points": [
+      {"point": "Confirms identity, access pattern, and scope", "keywords": ["identity", "access", "scope"], "weight": 3},
+      {"point": "Escalates to security or incident process", "keywords": ["security", "escalate", "incident"], "weight": 3},
+      {"point": "Preserves evidence and checks impact", "keywords": ["evidence", "impact", "audit"], "weight": 2},
+      {"point": "Reviews permissions and prevention controls", "keywords": ["permission", "prevent", "least privilege"], "weight": 2}
+    ],
+    "explanation": "Security operations require careful validation, escalation, evidence preservation, and access-control review.",
+    "ideal_answer": "I would verify the identity, dataset, access time, and scope, preserve logs, escalate to the security incident process, assess exposure, and review permissions or controls after containment.",
+    "tags": ["production_engineering", "security_operations", "audit", "incident"]
+  }
+]

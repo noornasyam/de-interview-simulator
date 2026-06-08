@@ -1,0 +1,192 @@
+[
+  {
+    "id": "production_engineering_senior_trouble_001",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Incident triage",
+    "scenario": "A critical Gold table missed its freshness SLO, and executives are waiting for morning metrics.",
+    "question": "How would you handle the incident?",
+    "expected_points": [
+      {"point": "Assesses user/business impact and severity", "keywords": ["impact", "severity", "business"], "weight": 3},
+      {"point": "Identifies failed dependency or bottleneck", "keywords": ["dependency", "bottleneck", "root cause"], "weight": 3},
+      {"point": "Communicates status and ETA", "keywords": ["communicate", "eta", "status"], "weight": 2},
+      {"point": "Uses safe recovery/backfill process", "keywords": ["recover", "backfill", "rerun"], "weight": 2}
+    ],
+    "explanation": "Senior incident response balances technical recovery with impact assessment and communication.",
+    "ideal_answer": "I would declare/triage severity, confirm affected users and freshness gap, identify the failed dependency, communicate status and ETA, run the safest recovery/backfill, and document follow-up prevention.",
+    "tags": ["production_engineering", "incident_management", "freshness", "slo"]
+  },
+  {
+    "id": "production_engineering_senior_reliability_002",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "SLO design",
+    "scenario": "A dashboard is used daily by finance, but no one has defined what reliable means for the underlying dataset.",
+    "question": "How would you define SLOs for this data product?",
+    "expected_points": [
+      {"point": "Defines freshness and correctness SLIs", "keywords": ["freshness", "correctness", "sli"], "weight": 3},
+      {"point": "Sets measurable SLO targets", "keywords": ["slo", "target", "measurable"], "weight": 3},
+      {"point": "Defines alerting and ownership", "keywords": ["alert", "owner", "on-call"], "weight": 2},
+      {"point": "Aligns targets with business impact", "keywords": ["business", "impact", "finance"], "weight": 2}
+    ],
+    "explanation": "Data product reliability should be measured by user-impacting indicators such as freshness, completeness, and correctness.",
+    "ideal_answer": "I would define SLIs for freshness, completeness, correctness, and availability, set SLO targets with finance stakeholders, assign ownership, and create alerts/runbooks for SLO breaches.",
+    "tags": ["production_engineering", "slo", "sli", "reliability"]
+  },
+  {
+    "id": "production_engineering_senior_trouble_003",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "RCA for data quality incident",
+    "scenario": "A transformation bug doubled revenue in a dashboard for two days before anyone noticed.",
+    "question": "What would a good RCA include?",
+    "expected_points": [
+      {"point": "Defines timeline and detection gap", "keywords": ["timeline", "detect", "noticed"], "weight": 3},
+      {"point": "Identifies technical and process root causes", "keywords": ["root cause", "process", "technical"], "weight": 3},
+      {"point": "Documents impact and remediation", "keywords": ["impact", "remediation", "fix"], "weight": 2},
+      {"point": "Creates prevention actions such as tests/alerts", "keywords": ["test", "alert", "prevent"], "weight": 2}
+    ],
+    "explanation": "RCA should explain why the incident happened, why it was not caught sooner, and what will prevent recurrence.",
+    "ideal_answer": "A good RCA would include timeline, impact, technical bug, missing test or alert, detection gap, remediation, owners, and prevention actions such as metric reconciliation and release checks.",
+    "tags": ["production_engineering", "rca", "data_quality", "postmortem"]
+  },
+  {
+    "id": "production_engineering_senior_cost_004",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Cloud operations cost spike",
+    "scenario": "Cloud spend for the data platform increased 40 percent after a new pipeline launch.",
+    "question": "How would you investigate and control the cost?",
+    "expected_points": [
+      {"point": "Identifies cost driver by service/workload", "keywords": ["cost driver", "service", "workload"], "weight": 3},
+      {"point": "Checks usage metrics such as compute, scan, or storage", "keywords": ["compute", "scan", "storage"], "weight": 3},
+      {"point": "Optimizes workload or schedule safely", "keywords": ["optimize", "schedule", "right-size"], "weight": 2},
+      {"point": "Adds budgets, tags, or alerts", "keywords": ["budget", "tag", "alert"], "weight": 2}
+    ],
+    "explanation": "Cost incidents need attribution, usage analysis, safe optimization, and preventive guardrails.",
+    "ideal_answer": "I would break down cost by service, job, owner, and time, inspect compute/scan/storage usage, compare before and after launch, right-size or reschedule workloads, and add budgets, tags, and anomaly alerts.",
+    "tags": ["production_engineering", "cost", "finops", "cloud_operations"]
+  },
+  {
+    "id": "production_engineering_senior_reliability_005",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Error budgets",
+    "scenario": "A data product repeatedly misses freshness targets because teams keep shipping risky changes.",
+    "question": "How would you use an error budget?",
+    "expected_points": [
+      {"point": "Explains error budget as allowed unreliability", "keywords": ["error budget", "allowed", "unreliability"], "weight": 3},
+      {"point": "Connects budget burn to release decisions", "keywords": ["release", "change", "freeze"], "weight": 3},
+      {"point": "Uses budget to prioritize reliability work", "keywords": ["prioritize", "reliability", "stabilize"], "weight": 2},
+      {"point": "Communicates trade-off with stakeholders", "keywords": ["stakeholder", "trade-off", "communicate"], "weight": 2}
+    ],
+    "explanation": "Error budgets help balance feature velocity with reliability commitments.",
+    "ideal_answer": "I would define an error budget from the freshness SLO, track budget burn, slow or freeze risky changes when budget is exhausted, and prioritize reliability improvements until the service is stable.",
+    "tags": ["production_engineering", "error_budget", "sre", "release_management"]
+  },
+  {
+    "id": "production_engineering_senior_trouble_006",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Rollback strategy",
+    "scenario": "A release to a production transformation introduced incorrect customer segmentation.",
+    "question": "How would you safely roll back or recover?",
+    "expected_points": [
+      {"point": "Assesses affected data and consumers", "keywords": ["affected", "consumer", "impact"], "weight": 3},
+      {"point": "Uses code rollback or data restore where appropriate", "keywords": ["rollback", "restore", "version"], "weight": 3},
+      {"point": "Reprocesses downstream outputs safely", "keywords": ["reprocess", "downstream", "backfill"], "weight": 2},
+      {"point": "Adds prevention before redeploying", "keywords": ["test", "validation", "prevent"], "weight": 2}
+    ],
+    "explanation": "Recovery may require both code rollback and data correction because bad transformations can persist incorrect outputs.",
+    "ideal_answer": "I would identify affected partitions and consumers, rollback code if needed, restore or reprocess bad outputs from a trusted version, validate downstream tables, communicate impact, and add tests before redeployment.",
+    "tags": ["production_engineering", "rollback", "data_recovery", "release_management"]
+  },
+  {
+    "id": "production_engineering_senior_reliability_007",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Backup and restore strategy",
+    "scenario": "A critical dataset can be accidentally overwritten by a batch job.",
+    "question": "What recovery protections would you design?",
+    "expected_points": [
+      {"point": "Uses versioning/snapshots/backups", "keywords": ["version", "snapshot", "backup"], "weight": 3},
+      {"point": "Defines restore procedure and tests it", "keywords": ["restore", "test", "drill"], "weight": 3},
+      {"point": "Adds write safeguards or permissions", "keywords": ["permission", "safeguard", "overwrite"], "weight": 2},
+      {"point": "Defines RPO/RTO or recovery expectations", "keywords": ["rpo", "rto", "recovery"], "weight": 2}
+    ],
+    "explanation": "Reliable recovery requires both technical backup/versioning and tested operational procedures.",
+    "ideal_answer": "I would enable versioning or snapshots, restrict overwrite permissions, use safe write patterns, define RPO/RTO, document restore steps, and test restore regularly.",
+    "tags": ["production_engineering", "backup_restore", "rpo", "rto"]
+  },
+  {
+    "id": "production_engineering_senior_cost_008",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "BigQuery operations guardrails",
+    "scenario": "Analysts accidentally run expensive exploratory queries against production-scale tables.",
+    "question": "What operational guardrails would you introduce?",
+    "expected_points": [
+      {"point": "Uses query cost limits or scan controls", "keywords": ["limit", "scan", "cost"], "weight": 3},
+      {"point": "Provides curated/sample datasets or views", "keywords": ["sample", "view", "curated"], "weight": 2},
+      {"point": "Adds education and query review patterns", "keywords": ["education", "review", "best practice"], "weight": 2},
+      {"point": "Adds monitoring and budget alerts", "keywords": ["monitor", "budget", "alert"], "weight": 3}
+    ],
+    "explanation": "Warehouse guardrails should reduce accidental spend while preserving safe self-service analytics.",
+    "ideal_answer": "I would add query scan limits, budget alerts, curated views, sample datasets, partition-filter requirements, monitoring by user/workload, and education on cost-aware querying.",
+    "tags": ["production_engineering", "bigquery_operations", "cost", "guardrails"]
+  },
+  {
+    "id": "production_engineering_senior_trouble_009",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Escalation management",
+    "scenario": "An incident spans data engineering, platform, security, and a vendor, but progress is slow because ownership is unclear.",
+    "question": "How would you manage escalation?",
+    "expected_points": [
+      {"point": "Clarifies incident commander or owner", "keywords": ["incident commander", "owner", "lead"], "weight": 3},
+      {"point": "Separates workstreams and assigns owners", "keywords": ["workstream", "assign", "owner"], "weight": 3},
+      {"point": "Escalates to vendor/security/platform as needed", "keywords": ["vendor", "security", "platform"], "weight": 2},
+      {"point": "Communicates status and decisions", "keywords": ["communicate", "status", "decision"], "weight": 2}
+    ],
+    "explanation": "Complex incidents need clear coordination, workstream ownership, and escalation paths.",
+    "ideal_answer": "I would establish an incident commander, define workstreams, assign owners, escalate to vendor/security/platform contacts, set update cadence, and document decisions and next actions.",
+    "tags": ["production_engineering", "escalation", "incident_management", "stakeholders"]
+  },
+  {
+    "id": "production_engineering_senior_reliability_010",
+    "domain": "Production Engineering",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Operational excellence",
+    "scenario": "A team repeatedly fixes production issues manually, but the same failures keep happening.",
+    "question": "How would you improve operational excellence?",
+    "expected_points": [
+      {"point": "Identifies repeat incidents and root causes", "keywords": ["repeat", "root cause", "incident"], "weight": 3},
+      {"point": "Automates prevention or recovery", "keywords": ["automate", "prevention", "recovery"], "weight": 3},
+      {"point": "Improves tests, monitoring, and runbooks", "keywords": ["test", "monitor", "runbook"], "weight": 2},
+      {"point": "Tracks reliability metrics over time", "keywords": ["metric", "trend", "slo"], "weight": 2}
+    ],
+    "explanation": "Operational excellence means reducing repeated manual firefighting through systems, automation, and learning.",
+    "ideal_answer": "I would analyze repeat incidents, prioritize systemic fixes, automate detection/recovery, improve tests and runbooks, and track reliability metrics to verify improvement.",
+    "tags": ["production_engineering", "operational_excellence", "automation", "reliability"]
+  }
+]

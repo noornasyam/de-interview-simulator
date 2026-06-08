@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dbt_mid_scenario_001",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "incremental model design",
+    "scenario": "A fact table model now takes two hours to rebuild daily. The source table receives append-only events with an event_timestamp.",
+    "question": "How would you redesign this dbt model to reduce runtime while keeping results accurate?",
+    "expected_points": [
+      {"point": "Proposes an incremental materialization", "keywords": ["incremental", "materialization"], "weight": 3},
+      {"point": "Uses a reliable timestamp or watermark filter", "keywords": ["event_timestamp", "watermark", "is_incremental"], "weight": 3},
+      {"point": "Mentions uniqueness or merge key if updates are possible", "keywords": ["unique_key", "merge", "deduplicate"], "weight": 2},
+      {"point": "Considers testing and full-refresh strategy", "keywords": ["test", "full refresh", "backfill"], "weight": 2}
+    ],
+    "explanation": "Large append-style fact models are strong candidates for incremental processing, but the cutoff logic, merge key, tests, and backfill plan must be designed carefully.",
+    "ideal_answer": "I would convert the model to incremental, filter new records using event_timestamp inside is_incremental(), define a unique_key if records can be updated, and add tests for uniqueness and row quality. I would also document when a full refresh or backfill is required.",
+    "tags": ["dbt", "incremental", "performance", "fact_tables"]
+  },
+  {
+    "id": "dbt_mid_troubleshooting_002",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "failed tests",
+    "scenario": "A nightly dbt job fails because a unique test on customer_id failed in a dimension model.",
+    "question": "What steps would you take to investigate and resolve the issue?",
+    "expected_points": [
+      {"point": "Inspects failing rows or compiled test query", "keywords": ["failing rows", "compiled SQL", "test query"], "weight": 3},
+      {"point": "Checks upstream source changes or joins", "keywords": ["source", "join", "upstream"], "weight": 2},
+      {"point": "Identifies whether duplicate records are expected or data quality defects", "keywords": ["duplicate", "expected", "defect"], "weight": 2},
+      {"point": "Fixes model logic and adds prevention", "keywords": ["deduplicate", "logic", "prevention", "alert"], "weight": 3}
+    ],
+    "explanation": "A failed uniqueness test is a data contract signal. The response should identify whether the issue is source quality, transformation logic, or changed business rules.",
+    "ideal_answer": "I would inspect the failed test output, query duplicate customer_id values, review recent source and join logic changes, decide whether duplicates are valid, then fix deduplication or update the model contract. I would keep the test and add monitoring if this is production-impacting.",
+    "tags": ["dbt", "tests", "troubleshooting", "data_quality"]
+  },
+  {
+    "id": "dbt_mid_scenario_003",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "source freshness",
+    "scenario": "Analytics users report stale dashboards. The dbt models succeeded, but the upstream raw orders table did not receive data overnight.",
+    "question": "How would you use dbt features to detect this earlier?",
+    "expected_points": [
+      {"point": "Defines sources for raw tables", "keywords": ["source", "sources"], "weight": 2},
+      {"point": "Configures source freshness checks", "keywords": ["freshness", "loaded_at_field", "warn_after", "error_after"], "weight": 4},
+      {"point": "Runs freshness checks in orchestration or CI/CD schedule", "keywords": ["orchestration", "job", "schedule"], "weight": 2},
+      {"point": "Alerts owners before downstream reports are trusted", "keywords": ["alert", "owner", "dashboard"], "weight": 2}
+    ],
+    "explanation": "A successful transformation does not guarantee source data is fresh. Source freshness checks help catch upstream ingestion delays.",
+    "ideal_answer": "I would declare the raw orders table as a dbt source, configure loaded_at_field with warn_after and error_after thresholds, run dbt source freshness before model builds, and alert data owners if freshness fails.",
+    "tags": ["dbt", "sources", "freshness", "monitoring"]
+  },
+  {
+    "id": "dbt_mid_troubleshooting_004",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "model dependency failure",
+    "scenario": "A downstream mart model did not run because an upstream staging model failed compilation.",
+    "question": "How would you debug a dbt compilation error in a dependency chain?",
+    "expected_points": [
+      {"point": "Reads the exact compilation error and model path", "keywords": ["error", "model path", "logs"], "weight": 2},
+      {"point": "Checks Jinja, ref, source, and macro syntax", "keywords": ["jinja", "ref", "source", "macro"], "weight": 3},
+      {"point": "Uses dbt compile or targeted runs", "keywords": ["dbt compile", "select", "targeted"], "weight": 3},
+      {"point": "Validates downstream impact before rerun", "keywords": ["lineage", "downstream", "impact"], "weight": 2}
+    ],
+    "explanation": "Compilation errors often come from invalid Jinja, missing refs, incorrect source definitions, or macro issues. Targeted compilation narrows the failure quickly.",
+    "ideal_answer": "I would inspect the log for the failing model, run dbt compile or a targeted dbt run on the affected node, check refs, sources, Jinja, and macros, then use lineage to identify downstream models that need rerunning after the fix.",
+    "tags": ["dbt", "compilation", "lineage", "troubleshooting"]
+  },
+  {
+    "id": "dbt_mid_scenario_005",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "documentation and ownership",
+    "scenario": "Business users do not trust a revenue metric because nobody knows how it is calculated.",
+    "question": "What dbt practices would you introduce to improve transparency?",
+    "expected_points": [
+      {"point": "Adds model and column descriptions", "keywords": ["description", "columns", "schema.yml"], "weight": 3},
+      {"point": "Uses lineage to show upstream dependencies", "keywords": ["lineage", "dependencies"], "weight": 2},
+      {"point": "Defines tests for metric assumptions", "keywords": ["tests", "quality", "assumptions"], "weight": 2},
+      {"point": "Adds ownership or exposure metadata", "keywords": ["owner", "exposure", "stakeholder"], "weight": 3}
+    ],
+    "explanation": "dbt documentation, lineage, tests, and ownership metadata make transformations easier to audit and discuss with business teams.",
+    "ideal_answer": "I would document the revenue model and columns in schema.yml, expose lineage to source tables and downstream dashboards, add tests for key assumptions, and define ownership or exposures so users know who maintains the metric.",
+    "tags": ["dbt", "documentation", "lineage", "ownership"]
+  },
+  {
+    "id": "dbt_mid_troubleshooting_006",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "incremental duplicates",
+    "scenario": "After switching a model to incremental, downstream reports show duplicate order records.",
+    "question": "What are likely causes and how would you fix them?",
+    "expected_points": [
+      {"point": "Checks missing or wrong unique_key", "keywords": ["unique_key", "merge key"], "weight": 3},
+      {"point": "Checks source duplicates or late-arriving updates", "keywords": ["duplicates", "late arriving", "updates"], "weight": 2},
+      {"point": "Reviews incremental filter logic", "keywords": ["is_incremental", "filter", "watermark"], "weight": 3},
+      {"point": "Adds deduplication and tests", "keywords": ["deduplicate", "unique test", "not_null"], "weight": 2}
+    ],
+    "explanation": "Incremental models need correct merge keys, cutoff logic, and tests. Otherwise repeated or updated records can create duplicate rows.",
+    "ideal_answer": "I would verify the unique_key and incremental filter, check whether the source sends late updates or duplicates, add deterministic deduplication, run a controlled full refresh if needed, and enforce uniqueness tests.",
+    "tags": ["dbt", "incremental", "duplicates", "troubleshooting"]
+  },
+  {
+    "id": "dbt_mid_scenario_007",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "CI/CD",
+    "scenario": "Your team wants to stop broken dbt changes from reaching production.",
+    "question": "What should a basic dbt CI workflow include?",
+    "expected_points": [
+      {"point": "Runs dbt compile or parse", "keywords": ["compile", "parse"], "weight": 2},
+      {"point": "Runs targeted builds/tests for changed models", "keywords": ["build", "test", "state modified", "defer"], "weight": 4},
+      {"point": "Uses isolated development schemas", "keywords": ["isolated", "schema", "environment"], "weight": 2},
+      {"point": "Blocks merges on failures", "keywords": ["pull request", "merge", "fail"], "weight": 2}
+    ],
+    "explanation": "A practical dbt CI workflow catches syntax, dependency, and data quality problems before production deployment.",
+    "ideal_answer": "A basic dbt CI pipeline should compile the project, build and test changed models plus relevant downstream dependencies in an isolated schema, use state comparison or defer where possible, and block merges when checks fail.",
+    "tags": ["dbt", "ci_cd", "testing", "deployment"]
+  },
+  {
+    "id": "dbt_mid_troubleshooting_008",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "macro debugging",
+    "scenario": "A shared macro used by several models was changed, and now multiple models compile into invalid SQL.",
+    "question": "How would you troubleshoot and prevent this type of issue?",
+    "expected_points": [
+      {"point": "Inspects compiled SQL for affected models", "keywords": ["compiled SQL", "target"], "weight": 3},
+      {"point": "Reviews macro inputs and backwards compatibility", "keywords": ["macro", "arguments", "compatibility"], "weight": 3},
+      {"point": "Adds tests or CI coverage for macro consumers", "keywords": ["CI", "tests", "coverage"], "weight": 2},
+      {"point": "Communicates impact and rolls back if needed", "keywords": ["rollback", "impact", "communication"], "weight": 2}
+    ],
+    "explanation": "Macros are shared code. A small change can break many models, so compiled SQL inspection and CI coverage are important.",
+    "ideal_answer": "I would inspect compiled SQL for affected models, compare the macro change against expected arguments, run targeted builds for macro consumers, roll back if production is blocked, and add CI checks or examples to protect the macro contract.",
+    "tags": ["dbt", "macros", "troubleshooting", "ci_cd"]
+  },
+  {
+    "id": "dbt_mid_scenario_009",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "model layers",
+    "scenario": "A dbt project mixes raw cleanup, business logic, and dashboard-specific calculations in the same models.",
+    "question": "How would you organize the project to make it easier to maintain?",
+    "expected_points": [
+      {"point": "Separates staging, intermediate, and mart layers", "keywords": ["staging", "intermediate", "mart"], "weight": 4},
+      {"point": "Keeps source cleanup separate from business logic", "keywords": ["cleanup", "business logic"], "weight": 2},
+      {"point": "Uses naming conventions and documentation", "keywords": ["naming", "documentation"], "weight": 2},
+      {"point": "Tests key contracts at each layer", "keywords": ["tests", "contracts"], "weight": 2}
+    ],
+    "explanation": "Layered dbt projects make transformations easier to understand, test, and change without breaking downstream consumers.",
+    "ideal_answer": "I would separate staging models for source cleanup, intermediate models for reusable business transformations, and marts for consumer-ready datasets. I would add naming conventions, documentation, and tests for important layer contracts.",
+    "tags": ["dbt", "project_structure", "modeling"]
+  },
+  {
+    "id": "dbt_mid_troubleshooting_010",
+    "domain": "dbt",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "environment mismatch",
+    "scenario": "A model works in development but fails in production because the relation name is different.",
+    "question": "What would you check in dbt configuration?",
+    "expected_points": [
+      {"point": "Checks target profiles or environment config", "keywords": ["target", "profile", "environment"], "weight": 3},
+      {"point": "Checks database/schema naming macros", "keywords": ["schema", "database", "generate_schema_name"], "weight": 3},
+      {"point": "Avoids hardcoded relation names", "keywords": ["ref", "source", "hardcoded"], "weight": 2},
+      {"point": "Validates deployment configuration", "keywords": ["deployment", "job", "prod"], "weight": 2}
+    ],
+    "explanation": "Environment-specific naming should be handled through dbt targets, refs, sources, and schema/database generation rules rather than hardcoded names.",
+    "ideal_answer": "I would check the production target and profile settings, schema and database generation macros, hardcoded relation references, and job environment variables. The fix is usually to use ref/source and consistent naming rules across environments.",
+    "tags": ["dbt", "environments", "deployment", "troubleshooting"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "git_lead_governance_001",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Git standards",
+    "scenario": "Different data teams use inconsistent branching, review, and release practices.",
+    "question": "What Git standards would you introduce for data engineering teams?",
+    "expected_points": [
+      {"point": "Defines branching and PR review standards", "keywords": ["branching", "PR", "review"], "weight": 3},
+      {"point": "Requires CI checks by repository type", "keywords": ["CI", "dbt", "Airflow", "Terraform"], "weight": 3},
+      {"point": "Defines release and rollback rules", "keywords": ["release", "rollback"], "weight": 2},
+      {"point": "Balances standardization with team autonomy", "keywords": ["standard", "autonomy", "team"], "weight": 2}
+    ],
+    "explanation": "Lead engineers create standards that reduce operational risk while allowing teams to move quickly.",
+    "ideal_answer": "I would standardize short-lived branches, PR reviews, CODEOWNERS for sensitive paths, required CI checks, release tags or deployed SHAs, and rollback procedures while allowing teams to tailor details to their deployment needs.",
+    "tags": ["git", "standards", "governance", "data_platform"]
+  },
+  {
+    "id": "git_lead_stakeholder_impact_002",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "expert",
+    "concept": "stakeholder impact",
+    "scenario": "Business stakeholders complain that data pipeline releases cause unexpected dashboard changes.",
+    "question": "How would you improve transparency and trust in the release process?",
+    "expected_points": [
+      {"point": "Improves release notes and impact communication", "keywords": ["release notes", "impact", "communication"], "weight": 3},
+      {"point": "Connects PRs to affected data products", "keywords": ["PR", "data product", "dashboard"], "weight": 2},
+      {"point": "Uses approvals for high-impact changes", "keywords": ["approval", "high-impact", "stakeholder"], "weight": 3},
+      {"point": "Defines rollback and incident communication", "keywords": ["rollback", "incident", "communication"], "weight": 2}
+    ],
+    "explanation": "Data releases affect business trust. Git workflows should make impact visible before code reaches production.",
+    "ideal_answer": "I would require PRs to document downstream data products affected, publish release notes for high-impact changes, involve business owners when definitions change, and define rollback and incident communication paths.",
+    "tags": ["git", "stakeholders", "release_management", "trust"]
+  },
+  {
+    "id": "git_lead_reliability_003",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "operating model",
+    "scenario": "Production data incidents often reveal that nobody knows who approved or deployed a change.",
+    "question": "What Git operating model would fix this accountability gap?",
+    "expected_points": [
+      {"point": "Defines ownership and approval responsibilities", "keywords": ["ownership", "approval", "responsibility"], "weight": 3},
+      {"point": "Records deployment commits and release artifacts", "keywords": ["deployment", "commit", "artifact"], "weight": 3},
+      {"point": "Requires protected branch controls", "keywords": ["protected branch", "controls"], "weight": 2},
+      {"point": "Integrates incident review with Git history", "keywords": ["incident", "review", "history"], "weight": 2}
+    ],
+    "explanation": "An operating model should make code ownership, approval, deployment, and incident evidence easy to trace.",
+    "ideal_answer": "I would require all production changes through reviewed PRs, CODEOWNERS for critical paths, deployed SHA tracking, release artifacts, protected branches, and incident reviews that link back to commits and PRs.",
+    "tags": ["git", "operating_model", "auditability", "incident_management"]
+  },
+  {
+    "id": "git_lead_governance_004",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "compliance controls",
+    "scenario": "A regulated organization needs evidence that production data pipeline changes are reviewed and tested.",
+    "question": "What controls would you implement around Git repositories?",
+    "expected_points": [
+      {"point": "Requires reviewed pull requests", "keywords": ["pull request", "review"], "weight": 2},
+      {"point": "Requires passing CI and policy checks", "keywords": ["CI", "policy", "checks"], "weight": 3},
+      {"point": "Maintains audit logs and deployment traceability", "keywords": ["audit", "logs", "deployment"], "weight": 3},
+      {"point": "Controls access and protected branches", "keywords": ["access", "protected branches"], "weight": 2}
+    ],
+    "explanation": "Compliance needs consistent, inspectable evidence that code changes were reviewed, tested, approved, and deployed safely.",
+    "ideal_answer": "I would enforce PR review, branch protection, required CI checks, CODEOWNERS, least-privilege repository access, deployment records tied to commit SHAs, and retained audit logs for production changes.",
+    "tags": ["git", "compliance", "governance", "audit"]
+  },
+  {
+    "id": "git_lead_architecture_005",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "expert",
+    "concept": "platform engineering",
+    "scenario": "Data teams want reusable GitHub Actions workflows for dbt, Airflow, and Terraform repositories.",
+    "question": "How would you design reusable CI/CD workflows?",
+    "expected_points": [
+      {"point": "Creates reusable workflow templates", "keywords": ["reusable", "template", "workflow"], "weight": 3},
+      {"point": "Supports repo-specific validation", "keywords": ["dbt", "Airflow", "Terraform", "validation"], "weight": 3},
+      {"point": "Manages secrets and permissions safely", "keywords": ["secrets", "permissions", "OIDC"], "weight": 2},
+      {"point": "Provides versioning and support model", "keywords": ["version", "support", "owner"], "weight": 2}
+    ],
+    "explanation": "Reusable workflows reduce duplicate CI/CD logic, but they need versioning, ownership, and secure defaults.",
+    "ideal_answer": "I would build versioned reusable GitHub Actions workflows for dbt, Airflow, and Terraform checks, provide secure defaults for permissions and secrets, document usage, and assign platform ownership for updates.",
+    "tags": ["git", "github_actions", "platform_engineering", "ci_cd"]
+  },
+  {
+    "id": "git_lead_reliability_006",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "deployment controls",
+    "scenario": "Teams deploy data platform changes at any time, including during critical business reporting windows.",
+    "question": "How would you introduce deployment controls without blocking productivity?",
+    "expected_points": [
+      {"point": "Classifies changes by risk and impact", "keywords": ["risk", "impact", "classification"], "weight": 3},
+      {"point": "Uses deployment windows for high-risk changes", "keywords": ["deployment window", "high-risk"], "weight": 2},
+      {"point": "Automates low-risk changes with CI gates", "keywords": ["automation", "low-risk", "CI"], "weight": 2},
+      {"point": "Defines emergency change process", "keywords": ["emergency", "break-glass", "process"], "weight": 3}
+    ],
+    "explanation": "Good release governance applies stricter controls to risky changes while allowing safe, validated changes to move quickly.",
+    "ideal_answer": "I would classify changes by production impact, allow low-risk changes through automated checks, require deployment windows and approvals for high-risk pipeline changes, and define a monitored emergency process for urgent fixes.",
+    "tags": ["git", "deployment_controls", "release_management", "reliability"]
+  },
+  {
+    "id": "git_lead_governance_007",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "repository access model",
+    "scenario": "Contractors, analysts, and platform engineers all need different levels of access to data engineering repos.",
+    "question": "How would you design repository access controls?",
+    "expected_points": [
+      {"point": "Uses least privilege by role", "keywords": ["least privilege", "role", "access"], "weight": 3},
+      {"point": "Separates read, write, maintain, and admin permissions", "keywords": ["read", "write", "admin", "maintain"], "weight": 2},
+      {"point": "Protects production branches and sensitive paths", "keywords": ["protected", "production", "sensitive"], "weight": 2},
+      {"point": "Reviews access periodically", "keywords": ["review", "periodic", "audit"], "weight": 3}
+    ],
+    "explanation": "Repository access is part of data platform security because code changes can affect production data and infrastructure.",
+    "ideal_answer": "I would grant least-privilege access by role, restrict admin rights, protect production branches, require CODEOWNERS for sensitive paths, and periodically review access for employees and contractors.",
+    "tags": ["git", "access_control", "security", "governance"]
+  },
+  {
+    "id": "git_lead_stakeholder_impact_008",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "expert",
+    "concept": "cross-team migration",
+    "scenario": "You need to migrate teams from direct commits to pull-request based development.",
+    "question": "How would you manage the change?",
+    "expected_points": [
+      {"point": "Explains the operational risk behind the change", "keywords": ["risk", "operational", "why"], "weight": 2},
+      {"point": "Rolls out standards gradually with training", "keywords": ["training", "gradual", "rollout"], "weight": 3},
+      {"point": "Provides templates and automation", "keywords": ["template", "automation", "workflow"], "weight": 2},
+      {"point": "Measures adoption and failure reduction", "keywords": ["adoption", "measure", "failure"], "weight": 3}
+    ],
+    "explanation": "Changing Git behavior across teams requires communication, enablement, tooling, and metrics.",
+    "ideal_answer": "I would explain the production risks of direct commits, introduce PR templates and automated checks, train teams, pilot with a few repos, then measure adoption, cycle time, and incident reduction.",
+    "tags": ["git", "change_management", "stakeholders", "standards"]
+  },
+  {
+    "id": "git_lead_architecture_009",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "expert",
+    "concept": "repository templates",
+    "scenario": "New data engineering projects start inconsistently, with missing CI, weak README files, and no ownership metadata.",
+    "question": "How would repository templates improve the platform?",
+    "expected_points": [
+      {"point": "Provides standard project structure", "keywords": ["template", "structure", "standard"], "weight": 3},
+      {"point": "Includes CI/CD and security defaults", "keywords": ["CI", "security", "defaults"], "weight": 3},
+      {"point": "Includes ownership and documentation expectations", "keywords": ["ownership", "README", "documentation"], "weight": 2},
+      {"point": "Reduces onboarding and operational variation", "keywords": ["onboarding", "variation", "operational"], "weight": 2}
+    ],
+    "explanation": "Templates make good repository hygiene the default instead of relying on every team to reinvent it.",
+    "ideal_answer": "I would create templates for dbt, Airflow, Terraform, and Python pipeline repos that include standard structure, CI checks, PR templates, CODEOWNERS, README expectations, and secure defaults.",
+    "tags": ["git", "repository_templates", "platform_engineering"]
+  },
+  {
+    "id": "git_lead_governance_010",
+    "domain": "Git",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "auditability",
+    "scenario": "Auditors ask how a production data access change was approved and deployed.",
+    "question": "What evidence should the Git workflow provide?",
+    "expected_points": [
+      {"point": "Shows PR, reviewers, and approvals", "keywords": ["PR", "reviewer", "approval"], "weight": 3},
+      {"point": "Shows CI/policy check results", "keywords": ["CI", "policy", "checks"], "weight": 2},
+      {"point": "Shows deployed commit or tag", "keywords": ["deployed", "commit", "tag"], "weight": 3},
+      {"point": "Shows linked change request or ticket where required", "keywords": ["change request", "ticket", "compliance"], "weight": 2}
+    ],
+    "explanation": "A mature Git workflow can prove who requested, reviewed, approved, validated, and deployed production code changes.",
+    "ideal_answer": "The workflow should show the PR, linked ticket, reviewers, approvals, CI and policy checks, the exact deployed commit or tag, and any change-management record required by compliance.",
+    "tags": ["git", "auditability", "compliance", "change_management"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "git_mid_scenario_001",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Airflow repository workflow",
+    "scenario": "A teammate opens a pull request changing a production Airflow DAG schedule and task dependencies.",
+    "question": "What would you check before approving the pull request?",
+    "expected_points": [
+      {"point": "Reviews schedule, dependencies, and downstream impact", "keywords": ["schedule", "dependencies", "downstream"], "weight": 3},
+      {"point": "Checks DAG import, lint, or unit tests", "keywords": ["DAG import", "lint", "tests"], "weight": 2},
+      {"point": "Looks for rollback or deployment risk", "keywords": ["rollback", "deployment", "risk"], "weight": 2},
+      {"point": "Confirms monitoring or owner communication", "keywords": ["monitoring", "owner", "communication"], "weight": 3}
+    ],
+    "explanation": "Airflow PR review should consider operational behavior, not only code syntax. Schedule changes can affect SLAs, backfills, and downstream dependencies.",
+    "ideal_answer": "I would review the new schedule and dependencies, check DAG import/lint tests, assess downstream impact and backfill risk, confirm rollback steps, and ensure owners know about the operational change.",
+    "tags": ["git", "airflow", "code_review", "workflow"]
+  },
+  {
+    "id": "git_mid_troubleshooting_002",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "merge conflict resolution",
+    "scenario": "Two branches changed the same dbt model. The conflict is in revenue calculation logic.",
+    "question": "How would you resolve the conflict safely?",
+    "expected_points": [
+      {"point": "Understands both business logic changes", "keywords": ["business logic", "understand", "compare"], "weight": 3},
+      {"point": "Coordinates with authors or stakeholders", "keywords": ["authors", "stakeholders", "coordinate"], "weight": 2},
+      {"point": "Runs dbt compile/tests or targeted validation", "keywords": ["dbt", "compile", "tests"], "weight": 3},
+      {"point": "Documents final logic in PR", "keywords": ["document", "PR", "review"], "weight": 2}
+    ],
+    "explanation": "Conflicts in transformation logic can change business metrics. They require semantic validation, not just choosing one side.",
+    "ideal_answer": "I would compare both changes, ask the authors or metric owner if needed, create the correct combined revenue logic, run dbt compile and relevant tests, and explain the resolution in the PR.",
+    "tags": ["git", "merge_conflicts", "dbt", "revenue"]
+  },
+  {
+    "id": "git_mid_scenario_003",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Terraform repository workflow",
+    "scenario": "A Terraform PR changes IAM permissions for a data pipeline service account.",
+    "question": "What Git and CI/CD controls should be part of the review?",
+    "expected_points": [
+      {"point": "Requires Terraform validate/plan in CI", "keywords": ["terraform validate", "plan", "CI"], "weight": 3},
+      {"point": "Reviews least privilege and security impact", "keywords": ["least privilege", "security", "IAM"], "weight": 3},
+      {"point": "Uses protected branches and approvals", "keywords": ["protected branch", "approval", "review"], "weight": 2},
+      {"point": "Preserves audit trail for compliance", "keywords": ["audit", "compliance", "trace"], "weight": 2}
+    ],
+    "explanation": "Infrastructure changes need stronger controls because a bad merge can expose data or break pipelines.",
+    "ideal_answer": "I would require Terraform validate and plan in CI, review IAM changes for least privilege, require approval through protected branches, and keep PR history for audit and compliance.",
+    "tags": ["git", "terraform", "iam", "ci_cd"]
+  },
+  {
+    "id": "git_mid_troubleshooting_004",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "bad deployment rollback",
+    "scenario": "A merged pull request caused a dbt production job to fail. The release pipeline deployed automatically from main.",
+    "question": "How would you use Git to recover and reduce recurrence?",
+    "expected_points": [
+      {"point": "Identifies offending commit or PR", "keywords": ["commit", "PR", "history"], "weight": 2},
+      {"point": "Uses revert or hotfix safely", "keywords": ["revert", "hotfix", "rollback"], "weight": 3},
+      {"point": "Runs validation before redeploying", "keywords": ["validation", "tests", "CI"], "weight": 2},
+      {"point": "Improves branch rules or CI checks", "keywords": ["branch rules", "CI", "protected"], "weight": 3}
+    ],
+    "explanation": "Git supports recovery through traceability and reverting. Prevention comes from better checks before merge.",
+    "ideal_answer": "I would find the PR/commit, revert it or apply a small hotfix, run dbt validation, redeploy, and then add missing CI checks or branch protection so similar failures are blocked earlier.",
+    "tags": ["git", "rollback", "dbt", "incident"]
+  },
+  {
+    "id": "git_mid_scenario_005",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "branching strategy",
+    "scenario": "Your data platform team has long-lived feature branches for Airflow and dbt changes. Merges are painful and releases are delayed.",
+    "question": "What workflow would you recommend?",
+    "expected_points": [
+      {"point": "Recommends short-lived branches or trunk-based practices", "keywords": ["short-lived", "trunk", "branch"], "weight": 3},
+      {"point": "Uses PR reviews and automated checks", "keywords": ["PR", "review", "CI"], "weight": 2},
+      {"point": "Separates risky changes with feature flags or deployment controls where possible", "keywords": ["feature flag", "deployment", "risk"], "weight": 2},
+      {"point": "Improves release cadence and conflict reduction", "keywords": ["release", "conflict", "cadence"], "weight": 3}
+    ],
+    "explanation": "Long-lived branches increase drift and conflict risk. Data teams usually benefit from smaller, frequent, validated changes.",
+    "ideal_answer": "I would move toward short-lived branches, smaller PRs, required CI checks, and frequent merges to main. Risky deployment behavior should be controlled through release procedures or environment gates rather than huge branches.",
+    "tags": ["git", "branching_strategy", "release_management"]
+  },
+  {
+    "id": "git_mid_troubleshooting_006",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "GitHub Actions failure",
+    "scenario": "A GitHub Actions workflow that validates dbt changes fails only on pull requests, not locally.",
+    "question": "How would you debug the workflow?",
+    "expected_points": [
+      {"point": "Reads CI logs and failing command", "keywords": ["logs", "command", "workflow"], "weight": 2},
+      {"point": "Checks environment variables, profiles, and secrets", "keywords": ["environment", "secrets", "profiles"], "weight": 3},
+      {"point": "Compares local dependency versions with CI", "keywords": ["versions", "dependencies", "runner"], "weight": 2},
+      {"point": "Reproduces or isolates the failing step", "keywords": ["reproduce", "isolate", "step"], "weight": 3}
+    ],
+    "explanation": "CI failures often come from environment differences: credentials, profiles, dependencies, paths, or runner configuration.",
+    "ideal_answer": "I would inspect the failing GitHub Actions step, compare local and CI commands, check dbt profiles/secrets/environment variables, verify dependency versions, and isolate the failing command in a minimal workflow if needed.",
+    "tags": ["git", "github_actions", "ci_cd", "dbt"]
+  },
+  {
+    "id": "git_mid_scenario_007",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "release tags",
+    "scenario": "Your team cannot easily identify which version of pipeline code was deployed last Friday.",
+    "question": "How would you improve release traceability using Git?",
+    "expected_points": [
+      {"point": "Uses tags or release commits", "keywords": ["tag", "release", "commit"], "weight": 3},
+      {"point": "Links deployment records to commit SHAs", "keywords": ["deployment", "SHA", "record"], "weight": 3},
+      {"point": "Documents release notes or PR links", "keywords": ["release notes", "PR", "changelog"], "weight": 2},
+      {"point": "Supports rollback and audit needs", "keywords": ["rollback", "audit"], "weight": 2}
+    ],
+    "explanation": "Release traceability connects production behavior to exact code versions, which supports debugging, auditability, and rollback.",
+    "ideal_answer": "I would tag releases, record the deployed commit SHA in the deployment system, link releases to PRs or changelogs, and make rollback procedures reference known-good tags or commits.",
+    "tags": ["git", "tags", "release_management", "auditability"]
+  },
+  {
+    "id": "git_mid_troubleshooting_008",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "accidental secret commit",
+    "scenario": "An engineer accidentally commits a database password to a pipeline repository.",
+    "question": "What should happen next?",
+    "expected_points": [
+      {"point": "Rotates or revokes the exposed secret immediately", "keywords": ["rotate", "revoke", "secret"], "weight": 4},
+      {"point": "Removes the secret from code and history where appropriate", "keywords": ["remove", "history", "commit"], "weight": 2},
+      {"point": "Checks access logs or blast radius", "keywords": ["logs", "blast radius", "access"], "weight": 2},
+      {"point": "Adds prevention such as secret scanning", "keywords": ["secret scanning", "pre-commit", "CI"], "weight": 2}
+    ],
+    "explanation": "Once a secret is committed, assume exposure. Removing it from code is not enough; the credential must be rotated.",
+    "ideal_answer": "I would rotate the credential immediately, remove it from the repo, assess access logs and blast radius, clean history if required by policy, and add secret scanning or pre-commit checks to prevent recurrence.",
+    "tags": ["git", "security", "secrets", "incident"]
+  },
+  {
+    "id": "git_mid_scenario_009",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "code ownership",
+    "scenario": "Several teams edit the same shared Airflow utilities without clear owners. Recent changes broke multiple DAGs.",
+    "question": "How would you improve ownership and review workflow?",
+    "expected_points": [
+      {"point": "Defines CODEOWNERS or required reviewers", "keywords": ["CODEOWNERS", "reviewers", "owners"], "weight": 3},
+      {"point": "Adds tests for shared utilities", "keywords": ["tests", "shared", "utilities"], "weight": 2},
+      {"point": "Documents contracts and usage expectations", "keywords": ["contract", "documentation", "usage"], "weight": 2},
+      {"point": "Uses protected branches and CI gates", "keywords": ["protected", "CI", "gate"], "weight": 3}
+    ],
+    "explanation": "Shared platform code needs explicit ownership because small changes can affect many pipelines.",
+    "ideal_answer": "I would define CODEOWNERS for shared utilities, require review from platform owners, add tests for common DAG behavior, document utility contracts, and enforce CI checks before merge.",
+    "tags": ["git", "code_ownership", "airflow", "platform"]
+  },
+  {
+    "id": "git_mid_troubleshooting_010",
+    "domain": "Git",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "cherry-pick",
+    "scenario": "A production fix is needed urgently, but the feature branch also contains unrelated unfinished changes.",
+    "question": "How could cherry-pick help, and what should you be careful about?",
+    "expected_points": [
+      {"point": "Explains selecting only the needed commit", "keywords": ["cherry-pick", "specific commit"], "weight": 3},
+      {"point": "Checks dependencies between commits", "keywords": ["dependency", "related commits"], "weight": 2},
+      {"point": "Validates fix in target branch", "keywords": ["test", "validate", "target branch"], "weight": 3},
+      {"point": "Avoids bypassing review and audit", "keywords": ["review", "audit", "PR"], "weight": 2}
+    ],
+    "explanation": "Cherry-pick can move one commit without merging unrelated work, but it can fail if the commit depends on other changes.",
+    "ideal_answer": "Cherry-pick can apply only the production fix commit to the release branch. I would check whether it depends on other commits, validate it with tests, and still use a reviewed PR for auditability.",
+    "tags": ["git", "cherry_pick", "hotfix", "release"]
+  }
+]

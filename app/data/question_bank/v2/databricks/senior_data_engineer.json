@@ -1,0 +1,192 @@
+[
+  {
+    "id": "databricks_senior_scenario_001",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Medallion platform design",
+    "scenario": "Your team is building a new customer analytics platform on Databricks with raw events, CRM exports, and product usage data.",
+    "question": "How would you design the Bronze, Silver, and Gold layers?",
+    "expected_points": [
+      {"point": "Defines Bronze as raw/replayable data", "keywords": ["bronze", "raw", "replay"], "weight": 2},
+      {"point": "Defines Silver as cleaned/conformed data", "keywords": ["silver", "clean", "conformed"], "weight": 3},
+      {"point": "Defines Gold as business-ready serving data", "keywords": ["gold", "business", "serving"], "weight": 2},
+      {"point": "Includes quality, lineage, and operational controls", "keywords": ["quality", "lineage", "monitor"], "weight": 3}
+    ],
+    "explanation": "A production medallion design should define each layer's purpose, data contracts, and operational quality standards.",
+    "ideal_answer": "I would keep Bronze raw and replayable, build Silver tables with validated schemas and conformed business entities, and publish Gold tables for reporting or ML features with clear ownership, quality checks, lineage, and monitoring.",
+    "tags": ["databricks", "medallion", "lakehouse", "architecture"]
+  },
+  {
+    "id": "databricks_senior_trouble_002",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Streaming lag incident",
+    "scenario": "A Structured Streaming job from cloud storage to a Silver Delta table is falling behind, and dashboards are stale.",
+    "question": "How would you investigate and recover?",
+    "expected_points": [
+      {"point": "Checks input rate, processing rate, and backlog", "keywords": ["input rate", "processing rate", "backlog"], "weight": 3},
+      {"point": "Reviews checkpoint, errors, and cluster utilization", "keywords": ["checkpoint", "error", "cluster"], "weight": 3},
+      {"point": "Checks small files, skew, or downstream bottlenecks", "keywords": ["small files", "skew", "bottleneck"], "weight": 2},
+      {"point": "Communicates freshness impact and prevention", "keywords": ["freshness", "communicate", "prevent"], "weight": 2}
+    ],
+    "explanation": "Streaming incidents require diagnosing source backlog, processing bottlenecks, checkpoint health, and business freshness impact.",
+    "ideal_answer": "I would inspect streaming metrics, backlog, checkpoint health, errors, cluster utilization, skew, and small files, then scale or tune processing, protect checkpoint integrity, communicate dashboard staleness, and add lag alerts and runbooks.",
+    "tags": ["databricks", "structured_streaming", "incident", "reliability"]
+  },
+  {
+    "id": "databricks_senior_design_003",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "medium",
+    "concept": "Job clusters vs interactive clusters",
+    "scenario": "A production ETL pipeline currently runs on a shared all-purpose interactive cluster used by analysts.",
+    "question": "What change would you recommend and why?",
+    "expected_points": [
+      {"point": "Recommends job clusters or controlled production compute", "keywords": ["job cluster", "production", "compute"], "weight": 3},
+      {"point": "Explains isolation and reproducibility", "keywords": ["isolation", "reproducible", "library"], "weight": 3},
+      {"point": "Explains cost and contention benefits", "keywords": ["cost", "contention", "auto terminate"], "weight": 2},
+      {"point": "Mentions cluster policies or CI/CD", "keywords": ["policy", "ci", "deployment"], "weight": 2}
+    ],
+    "explanation": "Production jobs should use repeatable, isolated compute rather than shared interactive environments.",
+    "ideal_answer": "I would move the pipeline to a job cluster or governed workflow compute with pinned runtime/libraries, cluster policies, auto-termination, and CI/CD deployment so production is isolated from analyst activity.",
+    "tags": ["databricks", "job_clusters", "interactive_clusters", "production"]
+  },
+  {
+    "id": "databricks_senior_cost_004",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Databricks cost optimization",
+    "scenario": "Databricks spend increased sharply after more teams started using notebooks and scheduled jobs.",
+    "question": "How would you reduce cost while keeping the platform productive?",
+    "expected_points": [
+      {"point": "Reviews compute utilization and cluster lifecycle", "keywords": ["utilization", "cluster", "auto termination"], "weight": 3},
+      {"point": "Uses cluster policies and job clusters", "keywords": ["cluster policy", "job cluster", "policy"], "weight": 3},
+      {"point": "Optimizes data layout and job performance", "keywords": ["optimize", "small files", "performance"], "weight": 2},
+      {"point": "Adds ownership, budgets, or chargeback", "keywords": ["owner", "budget", "chargeback"], "weight": 2}
+    ],
+    "explanation": "Databricks cost control combines compute governance, workload tuning, and owner-level visibility.",
+    "ideal_answer": "I would analyze cluster utilization, enforce auto-termination and cluster policies, move scheduled jobs to right-sized job clusters, optimize slow jobs and Delta layout, and add tags, budgets, and owner-level reporting.",
+    "tags": ["databricks", "cost", "cluster_policies", "finops"]
+  },
+  {
+    "id": "databricks_senior_scenario_005",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Unity Catalog migration",
+    "scenario": "Your workspace uses legacy table ACLs and mount-based access. Security wants centralized governance with Unity Catalog.",
+    "question": "How would you plan the migration?",
+    "expected_points": [
+      {"point": "Inventories tables, mounts, users, and permissions", "keywords": ["inventory", "mount", "permission"], "weight": 3},
+      {"point": "Defines catalog/schema structure and ownership", "keywords": ["catalog", "schema", "owner"], "weight": 3},
+      {"point": "Migrates access using least privilege", "keywords": ["least privilege", "grant", "access"], "weight": 2},
+      {"point": "Phases rollout and validates workloads", "keywords": ["phase", "validate", "workload"], "weight": 2}
+    ],
+    "explanation": "Unity Catalog migration affects identity, metadata, table naming, permissions, and operational compatibility.",
+    "ideal_answer": "I would inventory existing data assets and mounts, design catalog/schema ownership, map permissions to least-privilege grants, migrate in phases, update jobs/notebooks, validate lineage and access, and communicate breaking changes.",
+    "tags": ["databricks", "unity_catalog", "migration", "governance"]
+  },
+  {
+    "id": "databricks_senior_trouble_006",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Delta table corruption concern",
+    "scenario": "A downstream team reports missing rows after an overwrite job updated a Gold Delta table.",
+    "question": "How would you investigate and restore trust?",
+    "expected_points": [
+      {"point": "Checks Delta history and transaction log", "keywords": ["history", "transaction log", "delta log"], "weight": 3},
+      {"point": "Uses time travel or restore where appropriate", "keywords": ["time travel", "restore", "version"], "weight": 3},
+      {"point": "Finds root cause in overwrite or merge logic", "keywords": ["overwrite", "merge", "root cause"], "weight": 2},
+      {"point": "Adds safeguards and validation", "keywords": ["validation", "quality", "safeguard"], "weight": 2}
+    ],
+    "explanation": "Delta Lake history and time travel are important tools for diagnosing and recovering from bad writes.",
+    "ideal_answer": "I would inspect Delta history and the job run, compare affected versions using time travel, restore or rebuild if needed, identify whether overwrite/merge logic caused the issue, and add pre-publish validations and safer write patterns.",
+    "tags": ["databricks", "delta_lake", "time_travel", "incident"]
+  },
+  {
+    "id": "databricks_senior_design_007",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Delta Live Tables vs custom jobs",
+    "scenario": "A team wants to standardize pipeline development. Some prefer Delta Live Tables, while others prefer custom Spark jobs.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Explains DLT managed pipeline benefits", "keywords": ["dlt", "managed", "expectations"], "weight": 3},
+      {"point": "Explains custom Spark flexibility", "keywords": ["custom", "flexibility", "spark"], "weight": 3},
+      {"point": "Considers cost, operations, and team skills", "keywords": ["cost", "operation", "skills"], "weight": 2},
+      {"point": "Defines workload-based standards", "keywords": ["standard", "workload", "guideline"], "weight": 2}
+    ],
+    "explanation": "DLT can simplify managed pipelines, but custom jobs may be better for highly specialized logic or portability needs.",
+    "ideal_answer": "I would use DLT where declarative pipelines, expectations, lineage, and managed operations add value, and custom Spark jobs where flexibility, custom dependencies, or advanced control are more important.",
+    "tags": ["databricks", "delta_live_tables", "spark_jobs", "tradeoffs"]
+  },
+  {
+    "id": "databricks_senior_scenario_008",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Data quality architecture",
+    "scenario": "Executives distrust Gold dashboards because some Silver tables occasionally contain duplicates and stale records.",
+    "question": "How would you design quality gates in Databricks?",
+    "expected_points": [
+      {"point": "Validates freshness, uniqueness, and schema", "keywords": ["freshness", "unique", "schema"], "weight": 3},
+      {"point": "Blocks or quarantines bad data before Gold", "keywords": ["block", "quarantine", "gold"], "weight": 3},
+      {"point": "Uses expectations/tests and monitoring", "keywords": ["expectation", "test", "monitor"], "weight": 2},
+      {"point": "Assigns ownership and incident process", "keywords": ["owner", "incident", "runbook"], "weight": 2}
+    ],
+    "explanation": "Quality gates should prevent untrusted Silver data from silently reaching business-facing Gold tables.",
+    "ideal_answer": "I would add schema, freshness, uniqueness, and reconciliation checks before publishing Gold, quarantine invalid records, use DLT expectations or test frameworks, alert owners, and track data quality incidents.",
+    "tags": ["databricks", "data_quality", "gold", "monitoring"]
+  },
+  {
+    "id": "databricks_senior_trouble_009",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Unity Catalog permission denied",
+    "scenario": "A production job starts failing with permission denied after a table is moved into Unity Catalog.",
+    "question": "How would you diagnose and fix the access issue?",
+    "expected_points": [
+      {"point": "Checks service principal or job identity", "keywords": ["service principal", "identity", "job"], "weight": 3},
+      {"point": "Checks catalog/schema/table grants", "keywords": ["grant", "catalog", "schema", "table"], "weight": 3},
+      {"point": "Checks storage credential or external location permissions", "keywords": ["storage credential", "external location", "permission"], "weight": 2},
+      {"point": "Applies least privilege and validates job", "keywords": ["least privilege", "validate", "job"], "weight": 2}
+    ],
+    "explanation": "Unity Catalog access failures can involve both object grants and storage-level permissions.",
+    "ideal_answer": "I would identify the job identity, verify catalog/schema/table grants, check external location and storage credential permissions if relevant, apply least-privilege grants, and rerun the job in a controlled way.",
+    "tags": ["databricks", "unity_catalog", "permissions", "troubleshooting"]
+  },
+  {
+    "id": "databricks_senior_cost_010",
+    "domain": "Databricks",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Performance tuning and cost",
+    "scenario": "A daily Gold table build consumes expensive compute for three hours, but downstream users only query the latest month.",
+    "question": "How would you improve performance and cost?",
+    "expected_points": [
+      {"point": "Questions full rebuild and considers incremental processing", "keywords": ["incremental", "full rebuild", "latest"], "weight": 3},
+      {"point": "Optimizes partitioning/file layout", "keywords": ["partition", "file", "optimize"], "weight": 2},
+      {"point": "Uses compaction or Z-ordering when appropriate", "keywords": ["compaction", "z-order", "optimize"], "weight": 2},
+      {"point": "Right-sizes compute and measures impact", "keywords": ["right-size", "compute", "measure"], "weight": 3}
+    ],
+    "explanation": "Cost tuning should first reduce unnecessary work, then tune layout and compute.",
+    "ideal_answer": "I would avoid full rebuilds if incremental processing is safe, limit processing to changed or recent data, optimize file layout and compaction, consider Z-ordering for common filters, and right-size the job cluster based on measured runtime and utilization.",
+    "tags": ["databricks", "performance", "cost", "incremental"]
+  }
+]

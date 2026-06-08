@@ -1,0 +1,153 @@
+[
+  {
+    "id": "databricks_junior_mcq_001",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Delta Log",
+    "question": "What is the Delta transaction log used for?",
+    "options": ["Tracking table changes and transactions", "Storing cluster passwords", "Replacing all Parquet files", "Sending email alerts only"],
+    "correct_answer": "Tracking table changes and transactions",
+    "explanation": "The Delta log records transaction metadata so Delta Lake can provide ACID transactions, time travel, and reliable table state.",
+    "ideal_answer": "The Delta log tracks table transactions and metadata so readers and writers can see a consistent table state.",
+    "tags": ["databricks", "delta_log", "transactions", "delta_lake"]
+  },
+  {
+    "id": "databricks_junior_fill_002",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "ACID transactions",
+    "question": "Fill in the blank: Delta Lake supports ____ transactions for reliable reads and writes.",
+    "correct_answer": "ACID",
+    "acceptable_answers": ["acid", "ACID", "ACID transactions"],
+    "explanation": "ACID properties help ensure that table updates are reliable and readers see consistent results.",
+    "ideal_answer": "Delta Lake supports ACID transactions, which make writes reliable and table reads consistent.",
+    "tags": ["databricks", "acid", "delta_lake", "reliability"]
+  },
+  {
+    "id": "databricks_junior_match_003",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "Databricks workload mapping",
+    "question": "Match each workload to a suitable Databricks feature.",
+    "left_items": ["New files arriving in cloud storage", "Scheduled batch ETL", "SQL dashboard queries"],
+    "right_items": ["Auto Loader", "Job cluster", "SQL warehouse"],
+    "correct_pairs": {"New files arriving in cloud storage": "Auto Loader", "Scheduled batch ETL": "Job cluster", "SQL dashboard queries": "SQL warehouse"},
+    "explanation": "Different Databricks features fit ingestion, scheduled processing, and SQL serving workloads.",
+    "ideal_answer": "Use Auto Loader for incremental file ingestion, job clusters for scheduled ETL, and SQL warehouses for SQL dashboards.",
+    "tags": ["databricks", "auto_loader", "job_clusters", "sql_warehouse"]
+  },
+  {
+    "id": "databricks_junior_short_004",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Bronze to Silver transformation",
+    "question": "What are two common things you would do when transforming Bronze data into Silver data?",
+    "acceptable_answers": ["deduplicate", "clean", "schema validation", "cast types", "filter bad records", "standardize", "quality checks"],
+    "expected_points": [
+      {"point": "Cleans or standardizes raw records", "keywords": ["clean", "standardize", "cast"], "weight": 5},
+      {"point": "Applies quality checks such as deduplication or schema validation", "keywords": ["deduplicate", "schema", "quality"], "weight": 5}
+    ],
+    "explanation": "Silver data should be cleaner, more consistent, and easier for downstream consumers to trust than Bronze data.",
+    "ideal_answer": "I would validate schema, cast data types, remove or quarantine bad records, deduplicate where appropriate, and standardize fields before writing Silver tables.",
+    "tags": ["databricks", "medallion", "silver", "data_quality"]
+  },
+  {
+    "id": "databricks_junior_mcq_005",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Job clusters",
+    "question": "Why are job clusters often preferred for production scheduled jobs?",
+    "options": ["They are created for a job run and terminated after completion", "They are always free", "They bypass all permissions", "They can only run SQL dashboards"],
+    "correct_answer": "They are created for a job run and terminated after completion",
+    "explanation": "Job clusters improve isolation and cost control by using compute for a specific job run rather than relying on always-on shared interactive clusters.",
+    "ideal_answer": "Job clusters are useful for production jobs because they provide isolated, repeatable compute and can terminate after the run to control cost.",
+    "tags": ["databricks", "job_clusters", "production_jobs", "cost"]
+  },
+  {
+    "id": "databricks_junior_fill_006",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "Delta Live Tables",
+    "question": "Fill in the blank: Delta ____ Tables is a Databricks framework for declarative data pipelines.",
+    "correct_answer": "Live",
+    "acceptable_answers": ["live", "Live", "Delta Live Tables", "DLT", "dlt"],
+    "explanation": "Delta Live Tables lets teams define managed data pipelines with quality expectations and dependency handling.",
+    "ideal_answer": "Delta Live Tables is a declarative framework for building managed Delta Lake pipelines with quality expectations.",
+    "tags": ["databricks", "delta_live_tables", "dlt", "pipelines"]
+  },
+  {
+    "id": "databricks_junior_match_007",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Data quality in Databricks",
+    "question": "Match each quality technique to its purpose.",
+    "left_items": ["Schema enforcement", "Deduplication", "Quarantine table"],
+    "right_items": ["Rejects unexpected structure", "Removes repeated records", "Stores invalid records for review"],
+    "correct_pairs": {"Schema enforcement": "Rejects unexpected structure", "Deduplication": "Removes repeated records", "Quarantine table": "Stores invalid records for review"},
+    "explanation": "Databricks pipelines often combine schema rules, deduplication, and quarantine patterns to improve trust.",
+    "ideal_answer": "Schema enforcement catches unexpected structure, deduplication handles repeated records, and quarantine tables preserve invalid records for investigation.",
+    "tags": ["databricks", "data_quality", "schema", "deduplication"]
+  },
+  {
+    "id": "databricks_junior_short_008",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Interactive clusters",
+    "question": "Why should production ETL not usually depend on a shared interactive cluster?",
+    "acceptable_answers": ["cost", "isolation", "reproducibility", "contention", "manual changes", "instability"],
+    "expected_points": [
+      {"point": "Mentions lack of isolation or reproducibility", "keywords": ["isolation", "reproducible", "manual"], "weight": 5},
+      {"point": "Mentions cost or workload contention risk", "keywords": ["cost", "contention", "shared"], "weight": 5}
+    ],
+    "explanation": "Interactive clusters are useful for development but can create unstable dependencies for production jobs.",
+    "ideal_answer": "Production ETL should usually use job clusters because shared interactive clusters can have manual changes, workload contention, inconsistent libraries, and unnecessary cost.",
+    "tags": ["databricks", "interactive_clusters", "job_clusters", "production"]
+  },
+  {
+    "id": "databricks_junior_mcq_009",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Unity Catalog permissions",
+    "question": "What does Unity Catalog help centralize?",
+    "options": ["Data permissions, metadata, and lineage", "Laptop memory allocation", "Public DNS routing", "Operating system patching only"],
+    "correct_answer": "Data permissions, metadata, and lineage",
+    "explanation": "Unity Catalog centralizes governance for data assets across Databricks workspaces.",
+    "ideal_answer": "Unity Catalog centralizes permissions, metadata, lineage, and governance for Databricks data assets.",
+    "tags": ["databricks", "unity_catalog", "permissions", "lineage"]
+  },
+  {
+    "id": "databricks_junior_short_010",
+    "domain": "Databricks",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "File compaction",
+    "question": "Why can many small files hurt Spark or Delta table performance?",
+    "acceptable_answers": ["metadata overhead", "task overhead", "small files", "slow planning", "many tasks", "compaction"],
+    "expected_points": [
+      {"point": "Mentions metadata or query planning overhead", "keywords": ["metadata", "planning", "overhead"], "weight": 5},
+      {"point": "Mentions too many tasks or inefficient reads", "keywords": ["tasks", "read", "small files"], "weight": 5}
+    ],
+    "explanation": "Small files increase planning and task overhead, which can make queries slower even if the data volume is not large.",
+    "ideal_answer": "Many small files increase metadata, planning, and task overhead. Compaction can combine small files into larger files for more efficient reads.",
+    "tags": ["databricks", "small_files", "compaction", "performance"]
+  }
+]

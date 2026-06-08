@@ -1,0 +1,192 @@
+[
+  {
+    "id": "production_engineering_arch_enterprise_001",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Enterprise operations architecture",
+    "scenario": "A global company wants consistent production operations for data pipelines, warehouses, ML workflows, and governance platforms.",
+    "question": "What enterprise operations architecture would you define?",
+    "expected_points": [
+      {"point": "Defines operational standards across platforms", "keywords": ["standard", "platform", "operations"], "weight": 3},
+      {"point": "Includes observability, incident, and SLO practices", "keywords": ["observability", "incident", "slo"], "weight": 3},
+      {"point": "Includes release, DR, and change management", "keywords": ["release", "dr", "change"], "weight": 2},
+      {"point": "Includes governance, security, and cost controls", "keywords": ["governance", "security", "cost"], "weight": 2}
+    ],
+    "explanation": "Enterprise operations architecture creates consistent reliability, security, release, and incident practices across data platforms.",
+    "ideal_answer": "I would define platform-wide SLOs, observability standards, incident command, runbooks, CI/CD and rollback practices, DR tests, ownership metadata, security operations, and cost governance across all critical data systems.",
+    "tags": ["production_engineering", "enterprise_operations", "platform_operations", "sre"]
+  },
+  {
+    "id": "production_engineering_arch_reliability_002",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "SRE strategy for data platforms",
+    "scenario": "The organization wants to apply SRE practices to data products, not just APIs.",
+    "question": "How would you adapt SRE to data engineering?",
+    "expected_points": [
+      {"point": "Defines data-specific SLIs and SLOs", "keywords": ["sli", "slo", "freshness"], "weight": 3},
+      {"point": "Uses error budgets for data reliability", "keywords": ["error budget", "reliability", "change"], "weight": 3},
+      {"point": "Includes incident response and postmortems", "keywords": ["incident", "postmortem", "rca"], "weight": 2},
+      {"point": "Balances delivery and reliability investment", "keywords": ["delivery", "investment", "trade-off"], "weight": 2}
+    ],
+    "explanation": "SRE for data focuses on freshness, correctness, completeness, availability, and trustworthy operation of data products.",
+    "ideal_answer": "I would define SLIs for freshness, correctness, completeness, availability, and latency, set SLOs by criticality, use error budgets, improve incident response and postmortems, and prioritize reliability work based on user impact.",
+    "tags": ["production_engineering", "sre_strategy", "slo", "error_budget"]
+  },
+  {
+    "id": "production_engineering_arch_reliability_003",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "DR strategy",
+    "scenario": "Executives want assurance that the enterprise data platform can recover from regional outage, accidental deletion, and bad data releases.",
+    "question": "What DR strategy would you design?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO tiers by criticality", "keywords": ["rto", "rpo", "tier"], "weight": 3},
+      {"point": "Protects data, metadata, code, and infrastructure", "keywords": ["data", "metadata", "code", "infrastructure"], "weight": 3},
+      {"point": "Handles bad data rollback/reprocessing", "keywords": ["rollback", "reprocess", "bad data"], "weight": 2},
+      {"point": "Tests recovery through drills", "keywords": ["test", "drill", "restore"], "weight": 2}
+    ],
+    "explanation": "Data platform DR must handle infrastructure failure, data loss, metadata loss, and logical corruption.",
+    "ideal_answer": "I would tier data products by RTO/RPO, protect data and metadata, version code and infrastructure, design rollback/replay for bad releases, document runbooks, and run regular recovery drills.",
+    "tags": ["production_engineering", "dr_strategy", "backup_restore", "reliability"]
+  },
+  {
+    "id": "production_engineering_arch_platform_004",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "hard",
+    "concept": "Platform operations model",
+    "scenario": "Business domains own data products, but central teams own cloud infrastructure, orchestration, and governance tools.",
+    "question": "How would you design the platform operations model?",
+    "expected_points": [
+      {"point": "Separates platform ownership from data product ownership", "keywords": ["platform", "data product", "ownership"], "weight": 3},
+      {"point": "Defines shared standards and paved roads", "keywords": ["standard", "paved road", "template"], "weight": 3},
+      {"point": "Defines support and escalation boundaries", "keywords": ["support", "escalation", "boundary"], "weight": 2},
+      {"point": "Measures adoption, reliability, and cost", "keywords": ["adoption", "reliability", "cost"], "weight": 2}
+    ],
+    "explanation": "A good operations model clarifies who owns platforms, who owns data products, and how teams get support.",
+    "ideal_answer": "I would make platform teams own shared tooling and standards, domain teams own data products, provide templates and guardrails, define escalation paths, and measure reliability, cost, and platform adoption.",
+    "tags": ["production_engineering", "platform_operations", "operating_model", "governance"]
+  },
+  {
+    "id": "production_engineering_arch_gov_005",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Operational governance",
+    "scenario": "Critical data products have inconsistent SLOs, monitoring, runbooks, and incident review quality.",
+    "question": "What governance framework would you define?",
+    "expected_points": [
+      {"point": "Defines minimum operational readiness standards", "keywords": ["readiness", "standard", "minimum"], "weight": 3},
+      {"point": "Requires SLOs, monitoring, and runbooks", "keywords": ["slo", "monitor", "runbook"], "weight": 3},
+      {"point": "Requires incident review and action tracking", "keywords": ["incident", "review", "action"], "weight": 2},
+      {"point": "Tiers requirements by criticality", "keywords": ["tier", "criticality", "risk"], "weight": 2}
+    ],
+    "explanation": "Operational governance creates consistent expectations for reliability and supportability across data products.",
+    "ideal_answer": "I would define operational readiness tiers requiring ownership, SLOs, monitoring, alerts, runbooks, DR plans, and incident reviews, with stricter standards for critical data products.",
+    "tags": ["production_engineering", "operational_governance", "readiness", "slo"]
+  },
+  {
+    "id": "production_engineering_arch_security_006",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Security operations",
+    "scenario": "The data platform handles sensitive data across cloud warehouses, orchestration tools, notebooks, and ML services.",
+    "question": "How would you design security operations for this platform?",
+    "expected_points": [
+      {"point": "Monitors sensitive data access and anomalies", "keywords": ["monitor", "access", "anomaly"], "weight": 3},
+      {"point": "Defines incident response for security events", "keywords": ["incident", "response", "security"], "weight": 3},
+      {"point": "Includes access reviews and least privilege", "keywords": ["access review", "least privilege", "permission"], "weight": 2},
+      {"point": "Preserves audit evidence and compliance reporting", "keywords": ["audit", "evidence", "compliance"], "weight": 2}
+    ],
+    "explanation": "Security operations require monitoring, response processes, access governance, and evidence for sensitive data systems.",
+    "ideal_answer": "I would monitor sensitive access, detect anomalies, define security incident playbooks, run entitlement reviews, enforce least privilege, preserve audit evidence, and produce compliance reporting.",
+    "tags": ["production_engineering", "security_operations", "audit", "compliance"]
+  },
+  {
+    "id": "production_engineering_arch_cost_007",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Enterprise operational cost strategy",
+    "scenario": "Cloud data platform costs are growing across warehouses, pipelines, orchestration, streaming, and ML operations.",
+    "question": "How would you create an operational cost strategy?",
+    "expected_points": [
+      {"point": "Defines cost ownership and allocation", "keywords": ["owner", "allocation", "tag"], "weight": 3},
+      {"point": "Monitors cost by workload and service", "keywords": ["monitor", "workload", "service"], "weight": 3},
+      {"point": "Adds budgets, anomaly alerts, and guardrails", "keywords": ["budget", "anomaly", "guardrail"], "weight": 2},
+      {"point": "Connects cost optimization to reliability and delivery", "keywords": ["reliability", "delivery", "trade-off"], "weight": 2}
+    ],
+    "explanation": "Enterprise cost operations need ownership, observability, guardrails, and engineering playbooks.",
+    "ideal_answer": "I would define cost ownership, tags, showback/chargeback, workload-level dashboards, budgets, anomaly alerts, optimization playbooks, and review cost trade-offs alongside reliability and delivery goals.",
+    "tags": ["production_engineering", "cost_optimization", "finops", "cloud_operations"]
+  },
+  {
+    "id": "production_engineering_arch_reliability_008",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Availability strategy",
+    "scenario": "Different business teams expect different availability levels from data APIs, dashboards, batch tables, and ML features.",
+    "question": "How would you define availability expectations?",
+    "expected_points": [
+      {"point": "Tiers services by business criticality", "keywords": ["tier", "criticality", "business"], "weight": 3},
+      {"point": "Defines availability/freshness SLOs by product type", "keywords": ["availability", "freshness", "slo"], "weight": 3},
+      {"point": "Defines operational response by tier", "keywords": ["response", "tier", "on-call"], "weight": 2},
+      {"point": "Balances cost with reliability need", "keywords": ["cost", "reliability", "trade-off"], "weight": 2}
+    ],
+    "explanation": "Availability expectations should vary by product criticality and user impact.",
+    "ideal_answer": "I would classify data products by criticality and usage pattern, define availability and freshness SLOs for each tier, map response expectations and support hours, and balance higher reliability against cost.",
+    "tags": ["production_engineering", "availability", "slo", "reliability"]
+  },
+  {
+    "id": "production_engineering_arch_platform_009",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "hard",
+    "concept": "Observability platform design",
+    "scenario": "Teams use separate tools and dashboards, making it hard to understand end-to-end data platform health.",
+    "question": "How would you design observability at platform level?",
+    "expected_points": [
+      {"point": "Standardizes metrics, logs, and traces/events", "keywords": ["metrics", "logs", "traces"], "weight": 3},
+      {"point": "Includes data-specific signals", "keywords": ["freshness", "quality", "lineage"], "weight": 3},
+      {"point": "Provides service and executive-level dashboards", "keywords": ["dashboard", "service", "executive"], "weight": 2},
+      {"point": "Links alerts to ownership and runbooks", "keywords": ["alert", "owner", "runbook"], "weight": 2}
+    ],
+    "explanation": "Platform observability should connect infrastructure, pipelines, data quality, and business impact.",
+    "ideal_answer": "I would standardize logs, metrics, traces/events, freshness, volume, quality, and lineage signals, create dashboards by service and business product, and link alerts to owners and runbooks.",
+    "tags": ["production_engineering", "observability", "dashboards", "platform_operations"]
+  },
+  {
+    "id": "production_engineering_arch_gov_010",
+    "domain": "Production Engineering",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Executive reliability reporting",
+    "scenario": "Executives ask whether the data platform is becoming more reliable quarter over quarter.",
+    "question": "What reporting would you provide?",
+    "expected_points": [
+      {"point": "Reports SLO attainment and error budget burn", "keywords": ["slo", "error budget", "attainment"], "weight": 3},
+      {"point": "Reports incidents, MTTR, and recurring causes", "keywords": ["incident", "mttr", "recurring"], "weight": 3},
+      {"point": "Reports data quality and freshness trends", "keywords": ["quality", "freshness", "trend"], "weight": 2},
+      {"point": "Connects metrics to roadmap and risk", "keywords": ["roadmap", "risk", "investment"], "weight": 2}
+    ],
+    "explanation": "Executive reliability reporting should show business-impacting reliability trends and justify investment decisions.",
+    "ideal_answer": "I would report SLO attainment, error budget burn, incident count/severity, MTTR, recurring root causes, freshness/quality trends, and the roadmap investments tied to the largest risks.",
+    "tags": ["production_engineering", "reliability_reporting", "governance", "executive"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dbt_senior_architecture_001",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "enterprise dbt architecture",
+    "scenario": "A company has one large dbt project owned by many teams. Deployments are slow, ownership is unclear, and failures affect unrelated domains.",
+    "question": "How would you redesign the dbt architecture and operating model?",
+    "expected_points": [
+      {"point": "Defines domain ownership or modular project boundaries", "keywords": ["domain", "ownership", "modular"], "weight": 3},
+      {"point": "Introduces clear layers and contracts", "keywords": ["staging", "mart", "contract", "interface"], "weight": 2},
+      {"point": "Improves CI/CD and deployment isolation", "keywords": ["CI", "deployment", "isolation"], "weight": 2},
+      {"point": "Addresses governance, documentation, and incident ownership", "keywords": ["governance", "documentation", "incident"], "weight": 3}
+    ],
+    "explanation": "At senior level, dbt architecture is not only model layout. It also includes ownership, deployment strategy, contracts, and operational accountability.",
+    "ideal_answer": "I would split ownership by data domain or modular boundaries, define shared standards for staging/intermediate/marts, introduce contracts for cross-domain models, improve CI with targeted builds, and assign owners for documentation, tests, and incidents.",
+    "tags": ["dbt", "architecture", "ownership", "governance"]
+  },
+  {
+    "id": "dbt_senior_troubleshooting_002",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "production troubleshooting",
+    "scenario": "A critical dbt job started running three times longer after a seemingly small model change.",
+    "question": "How would you investigate and reduce the runtime regression?",
+    "expected_points": [
+      {"point": "Compares recent code and compiled SQL", "keywords": ["diff", "compiled SQL", "change"], "weight": 2},
+      {"point": "Checks query plans, data scanned, joins, and materializations", "keywords": ["query plan", "scan", "join", "materialization"], "weight": 3},
+      {"point": "Uses lineage to find affected models", "keywords": ["lineage", "downstream", "dependencies"], "weight": 2},
+      {"point": "Implements targeted fixes and monitoring", "keywords": ["incremental", "partition", "monitoring", "alert"], "weight": 3}
+    ],
+    "explanation": "Runtime regressions usually come from changed SQL shape, larger scans, broken pruning, expensive joins, or materialization choices.",
+    "ideal_answer": "I would compare the code and compiled SQL, inspect the warehouse query plan and bytes scanned, identify affected models through lineage, then fix the root cause such as bad joins, lost partition pruning, or wrong materialization. I would add runtime and cost monitoring to catch regressions earlier.",
+    "tags": ["dbt", "performance", "troubleshooting", "monitoring"]
+  },
+  {
+    "id": "dbt_senior_cost_optimization_003",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "warehouse cost optimization",
+    "scenario": "dbt transformations are the fastest-growing warehouse cost. Finance wants savings without breaking analytics freshness.",
+    "question": "What dbt-specific levers would you evaluate?",
+    "expected_points": [
+      {"point": "Reviews model materializations and incremental strategy", "keywords": ["materialization", "incremental", "full refresh"], "weight": 3},
+      {"point": "Reduces unnecessary model runs with selectors or state", "keywords": ["selector", "state", "modified", "defer"], "weight": 2},
+      {"point": "Optimizes SQL, pruning, and warehouse configuration", "keywords": ["SQL", "partition", "cluster", "warehouse"], "weight": 3},
+      {"point": "Balances cost against freshness and SLAs", "keywords": ["freshness", "SLA", "trade-off"], "weight": 2}
+    ],
+    "explanation": "dbt costs are influenced by what runs, how often it runs, how models are materialized, and how efficient the compiled SQL is.",
+    "ideal_answer": "I would identify high-cost models, review full refreshes, convert suitable models to incremental, use state selectors to avoid unnecessary builds, optimize SQL and pruning, and tune schedules to match freshness requirements instead of rebuilding everything every run.",
+    "tags": ["dbt", "cost_optimization", "performance", "scheduling"]
+  },
+  {
+    "id": "dbt_senior_governance_004",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "model contracts",
+    "scenario": "A downstream ML feature pipeline broke because a dbt model changed a column type without notice.",
+    "question": "How would you use dbt and engineering process to prevent this?",
+    "expected_points": [
+      {"point": "Uses model contracts where appropriate", "keywords": ["contract", "schema", "column type"], "weight": 3},
+      {"point": "Adds tests for critical columns", "keywords": ["tests", "not_null", "accepted", "relationship"], "weight": 2},
+      {"point": "Introduces change management and versioning", "keywords": ["change management", "version", "deprecation"], "weight": 3},
+      {"point": "Communicates with consumers through exposures or ownership", "keywords": ["exposure", "owner", "consumer"], "weight": 2}
+    ],
+    "explanation": "Governed dbt models need stable contracts, tested assumptions, and explicit communication for breaking changes.",
+    "ideal_answer": "I would define contracts for critical models, test key columns, require PR review for schema changes, version or deprecate breaking changes, and use ownership/exposures to notify downstream consumers before production changes.",
+    "tags": ["dbt", "contracts", "governance", "ml_features"]
+  },
+  {
+    "id": "dbt_senior_architecture_005",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "dbt Cloud deployment architecture",
+    "scenario": "A team is moving from manually run dbt Core jobs to dbt Cloud for production deployments.",
+    "question": "What deployment design would you recommend?",
+    "expected_points": [
+      {"point": "Separates dev, staging, and production environments", "keywords": ["dev", "staging", "production", "environment"], "weight": 3},
+      {"point": "Defines scheduled jobs and CI jobs separately", "keywords": ["schedule", "CI", "pull request"], "weight": 2},
+      {"point": "Handles secrets and permissions safely", "keywords": ["secrets", "permissions", "service account"], "weight": 2},
+      {"point": "Adds alerts, logs, and ownership", "keywords": ["alert", "logs", "owner"], "weight": 3}
+    ],
+    "explanation": "A production dbt Cloud setup should separate environments, distinguish CI from scheduled jobs, protect credentials, and make failures visible.",
+    "ideal_answer": "I would configure separate development and production environments, use PR CI for changed models, schedule production jobs with proper service credentials, restrict permissions, and route alerts with clear ownership and runbooks.",
+    "tags": ["dbt", "dbt_cloud", "deployment", "operations"]
+  },
+  {
+    "id": "dbt_senior_troubleshooting_006",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "snapshot correctness",
+    "scenario": "A dbt snapshot table is growing rapidly and contains multiple versions that business users believe are duplicates.",
+    "question": "How would you determine whether the snapshot is correct or misconfigured?",
+    "expected_points": [
+      {"point": "Reviews snapshot strategy and unique key", "keywords": ["strategy", "unique_key", "check", "timestamp"], "weight": 3},
+      {"point": "Inspects changed columns or updated_at behavior", "keywords": ["updated_at", "changed columns", "check_cols"], "weight": 3},
+      {"point": "Distinguishes true history from noisy source changes", "keywords": ["history", "noisy", "source"], "weight": 2},
+      {"point": "Adjusts strategy or documents expected behavior", "keywords": ["adjust", "document", "business"], "weight": 2}
+    ],
+    "explanation": "Snapshots are sensitive to unique key and change detection strategy. Noisy updated_at values or broad check columns can create unexpected versions.",
+    "ideal_answer": "I would check the snapshot unique_key, strategy, updated_at or check columns, compare versions to source changes, and decide whether the versions represent true history. If not, I would narrow check_cols, fix updated_at logic, or rebuild with a documented migration plan.",
+    "tags": ["dbt", "snapshots", "troubleshooting", "history"]
+  },
+  {
+    "id": "dbt_senior_governance_007",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "data quality strategy",
+    "scenario": "The dbt project has hundreds of models but only a few tests. Production incidents are increasing.",
+    "question": "How would you design a practical dbt testing strategy?",
+    "expected_points": [
+      {"point": "Prioritizes critical business models and contracts", "keywords": ["critical", "business", "contracts"], "weight": 3},
+      {"point": "Combines generic and custom tests", "keywords": ["generic", "custom", "tests"], "weight": 3},
+      {"point": "Runs tests in CI and production jobs", "keywords": ["CI", "production", "job"], "weight": 2},
+      {"point": "Defines ownership and severity levels", "keywords": ["owner", "severity", "alert"], "weight": 2}
+    ],
+    "explanation": "Testing every possible condition is unrealistic. Senior engineers prioritize high-impact models and use tests as enforceable contracts.",
+    "ideal_answer": "I would start with critical marts and source contracts, add generic tests for keys and required fields, custom tests for business rules, run targeted tests in CI, run production tests on schedules, and assign owners and severity for failures.",
+    "tags": ["dbt", "tests", "governance", "data_quality"]
+  },
+  {
+    "id": "dbt_senior_architecture_008",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "semantic layer and exposures",
+    "scenario": "Executives want confidence that certified dashboards are backed by governed dbt models.",
+    "question": "How would you connect dbt models to business-facing assets and ownership?",
+    "expected_points": [
+      {"point": "Uses exposures for dashboards or applications", "keywords": ["exposure", "dashboard", "application"], "weight": 3},
+      {"point": "Documents certified models and owners", "keywords": ["certified", "owner", "description"], "weight": 2},
+      {"point": "Uses lineage for impact analysis", "keywords": ["lineage", "impact"], "weight": 2},
+      {"point": "Adds tests and governance for trusted assets", "keywords": ["tests", "governance", "trusted"], "weight": 3}
+    ],
+    "explanation": "Exposures connect dbt transformations to downstream assets, making ownership, lineage, and impact analysis visible.",
+    "ideal_answer": "I would define exposures for certified dashboards, document owner and maturity metadata, ensure upstream models have tests and descriptions, and use lineage to assess the impact of model changes on executive reporting.",
+    "tags": ["dbt", "exposures", "lineage", "governance"]
+  },
+  {
+    "id": "dbt_senior_cost_optimization_009",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "job scheduling and selectors",
+    "scenario": "All dbt models run every hour, but most downstream reports only need daily freshness.",
+    "question": "How would you reduce cost while preserving business SLAs?",
+    "expected_points": [
+      {"point": "Maps models to freshness requirements", "keywords": ["freshness", "SLA", "requirements"], "weight": 3},
+      {"point": "Splits jobs by model criticality and cadence", "keywords": ["jobs", "cadence", "criticality"], "weight": 3},
+      {"point": "Uses selectors or tags", "keywords": ["selectors", "tags", "state"], "weight": 2},
+      {"point": "Monitors freshness and failures", "keywords": ["monitor", "freshness", "alert"], "weight": 2}
+    ],
+    "explanation": "Running every model at the highest cadence is expensive. dbt tags, selectors, and separate jobs can align compute spend to business freshness needs.",
+    "ideal_answer": "I would classify models by SLA, split hourly critical models from daily marts, use tags/selectors to run the right subsets, and monitor freshness so lower cadence does not silently violate business expectations.",
+    "tags": ["dbt", "scheduling", "cost_optimization", "selectors"]
+  },
+  {
+    "id": "dbt_senior_troubleshooting_010",
+    "domain": "dbt",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "deployment rollback",
+    "scenario": "A production dbt deployment introduced incorrect revenue numbers in a certified mart.",
+    "question": "What immediate and follow-up actions would you take?",
+    "expected_points": [
+      {"point": "Stops or rolls back the bad deployment", "keywords": ["rollback", "revert", "stop"], "weight": 3},
+      {"point": "Communicates impact to stakeholders", "keywords": ["communicate", "stakeholders", "impact"], "weight": 2},
+      {"point": "Uses lineage to identify affected assets", "keywords": ["lineage", "downstream", "exposures"], "weight": 2},
+      {"point": "Adds tests or CI checks to prevent recurrence", "keywords": ["tests", "CI", "RCA"], "weight": 3}
+    ],
+    "explanation": "A production data incident requires containment, communication, impact analysis, correction, and prevention.",
+    "ideal_answer": "I would pause the job if needed, roll back the change or restore the last known-good logic, notify stakeholders of affected dashboards, use lineage/exposures for impact analysis, correct the data, and add tests or CI checks from the RCA.",
+    "tags": ["dbt", "incident", "rollback", "production"]
+  }
+]

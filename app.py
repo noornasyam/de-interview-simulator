@@ -33,6 +33,19 @@ from app.services.question_bank_service import (
 CERTIFICATION_QUESTION_LIMIT = 5
 INTERVIEW_QUESTION_LIMIT = 5
 AI_MODE = "AI Interview Mode"
+INTERVIEW_TYPES = ["Domain Practice", "Interview Track"]
+INTERVIEW_TRACKS = {
+    "Data Engineer": ["SQL", "Python", "GCP / BigQuery", "Airflow", "Data Modeling"],
+    "Senior Data Engineer": ["SQL", "Python", "GCP / BigQuery", "Terraform", "Airflow"],
+    "Lead Data Engineer": [
+        "Terraform",
+        "Production Engineering",
+        "GCP / BigQuery",
+        "Data Modeling",
+        "Airflow",
+    ],
+    "Architect": ["GCP / BigQuery", "AWS", "Azure", "Databricks", "Production Engineering"],
+}
 ROLE_LEVELS = {
     "Data Engineer": "Senior",
     "Senior Data Engineer": "Senior",
@@ -54,11 +67,15 @@ AI_SESSION_DEFAULTS = {
     "ai_complete": False,
     "ai_level": "Senior Data Engineer",
     "ai_domain": "GCP / BigQuery",
+    "ai_interview_type": "Domain Practice",
+    "ai_track": "",
+    "ai_track_domains": [],
     "ai_question_index": 0,
     "ai_current_question": None,
     "ai_current_answer": "",
     "ai_current_follow_up": None,
     "ai_history": [],
+    "ai_pending_results": [],
     "ai_answers": [],
     "ai_evaluations": [],
     "ai_final_report": None,
@@ -100,11 +117,15 @@ def reset_session():
         "ai_complete",
         "ai_level",
         "ai_domain",
+        "ai_interview_type",
+        "ai_track",
+        "ai_track_domains",
         "ai_question_index",
         "ai_current_question",
         "ai_current_answer",
         "ai_current_follow_up",
         "ai_history",
+        "ai_pending_results",
         "ai_answers",
         "ai_evaluations",
         "ai_final_report",
@@ -415,6 +436,48 @@ def question_bank_requires_gemini(questions):
     return any(should_use_gemini(question) for question in questions)
 
 
+def select_track_session_questions(track, level):
+    """Pick one curated question from each track domain."""
+
+    selected = []
+    used_ids = set()
+    warnings = []
+    for domain in INTERVIEW_TRACKS.get(track, []):
+        questions = select_session_questions(domain, level, count=1, previous_ids=used_ids)
+        if not questions:
+            warnings.append(f"No curated question found for {domain} at {level}.")
+            continue
+        question = questions[0]
+        used_ids.add(question.get("id"))
+        selected.append(question)
+    return selected, warnings
+
+
+def get_ai_session_label():
+    if st.session_state.get("ai_interview_type") == "Interview Track":
+        return f"{st.session_state.get('ai_track', 'Interview Track')} Track"
+    return st.session_state.get("ai_domain", "Domain Practice")
+
+
+def get_domain_score_extremes(domain_scores):
+    if not domain_scores:
+        return None, None
+    sorted_scores = sorted(domain_scores.items(), key=lambda item: item[1], reverse=True)
+    return sorted_scores[0], sorted_scores[-1]
+
+
+def get_question_mix_for_level(level):
+    mixes = {
+        "Beginner": "MCQ, Match, Fill Blank",
+        "Junior Data Engineer": "MCQ, Match, Fill Blank, Short Answer",
+        "Mid-Level Data Engineer": "MCQ, Scenario, Troubleshooting",
+        "Senior Data Engineer": "Scenario, Design Decisions, Troubleshooting",
+        "Lead Data Engineer": "Architecture, Trade-offs, Governance",
+        "Architect": "Enterprise Architecture, Reliability, Security",
+    }
+    return mixes.get(level, "Scenario, Troubleshooting, Design Decisions")
+
+
 def render_ai_answer_input(question, index):
     question_type = str(question.get("type") or question.get("question_type") or "").lower()
     question_id = question.get("id", f"ai_question_{index}")
@@ -433,10 +496,13 @@ def render_ai_answer_input(question, index):
         right_items = question.get("right_items", [])
         answer = {}
         for left_item in question.get("left_items", []):
+            match_key = f"ai_match_{question_id}_{index}_{left_item}"
+            if match_key not in st.session_state:
+                st.session_state[match_key] = ""
             answer[left_item] = st.selectbox(
                 left_item,
                 [""] + right_items,
-                key=f"ai_match_{question_id}_{index}_{left_item}",
+                key=match_key,
             )
         return answer
 
@@ -454,6 +520,68 @@ def format_ai_answer(answer):
     if isinstance(answer, dict):
         return "\n".join(f"{left}: {right}" for left, right in answer.items())
     return str(answer).strip()
+
+
+def evaluate_pending_ai_answers():
+    level = st.session_state.ai_level
+    domain = st.session_state.ai_domain
+    pending_results = st.session_state.get("ai_pending_results", [])
+    evaluated_results = []
+    evaluations = []
+    explanations = []
+    correct_count = 0
+    partial_count = 0
+    incorrect_count = 0
+
+    for item in pending_results:
+        question = item.get("question", {})
+        answer = item.get("answer", "")
+        prior_results = [
+            {
+                "question": result.get("question", {}),
+                "answer": result.get("answer", ""),
+                "evaluation": result.get("evaluation", {}),
+            }
+            for result in evaluated_results
+        ]
+
+        if should_use_gemini(question):
+            evaluation = evaluate_ai_answer(question, answer, level, domain, prior_results)
+        else:
+            evaluation = evaluate_objective_question(question, item.get("raw_answer", answer))
+
+        if evaluation.get("error"):
+            return False, evaluation["error"]
+
+        result = {
+            "question": question,
+            "answer": answer,
+            "evaluation": evaluation,
+        }
+        evaluated_results.append(result)
+        evaluations.append(evaluation)
+
+        score = int(evaluation.get("score", 0))
+        if score >= 8:
+            correct_count += 1
+        elif score >= 5:
+            partial_count += 1
+        else:
+            incorrect_count += 1
+
+        if evaluation.get("explanation"):
+            explanations.append(evaluation["explanation"])
+
+    st.session_state.ai_history = evaluated_results
+    st.session_state.ai_evaluations = evaluations
+    st.session_state.ai_explanations = explanations
+    st.session_state.ai_correct_count = correct_count
+    st.session_state.ai_partial_count = partial_count
+    st.session_state.ai_incorrect_count = incorrect_count
+    st.session_state.ai_final_report = generate_ai_final_report(evaluated_results, level, domain)
+    st.session_state.ai_complete = True
+    st.session_state.ai_phase = "assessment"
+    return True, ""
 
 
 def build_interview_report(results):
@@ -613,56 +741,129 @@ else:
     st.code("GOOGLE_API_KEY=your_google_ai_studio_key", language="bash")
 
 selected_level = st.selectbox("Select level", AI_ROLES, index=3)
-selected_domain = st.selectbox("Select domain", AI_DOMAINS, index=2)
-available_bank_questions = load_v2_questions(selected_domain, selected_level)
-has_curated_bank = has_complete_v2_bank(selected_domain, selected_level, minimum_count=MAX_QUESTIONS)
-bank_needs_gemini = question_bank_requires_gemini(available_bank_questions)
+selected_interview_type = st.selectbox("Interview Type", INTERVIEW_TYPES)
+selected_track = ""
+selected_track_domains = []
+selected_domain = "Mixed Interview"
 
-if has_curated_bank:
+if selected_interview_type == "Interview Track":
+    selected_track = st.selectbox("Select track", list(INTERVIEW_TRACKS), index=1)
+    selected_track_domains = INTERVIEW_TRACKS[selected_track]
+    st.caption("Track domains: " + ", ".join(selected_track_domains))
+    available_bank_questions = [
+        question
+        for track_domain in selected_track_domains
+        for question in load_v2_questions(track_domain, selected_level)
+    ]
+    has_curated_bank = all(
+        has_complete_v2_bank(track_domain, selected_level, minimum_count=1)
+        for track_domain in selected_track_domains
+    )
+    bank_needs_gemini = question_bank_requires_gemini(available_bank_questions)
+    selected_session_label = f"{selected_track} Track"
+else:
+    selected_domain = st.selectbox("Select domain", AI_DOMAINS, index=2)
+    available_bank_questions = load_v2_questions(selected_domain, selected_level)
+    has_curated_bank = has_complete_v2_bank(selected_domain, selected_level, minimum_count=MAX_QUESTIONS)
+    bank_needs_gemini = question_bank_requires_gemini(available_bank_questions)
+    selected_session_label = selected_domain
+
+if selected_interview_type == "Interview Track":
+    if has_curated_bank:
+        st.info("Using curated interview track + AI feedback")
+    else:
+        st.warning("This track is missing one or more curated domain banks for the selected level.")
+elif has_curated_bank:
     st.info("Using curated question bank + AI feedback")
-    if bank_needs_gemini and not gemini_ready:
-        st.warning(
-            "This curated session includes open-ended questions that need Gemini evaluation. "
-            "Choose Beginner or Junior SQL for local-only scoring, or configure GOOGLE_API_KEY."
-        )
 else:
     st.info("Using Gemini-generated questions")
 
-selection_key = f"ai:{selected_level}:{selected_domain}"
+if bank_needs_gemini and not gemini_ready:
+    st.warning(
+        "This session includes open-ended questions that need Gemini evaluation. "
+        "Configure GOOGLE_API_KEY before starting."
+    )
+
+selection_key = f"ai:{selected_level}:{selected_interview_type}:{selected_session_label}"
 if st.session_state.get("selection_key") != selection_key:
     st.session_state.selection_key = selection_key
     reset_session()
     initialize_ai_session_state()
 
 if not st.session_state.get("ai_started"):
-    st.write(f"Start a {MAX_QUESTIONS}-question interview. Curated objective questions are scored locally; open-ended questions use Gemini.")
-    can_start = gemini_ready or (has_curated_bank and not bank_needs_gemini)
-    if st.button("Start Interview", disabled=not can_start):
+    st.subheader("Interview Session Summary")
+    st.write(f"Interview Type: {selected_interview_type}")
+    if selected_interview_type == "Interview Track":
+        st.write(f"Track: {selected_track}")
+        st.write("Domains: " + ", ".join(selected_track_domains))
+    else:
+        st.write(f"Domain: {selected_domain}")
+    st.write(f"Level: {selected_level}")
+
+    st.write("Interview Details:")
+    st.write(f"- {MAX_QUESTIONS} Questions")
+    st.write("- Estimated Time: 10-15 minutes")
+    st.write("- Assessment Generated At End")
+    st.write("- AI Evaluation Enabled" if gemini_ready else "- AI Evaluation Requires Setup")
+
+    st.write("Question Mix:")
+    st.write(f"- {get_question_mix_for_level(selected_level)}")
+
+    can_start = has_curated_bank and (gemini_ready or not bank_needs_gemini)
+    if selected_interview_type == "Domain Practice" and not has_curated_bank:
+        can_start = gemini_ready
+
+    col_start, col_back = st.columns(2)
+    if col_start.button("Start Interview", disabled=not can_start):
         reset_session()
         initialize_ai_session_state()
-        session_questions = select_session_questions(selected_domain, selected_level, MAX_QUESTIONS)
+        track_warnings = []
+        if selected_interview_type == "Interview Track":
+            session_questions, track_warnings = select_track_session_questions(
+                selected_track,
+                selected_level,
+            )
+            using_question_bank = True
+            session_domain = selected_session_label
+        else:
+            session_questions = select_session_questions(selected_domain, selected_level, MAX_QUESTIONS)
+            using_question_bank = bool(session_questions)
+            session_domain = selected_domain
+
         using_question_bank = bool(session_questions)
         st.session_state.ai_started = True
         st.session_state.ai_complete = False
         st.session_state.ai_level = selected_level
-        st.session_state.ai_domain = selected_domain
+        st.session_state.ai_domain = session_domain
+        st.session_state.ai_interview_type = selected_interview_type
+        st.session_state.ai_track = selected_track
+        st.session_state.ai_track_domains = selected_track_domains
         st.session_state.ai_session_questions = session_questions
         st.session_state.ai_using_question_bank = using_question_bank
-        st.session_state.ai_bank_warning = (
-            f"Only {len(session_questions)} curated questions are available for this selection."
-            if using_question_bank and len(session_questions) < MAX_QUESTIONS
-            else ""
-        )
-        st.session_state.ai_interview = start_ai_interview(selected_level, selected_domain)
+        warning_parts = list(track_warnings)
+        if using_question_bank and len(session_questions) < MAX_QUESTIONS:
+            warning_parts.append(
+                f"Only {len(session_questions)} curated questions are available for this selection."
+            )
+        st.session_state.ai_bank_warning = " ".join(warning_parts)
+        st.session_state.ai_interview = start_ai_interview(selected_level, session_domain)
         if using_question_bank:
             st.session_state.ai_current_question = session_questions[0]
         else:
-            st.session_state.ai_current_question = generate_ai_question(selected_level, selected_domain, [])
+            st.session_state.ai_current_question = generate_ai_question(selected_level, session_domain, [])
         st.session_state.ai_phase = "main_answer"
         st.rerun()
 
+    if col_back.button("Back"):
+        reset_session()
+        initialize_ai_session_state()
+        st.rerun()
+
     if not can_start:
-        st.info("Configure Gemini to use generated interviews or open-ended curated evaluations. SQL Beginner and Junior can run locally once selected.")
+        st.info(
+            "Configure Gemini to use open-ended evaluations or generated interviews. "
+            "Objective curated sessions can run locally when available."
+        )
 elif st.session_state.get("ai_complete"):
     history = st.session_state.get("ai_history", [])
     report = st.session_state.get("ai_final_report")
@@ -670,16 +871,17 @@ elif st.session_state.get("ai_complete"):
         report = generate_ai_final_report(history, st.session_state.ai_level, st.session_state.ai_domain)
         st.session_state.ai_final_report = report
 
-    st.subheader("Final Interview Report")
+    st.subheader("Final Interview Assessment")
     show_progress("Interview progress", len(history), get_active_ai_question_count())
+
+    st.markdown("### Section 1: Overall Results")
     col_score, col_ready = st.columns(2)
     col_score.metric("Overall score", f"{report.get('total_score', report.get('overall_score', 0))}/100")
     col_ready.metric("Readiness", f"{report.get('readiness_percentage', 0)}%")
-    st.metric("Average score", f"{report.get('average_score', 0)}/10")
 
     recommendation = report.get("hiring_recommendation")
     if recommendation:
-        st.write("Hiring recommendation")
+        st.write("Hiring Recommendation")
         st.write(recommendation)
 
     col1, col2, col3 = st.columns(3)
@@ -692,20 +894,26 @@ elif st.session_state.get("ai_complete"):
         st.write("Move to next level")
         st.write(can_move)
 
-    st.write("Strengths")
+    st.markdown("### Section 2: Strengths")
     for strength in report.get("strengths", []):
         st.write(f"- {strength}")
 
-    st.write("Weak areas")
+    st.markdown("### Section 3: Weak Areas")
     for gap in report.get("gaps", []):
         st.write(f"- {gap}")
 
+    st.markdown("### Section 4: Concepts To Revise")
     concepts = report.get("concepts_to_revise") or report.get("recommended_learning_plan", [])
     domain_scores = report.get("domain_scores", {})
     if domain_scores:
         st.write("Domain-wise score")
         for score_domain, score in domain_scores.items():
             st.write(f"- {score_domain}: {score}/10")
+        strongest_domain, weakest_domain = get_domain_score_extremes(domain_scores)
+        if strongest_domain:
+            st.write(f"Strongest domain: {strongest_domain[0]} ({strongest_domain[1]}/10)")
+        if weakest_domain:
+            st.write(f"Weakest domain: {weakest_domain[0]} ({weakest_domain[1]}/10)")
 
     dimension_scores = report.get("dimension_scores", {})
     if dimension_scores:
@@ -713,22 +921,21 @@ elif st.session_state.get("ai_complete"):
         for dimension, score in dimension_scores.items():
             st.write(f"- {dimension}: {score}/10")
 
-    st.write("Concepts to revise")
     for concept in concepts[:5]:
         st.write(f"- {concept}")
 
-    st.write("Question review")
+    st.markdown("### Section 5: Question Review")
     for index, item in enumerate(history, start=1):
         evaluation = item.get("evaluation", {})
         question = item.get("question", {})
         with st.expander(f"Question {index}: {question.get('question', '')}", expanded=index == 1):
             if question.get("scenario"):
                 st.write(question["scenario"])
+            st.write("Key Concept")
+            st.write(question.get("concept") or question.get("category") or question.get("question_type") or "General data engineering")
             st.write("Your answer")
             st.write(item.get("answer", ""))
             st.write(f"Score: {evaluation.get('score', 0)}/10")
-            if evaluation.get("short_feedback"):
-                st.write(evaluation["short_feedback"])
             if evaluation.get("dimension_scores"):
                 st.write("Dimension scores")
                 for dimension, score in evaluation["dimension_scores"].items():
@@ -742,16 +949,21 @@ elif st.session_state.get("ai_complete"):
                 for point in evaluation["missing_points"]:
                     st.write(f"- {point}")
 
+    st.markdown("### Section 6: Learning Plan")
     if report.get("recommended_learning_plan"):
-        st.write("Recommended learning plan")
         for item in report["recommended_learning_plan"]:
             st.write(f"- {item}")
+    if can_move:
+        st.write("Readiness recommendation")
+        st.write(can_move)
 
+    st.markdown("### Section 7: PDF Report")
+    pdf_domain_label = get_ai_session_label()
     pdf_report = build_interview_report_pdf(
         report,
         history,
         st.session_state.ai_level,
-        st.session_state.ai_domain,
+        pdf_domain_label,
     )
     st.download_button(
         "Download PDF report",
@@ -771,10 +983,26 @@ else:
     index = st.session_state.get("ai_question_index", 0)
     history = st.session_state.get("ai_history", [])
     active_question_count = get_active_ai_question_count()
+    session_label = get_ai_session_label()
+
+    if st.session_state.get("ai_phase") == "ready_for_assessment":
+        answered_count = len(st.session_state.get("ai_pending_results", []))
+        show_progress("Question", min(answered_count, active_question_count), active_question_count)
+        st.caption(f"{level} • {session_label} • Assessment pending")
+        st.success(f"All {answered_count} answers are recorded.")
+        st.write("Generate the assessment when you are ready to see scores, explanations, ideal answers, and the learning plan.")
+        if st.button("Generate Assessment"):
+            with st.spinner("Evaluating answers and preparing your assessment..."):
+                success, error = evaluate_pending_ai_answers()
+            if not success:
+                st.error(error)
+            else:
+                st.rerun()
+        st.stop()
 
     show_progress("Question", index + 1, active_question_count)
     mode_label = "Curated bank + hybrid evaluation" if st.session_state.get("ai_using_question_bank") else "Gemini Flash"
-    st.caption(f"{level} • {domain} • {mode_label}")
+    st.caption(f"{level} • {session_label} • {mode_label}")
     if st.session_state.get("ai_bank_warning"):
         st.warning(st.session_state.ai_bank_warning)
 
@@ -800,27 +1028,30 @@ else:
         st.caption(f"{question_type_label} • {question.get('complexity') or question.get('difficulty', '')}")
     st.write(question.get("question", "No question available."))
 
-    if st.session_state.get("ai_phase") == "feedback":
-        latest = st.session_state.ai_history[-1]
-        evaluation = latest.get("evaluation", {})
-        st.metric("Score", f"{evaluation.get('score', 0)}/10")
-        if evaluation.get("short_feedback"):
-            st.write(evaluation["short_feedback"])
+    answer = render_ai_answer_input(question, index)
+    button_label = "Finish Answers" if index + 1 >= active_question_count else "Next"
+    if st.button(button_label):
+        if is_empty_ai_answer(answer):
+            st.warning("Please write an answer before submitting.")
+        else:
+            formatted_answer = format_ai_answer(answer)
+            pending_result = {
+                "question": question,
+                "answer": formatted_answer,
+                "raw_answer": answer,
+            }
+            st.session_state.ai_pending_results.append(pending_result)
+            st.session_state.ai_answers.append(
+                {"question_id": question.get("id"), "answer": formatted_answer}
+            )
 
-        button_label = "Finish Interview" if index + 1 >= active_question_count else "Continue"
-        if st.button(button_label):
             next_index = index + 1
             st.session_state.ai_question_index = next_index
             st.session_state.ai_current_answer = ""
-            st.session_state.ai_current_evaluation = None
-            st.session_state.ai_phase = "main_answer"
+
             if next_index >= active_question_count:
-                st.session_state.ai_complete = True
-                st.session_state.ai_final_report = generate_ai_final_report(
-                    st.session_state.ai_history,
-                    level,
-                    domain,
-                )
+                st.session_state.ai_current_question = None
+                st.session_state.ai_phase = "ready_for_assessment"
             else:
                 session_questions = st.session_state.get("ai_session_questions", [])
                 if st.session_state.get("ai_using_question_bank") and session_questions:
@@ -829,41 +1060,6 @@ else:
                     st.session_state.ai_current_question = generate_ai_question(
                         level,
                         domain,
-                        st.session_state.ai_history,
+                        st.session_state.ai_pending_results,
                     )
             st.rerun()
-    else:
-        answer = render_ai_answer_input(question, index)
-        if st.button("Submit Answer"):
-            if is_empty_ai_answer(answer):
-                st.warning("Please write an answer before submitting.")
-            else:
-                if should_use_gemini(question):
-                    evaluation = evaluate_ai_answer(question, format_ai_answer(answer), level, domain, history)
-                else:
-                    evaluation = evaluate_objective_question(question, answer)
-                if evaluation.get("error"):
-                    st.error(evaluation["error"])
-                else:
-                    result = {
-                        "question": question,
-                        "answer": format_ai_answer(answer),
-                        "evaluation": evaluation,
-                    }
-                    st.session_state.ai_history.append(result)
-                    st.session_state.ai_answers.append(
-                        {"question_id": question.get("id"), "answer": format_ai_answer(answer)}
-                    )
-                    st.session_state.ai_evaluations.append(evaluation)
-                    st.session_state.ai_current_evaluation = evaluation
-                    score = int(evaluation.get("score", 0))
-                    if score >= 8:
-                        st.session_state.ai_correct_count += 1
-                    elif score >= 5:
-                        st.session_state.ai_partial_count += 1
-                    else:
-                        st.session_state.ai_incorrect_count += 1
-                    if evaluation.get("explanation"):
-                        st.session_state.ai_explanations.append(evaluation["explanation"])
-                    st.session_state.ai_phase = "feedback"
-                    st.rerun()

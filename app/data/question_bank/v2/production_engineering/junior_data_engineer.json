@@ -1,0 +1,153 @@
+[
+  {
+    "id": "production_engineering_junior_mcq_001",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Actionable alerts",
+    "question": "Which alert is most actionable for a data pipeline?",
+    "options": ["Gold orders table has not refreshed by its SLO", "A job printed an info log", "A dashboard was opened", "A table has a description"],
+    "correct_answer": "Gold orders table has not refreshed by its SLO",
+    "explanation": "Actionable alerts should point to user-impacting or reliability-impacting conditions, such as missed freshness SLOs.",
+    "ideal_answer": "A good alert should identify an actionable condition like missed freshness, failed critical jobs, data quality failure, or high error rate.",
+    "tags": ["production_engineering", "alerting", "freshness", "slo"]
+  },
+  {
+    "id": "production_engineering_junior_fill_002",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "RCA",
+    "question": "Fill in the blank: RCA stands for Root Cause ____.",
+    "correct_answer": "Analysis",
+    "acceptable_answers": ["analysis", "Analysis", "root cause analysis"],
+    "explanation": "Root Cause Analysis identifies why an incident happened and what changes can prevent recurrence.",
+    "ideal_answer": "RCA means Root Cause Analysis, a process for understanding why an incident happened and how to prevent it.",
+    "tags": ["production_engineering", "rca", "incident_management", "postmortem"]
+  },
+  {
+    "id": "production_engineering_junior_match_003",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "Pipeline metrics",
+    "question": "Match each metric to what it helps detect.",
+    "left_items": ["Freshness", "Row count", "Failure rate"],
+    "right_items": ["Stale data", "Unexpected volume change", "Unstable pipeline"],
+    "correct_pairs": {"Freshness": "Stale data", "Row count": "Unexpected volume change", "Failure rate": "Unstable pipeline"},
+    "explanation": "Pipeline metrics help detect freshness, completeness, and reliability problems.",
+    "ideal_answer": "Freshness detects stale data, row count detects volume anomalies, and failure rate shows pipeline instability.",
+    "tags": ["production_engineering", "metrics", "freshness", "data_quality"]
+  },
+  {
+    "id": "production_engineering_junior_short_004",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Failed pipeline triage",
+    "question": "A scheduled data pipeline failed overnight. What are two things you would check first?",
+    "acceptable_answers": ["logs", "error message", "input data", "dependencies", "recent changes", "permissions", "runtime"],
+    "expected_points": [
+      {"point": "Checks logs or error messages", "keywords": ["log", "error", "stack"], "weight": 5},
+      {"point": "Checks input data, dependencies, permissions, or recent changes", "keywords": ["input", "dependency", "permission", "change"], "weight": 5}
+    ],
+    "explanation": "Initial triage should quickly identify the failure symptom and likely dependency or change that caused it.",
+    "ideal_answer": "I would check the error logs and stack trace, then verify inputs, upstream dependencies, permissions, recent deployments, and runtime/resource changes.",
+    "tags": ["production_engineering", "troubleshooting", "logs", "triage"]
+  },
+  {
+    "id": "production_engineering_junior_mcq_005",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Backup and restore",
+    "question": "Why should restore procedures be tested, not just backups created?",
+    "options": ["A backup is only useful if it can be restored correctly", "Testing restore deletes all data", "Backups always guarantee instant recovery", "Restore testing replaces monitoring"],
+    "correct_answer": "A backup is only useful if it can be restored correctly",
+    "explanation": "Backups without tested restore procedures may fail during real incidents when recovery is needed.",
+    "ideal_answer": "Backups should be tested through restore drills because recovery depends on whether the data, metadata, permissions, and process actually work.",
+    "tags": ["production_engineering", "backup_restore", "dr", "reliability"]
+  },
+  {
+    "id": "production_engineering_junior_fill_006",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "CI/CD",
+    "question": "Fill in the blank: CI/CD helps teams test and deploy code changes in an automated, repeatable ____.",
+    "correct_answer": "process",
+    "acceptable_answers": ["process", "pipeline", "workflow"],
+    "explanation": "CI/CD reduces manual deployment risk by automating tests, builds, approvals, and releases.",
+    "ideal_answer": "CI/CD creates a repeatable deployment process with automated checks and controlled releases.",
+    "tags": ["production_engineering", "ci_cd", "release_management", "automation"]
+  },
+  {
+    "id": "production_engineering_junior_match_007",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Release safety",
+    "question": "Match each release practice to its purpose.",
+    "left_items": ["Canary release", "Rollback", "Change approval"],
+    "right_items": ["Expose change to limited scope first", "Return to previous working state", "Review risk before production change"],
+    "correct_pairs": {"Canary release": "Expose change to limited scope first", "Rollback": "Return to previous working state", "Change approval": "Review risk before production change"},
+    "explanation": "Release practices reduce production risk by controlling rollout, review, and recovery.",
+    "ideal_answer": "Canary releases limit blast radius, rollbacks restore a known good state, and change approvals help assess production risk.",
+    "tags": ["production_engineering", "release_management", "rollback", "change_management"]
+  },
+  {
+    "id": "production_engineering_junior_short_008",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Runbook quality",
+    "question": "What makes a runbook useful during an incident?",
+    "acceptable_answers": ["clear steps", "owner", "commands", "rollback", "escalation", "validation", "links"],
+    "expected_points": [
+      {"point": "Includes clear steps and validation checks", "keywords": ["steps", "validate", "check"], "weight": 5},
+      {"point": "Includes ownership, escalation, or rollback guidance", "keywords": ["owner", "escalation", "rollback"], "weight": 5}
+    ],
+    "explanation": "Runbooks should be practical under pressure and help responders act safely.",
+    "ideal_answer": "A useful runbook has clear steps, commands or links, validation checks, rollback guidance, owners, and escalation paths.",
+    "tags": ["production_engineering", "runbooks", "incident_management", "on_call"]
+  },
+  {
+    "id": "production_engineering_junior_mcq_009",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Capacity planning",
+    "question": "What is capacity planning concerned with?",
+    "options": ["Ensuring systems have enough resources for expected workload", "Writing longer table names", "Removing all dashboards", "Avoiding all backups"],
+    "correct_answer": "Ensuring systems have enough resources for expected workload",
+    "explanation": "Capacity planning estimates compute, storage, throughput, and concurrency needs so systems remain reliable as demand changes.",
+    "ideal_answer": "Capacity planning ensures production systems have enough compute, storage, throughput, and concurrency headroom for expected growth and peak demand.",
+    "tags": ["production_engineering", "capacity_planning", "reliability", "cloud_operations"]
+  },
+  {
+    "id": "production_engineering_junior_short_010",
+    "domain": "Production Engineering",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Cost monitoring",
+    "question": "Name two signals that could indicate a data platform cost problem.",
+    "acceptable_answers": ["cost spike", "bytes scanned", "cluster uptime", "idle compute", "storage growth", "query volume", "egress"],
+    "expected_points": [
+      {"point": "Mentions spend or usage spike", "keywords": ["cost", "spike", "usage"], "weight": 5},
+      {"point": "Mentions a resource driver such as idle compute, scan volume, or storage growth", "keywords": ["idle", "bytes scanned", "storage", "cluster"], "weight": 5}
+    ],
+    "explanation": "Cost issues usually show up through spend anomalies and underlying resource usage patterns.",
+    "ideal_answer": "Cost warning signs include spend spikes, idle clusters, increased bytes scanned, storage growth, higher query volume, and unexpected egress.",
+    "tags": ["production_engineering", "cost", "monitoring", "finops"]
+  }
+]

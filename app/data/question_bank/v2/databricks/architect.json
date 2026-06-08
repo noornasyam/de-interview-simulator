@@ -1,0 +1,192 @@
+[
+  {
+    "id": "databricks_arch_enterprise_001",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Enterprise Databricks architecture",
+    "scenario": "A global enterprise wants Databricks as the core platform for analytics, ML, streaming, and governed data products.",
+    "question": "What enterprise architecture would you define?",
+    "expected_points": [
+      {"point": "Defines lakehouse layers and Delta standards", "keywords": ["lakehouse", "delta", "medallion"], "weight": 3},
+      {"point": "Includes Unity Catalog governance", "keywords": ["unity catalog", "governance", "lineage"], "weight": 3},
+      {"point": "Defines compute, CI/CD, and workload standards", "keywords": ["compute", "ci", "cluster policy"], "weight": 2},
+      {"point": "Includes reliability, cost, and security controls", "keywords": ["reliability", "cost", "security"], "weight": 2}
+    ],
+    "explanation": "Enterprise Databricks architecture spans data layout, governance, compute, operations, and security.",
+    "ideal_answer": "I would define medallion Delta standards, Unity Catalog governance, workspace/environment strategy, job and SQL compute standards, cluster policies, CI/CD, observability, cost controls, data quality gates, and reliability practices for batch and streaming workloads.",
+    "tags": ["databricks", "enterprise_architecture", "lakehouse", "unity_catalog"]
+  },
+  {
+    "id": "databricks_arch_gov_002",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Federated governance with Unity Catalog",
+    "scenario": "Business domains want ownership of their data products, while compliance requires consistent access control, lineage, and auditability.",
+    "question": "How would you design federated governance in Databricks?",
+    "expected_points": [
+      {"point": "Defines central policies and domain ownership", "keywords": ["policy", "domain", "owner"], "weight": 3},
+      {"point": "Uses Unity Catalog for metadata and permissions", "keywords": ["unity catalog", "metadata", "permission"], "weight": 3},
+      {"point": "Includes lineage, classification, and audit", "keywords": ["lineage", "classification", "audit"], "weight": 2},
+      {"point": "Supports self-service with guardrails", "keywords": ["self-service", "guardrail", "standard"], "weight": 2}
+    ],
+    "explanation": "Federated governance lets domains own data products while maintaining enterprise control and auditability.",
+    "ideal_answer": "I would centralize governance policies, delegate data product ownership to domains, use Unity Catalog for permissions, metadata, lineage, and audit, and provide self-service patterns with guardrails and review workflows.",
+    "tags": ["databricks", "unity_catalog", "federated_governance", "data_products"]
+  },
+  {
+    "id": "databricks_arch_cost_003",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Enterprise Databricks FinOps",
+    "scenario": "Databricks spend is distributed across workspaces, SQL warehouses, all-purpose clusters, job clusters, and streaming jobs.",
+    "question": "How would you design cost management at enterprise scale?",
+    "expected_points": [
+      {"point": "Requires tagging and ownership reporting", "keywords": ["tag", "owner", "report"], "weight": 3},
+      {"point": "Uses cluster policies and compute standards", "keywords": ["cluster policy", "compute", "standard"], "weight": 3},
+      {"point": "Optimizes workload and Delta table performance", "keywords": ["optimize", "delta", "performance"], "weight": 2},
+      {"point": "Adds budgets, alerts, and review cadence", "keywords": ["budget", "alert", "review"], "weight": 2}
+    ],
+    "explanation": "Enterprise FinOps combines platform controls, workload optimization, and cost ownership.",
+    "ideal_answer": "I would enforce tags, build cost reporting by workspace/team/job, define cluster policies and SQL warehouse standards, optimize expensive jobs and Delta layouts, and introduce budgets, anomaly alerts, and regular FinOps reviews.",
+    "tags": ["databricks", "finops", "cost", "enterprise"]
+  },
+  {
+    "id": "databricks_arch_reliability_004",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Critical lakehouse reliability",
+    "scenario": "Regulatory reporting depends on Gold Delta tables that must be correct and fresh by 7 AM daily.",
+    "question": "What reliability architecture would you require?",
+    "expected_points": [
+      {"point": "Defines SLOs and critical path dependencies", "keywords": ["slo", "critical path", "dependency"], "weight": 3},
+      {"point": "Uses quality gates and reconciliation", "keywords": ["quality", "reconciliation", "gate"], "weight": 3},
+      {"point": "Includes observability, runbooks, and escalation", "keywords": ["observability", "runbook", "escalation"], "weight": 2},
+      {"point": "Includes backfill and recovery testing", "keywords": ["backfill", "recovery", "test"], "weight": 2}
+    ],
+    "explanation": "Critical lakehouse products need explicit freshness, correctness, monitoring, and recovery standards.",
+    "ideal_answer": "I would define freshness and correctness SLOs, map dependencies, add reconciliation and quality gates, monitor jobs and streaming lag, create runbooks and escalation paths, and regularly test backfill and recovery procedures.",
+    "tags": ["databricks", "reliability", "slo", "regulatory_reporting"]
+  },
+  {
+    "id": "databricks_arch_security_005",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Databricks security architecture",
+    "scenario": "The platform stores PII, financial data, and ML features across multiple workspaces and cloud storage accounts.",
+    "question": "What security architecture would you define?",
+    "expected_points": [
+      {"point": "Uses Unity Catalog least-privilege access", "keywords": ["unity catalog", "least privilege", "grant"], "weight": 3},
+      {"point": "Secures storage credentials and external locations", "keywords": ["storage credential", "external location", "secure"], "weight": 2},
+      {"point": "Uses network and identity controls", "keywords": ["network", "identity", "private"], "weight": 2},
+      {"point": "Includes auditing, masking, and access reviews", "keywords": ["audit", "masking", "review"], "weight": 3}
+    ],
+    "explanation": "Databricks security requires governance over identities, storage, workspace boundaries, sensitive data, and auditability.",
+    "ideal_answer": "I would use Unity Catalog with least-privilege grants, secure storage credentials and external locations, enforce identity and network controls, classify sensitive data, apply masking or filters where required, and audit access regularly.",
+    "tags": ["databricks", "security", "unity_catalog", "pii"]
+  },
+  {
+    "id": "databricks_arch_enterprise_006",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Multi-workspace enterprise strategy",
+    "scenario": "An enterprise has regional workspaces, domain workspaces, and separate dev/prod environments with inconsistent governance.",
+    "question": "How would you rationalize the workspace strategy?",
+    "expected_points": [
+      {"point": "Defines workspace boundaries by environment/domain/region", "keywords": ["workspace", "environment", "domain", "region"], "weight": 3},
+      {"point": "Centralizes governance with Unity Catalog", "keywords": ["unity catalog", "governance", "central"], "weight": 3},
+      {"point": "Standardizes deployment and compute policies", "keywords": ["deployment", "compute", "policy"], "weight": 2},
+      {"point": "Includes monitoring, cost, and operational ownership", "keywords": ["monitor", "cost", "ownership"], "weight": 2}
+    ],
+    "explanation": "A multi-workspace strategy should balance isolation, governance consistency, and operational simplicity.",
+    "ideal_answer": "I would define workspace boundaries intentionally, centralize metadata and access through Unity Catalog, standardize CI/CD and cluster policies, and provide shared monitoring, cost reporting, and ownership models.",
+    "tags": ["databricks", "multi_workspace", "enterprise", "governance"]
+  },
+  {
+    "id": "databricks_arch_gov_007",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Lineage and audit strategy",
+    "scenario": "Auditors ask how a financial metric was produced from raw data, but lineage across notebooks, jobs, and tables is incomplete.",
+    "question": "What lineage and audit strategy would you put in place?",
+    "expected_points": [
+      {"point": "Uses Unity Catalog lineage and metadata standards", "keywords": ["unity catalog", "lineage", "metadata"], "weight": 3},
+      {"point": "Links business definitions to physical tables", "keywords": ["business", "definition", "table"], "weight": 3},
+      {"point": "Controls production changes through CI/CD", "keywords": ["ci", "change", "production"], "weight": 2},
+      {"point": "Produces audit evidence for critical data", "keywords": ["audit", "evidence", "critical"], "weight": 2}
+    ],
+    "explanation": "Lineage and auditability require metadata, governed production changes, and traceable business definitions.",
+    "ideal_answer": "I would standardize metadata and ownership in Unity Catalog, capture lineage across tables and jobs, link business metric definitions to Gold tables, require CI/CD for production changes, and generate audit evidence for critical data products.",
+    "tags": ["databricks", "lineage", "audit", "governance"]
+  },
+  {
+    "id": "databricks_arch_cost_008",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Workload placement",
+    "scenario": "Every team wants dedicated clusters and SQL warehouses, but utilization is low and platform cost is high.",
+    "question": "How would you rationalize workload placement?",
+    "expected_points": [
+      {"point": "Classifies workloads by latency, scale, and concurrency", "keywords": ["latency", "scale", "concurrency"], "weight": 3},
+      {"point": "Chooses job clusters, SQL warehouses, or all-purpose clusters appropriately", "keywords": ["job cluster", "sql warehouse", "all-purpose"], "weight": 3},
+      {"point": "Uses policies and shared standards", "keywords": ["policy", "standard", "shared"], "weight": 2},
+      {"point": "Balances cost, productivity, and reliability", "keywords": ["cost", "productivity", "reliability"], "weight": 2}
+    ],
+    "explanation": "Workload placement standards prevent over-provisioned compute while preserving fit-for-purpose execution.",
+    "ideal_answer": "I would classify workloads, use job clusters for scheduled ETL, SQL warehouses for BI, all-purpose clusters only for development, enforce policies, and review exceptions based on latency, scale, concurrency, reliability, and cost.",
+    "tags": ["databricks", "workload_placement", "cost", "compute"]
+  },
+  {
+    "id": "databricks_arch_reliability_009",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Disaster recovery strategy",
+    "scenario": "Executives ask for a DR plan for the Databricks lakehouse, including workspaces, jobs, metadata, and Delta tables.",
+    "question": "How would you design a pragmatic DR strategy?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by data product criticality", "keywords": ["rto", "rpo", "criticality"], "weight": 3},
+      {"point": "Protects Delta data, metadata, jobs, and code", "keywords": ["delta", "metadata", "jobs", "code"], "weight": 3},
+      {"point": "Uses IaC/CI/CD for workspace recovery", "keywords": ["iac", "ci", "workspace"], "weight": 2},
+      {"point": "Tests recovery regularly", "keywords": ["test", "drill", "recovery"], "weight": 2}
+    ],
+    "explanation": "Databricks DR must cover not only data files but also metadata, permissions, jobs, code, and recovery procedures.",
+    "ideal_answer": "I would tier data products by RTO/RPO, protect Delta storage and Unity Catalog metadata, version code and jobs through CI/CD/IaC, document workspace recovery, and test restoration/backfill procedures regularly.",
+    "tags": ["databricks", "dr", "reliability", "lakehouse"]
+  },
+  {
+    "id": "databricks_arch_security_010",
+    "domain": "Databricks",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Enterprise access review",
+    "scenario": "The board wants assurance that sensitive Databricks data access is controlled and auditable across workspaces.",
+    "question": "What controls and evidence would you design for?",
+    "expected_points": [
+      {"point": "Centralizes access through Unity Catalog", "keywords": ["unity catalog", "access", "grant"], "weight": 3},
+      {"point": "Runs periodic entitlement reviews", "keywords": ["review", "entitlement", "periodic"], "weight": 2},
+      {"point": "Audits sensitive table access", "keywords": ["audit", "sensitive", "table"], "weight": 3},
+      {"point": "Produces compliance evidence", "keywords": ["evidence", "compliance", "report"], "weight": 2}
+    ],
+    "explanation": "Enterprise assurance requires preventive controls plus evidence that access is reviewed and monitored.",
+    "ideal_answer": "I would use Unity Catalog grants, require approved access workflows, run periodic entitlement reviews, audit sensitive table access, monitor unusual activity, and produce compliance evidence reports for critical assets.",
+    "tags": ["databricks", "security", "access_review", "compliance"]
+  }
+]

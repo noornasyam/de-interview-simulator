@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dbt_lead_architecture_001",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "expert",
+    "concept": "platform strategy",
+    "scenario": "Multiple analytics teams want to adopt dbt, but each team has different standards for naming, testing, and deployment.",
+    "question": "How would you create a dbt platform strategy that allows autonomy without chaos?",
+    "expected_points": [
+      {"point": "Defines shared standards and templates", "keywords": ["standards", "templates", "naming"], "weight": 3},
+      {"point": "Allows domain ownership with governance boundaries", "keywords": ["domain", "ownership", "governance"], "weight": 3},
+      {"point": "Standardizes CI/CD and environments", "keywords": ["CI", "deployment", "environment"], "weight": 2},
+      {"point": "Creates enablement and review mechanisms", "keywords": ["enablement", "review", "training"], "weight": 2}
+    ],
+    "explanation": "A lead-level dbt strategy should balance self-service with enforceable standards for quality, deployment, and ownership.",
+    "ideal_answer": "I would define reusable project templates, naming conventions, testing expectations, CI/CD patterns, and environment rules. Teams would own their domains but follow governance standards, with enablement, review, and shared packages to reduce fragmentation.",
+    "tags": ["dbt", "platform_strategy", "standards", "governance"]
+  },
+  {
+    "id": "dbt_lead_governance_002",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "standards and contracts",
+    "scenario": "Your organization wants certified data products built with dbt.",
+    "question": "What standards would you require before a dbt model becomes certified?",
+    "expected_points": [
+      {"point": "Requires ownership and documentation", "keywords": ["owner", "documentation", "description"], "weight": 2},
+      {"point": "Requires tests and model contracts", "keywords": ["tests", "contract", "quality"], "weight": 3},
+      {"point": "Requires lineage and downstream impact awareness", "keywords": ["lineage", "exposure", "impact"], "weight": 2},
+      {"point": "Defines SLA, freshness, and incident process", "keywords": ["SLA", "freshness", "incident"], "weight": 3}
+    ],
+    "explanation": "Certification should mean a model is documented, tested, owned, operationally monitored, and safe for downstream use.",
+    "ideal_answer": "Certified dbt models should have clear owners, documentation, tested keys and business rules, contracts for important schemas, freshness expectations, lineage to exposures, and an incident process for failures or breaking changes.",
+    "tags": ["dbt", "certification", "governance", "contracts"]
+  },
+  {
+    "id": "dbt_lead_stakeholder_impact_003",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "expert",
+    "concept": "adoption strategy",
+    "scenario": "Data analysts are skeptical of moving transformations from BI tools into dbt because they fear slower iteration.",
+    "question": "How would you drive dbt adoption while addressing stakeholder concerns?",
+    "expected_points": [
+      {"point": "Acknowledges analyst workflow and speed concerns", "keywords": ["analyst", "iteration", "workflow"], "weight": 2},
+      {"point": "Shows benefits of versioning, testing, and reuse", "keywords": ["version", "testing", "reuse"], "weight": 3},
+      {"point": "Introduces phased migration and training", "keywords": ["phased", "training", "pilot"], "weight": 3},
+      {"point": "Defines shared ownership with business teams", "keywords": ["ownership", "business", "collaboration"], "weight": 2}
+    ],
+    "explanation": "dbt adoption is a change-management problem as much as a technical migration. Stakeholders need a path that preserves productivity.",
+    "ideal_answer": "I would start with a pilot around high-value shared metrics, train analysts on dbt workflows, keep fast development environments, show benefits from tests and reusable models, and establish shared ownership between analytics engineering and business teams.",
+    "tags": ["dbt", "adoption", "stakeholders", "change_management"]
+  },
+  {
+    "id": "dbt_lead_reliability_004",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "operational reliability",
+    "scenario": "dbt production failures are frequent, but alerts are noisy and ownership is unclear.",
+    "question": "How would you improve operational reliability for dbt jobs?",
+    "expected_points": [
+      {"point": "Defines job ownership and escalation paths", "keywords": ["owner", "escalation", "on-call"], "weight": 3},
+      {"point": "Prioritizes alerts by severity and business impact", "keywords": ["severity", "business impact", "alert"], "weight": 3},
+      {"point": "Adds runbooks and recurring failure analysis", "keywords": ["runbook", "RCA", "recurring"], "weight": 2},
+      {"point": "Tracks freshness, test failures, runtime, and cost", "keywords": ["freshness", "runtime", "cost", "test"], "weight": 2}
+    ],
+    "explanation": "Reliable dbt operations require clear owners, actionable alerts, runbooks, and metrics tied to business impact.",
+    "ideal_answer": "I would assign owners to production jobs and critical models, classify alerts by severity, create runbooks for common failures, track job freshness/runtime/test failure trends, and review recurring incidents to remove root causes.",
+    "tags": ["dbt", "reliability", "operations", "alerts"]
+  },
+  {
+    "id": "dbt_lead_governance_005",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "access and sensitive data",
+    "scenario": "dbt models include customer PII, and multiple teams consume downstream marts.",
+    "question": "What governance controls should surround dbt development and deployment?",
+    "expected_points": [
+      {"point": "Classifies sensitive columns and models", "keywords": ["PII", "classification", "sensitive"], "weight": 3},
+      {"point": "Controls permissions by environment and role", "keywords": ["permissions", "role", "environment"], "weight": 3},
+      {"point": "Documents and tests sensitive data handling", "keywords": ["documentation", "tests", "masking"], "weight": 2},
+      {"point": "Audits changes and access", "keywords": ["audit", "review", "access"], "weight": 2}
+    ],
+    "explanation": "dbt does not replace warehouse security. Governance must combine metadata, permissions, review, and platform-level controls.",
+    "ideal_answer": "I would classify PII in dbt metadata, restrict dev and prod permissions, apply warehouse masking or access policies, document sensitive models, add tests where appropriate, and require reviewed deployments for models that expose regulated data.",
+    "tags": ["dbt", "governance", "security", "pii"]
+  },
+  {
+    "id": "dbt_lead_architecture_006",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "expert",
+    "concept": "multi-project architecture",
+    "scenario": "A growing company is considering separate dbt projects for finance, product, and marketing.",
+    "question": "What trade-offs would you evaluate before splitting the dbt project?",
+    "expected_points": [
+      {"point": "Evaluates ownership and deployment isolation", "keywords": ["ownership", "deployment", "isolation"], "weight": 3},
+      {"point": "Considers shared models and package dependencies", "keywords": ["shared", "package", "dependency"], "weight": 3},
+      {"point": "Considers governance and consistency", "keywords": ["governance", "consistency", "standard"], "weight": 2},
+      {"point": "Addresses lineage and cross-domain contracts", "keywords": ["lineage", "contract", "cross-domain"], "weight": 2}
+    ],
+    "explanation": "Splitting projects can improve autonomy but introduces dependency, governance, and lineage challenges.",
+    "ideal_answer": "I would split only where ownership and deployment independence outweigh coordination cost. I would define shared packages or contracts for common dimensions, enforce standards, preserve lineage across projects, and manage dependencies carefully.",
+    "tags": ["dbt", "multi_project", "architecture", "trade_offs"]
+  },
+  {
+    "id": "dbt_lead_stakeholder_impact_007",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "expert",
+    "concept": "metric trust",
+    "scenario": "Sales and finance report different revenue numbers, both backed by dbt models.",
+    "question": "How would you lead the resolution and prevent future metric divergence?",
+    "expected_points": [
+      {"point": "Aligns stakeholders on metric definition", "keywords": ["definition", "stakeholders", "alignment"], "weight": 3},
+      {"point": "Identifies lineage and transformation differences", "keywords": ["lineage", "transformation", "difference"], "weight": 2},
+      {"point": "Creates governed shared metric or mart", "keywords": ["governed", "shared", "mart", "metric"], "weight": 3},
+      {"point": "Adds documentation, tests, and ownership", "keywords": ["documentation", "tests", "owner"], "weight": 2}
+    ],
+    "explanation": "Conflicting metrics are often ownership and definition problems, not only SQL problems.",
+    "ideal_answer": "I would bring sales, finance, and data owners together to agree on the revenue definition, compare lineage and model logic, create a governed shared revenue model or semantic metric, and add documentation, tests, and ownership to prevent drift.",
+    "tags": ["dbt", "metrics", "stakeholders", "governance"]
+  },
+  {
+    "id": "dbt_lead_reliability_008",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "release management",
+    "scenario": "dbt deployments are bundled into large weekly releases, causing risky changes and difficult rollbacks.",
+    "question": "How would you improve release management?",
+    "expected_points": [
+      {"point": "Moves toward smaller reviewed changes", "keywords": ["small", "PR", "review"], "weight": 2},
+      {"point": "Uses CI, targeted builds, and state comparison", "keywords": ["CI", "targeted", "state"], "weight": 3},
+      {"point": "Defines rollback and data correction process", "keywords": ["rollback", "correction", "restore"], "weight": 3},
+      {"point": "Uses deployment windows based on criticality", "keywords": ["deployment window", "critical", "risk"], "weight": 2}
+    ],
+    "explanation": "Smaller changes, better CI, and explicit rollback plans make dbt releases safer and easier to operate.",
+    "ideal_answer": "I would move to smaller PR-based releases with targeted CI builds, classify risky model changes, define rollback and backfill procedures, and use deployment controls for critical marts.",
+    "tags": ["dbt", "release_management", "ci_cd", "reliability"]
+  },
+  {
+    "id": "dbt_lead_governance_009",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "package governance",
+    "scenario": "Teams are independently adding dbt packages and macros with overlapping behavior.",
+    "question": "How would you govern shared packages and macros?",
+    "expected_points": [
+      {"point": "Creates standards for approved packages", "keywords": ["approved", "standard", "package"], "weight": 3},
+      {"point": "Reviews macro contracts and versioning", "keywords": ["macro", "contract", "version"], "weight": 3},
+      {"point": "Adds CI checks for shared utilities", "keywords": ["CI", "shared", "tests"], "weight": 2},
+      {"point": "Maintains documentation and ownership", "keywords": ["documentation", "owner"], "weight": 2}
+    ],
+    "explanation": "Shared packages and macros become platform code. They need ownership, versioning, testing, and review.",
+    "ideal_answer": "I would define approved packages, centralize common macros where useful, document macro contracts, version shared utilities, require tests for package changes, and assign owners for maintenance.",
+    "tags": ["dbt", "packages", "macros", "governance"]
+  },
+  {
+    "id": "dbt_lead_architecture_010",
+    "domain": "dbt",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "expert",
+    "concept": "metadata-driven operations",
+    "scenario": "Leadership wants visibility into dbt model ownership, freshness, incidents, and usage.",
+    "question": "How would you build an operational view of the dbt platform?",
+    "expected_points": [
+      {"point": "Uses dbt artifacts and metadata", "keywords": ["manifest", "run_results", "metadata"], "weight": 3},
+      {"point": "Tracks ownership, tests, runtime, freshness, and failures", "keywords": ["ownership", "tests", "runtime", "freshness", "failures"], "weight": 3},
+      {"point": "Connects exposures or usage to business impact", "keywords": ["exposures", "usage", "business impact"], "weight": 2},
+      {"point": "Creates dashboards and review process", "keywords": ["dashboard", "review", "operational"], "weight": 2}
+    ],
+    "explanation": "dbt artifacts can power observability dashboards that connect technical health to business impact.",
+    "ideal_answer": "I would ingest dbt artifacts and metadata into an operations mart, track owners, tests, runtime, freshness, failures, and exposures, then publish dashboards for platform health and review trends with domain owners.",
+    "tags": ["dbt", "metadata", "observability", "platform"]
+  }
+]
