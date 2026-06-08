@@ -22,6 +22,9 @@ __pycache__/
 # Logs
 *.log
 
+# Local tester feedback
+data/feedback/*.json
+
 # Build artifacts
 build/
 dist/

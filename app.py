@@ -23,6 +23,11 @@ from app.services.hybrid_evaluation_service import (
     evaluate_objective_question,
     should_use_gemini,
 )
+from app.services.feedback_service import (
+    build_feedback_summary,
+    load_feedback_entries,
+    save_feedback,
+)
 from app.services.question_bank_service import (
     has_complete_v2_bank,
     load_v2_questions,
@@ -89,6 +94,8 @@ AI_SESSION_DEFAULTS = {
     "ai_session_questions": [],
     "ai_using_question_bank": False,
     "ai_bank_warning": "",
+    "feedback_submitted": False,
+    "feedback_saved_path": "",
 }
 
 
@@ -139,6 +146,8 @@ def reset_session():
         "ai_session_questions",
         "ai_using_question_bank",
         "ai_bank_warning",
+        "feedback_submitted",
+        "feedback_saved_path",
         "adk_interview",
         "adk_current_question",
         "adk_question_index",
@@ -466,6 +475,81 @@ def get_domain_score_extremes(domain_scores):
     return sorted_scores[0], sorted_scores[-1]
 
 
+def render_admin_summary_page():
+    st.title("DailyDEHub Tester Analytics")
+    st.caption("Local V1 tester feedback summary.")
+
+    entries = load_feedback_entries()
+    summary = build_feedback_summary(entries)
+
+    col_total, col_score, col_rating = st.columns(3)
+    col_total.metric("Total Interviews", summary["total_interviews"])
+    col_score.metric("Average Score", f"{summary['average_score']}/100")
+    col_rating.metric("Average Rating", f"{summary['average_rating']}/5")
+
+    col_domain, col_track = st.columns(2)
+    col_domain.metric("Most Used Domain", summary["most_used_domain"])
+    col_track.metric("Most Used Track", summary["most_used_track"])
+
+    st.subheader("Most Common Weak Areas")
+    weak_areas = summary["most_common_weak_areas"]
+    if weak_areas:
+        for area in weak_areas:
+            st.write(f"- {area}")
+    else:
+        st.write("No weak-area feedback captured yet.")
+
+    st.caption("Feedback is stored locally under `data/feedback/`.")
+
+
+def render_feedback_form(report, history, can_move):
+    if st.session_state.get("feedback_submitted"):
+        st.success("Thanks. Your feedback was saved locally.")
+        if st.session_state.get("feedback_saved_path"):
+            st.caption(st.session_state.feedback_saved_path)
+        return
+
+    st.markdown("### Help Us Improve")
+    with st.form("tester_feedback_form", clear_on_submit=False):
+        overall_rating = st.slider("Overall Rating", 1, 5, 4)
+        question_quality = st.slider("Question Quality", 1, 5, 4)
+        assessment_accuracy = st.slider("Assessment Accuracy", 1, 5, 4)
+        ui_experience = st.slider("UI Experience", 1, 5, 4)
+        would_recommend = st.radio("Would You Recommend?", ["Yes", "No"], horizontal=True)
+        free_text = st.text_area("Free-text Feedback", height=110)
+        submitted = st.form_submit_button("Submit Feedback")
+
+    if not submitted:
+        return
+
+    interview_type = st.session_state.get("ai_interview_type", "Domain Practice")
+    track = st.session_state.get("ai_track", "")
+    domain = "" if interview_type == "Interview Track" else st.session_state.get("ai_domain", "")
+    weak_areas = report.get("weak_areas") or report.get("gaps", [])
+    feedback = {
+        "overall_rating": overall_rating,
+        "question_quality": question_quality,
+        "assessment_accuracy": assessment_accuracy,
+        "ui_experience": ui_experience,
+        "would_recommend": would_recommend,
+        "feedback": free_text.strip(),
+        "interview_type": interview_type,
+        "track": track,
+        "track_domains": st.session_state.get("ai_track_domains", []),
+        "domain": domain,
+        "level": st.session_state.get("ai_level", ""),
+        "overall_score": report.get("total_score", report.get("overall_score", 0)),
+        "readiness_recommendation": can_move or report.get("hiring_recommendation", ""),
+        "hiring_recommendation": report.get("hiring_recommendation", ""),
+        "weak_areas": weak_areas,
+        "question_count": len(history),
+    }
+    path = save_feedback(feedback)
+    st.session_state.feedback_submitted = True
+    st.session_state.feedback_saved_path = str(path)
+    st.rerun()
+
+
 def get_question_mix_for_level(level):
     mixes = {
         "Beginner": "MCQ, Match, Fill Blank",
@@ -729,6 +813,10 @@ st.set_page_config(
 
 initialize_ai_session_state()
 
+if st.sidebar.checkbox("Admin Summary"):
+    render_admin_summary_page()
+    st.stop()
+
 st.title("DailyDEHub AI Interview Coach")
 st.caption("AI-powered Data Engineering interview practice from Beginner to Architect level.")
 
@@ -971,6 +1059,8 @@ elif st.session_state.get("ai_complete"):
         file_name="dailydehub_interview_report.pdf",
         mime="application/pdf",
     )
+
+    render_feedback_form(report, history, can_move)
 
     if st.button("Start New Interview"):
         reset_session()
