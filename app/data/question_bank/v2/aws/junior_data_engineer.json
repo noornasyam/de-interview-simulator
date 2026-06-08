@@ -1,0 +1,153 @@
+[
+  {
+    "id": "aws_junior_mcq_001",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Athena partition pruning",
+    "question": "Why are partitions useful when querying S3 data with Athena?",
+    "options": ["They can reduce the amount of data scanned", "They automatically encrypt IAM users", "They remove the need for schemas", "They convert all CSV files to JSON"],
+    "correct_answer": "They can reduce the amount of data scanned",
+    "explanation": "Partitioning data by fields like date or region can let Athena skip irrelevant S3 prefixes and reduce scanned bytes.",
+    "ideal_answer": "Partitions help Athena scan less data by pruning irrelevant S3 paths, which improves performance and lowers query cost.",
+    "tags": ["aws", "athena", "partitioning", "cost"]
+  },
+  {
+    "id": "aws_junior_fill_002",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Redshift",
+    "question": "Fill in the blank: Amazon ____ is AWS's managed data warehouse service.",
+    "correct_answer": "Redshift",
+    "acceptable_answers": ["redshift", "Amazon Redshift", "Redshift"],
+    "explanation": "Amazon Redshift is a managed warehouse used for analytical workloads, BI, and SQL-based data marts.",
+    "ideal_answer": "Amazon Redshift is the managed AWS data warehouse service used for analytics and BI workloads.",
+    "tags": ["aws", "redshift", "warehouse", "analytics"]
+  },
+  {
+    "id": "aws_junior_match_003",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "File formats",
+    "question": "Match each file format to a data engineering consideration.",
+    "left_items": ["CSV", "JSON", "Parquet"],
+    "right_items": ["Simple but weak typing", "Flexible nested records", "Columnar and efficient for analytics"],
+    "correct_pairs": {"CSV": "Simple but weak typing", "JSON": "Flexible nested records", "Parquet": "Columnar and efficient for analytics"},
+    "explanation": "Different file formats affect schema handling, query cost, and performance.",
+    "ideal_answer": "CSV is simple but fragile, JSON supports nested event payloads, and Parquet is columnar and efficient for analytics.",
+    "tags": ["aws", "file_formats", "parquet", "csv", "json"]
+  },
+  {
+    "id": "aws_junior_short_004",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "easy",
+    "concept": "S3 ingestion pattern",
+    "question": "A source system exports daily CSV files to S3. What two checks would you add before loading them into curated tables?",
+    "acceptable_answers": ["file presence", "row count", "schema validation", "null check", "duplicate check", "date partition check"],
+    "expected_points": [
+      {"point": "Checks that expected files arrived", "keywords": ["file", "arrival", "presence"], "weight": 5},
+      {"point": "Checks data shape or quality before loading", "keywords": ["schema", "row count", "quality", "null"], "weight": 5}
+    ],
+    "explanation": "Basic ingestion should confirm both delivery and data quality before downstream transformations run.",
+    "ideal_answer": "I would check that the expected file for the date arrived and validate row count, schema, required columns, and obvious null or duplicate issues before loading.",
+    "tags": ["aws", "s3", "ingestion", "data_quality"]
+  },
+  {
+    "id": "aws_junior_mcq_005",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Glue crawler",
+    "question": "What is a common use of an AWS Glue crawler?",
+    "options": ["Discover schema and partitions for data in S3", "Guarantee zero data duplication", "Replace all IAM policies", "Create CloudWatch alarms automatically for every table"],
+    "correct_answer": "Discover schema and partitions for data in S3",
+    "explanation": "Glue crawlers inspect data locations and update metadata in the Glue Data Catalog.",
+    "ideal_answer": "A Glue crawler can scan S3 data, infer schema and partitions, and register metadata in the Glue Data Catalog.",
+    "tags": ["aws", "glue", "crawler", "metadata"]
+  },
+  {
+    "id": "aws_junior_fill_006",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Lambda event processing",
+    "question": "Fill in the blank: AWS ____ is often used for small event-driven functions, such as reacting to an S3 object-created event.",
+    "correct_answer": "Lambda",
+    "acceptable_answers": ["lambda", "AWS Lambda", "Lambda"],
+    "explanation": "Lambda runs serverless functions and can be triggered by events from S3, EventBridge, SQS, and other services.",
+    "ideal_answer": "AWS Lambda can run small event-driven functions, such as validating a newly landed S3 file or triggering a downstream workflow.",
+    "tags": ["aws", "lambda", "event_driven", "s3"]
+  },
+  {
+    "id": "aws_junior_match_007",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Orchestration services",
+    "question": "Match each orchestration option to a common use case.",
+    "left_items": ["Step Functions", "Glue Workflow", "Managed Airflow"],
+    "right_items": ["State-machine workflow", "Glue-native job coordination", "DAG-based orchestration"],
+    "correct_pairs": {"Step Functions": "State-machine workflow", "Glue Workflow": "Glue-native job coordination", "Managed Airflow": "DAG-based orchestration"},
+    "explanation": "AWS supports multiple orchestration patterns depending on complexity, service integration, and team standards.",
+    "ideal_answer": "Step Functions coordinates state-machine workflows, Glue Workflow coordinates Glue jobs, and Managed Airflow supports DAG-based orchestration.",
+    "tags": ["aws", "orchestration", "step_functions", "glue", "airflow"]
+  },
+  {
+    "id": "aws_junior_short_008",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "IAM service roles",
+    "question": "Why should a Glue job use an IAM role instead of hardcoded access keys?",
+    "acceptable_answers": ["least privilege", "temporary credentials", "no hardcoded secrets", "rotation", "security"],
+    "expected_points": [
+      {"point": "Avoids hardcoded secrets", "keywords": ["hardcoded", "secret", "keys"], "weight": 4},
+      {"point": "Uses temporary credentials and least privilege", "keywords": ["temporary", "least privilege", "role"], "weight": 6}
+    ],
+    "explanation": "AWS service roles provide temporary credentials and reduce secret-management risk.",
+    "ideal_answer": "A Glue job should use an IAM role with least privilege because AWS supplies temporary credentials and avoids storing long-lived access keys in code or configuration.",
+    "tags": ["aws", "iam", "glue", "security"]
+  },
+  {
+    "id": "aws_junior_mcq_009",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Kinesis streaming",
+    "question": "Which AWS service is most appropriate for ingesting a continuous stream of click events?",
+    "options": ["Amazon Kinesis", "AWS IAM", "Amazon S3 Glacier", "AWS Budgets"],
+    "correct_answer": "Amazon Kinesis",
+    "explanation": "Kinesis is designed for streaming data ingestion and processing use cases.",
+    "ideal_answer": "Amazon Kinesis is appropriate for continuous event streams such as clickstream, logs, telemetry, or near-real-time data feeds.",
+    "tags": ["aws", "kinesis", "streaming", "ingestion"]
+  },
+  {
+    "id": "aws_junior_short_010",
+    "domain": "AWS",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "CloudWatch troubleshooting",
+    "question": "A Glue job failed overnight. What are the first CloudWatch-related things you would check?",
+    "acceptable_answers": ["logs", "error message", "metrics", "duration", "memory", "alarms"],
+    "expected_points": [
+      {"point": "Checks job logs for error details", "keywords": ["log", "error", "stack"], "weight": 5},
+      {"point": "Checks metrics such as duration, memory, or failures", "keywords": ["metric", "duration", "memory", "failure"], "weight": 5}
+    ],
+    "explanation": "Logs and metrics usually provide the first clues for failed AWS data jobs.",
+    "ideal_answer": "I would check the CloudWatch logs for the exact error and stack trace, then review job metrics such as duration, memory pressure, retries, and any related alarms.",
+    "tags": ["aws", "cloudwatch", "glue", "troubleshooting"]
+  }
+]

@@ -1,0 +1,175 @@
+[
+  {
+    "id": "aws_mid_mcq_001",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Athena cost optimization",
+    "question": "Which change most directly reduces Athena query cost for a large S3 table?",
+    "options": ["Store data as partitioned Parquet", "Store data as one giant CSV file", "Disable CloudWatch logs", "Use longer table names"],
+    "correct_answer": "Store data as partitioned Parquet",
+    "explanation": "Athena pricing is based largely on bytes scanned, so columnar formats and partition pruning reduce cost.",
+    "ideal_answer": "Using partitioned Parquet reduces bytes scanned and improves Athena query performance and cost.",
+    "tags": ["aws", "athena", "parquet", "partitioning", "cost"]
+  },
+  {
+    "id": "aws_mid_short_002",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Glue job bookmarks",
+    "question": "What problem can Glue job bookmarks help solve in recurring ETL jobs?",
+    "acceptable_answers": ["incremental processing", "avoid reprocessing", "processed files", "state tracking"],
+    "expected_points": [
+      {"point": "Mentions tracking already processed data", "keywords": ["processed", "track", "state"], "weight": 5},
+      {"point": "Mentions incremental ETL or avoiding duplicate processing", "keywords": ["incremental", "duplicate", "reprocess"], "weight": 5}
+    ],
+    "explanation": "Glue job bookmarks help track processed inputs so recurring jobs can process new data instead of all historical data.",
+    "ideal_answer": "Glue job bookmarks can track which data has already been processed, supporting incremental ETL and reducing duplicate processing.",
+    "tags": ["aws", "glue", "incremental", "etl"]
+  },
+  {
+    "id": "aws_mid_scenario_003",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "S3 raw to curated pipeline",
+    "scenario": "A vendor drops hourly JSON files into S3. Analysts need daily curated Parquet tables queryable in Athena.",
+    "question": "How would you design a practical AWS pipeline?",
+    "expected_points": [
+      {"point": "Uses S3 landing/raw and curated zones", "keywords": ["s3", "raw", "curated"], "weight": 2},
+      {"point": "Transforms JSON to partitioned Parquet", "keywords": ["json", "parquet", "partition"], "weight": 3},
+      {"point": "Updates Glue Data Catalog", "keywords": ["glue", "catalog", "metadata"], "weight": 2},
+      {"point": "Adds orchestration and quality checks", "keywords": ["orchestr", "quality", "check"], "weight": 3}
+    ],
+    "explanation": "A common AWS pattern lands source data in S3, transforms it into optimized files, catalogs it, and validates it before analyst use.",
+    "ideal_answer": "I would land hourly JSON in an S3 raw zone, run a scheduled Glue or Spark job to validate and convert it into date-partitioned Parquet in curated S3, update the Glue Data Catalog, and orchestrate with Step Functions or Airflow with quality checks and alerts.",
+    "tags": ["aws", "s3", "glue", "athena", "pipeline"]
+  },
+  {
+    "id": "aws_mid_trouble_004",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Athena missing partition",
+    "scenario": "A new day's files exist in S3, but Athena returns no rows for that date.",
+    "question": "What would you investigate?",
+    "expected_points": [
+      {"point": "Checks partition registration in Glue Catalog", "keywords": ["partition", "catalog", "msck", "repair"], "weight": 4},
+      {"point": "Checks S3 path and date format", "keywords": ["s3", "path", "date"], "weight": 3},
+      {"point": "Checks schema or file format issues", "keywords": ["schema", "format", "parquet", "json"], "weight": 3}
+    ],
+    "explanation": "Athena may not see data if partitions are not registered correctly or S3 paths do not match table definitions.",
+    "ideal_answer": "I would verify the S3 path, date partition naming, Glue Catalog partition registration, and file format/schema. If needed, I would run partition repair or add the partition through the catalog update process.",
+    "tags": ["aws", "athena", "partitioning", "troubleshooting"]
+  },
+  {
+    "id": "aws_mid_short_005",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "SQS decoupling",
+    "question": "Why might you put SQS between an ingestion trigger and downstream processing workers?",
+    "acceptable_answers": ["decoupling", "buffering", "retry", "backpressure", "durability"],
+    "expected_points": [
+      {"point": "Mentions decoupling producers and consumers", "keywords": ["decouple", "producer", "consumer"], "weight": 4},
+      {"point": "Mentions buffering/retry/backpressure", "keywords": ["buffer", "retry", "backpressure"], "weight": 6}
+    ],
+    "explanation": "SQS helps absorb spikes and makes processing more resilient when downstream consumers are slow or temporarily failing.",
+    "ideal_answer": "SQS decouples producers from consumers, buffers messages during spikes, supports retries, and helps prevent ingestion from failing when downstream workers are temporarily unavailable.",
+    "tags": ["aws", "sqs", "decoupling", "reliability"]
+  },
+  {
+    "id": "aws_mid_scenario_006",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Redshift loading pattern",
+    "scenario": "A reporting team needs curated S3 data loaded into Redshift every morning.",
+    "question": "What loading pattern would you recommend?",
+    "expected_points": [
+      {"point": "Uses S3 as staging and COPY for bulk load", "keywords": ["s3", "copy", "bulk"], "weight": 4},
+      {"point": "Handles incremental/date-based loads", "keywords": ["incremental", "date", "partition"], "weight": 2},
+      {"point": "Validates row counts and errors", "keywords": ["validate", "row count", "error"], "weight": 2},
+      {"point": "Orchestrates and monitors the load", "keywords": ["orchestr", "monitor", "alert"], "weight": 2}
+    ],
+    "explanation": "Redshift is commonly loaded in bulk from S3 using COPY with validations and operational monitoring.",
+    "ideal_answer": "I would write curated files to S3, use Redshift COPY for batch loading, make loads incremental by date or watermark, validate row counts and load errors, and orchestrate with alerts for failures.",
+    "tags": ["aws", "redshift", "s3", "loading"]
+  },
+  {
+    "id": "aws_mid_trouble_007",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Glue job performance",
+    "scenario": "A Glue Spark job that used to finish in 20 minutes now takes two hours.",
+    "question": "How would you troubleshoot the slowdown?",
+    "expected_points": [
+      {"point": "Checks input data volume and skew", "keywords": ["volume", "skew", "partition"], "weight": 3},
+      {"point": "Reviews Spark/Glue logs and metrics", "keywords": ["spark", "log", "metric"], "weight": 3},
+      {"point": "Checks small files or inefficient file format", "keywords": ["small files", "format", "parquet"], "weight": 2},
+      {"point": "Considers worker sizing and code changes", "keywords": ["worker", "dpu", "code"], "weight": 2}
+    ],
+    "explanation": "Glue performance issues often come from data growth, skew, small files, worker sizing, or recent transformation changes.",
+    "ideal_answer": "I would compare input volume, partitions, and file counts, inspect Glue/Spark logs and stage metrics, check for skew or small files, review recent code/schema changes, and tune workers, partitioning, or file layout as needed.",
+    "tags": ["aws", "glue", "spark", "performance", "troubleshooting"]
+  },
+  {
+    "id": "aws_mid_mcq_008",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Lake Formation",
+    "question": "What is AWS Lake Formation mainly used for in a data lake?",
+    "options": ["Centralized data lake permissions and governance", "Replacing S3 durability", "Editing Python code in notebooks only", "Sending email alerts"],
+    "correct_answer": "Centralized data lake permissions and governance",
+    "explanation": "Lake Formation helps manage permissions and governance for data lake tables and locations.",
+    "ideal_answer": "Lake Formation is used to centralize data lake access control and governance over data stored in S3 and cataloged in Glue.",
+    "tags": ["aws", "lake_formation", "governance", "access_control"]
+  },
+  {
+    "id": "aws_mid_scenario_009",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Streaming ingestion",
+    "scenario": "Product events arrive continuously and must be available for near-real-time dashboards and daily batch analytics.",
+    "question": "How would you use AWS services for this pattern?",
+    "expected_points": [
+      {"point": "Uses Kinesis for streaming ingestion", "keywords": ["kinesis", "stream"], "weight": 3},
+      {"point": "Persists events to S3 for lake storage", "keywords": ["s3", "lake", "persist"], "weight": 2},
+      {"point": "Supports real-time processing or dashboard path", "keywords": ["real-time", "near-real-time", "dashboard"], "weight": 2},
+      {"point": "Handles batch curation and monitoring", "keywords": ["batch", "curated", "monitor"], "weight": 3}
+    ],
+    "explanation": "Streaming designs often split data into near-real-time serving and durable lake storage for replay and batch analytics.",
+    "ideal_answer": "I would ingest events with Kinesis, process or aggregate near-real-time metrics for dashboards, land raw events to S3, transform them into curated partitioned tables for daily analytics, and monitor lag, failures, and data quality.",
+    "tags": ["aws", "kinesis", "streaming", "s3", "analytics"]
+  },
+  {
+    "id": "aws_mid_short_010",
+    "domain": "AWS",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Data lake security",
+    "question": "Name two controls you would use to protect sensitive data in an S3 data lake.",
+    "acceptable_answers": ["iam", "bucket policy", "encryption", "kms", "lake formation", "vpc endpoint", "access logging", "least privilege"],
+    "expected_points": [
+      {"point": "Mentions access control", "keywords": ["iam", "policy", "lake formation", "least privilege"], "weight": 5},
+      {"point": "Mentions encryption or auditing", "keywords": ["encryption", "kms", "logging", "audit"], "weight": 5}
+    ],
+    "explanation": "Sensitive data protection needs both access controls and data protection/audit mechanisms.",
+    "ideal_answer": "I would use least-privilege IAM or Lake Formation permissions, bucket policies, KMS encryption, access logging, and monitoring for unusual access.",
+    "tags": ["aws", "s3", "security", "governance"]
+  }
+]

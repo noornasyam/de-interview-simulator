@@ -1,0 +1,175 @@
+[
+  {
+    "id": "azure_mid_mcq_001",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Partitioning in data lakes",
+    "question": "Why is partitioning useful for analytical files in ADLS Gen2?",
+    "options": ["It can reduce the data read by queries and jobs", "It removes the need for permissions", "It guarantees no duplicate records", "It automatically creates private endpoints"],
+    "correct_answer": "It can reduce the data read by queries and jobs",
+    "explanation": "Partitioning by date or other common filters helps engines skip irrelevant folders and process less data.",
+    "ideal_answer": "Partitioning helps query and processing engines read only relevant folders, improving performance and reducing cost.",
+    "tags": ["azure", "adls_gen2", "partitioning", "cost"]
+  },
+  {
+    "id": "azure_mid_short_002",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "ADF parameterization",
+    "question": "Why are parameters useful in Azure Data Factory pipelines?",
+    "acceptable_answers": ["reuse", "environment", "dynamic", "date", "configuration", "avoid duplication"],
+    "expected_points": [
+      {"point": "Mentions reusable or dynamic pipelines", "keywords": ["reuse", "dynamic", "parameter"], "weight": 5},
+      {"point": "Mentions environment/date/configuration flexibility", "keywords": ["environment", "date", "config"], "weight": 5}
+    ],
+    "explanation": "Parameters make ADF pipelines reusable across dates, paths, tables, and environments.",
+    "ideal_answer": "Parameters let pipelines run dynamically for different dates, sources, tables, and environments without duplicating pipeline logic.",
+    "tags": ["azure", "adf", "parameters", "orchestration"]
+  },
+  {
+    "id": "azure_mid_scenario_003",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "ADLS raw to curated pipeline",
+    "scenario": "A vendor lands hourly JSON files in ADLS Gen2. Analysts need daily curated Parquet tables.",
+    "question": "How would you build a practical Azure pipeline?",
+    "expected_points": [
+      {"point": "Uses raw and curated lake zones", "keywords": ["raw", "curated", "adls"], "weight": 2},
+      {"point": "Transforms JSON to partitioned Parquet", "keywords": ["json", "parquet", "partition"], "weight": 3},
+      {"point": "Uses ADF/Synapse/Databricks appropriately", "keywords": ["adf", "synapse", "databricks"], "weight": 2},
+      {"point": "Adds quality checks and monitoring", "keywords": ["quality", "monitor", "alert"], "weight": 3}
+    ],
+    "explanation": "A common Azure pattern lands raw data, validates it, transforms it to optimized files, and monitors the pipeline.",
+    "ideal_answer": "I would land source JSON into a raw ADLS zone, orchestrate with ADF, transform with Synapse Spark or Azure Databricks into date-partitioned Parquet, write to a curated zone, validate schema and row counts, and monitor failures through Azure Monitor or Log Analytics.",
+    "tags": ["azure", "adls_gen2", "adf", "databricks", "pipeline"]
+  },
+  {
+    "id": "azure_mid_trouble_004",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "ADF copy failure",
+    "scenario": "An ADF Copy activity from Azure SQL to ADLS suddenly fails after a schema change in the source table.",
+    "question": "What would you investigate and fix?",
+    "expected_points": [
+      {"point": "Checks source schema changes and mapping", "keywords": ["schema", "mapping", "column"], "weight": 4},
+      {"point": "Checks copy activity error and sink format", "keywords": ["error", "sink", "format"], "weight": 3},
+      {"point": "Adds schema validation or change handling", "keywords": ["validate", "schema drift", "contract"], "weight": 3}
+    ],
+    "explanation": "Pipeline failures after schema changes usually require checking mappings, sink compatibility, and schema contracts.",
+    "ideal_answer": "I would inspect the ADF error, compare source schema changes to the mapping and sink schema, adjust mappings if valid, and add schema validation or a contract process so breaking source changes are caught earlier.",
+    "tags": ["azure", "adf", "schema_evolution", "troubleshooting"]
+  },
+  {
+    "id": "azure_mid_short_005",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Service Bus decoupling",
+    "question": "Why might you use Azure Service Bus between producers and processing workers?",
+    "acceptable_answers": ["decoupling", "queue", "retry", "dead-letter", "backpressure", "durability"],
+    "expected_points": [
+      {"point": "Mentions decoupling producers and consumers", "keywords": ["decouple", "producer", "consumer"], "weight": 4},
+      {"point": "Mentions retries, buffering, or dead-letter handling", "keywords": ["retry", "buffer", "dead-letter"], "weight": 6}
+    ],
+    "explanation": "Service Bus supports reliable queue/topic messaging and helps absorb spikes or downstream failures.",
+    "ideal_answer": "Service Bus decouples producers from consumers, buffers work, supports retries and dead-letter queues, and improves reliability when processors are slow or temporarily unavailable.",
+    "tags": ["azure", "service_bus", "messaging", "reliability"]
+  },
+  {
+    "id": "azure_mid_scenario_006",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Synapse serving layer",
+    "scenario": "A BI team needs curated lake data available for reporting with predictable SQL performance.",
+    "question": "What Azure serving pattern would you consider?",
+    "expected_points": [
+      {"point": "Considers Synapse SQL or warehouse-style serving", "keywords": ["synapse", "sql", "warehouse"], "weight": 3},
+      {"point": "Uses curated Parquet/lake data appropriately", "keywords": ["curated", "parquet", "lake"], "weight": 2},
+      {"point": "Considers performance and concurrency", "keywords": ["performance", "concurrency", "dashboard"], "weight": 3},
+      {"point": "Adds monitoring and cost awareness", "keywords": ["monitor", "cost", "usage"], "weight": 2}
+    ],
+    "explanation": "BI serving layers need predictable performance, governed schemas, and cost-aware workload placement.",
+    "ideal_answer": "I would evaluate Synapse SQL over curated lake data or a dedicated serving model depending on concurrency, latency, and BI expectations, then optimize table layout, monitor query performance, and control cost.",
+    "tags": ["azure", "synapse", "bi", "serving"]
+  },
+  {
+    "id": "azure_mid_trouble_007",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Databricks job performance",
+    "scenario": "An Azure Databricks job reading from ADLS now runs three times slower than last week.",
+    "question": "How would you troubleshoot the slowdown?",
+    "expected_points": [
+      {"point": "Checks input volume, partitions, and small files", "keywords": ["volume", "partition", "small files"], "weight": 3},
+      {"point": "Reviews Spark UI and job metrics", "keywords": ["spark ui", "stage", "metric"], "weight": 3},
+      {"point": "Checks skew or inefficient transformations", "keywords": ["skew", "shuffle", "join"], "weight": 2},
+      {"point": "Reviews cluster/runtime changes", "keywords": ["cluster", "runtime", "worker"], "weight": 2}
+    ],
+    "explanation": "Databricks performance issues often involve data growth, layout, skew, shuffle, cluster changes, or code changes.",
+    "ideal_answer": "I would compare input volume and file counts, check partitioning and small files, inspect Spark UI stages and shuffle, look for skew or changed joins, review recent code and cluster/runtime changes, and tune layout or compute accordingly.",
+    "tags": ["azure", "databricks", "spark", "performance", "troubleshooting"]
+  },
+  {
+    "id": "azure_mid_mcq_008",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Purview catalog",
+    "question": "Which capability is most aligned with Microsoft Purview?",
+    "options": ["Cataloging, classifying, and discovering data assets", "Replacing every SQL database", "Running Kubernetes clusters", "Serving static websites only"],
+    "correct_answer": "Cataloging, classifying, and discovering data assets",
+    "explanation": "Purview supports data catalog, discovery, classification, lineage, and governance use cases.",
+    "ideal_answer": "Microsoft Purview helps catalog and classify data assets, track lineage, and support governance across the data estate.",
+    "tags": ["azure", "purview", "catalog", "governance"]
+  },
+  {
+    "id": "azure_mid_scenario_009",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Event Hubs ingestion",
+    "scenario": "Product telemetry arrives continuously and must support near-real-time dashboards plus daily analytics.",
+    "question": "How would you design the ingestion pattern in Azure?",
+    "expected_points": [
+      {"point": "Uses Event Hubs for streaming ingestion", "keywords": ["event hubs", "stream"], "weight": 3},
+      {"point": "Persists raw events to ADLS", "keywords": ["adls", "raw", "persist"], "weight": 2},
+      {"point": "Supports near-real-time and batch paths", "keywords": ["near-real-time", "batch", "dashboard"], "weight": 3},
+      {"point": "Monitors lag, failures, and quality", "keywords": ["lag", "monitor", "quality"], "weight": 2}
+    ],
+    "explanation": "Streaming pipelines commonly separate near-real-time serving from durable lake storage and batch curation.",
+    "ideal_answer": "I would ingest events with Event Hubs, process near-real-time metrics for dashboards, land raw events to ADLS, transform daily curated Parquet tables for analytics, and monitor lag, failures, schema drift, and data quality.",
+    "tags": ["azure", "event_hubs", "streaming", "adls_gen2"]
+  },
+  {
+    "id": "azure_mid_short_010",
+    "domain": "Azure",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Data lake security controls",
+    "question": "Name two controls you would use to protect sensitive data in ADLS Gen2.",
+    "acceptable_answers": ["rbac", "acl", "managed identity", "key vault", "private endpoint", "encryption", "purview", "least privilege"],
+    "expected_points": [
+      {"point": "Mentions identity or access control", "keywords": ["rbac", "acl", "managed identity", "least privilege"], "weight": 5},
+      {"point": "Mentions encryption, network, or governance controls", "keywords": ["encryption", "private endpoint", "purview", "key vault"], "weight": 5}
+    ],
+    "explanation": "Sensitive lake data needs access control, encryption, network restrictions, and governance visibility.",
+    "ideal_answer": "I would use least-privilege RBAC and ACLs, managed identities, encryption, private endpoints, Key Vault for secrets, and Purview classification/governance.",
+    "tags": ["azure", "adls_gen2", "security", "governance"]
+  }
+]

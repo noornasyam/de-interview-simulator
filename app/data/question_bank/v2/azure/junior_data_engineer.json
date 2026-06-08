@@ -1,0 +1,153 @@
+[
+  {
+    "id": "azure_junior_mcq_001",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Data Factory linked services",
+    "question": "In Azure Data Factory, what does a linked service usually define?",
+    "options": ["A connection to a data store or compute service", "A dashboard color palette", "A Synapse SQL query result only", "An Azure region billing report"],
+    "correct_answer": "A connection to a data store or compute service",
+    "explanation": "Linked services define connection information for sources, sinks, and compute used by Data Factory pipelines.",
+    "ideal_answer": "A linked service defines connection details to data stores or compute services, such as ADLS, Azure SQL, Synapse, or Databricks.",
+    "tags": ["azure", "adf", "linked_service", "connections"]
+  },
+  {
+    "id": "azure_junior_fill_002",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "RBAC",
+    "question": "Fill in the blank: Azure ____ controls what users or identities can do on Azure resources.",
+    "correct_answer": "RBAC",
+    "acceptable_answers": ["rbac", "RBAC", "role based access control", "role-based access control"],
+    "explanation": "Azure role-based access control assigns roles to users, groups, service principals, or managed identities at scopes such as subscription, resource group, or resource.",
+    "ideal_answer": "Azure RBAC controls permissions through role assignments on Azure resources.",
+    "tags": ["azure", "rbac", "security", "access_control"]
+  },
+  {
+    "id": "azure_junior_match_003",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "File formats",
+    "question": "Match each file format to a common data engineering consideration.",
+    "left_items": ["CSV", "JSON", "Parquet"],
+    "right_items": ["Simple but weak schema enforcement", "Flexible nested event payloads", "Columnar and efficient for analytics"],
+    "correct_pairs": {"CSV": "Simple but weak schema enforcement", "JSON": "Flexible nested event payloads", "Parquet": "Columnar and efficient for analytics"},
+    "explanation": "File format choices affect schema handling, query speed, and cloud storage/query cost.",
+    "ideal_answer": "CSV is simple but fragile, JSON is useful for nested event payloads, and Parquet is columnar and efficient for analytics.",
+    "tags": ["azure", "file_formats", "csv", "json", "parquet"]
+  },
+  {
+    "id": "azure_junior_short_004",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "easy",
+    "concept": "ADLS ingestion checks",
+    "question": "A source system lands daily files in ADLS Gen2. What two checks would you add before processing them?",
+    "acceptable_answers": ["file presence", "row count", "schema validation", "null check", "duplicate check", "date partition check", "checksum"],
+    "expected_points": [
+      {"point": "Checks that expected files arrived", "keywords": ["file", "arrived", "presence"], "weight": 5},
+      {"point": "Checks data quality or structure", "keywords": ["schema", "row count", "quality", "null"], "weight": 5}
+    ],
+    "explanation": "Reliable ingestion confirms both file delivery and data shape before downstream transformations run.",
+    "ideal_answer": "I would check that the expected file for the date arrived and validate schema, row counts, required columns, and obvious null or duplicate issues before processing.",
+    "tags": ["azure", "adls_gen2", "ingestion", "data_quality"]
+  },
+  {
+    "id": "azure_junior_mcq_005",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Private endpoints",
+    "question": "Why might a data platform use private endpoints for storage or databases?",
+    "options": ["To keep traffic on private network paths", "To make all containers public", "To remove the need for authentication", "To compress files automatically"],
+    "correct_answer": "To keep traffic on private network paths",
+    "explanation": "Private endpoints expose Azure services through private IP addresses in a virtual network, reducing public network exposure.",
+    "ideal_answer": "Private endpoints help restrict access to services like ADLS or Azure SQL through private network paths instead of public endpoints.",
+    "tags": ["azure", "private_endpoint", "networking", "security"]
+  },
+  {
+    "id": "azure_junior_fill_006",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Event Hubs",
+    "question": "Fill in the blank: Azure Event ____ is commonly used for high-throughput streaming event ingestion.",
+    "correct_answer": "Hubs",
+    "acceptable_answers": ["hubs", "Hubs", "Event Hubs", "Azure Event Hubs"],
+    "explanation": "Azure Event Hubs is designed for streaming telemetry, logs, clickstream, and event ingestion.",
+    "ideal_answer": "Azure Event Hubs is used for high-throughput streaming event ingestion.",
+    "tags": ["azure", "event_hubs", "streaming", "ingestion"]
+  },
+  {
+    "id": "azure_junior_match_007",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Orchestration options",
+    "question": "Match each Azure service to a common workflow role.",
+    "left_items": ["Data Factory", "Logic Apps", "Azure Functions"],
+    "right_items": ["Data pipeline orchestration", "Low-code business workflow integration", "Event-driven code execution"],
+    "correct_pairs": {"Data Factory": "Data pipeline orchestration", "Logic Apps": "Low-code business workflow integration", "Azure Functions": "Event-driven code execution"},
+    "explanation": "ADF is commonly used for data pipelines, Logic Apps for integration workflows, and Functions for event-driven code.",
+    "ideal_answer": "Data Factory orchestrates data pipelines, Logic Apps handles integration workflows, and Azure Functions runs event-driven code.",
+    "tags": ["azure", "adf", "logic_apps", "functions", "orchestration"]
+  },
+  {
+    "id": "azure_junior_short_008",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Key Vault in pipelines",
+    "question": "Why should a pipeline retrieve secrets from Key Vault instead of storing them in code?",
+    "acceptable_answers": ["no hardcoded secrets", "rotation", "centralized secrets", "security", "audit", "least privilege"],
+    "expected_points": [
+      {"point": "Avoids hardcoded secrets", "keywords": ["hardcoded", "secret", "code"], "weight": 5},
+      {"point": "Supports secure management and rotation", "keywords": ["key vault", "rotation", "secure"], "weight": 5}
+    ],
+    "explanation": "Key Vault reduces leakage risk and supports centralized secret governance.",
+    "ideal_answer": "Using Key Vault avoids hardcoded credentials, centralizes secret management, supports rotation, and lets pipelines access secrets securely with managed identities and RBAC.",
+    "tags": ["azure", "key_vault", "secrets", "security"]
+  },
+  {
+    "id": "azure_junior_mcq_009",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Microsoft Purview",
+    "question": "What is Microsoft Purview commonly used for in a data platform?",
+    "options": ["Data cataloging, governance, and discovery", "Replacing all ETL code", "Increasing disk speed only", "Creating virtual machines"],
+    "correct_answer": "Data cataloging, governance, and discovery",
+    "explanation": "Microsoft Purview supports data cataloging, lineage, classification, and governance across data estates.",
+    "ideal_answer": "Microsoft Purview helps catalog, classify, discover, and govern data assets, including lineage and metadata.",
+    "tags": ["azure", "purview", "catalog", "governance"]
+  },
+  {
+    "id": "azure_junior_short_010",
+    "domain": "Azure",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Azure Monitor troubleshooting",
+    "question": "An ADF pipeline failed overnight. What are the first monitoring details you would check?",
+    "acceptable_answers": ["activity runs", "error message", "logs", "trigger", "integration runtime", "duration", "dependency"],
+    "expected_points": [
+      {"point": "Checks failed activity and error details", "keywords": ["activity", "error", "failure"], "weight": 5},
+      {"point": "Checks runtime, trigger, duration, or dependency status", "keywords": ["trigger", "runtime", "duration", "dependency"], "weight": 5}
+    ],
+    "explanation": "ADF activity run history and monitoring details are usually the first place to understand pipeline failures.",
+    "ideal_answer": "I would check the failed activity run, error message, input/output details, trigger status, integration runtime health, duration changes, and dependency failures in ADF Monitor or Log Analytics.",
+    "tags": ["azure", "adf", "monitoring", "troubleshooting"]
+  }
+]

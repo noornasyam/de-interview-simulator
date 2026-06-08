@@ -1,0 +1,192 @@
+[
+  {
+    "id": "azure_arch_enterprise_001",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Enterprise Azure data platform",
+    "scenario": "A global enterprise wants an Azure data platform for analytics, AI, regulatory reporting, and domain data products.",
+    "question": "What enterprise architecture would you define?",
+    "expected_points": [
+      {"point": "Defines layered lakehouse architecture", "keywords": ["lakehouse", "adls", "bronze", "gold"], "weight": 2},
+      {"point": "Includes processing and serving services", "keywords": ["databricks", "synapse", "serving"], "weight": 2},
+      {"point": "Includes governance, security, and cataloging", "keywords": ["purview", "governance", "security"], "weight": 3},
+      {"point": "Includes operations, cost, and reliability standards", "keywords": ["operation", "cost", "reliability"], "weight": 3}
+    ],
+    "explanation": "Enterprise Azure data architecture must combine platform capabilities, governance, security, operations, and business-aligned data products.",
+    "ideal_answer": "I would define ADLS lakehouse zones, ADF orchestration, Databricks/Synapse processing, Synapse or semantic serving layers, Purview governance, managed identities/RBAC/private endpoints, CI/CD and IaC, quality gates, observability, FinOps, DR, and domain data product standards.",
+    "tags": ["azure", "enterprise_architecture", "data_platform", "governance"]
+  },
+  {
+    "id": "azure_arch_gov_002",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Federated governance",
+    "scenario": "Business units want autonomy over data products, while compliance requires consistent access control, retention, and auditability.",
+    "question": "How would you design federated governance on Azure?",
+    "expected_points": [
+      {"point": "Defines central policies and domain ownership", "keywords": ["central", "policy", "domain", "owner"], "weight": 3},
+      {"point": "Uses Purview for catalog/classification/lineage", "keywords": ["purview", "catalog", "classification"], "weight": 3},
+      {"point": "Defines access, retention, and audit standards", "keywords": ["access", "retention", "audit"], "weight": 2},
+      {"point": "Supports self-service with guardrails", "keywords": ["self-service", "guardrail", "standard"], "weight": 2}
+    ],
+    "explanation": "Federated governance lets domains move quickly while keeping enterprise controls consistent and auditable.",
+    "ideal_answer": "I would centralize policies for classification, retention, access, and audit, delegate ownership to domains, use Purview for catalog and lineage, enforce RBAC/ACL/private access standards, and provide self-service workflows with automated guardrails.",
+    "tags": ["azure", "governance", "federated", "purview"]
+  },
+  {
+    "id": "azure_arch_cost_003",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Enterprise FinOps for data",
+    "scenario": "Azure data costs are spread across ADLS, ADF, Databricks, Synapse, Event Hubs, and monitoring with weak ownership visibility.",
+    "question": "How would you design cost management for the data platform?",
+    "expected_points": [
+      {"point": "Requires tagging and showback/chargeback", "keywords": ["tag", "showback", "chargeback"], "weight": 3},
+      {"point": "Defines service-specific optimization standards", "keywords": ["adls", "databricks", "synapse", "adf"], "weight": 3},
+      {"point": "Adds budgets and anomaly alerts", "keywords": ["budget", "anomaly", "alert"], "weight": 2},
+      {"point": "Links cost to product ownership", "keywords": ["owner", "data product", "domain"], "weight": 2}
+    ],
+    "explanation": "Enterprise cost control requires technical optimization plus ownership accountability.",
+    "ideal_answer": "I would enforce tags, showback or chargeback by domain and product, define standards for ADLS lifecycle, Databricks cluster policies, Synapse workload placement, ADF monitoring, and Event Hubs sizing, then add budgets, anomaly alerts, and recurring FinOps reviews.",
+    "tags": ["azure", "finops", "cost", "enterprise"]
+  },
+  {
+    "id": "azure_arch_reliability_004",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Critical data product reliability",
+    "scenario": "Regulatory reporting depends on several Azure pipelines and must be complete by 7 AM every business day.",
+    "question": "What reliability architecture would you require?",
+    "expected_points": [
+      {"point": "Defines SLAs/SLOs and critical path", "keywords": ["sla", "slo", "critical path"], "weight": 3},
+      {"point": "Includes quality gates and reconciliation", "keywords": ["quality", "reconciliation", "control"], "weight": 3},
+      {"point": "Includes observability, runbooks, and escalation", "keywords": ["observability", "runbook", "escalation"], "weight": 2},
+      {"point": "Includes recovery and backfill capability", "keywords": ["recovery", "backfill", "dr"], "weight": 2}
+    ],
+    "explanation": "Critical reporting requires explicit reliability design, operational controls, and tested recovery.",
+    "ideal_answer": "I would define freshness and correctness SLOs, map the critical path, add reconciliation and quality gates, monitor every dependency, define runbooks and escalation, design idempotent backfills, and regularly test recovery for critical datasets.",
+    "tags": ["azure", "reliability", "regulatory_reporting", "slo"]
+  },
+  {
+    "id": "azure_arch_security_005",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Security architecture for Azure data lakes",
+    "scenario": "The platform stores customer PII, financial records, and behavioral events across multiple subscriptions.",
+    "question": "What security architecture would you define?",
+    "expected_points": [
+      {"point": "Uses least privilege and subscription/resource boundaries", "keywords": ["least privilege", "subscription", "boundary"], "weight": 3},
+      {"point": "Uses managed identities and Key Vault", "keywords": ["managed identity", "key vault", "secret"], "weight": 2},
+      {"point": "Uses private endpoints and encryption", "keywords": ["private endpoint", "encryption", "network"], "weight": 3},
+      {"point": "Includes classification and audit monitoring", "keywords": ["classification", "audit", "monitor"], "weight": 2}
+    ],
+    "explanation": "Azure data security spans identity, network, secrets, encryption, classification, and auditability.",
+    "ideal_answer": "I would separate environments/subscriptions, enforce least-privilege RBAC and ACLs, use managed identities, store secrets in Key Vault, use private endpoints and encryption, classify sensitive data in Purview, and monitor access through Azure Monitor and audit logs.",
+    "tags": ["azure", "security", "pii", "private_endpoint", "key_vault"]
+  },
+  {
+    "id": "azure_arch_enterprise_006",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Data mesh on Azure",
+    "scenario": "Leadership wants to move toward data mesh while keeping a shared Azure platform.",
+    "question": "How would you translate data mesh principles into Azure implementation choices?",
+    "expected_points": [
+      {"point": "Defines domain-owned data products", "keywords": ["domain", "data product", "owner"], "weight": 3},
+      {"point": "Provides shared platform capabilities", "keywords": ["platform", "shared", "self-service"], "weight": 2},
+      {"point": "Applies federated governance", "keywords": ["federated", "governance", "standard"], "weight": 3},
+      {"point": "Defines discoverability and quality contracts", "keywords": ["discover", "quality", "contract"], "weight": 2}
+    ],
+    "explanation": "Data mesh is an operating model supported by platform capabilities, governance, and domain accountability.",
+    "ideal_answer": "I would let domains own data products in standard ADLS/Purview structures, provide shared Azure templates for ingestion, quality, access, and monitoring, enforce federated governance through Purview and RBAC standards, and require discoverability, quality, and contract metadata.",
+    "tags": ["azure", "data_mesh", "enterprise_architecture", "governance"]
+  },
+  {
+    "id": "azure_arch_gov_007",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Metadata and lineage strategy",
+    "scenario": "Auditors ask where a regulatory metric came from, but lineage across ADF, Databricks, ADLS, and Synapse is incomplete.",
+    "question": "What metadata and lineage strategy would you put in place?",
+    "expected_points": [
+      {"point": "Defines catalog metadata standards", "keywords": ["catalog", "metadata", "standard"], "weight": 2},
+      {"point": "Captures pipeline and transformation lineage", "keywords": ["lineage", "pipeline", "transformation"], "weight": 3},
+      {"point": "Links business definitions to physical assets", "keywords": ["business", "definition", "metric"], "weight": 3},
+      {"point": "Includes governance process for critical data", "keywords": ["governance", "critical", "review"], "weight": 2}
+    ],
+    "explanation": "Metadata and lineage enable trust, auditability, ownership, and impact analysis.",
+    "ideal_answer": "I would define Purview metadata standards, capture lineage from ingestion through transformations and serving models, link business definitions to physical datasets, and require stewardship review for regulatory data products.",
+    "tags": ["azure", "metadata", "lineage", "purview", "governance"]
+  },
+  {
+    "id": "azure_arch_cost_008",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Workload placement",
+    "scenario": "Every team wants dedicated compute for Azure data workloads, but utilization is low and platform cost is high.",
+    "question": "How would you rationalize compute choices?",
+    "expected_points": [
+      {"point": "Classifies workloads by latency, scale, and concurrency", "keywords": ["latency", "scale", "concurrency"], "weight": 3},
+      {"point": "Chooses serverless/shared/dedicated compute appropriately", "keywords": ["serverless", "shared", "dedicated"], "weight": 3},
+      {"point": "Considers utilization and operational overhead", "keywords": ["utilization", "operation", "overhead"], "weight": 2},
+      {"point": "Defines standards and exception process", "keywords": ["standard", "exception", "process"], "weight": 2}
+    ],
+    "explanation": "Enterprise platforms need workload placement standards so compute matches business need and cost profile.",
+    "ideal_answer": "I would classify workloads by latency, data size, concurrency, and criticality, use serverless or shared compute where appropriate, reserve dedicated Databricks/Synapse resources only when justified, and define workload placement standards with an exception process.",
+    "tags": ["azure", "compute", "cost", "architecture"]
+  },
+  {
+    "id": "azure_arch_reliability_009",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Multi-region DR trade-offs",
+    "scenario": "An executive asks for active-active multi-region analytics on Azure for all data products.",
+    "question": "How would you evaluate and respond?",
+    "expected_points": [
+      {"point": "Challenges requirement using business criticality", "keywords": ["requirement", "criticality", "business"], "weight": 3},
+      {"point": "Explains cost and complexity of active-active", "keywords": ["cost", "complexity", "active-active"], "weight": 3},
+      {"point": "Defines tiered DR by RTO/RPO", "keywords": ["tier", "rto", "rpo"], "weight": 2},
+      {"point": "Includes testing and operational readiness", "keywords": ["test", "runbook", "readiness"], "weight": 2}
+    ],
+    "explanation": "Active-active analytics is expensive and complex; DR should be tiered by real business impact.",
+    "ideal_answer": "I would not make all analytics active-active by default. I would classify data products by criticality, define RTO/RPO tiers, replicate and automate recovery only where justified, document runbooks, and test recovery regularly.",
+    "tags": ["azure", "dr", "multi_region", "reliability"]
+  },
+  {
+    "id": "azure_arch_security_010",
+    "domain": "Azure",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Enterprise auditability",
+    "scenario": "The board wants assurance that sensitive analytical data access is controlled and auditable across Azure subscriptions.",
+    "question": "What controls and evidence would you design for?",
+    "expected_points": [
+      {"point": "Centralizes audit logs and access events", "keywords": ["audit", "log", "monitor"], "weight": 3},
+      {"point": "Reviews access and entitlements regularly", "keywords": ["review", "entitlement", "access"], "weight": 2},
+      {"point": "Enforces least privilege and approved workflows", "keywords": ["least privilege", "approval", "workflow"], "weight": 3},
+      {"point": "Provides compliance evidence reports", "keywords": ["evidence", "dashboard", "report"], "weight": 2}
+    ],
+    "explanation": "Auditability requires logging, access controls, review processes, and evidence that can be shared with stakeholders.",
+    "ideal_answer": "I would centralize audit logs, enforce least-privilege access through approved workflows, run periodic entitlement reviews, monitor unusual access, and produce evidence reports for sensitive data access and policy compliance.",
+    "tags": ["azure", "audit", "security", "compliance"]
+  }
+]

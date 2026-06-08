@@ -1,0 +1,192 @@
+[
+  {
+    "id": "aws_senior_scenario_001",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "AWS lakehouse ingestion design",
+    "scenario": "Your company has daily database exports, clickstream events, and third-party files. They all need to land in an AWS data lake and become trusted analytical tables.",
+    "question": "How would you design the ingestion and curation layers?",
+    "expected_points": [
+      {"point": "Separates raw, staged, and curated S3 zones", "keywords": ["raw", "curated", "s3", "zone"], "weight": 2},
+      {"point": "Uses batch and streaming patterns appropriately", "keywords": ["batch", "stream", "kinesis"], "weight": 2},
+      {"point": "Catalogs and partitions curated data", "keywords": ["catalog", "partition", "parquet"], "weight": 2},
+      {"point": "Includes data quality, monitoring, and replay", "keywords": ["quality", "monitor", "replay"], "weight": 4}
+    ],
+    "explanation": "A senior design should separate storage zones, ingestion patterns, metadata, quality, and operational recovery.",
+    "ideal_answer": "I would land all source-like data in immutable raw S3 zones, use Kinesis for streaming events and scheduled jobs for batch exports, transform to validated partitioned Parquet in curated zones, register metadata in Glue, and add quality checks, lineage, alerts, and replay/backfill paths.",
+    "tags": ["aws", "data_lake", "ingestion", "architecture"]
+  },
+  {
+    "id": "aws_senior_trouble_002",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Athena cost spike",
+    "scenario": "Athena spend doubled this week, and analysts report queries are slower on the sales lake table.",
+    "question": "How would you investigate and reduce the cost?",
+    "expected_points": [
+      {"point": "Reviews query history and bytes scanned", "keywords": ["query history", "bytes scanned", "athena"], "weight": 3},
+      {"point": "Checks partition pruning and predicates", "keywords": ["partition", "predicate", "pruning"], "weight": 2},
+      {"point": "Checks file format and small files", "keywords": ["parquet", "small files", "compression"], "weight": 2},
+      {"point": "Adds guardrails and education", "keywords": ["workgroup", "limit", "guardrail", "education"], "weight": 3}
+    ],
+    "explanation": "Athena cost spikes are usually tied to scanned bytes, layout changes, inefficient queries, or missing guardrails.",
+    "ideal_answer": "I would inspect Athena query history and bytes scanned by workgroup/user, verify partition filters are being used, check whether data reverted to CSV or small files, optimize layout to partitioned Parquet, and add workgroup scan limits, saved queries, and guidance for analysts.",
+    "tags": ["aws", "athena", "cost", "troubleshooting"]
+  },
+  {
+    "id": "aws_senior_design_003",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "medium",
+    "concept": "Glue vs EMR",
+    "scenario": "A team needs Spark-based transformations for several large datasets. They are choosing between AWS Glue and EMR.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Compares managed/serverless operation vs cluster control", "keywords": ["managed", "serverless", "control", "cluster"], "weight": 3},
+      {"point": "Considers workload scale and customization", "keywords": ["scale", "custom", "dependency"], "weight": 2},
+      {"point": "Considers cost and utilization", "keywords": ["cost", "utilization", "dpu"], "weight": 2},
+      {"point": "Considers team skills and operations", "keywords": ["skill", "operation", "monitor"], "weight": 3}
+    ],
+    "explanation": "Glue reduces operational burden while EMR can offer more control for complex or highly tuned Spark workloads.",
+    "ideal_answer": "I would choose Glue for simpler managed Spark ETL with lower operational overhead, and EMR when the team needs deeper cluster control, custom dependencies, advanced tuning, or long-running shared Spark workloads. I would compare cost, scale, operations, and team expertise.",
+    "tags": ["aws", "glue", "emr", "spark", "tradeoffs"]
+  },
+  {
+    "id": "aws_senior_cost_004",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "S3 and warehouse cost controls",
+    "scenario": "The data platform stores years of raw files, intermediate outputs, and Redshift tables. Costs are growing faster than usage.",
+    "question": "How would you reduce cost without hurting reliability?",
+    "expected_points": [
+      {"point": "Adds retention and S3 lifecycle policies", "keywords": ["retention", "lifecycle", "archive"], "weight": 3},
+      {"point": "Optimizes file formats and intermediate data", "keywords": ["parquet", "intermediate", "cleanup"], "weight": 2},
+      {"point": "Reviews Redshift utilization and workload patterns", "keywords": ["redshift", "utilization", "workload"], "weight": 2},
+      {"point": "Uses tagging, budgets, and ownership", "keywords": ["tag", "budget", "owner"], "weight": 3}
+    ],
+    "explanation": "Cost optimization should combine lifecycle management, efficient data layout, warehouse tuning, and ownership visibility.",
+    "ideal_answer": "I would classify data by value and retention need, add S3 lifecycle policies for raw and intermediate data, remove stale outputs, optimize curated data as compressed Parquet, review Redshift usage and scaling, and enforce tags, budgets, and owner accountability.",
+    "tags": ["aws", "cost", "s3", "redshift", "finops"]
+  },
+  {
+    "id": "aws_senior_scenario_005",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Lake Formation governance rollout",
+    "scenario": "Several teams query shared S3 data through Athena. Access rules are inconsistent and some sensitive columns are exposed too widely.",
+    "question": "How would you improve governance with AWS-native tools?",
+    "expected_points": [
+      {"point": "Centralizes metadata and permissions", "keywords": ["lake formation", "catalog", "permission"], "weight": 3},
+      {"point": "Classifies sensitive data", "keywords": ["classify", "sensitive", "pii"], "weight": 2},
+      {"point": "Uses least privilege and column/table controls", "keywords": ["least privilege", "column", "row", "access"], "weight": 3},
+      {"point": "Adds auditing and change process", "keywords": ["audit", "process", "review"], "weight": 2}
+    ],
+    "explanation": "Governance requires metadata ownership, sensitive-data classification, least-privilege access, and auditing.",
+    "ideal_answer": "I would standardize Glue Catalog metadata, use Lake Formation permissions for table and column access where appropriate, classify PII, define owner-approved access workflows, and monitor access through audit logs and periodic reviews.",
+    "tags": ["aws", "lake_formation", "governance", "pii"]
+  },
+  {
+    "id": "aws_senior_trouble_006",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Kinesis lag incident",
+    "scenario": "A Kinesis-based ingestion pipeline is falling behind during peak traffic, and dashboards show stale metrics.",
+    "question": "How would you respond during the incident and prevent recurrence?",
+    "expected_points": [
+      {"point": "Checks producer/consumer errors and iterator age", "keywords": ["iterator age", "lag", "consumer"], "weight": 3},
+      {"point": "Assesses shard capacity and scaling", "keywords": ["shard", "capacity", "scale"], "weight": 3},
+      {"point": "Protects data durability and replay", "keywords": ["durability", "replay", "retention"], "weight": 2},
+      {"point": "Adds monitoring and load testing", "keywords": ["monitor", "alert", "load test"], "weight": 2}
+    ],
+    "explanation": "Streaming incidents need immediate lag diagnosis plus capacity, retry, and observability improvements.",
+    "ideal_answer": "I would check iterator age, consumer errors, throttling, and shard utilization, scale shards or consumers if needed, ensure retention/replay covers the backlog, communicate dashboard staleness, and later add better alerts, autoscaling/runbooks, and peak-load testing.",
+    "tags": ["aws", "kinesis", "streaming", "incident"]
+  },
+  {
+    "id": "aws_senior_design_007",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Step Functions vs Airflow",
+    "scenario": "A team wants to orchestrate a multi-step data workflow using Lambda, Glue, Athena, and notifications.",
+    "question": "When would you choose Step Functions versus Managed Airflow?",
+    "expected_points": [
+      {"point": "Explains Step Functions service integration/state machine fit", "keywords": ["step functions", "state machine", "service integration"], "weight": 3},
+      {"point": "Explains Airflow DAG scheduling and dependency fit", "keywords": ["airflow", "dag", "schedule"], "weight": 3},
+      {"point": "Compares operations and complexity", "keywords": ["operation", "complexity", "maintain"], "weight": 2},
+      {"point": "Considers team standards and observability", "keywords": ["standard", "observability", "team"], "weight": 2}
+    ],
+    "explanation": "Both tools can orchestrate data workflows, but they fit different complexity, scheduling, and service-integration patterns.",
+    "ideal_answer": "I would use Step Functions for AWS-native event or state-machine workflows with clear service integrations, and Airflow when the platform already standardizes on DAG scheduling, cross-system dependencies, richer workflow authoring, and data-team operational patterns.",
+    "tags": ["aws", "step_functions", "airflow", "orchestration"]
+  },
+  {
+    "id": "aws_senior_scenario_008",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Data quality architecture",
+    "scenario": "Executives lost trust in dashboards because AWS pipelines occasionally publish incomplete curated datasets.",
+    "question": "How would you design data quality gates in the platform?",
+    "expected_points": [
+      {"point": "Validates freshness, completeness, and schema", "keywords": ["freshness", "completeness", "schema"], "weight": 3},
+      {"point": "Prevents bad data promotion to curated layer", "keywords": ["prevent", "curated", "publish"], "weight": 3},
+      {"point": "Adds alerting and ownership", "keywords": ["alert", "owner", "runbook"], "weight": 2},
+      {"point": "Tracks quality history and incidents", "keywords": ["history", "incident", "metric"], "weight": 2}
+    ],
+    "explanation": "Trusted data platforms should fail safe and avoid publishing incomplete or invalid data as trusted outputs.",
+    "ideal_answer": "I would add checks for freshness, row counts, schema, nulls, duplicates, and referential rules before promoting data to curated locations, isolate failed outputs, alert owners through CloudWatch or orchestration alerts, and track quality metrics and incidents over time.",
+    "tags": ["aws", "data_quality", "curated", "monitoring"]
+  },
+  {
+    "id": "aws_senior_trouble_009",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Redshift query regression",
+    "scenario": "A BI dashboard backed by Redshift became slow after a new large fact table was added.",
+    "question": "How would you diagnose and improve performance?",
+    "expected_points": [
+      {"point": "Reviews query plan and workload metrics", "keywords": ["query plan", "metric", "wlm"], "weight": 3},
+      {"point": "Checks distribution/sort keys or table design", "keywords": ["distribution", "sort", "table design"], "weight": 3},
+      {"point": "Checks data volume and joins", "keywords": ["volume", "join", "skew"], "weight": 2},
+      {"point": "Uses materialization or aggregates where useful", "keywords": ["materialized", "aggregate", "summary"], "weight": 2}
+    ],
+    "explanation": "Redshift performance depends on workload management, table design, join patterns, and data distribution.",
+    "ideal_answer": "I would review Redshift query plans, WLM metrics, table sizes, join patterns, distribution and sort keys, and skew. I would consider redesigning the table, adding aggregate tables or materialized views, and tuning workload queues.",
+    "tags": ["aws", "redshift", "performance", "troubleshooting"]
+  },
+  {
+    "id": "aws_senior_cost_010",
+    "domain": "AWS",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Streaming cost control",
+    "scenario": "A near-real-time analytics pipeline uses Kinesis, Lambda, Glue streaming jobs, and S3. Cost is rising, but the business only needs five-minute freshness.",
+    "question": "How would you optimize the design?",
+    "expected_points": [
+      {"point": "Validates freshness requirement", "keywords": ["freshness", "requirement", "sla"], "weight": 2},
+      {"point": "Considers micro-batch or lower-cost processing", "keywords": ["micro-batch", "batch", "schedule"], "weight": 3},
+      {"point": "Tunes streaming resources and retention", "keywords": ["shard", "lambda", "retention", "resource"], "weight": 2},
+      {"point": "Balances cost, latency, and reliability", "keywords": ["cost", "latency", "reliability"], "weight": 3}
+    ],
+    "explanation": "Cost control starts by matching architecture to the real latency requirement instead of defaulting to always-on streaming.",
+    "ideal_answer": "I would confirm the true freshness SLA, consider micro-batch processing if five-minute latency is acceptable, tune Kinesis capacity and retention, reduce over-provisioned consumers, and compare cost/reliability trade-offs before changing the pipeline.",
+    "tags": ["aws", "streaming", "cost", "latency"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "aws_lead_arch_001",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "AWS data platform reference architecture",
+    "scenario": "Multiple product teams need a shared AWS data platform for batch analytics, streaming events, and governed self-service access.",
+    "question": "What reference architecture would you propose?",
+    "expected_points": [
+      {"point": "Defines lake storage, processing, catalog, and warehouse layers", "keywords": ["s3", "processing", "catalog", "warehouse"], "weight": 3},
+      {"point": "Includes streaming and batch ingestion", "keywords": ["streaming", "batch", "ingestion"], "weight": 2},
+      {"point": "Adds governance and access model", "keywords": ["governance", "access", "lake formation"], "weight": 3},
+      {"point": "Includes observability and operational standards", "keywords": ["observability", "monitoring", "standard"], "weight": 2}
+    ],
+    "explanation": "A lead-level platform answer should balance shared standards with domain-team usability and operational maturity.",
+    "ideal_answer": "I would propose S3 lake zones, Glue/Spark and possibly EMR for processing, Glue Catalog and Lake Formation for metadata and access, Athena/Redshift for consumption, Kinesis for streaming, managed orchestration, and platform standards for monitoring, CI/CD, quality, cost tags, and ownership.",
+    "tags": ["aws", "architecture", "data_platform", "governance"]
+  },
+  {
+    "id": "aws_lead_trade_002",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Redshift vs Athena",
+    "scenario": "Some teams want all analytics in Athena over S3, while finance wants governed, high-performance dashboards in Redshift.",
+    "question": "How would you decide where workloads belong?",
+    "expected_points": [
+      {"point": "Compares interactive lake queries and warehouse workloads", "keywords": ["athena", "redshift", "warehouse"], "weight": 3},
+      {"point": "Considers performance and concurrency", "keywords": ["performance", "concurrency", "dashboard"], "weight": 2},
+      {"point": "Considers cost and data movement", "keywords": ["cost", "movement", "scan"], "weight": 2},
+      {"point": "Defines workload placement standards", "keywords": ["standard", "guideline", "workload"], "weight": 3}
+    ],
+    "explanation": "Workload placement should be based on access pattern, performance needs, governance, and cost, not service preference.",
+    "ideal_answer": "I would use Athena for exploratory lake queries and lower-concurrency workloads over S3, and Redshift for governed, high-concurrency, performance-sensitive BI. I would define standards based on latency, concurrency, cost, data size, and ownership.",
+    "tags": ["aws", "athena", "redshift", "tradeoffs"]
+  },
+  {
+    "id": "aws_lead_stakeholder_003",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Governance adoption",
+    "scenario": "Security wants strict Lake Formation controls immediately, but analytics teams fear delays in getting access.",
+    "question": "How would you lead the rollout?",
+    "expected_points": [
+      {"point": "Balances security and productivity", "keywords": ["security", "productivity", "balance"], "weight": 3},
+      {"point": "Phases rollout by risk/data sensitivity", "keywords": ["phase", "risk", "sensitive"], "weight": 2},
+      {"point": "Defines access request and approval workflow", "keywords": ["access", "approval", "workflow"], "weight": 3},
+      {"point": "Communicates standards and measures friction", "keywords": ["communicate", "measure", "friction"], "weight": 2}
+    ],
+    "explanation": "Governance succeeds when it reduces risk without blocking responsible data use.",
+    "ideal_answer": "I would phase Lake Formation rollout starting with sensitive domains, define clear owner-based access workflows and SLAs, provide templates and self-service where safe, measure request friction, and communicate why controls protect the business.",
+    "tags": ["aws", "lake_formation", "stakeholders", "governance"]
+  },
+  {
+    "id": "aws_lead_gov_004",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Data ownership model",
+    "scenario": "No one owns several high-value Glue Catalog tables, and quality incidents are repeatedly routed to the platform team.",
+    "question": "How would you establish ownership and accountability?",
+    "expected_points": [
+      {"point": "Defines data product or domain ownership", "keywords": ["owner", "domain", "data product"], "weight": 3},
+      {"point": "Adds catalog metadata and contacts", "keywords": ["catalog", "metadata", "contact"], "weight": 2},
+      {"point": "Defines quality SLAs and incident routes", "keywords": ["sla", "quality", "incident"], "weight": 3},
+      {"point": "Uses platform standards without central bottleneck", "keywords": ["standard", "platform", "self-service"], "weight": 2}
+    ],
+    "explanation": "Shared platforms need clear data ownership so quality, access, and incident decisions are not centralized by default.",
+    "ideal_answer": "I would assign domain owners for critical tables, require ownership metadata in the catalog, define quality SLAs and escalation paths, and make the platform team responsible for tooling and standards rather than every data issue.",
+    "tags": ["aws", "ownership", "governance", "catalog"]
+  },
+  {
+    "id": "aws_lead_reliability_005",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "AWS pipeline reliability standards",
+    "scenario": "Different teams build Glue, Lambda, and Step Functions pipelines with inconsistent retries, alerts, and backfill practices.",
+    "question": "What reliability standards would you introduce?",
+    "expected_points": [
+      {"point": "Standardizes retries, idempotency, and backfills", "keywords": ["retry", "idempotent", "backfill"], "weight": 3},
+      {"point": "Defines alerting and runbooks", "keywords": ["alert", "runbook", "on-call"], "weight": 2},
+      {"point": "Defines data quality and freshness SLAs", "keywords": ["quality", "freshness", "sla"], "weight": 3},
+      {"point": "Measures reliability over time", "keywords": ["metric", "slo", "incident"], "weight": 2}
+    ],
+    "explanation": "Reliability standards make data pipelines predictable and supportable across teams.",
+    "ideal_answer": "I would standardize idempotent writes, retry policies, dead-letter handling, backfill procedures, freshness and quality SLAs, CloudWatch alarms, runbooks, and incident reviews across AWS data pipelines.",
+    "tags": ["aws", "reliability", "operations", "standards"]
+  },
+  {
+    "id": "aws_lead_arch_006",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Multi-account data platform",
+    "scenario": "Your company uses separate AWS accounts for dev, staging, prod, and business domains.",
+    "question": "How would you design cross-account data access and deployment?",
+    "expected_points": [
+      {"point": "Uses account separation for blast-radius control", "keywords": ["account", "blast radius", "separation"], "weight": 2},
+      {"point": "Defines cross-account IAM and Lake Formation access", "keywords": ["cross-account", "iam", "lake formation"], "weight": 3},
+      {"point": "Uses IaC and CI/CD for consistent deployment", "keywords": ["iac", "ci", "deployment"], "weight": 3},
+      {"point": "Audits and monitors access", "keywords": ["audit", "monitor", "cloudtrail"], "weight": 2}
+    ],
+    "explanation": "Multi-account platforms improve isolation but require disciplined identity, deployment, and governance patterns.",
+    "ideal_answer": "I would separate environments and domains by account, use IAM roles and Lake Formation resource sharing for governed data access, manage infrastructure through CI/CD and IaC, and centralize audit, monitoring, and policy enforcement.",
+    "tags": ["aws", "multi_account", "iam", "governance"]
+  },
+  {
+    "id": "aws_lead_trade_007",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Centralized vs domain-owned pipelines",
+    "scenario": "Leadership is debating whether all AWS data pipelines should be owned by a central platform team or by domain teams.",
+    "question": "What operating model would you recommend?",
+    "expected_points": [
+      {"point": "Separates platform ownership from data ownership", "keywords": ["platform", "data ownership", "domain"], "weight": 3},
+      {"point": "Balances standards and autonomy", "keywords": ["standard", "autonomy", "governance"], "weight": 3},
+      {"point": "Defines support and escalation model", "keywords": ["support", "escalation", "incident"], "weight": 2},
+      {"point": "Considers skill maturity", "keywords": ["skill", "maturity", "enablement"], "weight": 2}
+    ],
+    "explanation": "A healthy operating model lets domain teams own business data while the platform team provides paved roads and controls.",
+    "ideal_answer": "I would make the platform team own shared services, templates, observability, and governance, while domain teams own their data products and pipeline logic within standards. I would add enablement, support tiers, and escalation paths.",
+    "tags": ["aws", "operating_model", "data_platform", "governance"]
+  },
+  {
+    "id": "aws_lead_stakeholder_008",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Cost accountability",
+    "scenario": "AWS data platform costs are rising, but no team believes their workloads are responsible.",
+    "question": "How would you create cost accountability without slowing delivery?",
+    "expected_points": [
+      {"point": "Requires tags and ownership metadata", "keywords": ["tag", "owner", "metadata"], "weight": 3},
+      {"point": "Creates domain-level cost reporting", "keywords": ["report", "domain", "cost"], "weight": 2},
+      {"point": "Defines budgets and anomaly alerts", "keywords": ["budget", "alert", "anomaly"], "weight": 2},
+      {"point": "Provides optimization playbooks", "keywords": ["playbook", "optimize", "enable"], "weight": 3}
+    ],
+    "explanation": "FinOps works best when teams can see, explain, and improve their own data costs.",
+    "ideal_answer": "I would enforce cost allocation tags, build domain-level cost dashboards, add budgets and anomaly alerts, and provide playbooks for S3 lifecycle, Athena scan reduction, Glue tuning, and Redshift workload optimization.",
+    "tags": ["aws", "finops", "cost", "stakeholders"]
+  },
+  {
+    "id": "aws_lead_gov_009",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Sensitive data governance",
+    "scenario": "Customer PII appears in raw and curated S3 zones, and several analytics roles can query it through Athena.",
+    "question": "What governance controls would you prioritize?",
+    "expected_points": [
+      {"point": "Classifies and inventories PII", "keywords": ["classify", "inventory", "pii"], "weight": 3},
+      {"point": "Restricts access with least privilege", "keywords": ["least privilege", "access", "lake formation"], "weight": 3},
+      {"point": "Uses encryption and audit logging", "keywords": ["encryption", "kms", "audit", "cloudtrail"], "weight": 2},
+      {"point": "Defines retention and masking standards", "keywords": ["retention", "mask", "token"], "weight": 2}
+    ],
+    "explanation": "PII governance requires discovery, access control, protection, auditing, and lifecycle management.",
+    "ideal_answer": "I would inventory PII in S3 and catalog tables, restrict access using least privilege and Lake Formation where appropriate, encrypt data with KMS, audit access, and define retention, masking, and approval standards.",
+    "tags": ["aws", "pii", "security", "governance"]
+  },
+  {
+    "id": "aws_lead_reliability_010",
+    "domain": "AWS",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Data platform DR",
+    "scenario": "A critical analytics platform on AWS has no documented disaster recovery plan.",
+    "question": "How would you define a pragmatic DR strategy?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by data product criticality", "keywords": ["rto", "rpo", "critical"], "weight": 3},
+      {"point": "Protects source, metadata, and transformed data", "keywords": ["s3", "catalog", "metadata", "backup"], "weight": 2},
+      {"point": "Includes infrastructure recovery through IaC", "keywords": ["iac", "restore", "environment"], "weight": 2},
+      {"point": "Tests recovery regularly", "keywords": ["test", "drill", "recovery"], "weight": 3}
+    ],
+    "explanation": "DR should be driven by business criticality and tested recovery, not only backups.",
+    "ideal_answer": "I would classify data products by criticality, define RTO/RPO, protect S3 data and catalog metadata, manage infrastructure as code, document recovery runbooks, and perform regular DR tests for critical pipelines.",
+    "tags": ["aws", "dr", "reliability", "operations"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "aws_arch_enterprise_001",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Enterprise AWS data platform",
+    "scenario": "A global enterprise wants a standardized AWS data platform for analytics, AI, regulatory reporting, and domain data products.",
+    "question": "What enterprise architecture would you define?",
+    "expected_points": [
+      {"point": "Defines layered data lake/lakehouse architecture", "keywords": ["lake", "layer", "s3", "curated"], "weight": 2},
+      {"point": "Includes warehouse/query engines and domain products", "keywords": ["redshift", "athena", "domain", "data product"], "weight": 2},
+      {"point": "Includes governance, security, and cataloging", "keywords": ["governance", "security", "catalog"], "weight": 3},
+      {"point": "Includes operations, cost, and reliability standards", "keywords": ["operation", "cost", "reliability"], "weight": 3}
+    ],
+    "explanation": "An enterprise AWS data architecture must combine platform capabilities, governance, operations, and business-aligned data products.",
+    "ideal_answer": "I would define S3-based lake zones, Glue Catalog and Lake Formation governance, Athena/Redshift consumption layers, streaming with Kinesis, ETL with Glue/EMR, domain data products, CI/CD and IaC, observability, FinOps, DR, and enterprise security standards.",
+    "tags": ["aws", "enterprise_architecture", "data_platform", "governance"]
+  },
+  {
+    "id": "aws_arch_gov_002",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Federated governance",
+    "scenario": "Business units want autonomy over their data, but compliance requires consistent access control, retention, and auditability.",
+    "question": "How would you design federated data governance on AWS?",
+    "expected_points": [
+      {"point": "Defines central policies and domain ownership", "keywords": ["central", "policy", "domain", "owner"], "weight": 3},
+      {"point": "Uses catalog and Lake Formation controls", "keywords": ["catalog", "lake formation", "access"], "weight": 3},
+      {"point": "Includes audit, retention, and classification", "keywords": ["audit", "retention", "classification"], "weight": 2},
+      {"point": "Supports self-service with guardrails", "keywords": ["self-service", "guardrail", "standard"], "weight": 2}
+    ],
+    "explanation": "Federated governance lets domains move quickly while enforcing enterprise controls consistently.",
+    "ideal_answer": "I would centralize policies for classification, retention, access, and audit, delegate data ownership to domains, enforce access through Lake Formation and IAM, require catalog metadata, and provide self-service workflows with automated guardrails.",
+    "tags": ["aws", "governance", "federated", "lake_formation"]
+  },
+  {
+    "id": "aws_arch_cost_003",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Enterprise FinOps for data",
+    "scenario": "AWS data costs are spread across S3, Athena, Glue, Redshift, Kinesis, and EMR with weak ownership visibility.",
+    "question": "How would you design cost management for the enterprise data platform?",
+    "expected_points": [
+      {"point": "Requires tagging and chargeback/showback", "keywords": ["tag", "chargeback", "showback"], "weight": 3},
+      {"point": "Defines service-specific optimization standards", "keywords": ["s3", "athena", "glue", "redshift"], "weight": 3},
+      {"point": "Adds budgets and anomaly detection", "keywords": ["budget", "anomaly", "alert"], "weight": 2},
+      {"point": "Links cost to product ownership", "keywords": ["owner", "data product", "domain"], "weight": 2}
+    ],
+    "explanation": "Enterprise cost control requires both technical optimization and ownership accountability.",
+    "ideal_answer": "I would enforce tags, implement showback or chargeback by domain and product, define optimization standards for S3 lifecycle, Athena scans, Glue/EMR sizing, and Redshift usage, and add budgets, anomaly alerts, and regular FinOps reviews.",
+    "tags": ["aws", "finops", "cost", "enterprise"]
+  },
+  {
+    "id": "aws_arch_reliability_004",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Critical data product reliability",
+    "scenario": "Regulatory reporting depends on several AWS pipelines and must be correct by 7 AM every business day.",
+    "question": "What reliability architecture would you require?",
+    "expected_points": [
+      {"point": "Defines SLAs/SLOs and critical path", "keywords": ["sla", "slo", "critical path"], "weight": 3},
+      {"point": "Includes quality gates and reconciliation", "keywords": ["quality", "reconciliation", "control"], "weight": 3},
+      {"point": "Includes observability, runbooks, and escalation", "keywords": ["observability", "runbook", "escalation"], "weight": 2},
+      {"point": "Includes backfill/recovery and DR thinking", "keywords": ["backfill", "recovery", "dr"], "weight": 2}
+    ],
+    "explanation": "Critical reporting needs explicit reliability design, not best-effort pipelines.",
+    "ideal_answer": "I would define SLOs for freshness and correctness, map the critical path, add quality and reconciliation gates, monitor each dependency, create runbooks and escalation, design idempotent backfills, and test recovery procedures for critical datasets.",
+    "tags": ["aws", "reliability", "regulatory_reporting", "slo"]
+  },
+  {
+    "id": "aws_arch_security_005",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Security architecture for data lakes",
+    "scenario": "The platform stores customer PII, financial records, and clickstream data across multiple AWS accounts.",
+    "question": "What security architecture would you define?",
+    "expected_points": [
+      {"point": "Uses least privilege and account boundaries", "keywords": ["least privilege", "account", "boundary"], "weight": 3},
+      {"point": "Uses encryption and key management", "keywords": ["encryption", "kms", "key"], "weight": 2},
+      {"point": "Uses classification and fine-grained access", "keywords": ["classification", "fine-grained", "lake formation"], "weight": 3},
+      {"point": "Includes audit and monitoring", "keywords": ["audit", "cloudtrail", "monitor"], "weight": 2}
+    ],
+    "explanation": "Data platform security spans identity, network boundaries, encryption, classification, access, and audit.",
+    "ideal_answer": "I would separate environments/accounts, use least-privilege IAM, encrypt data with KMS, classify sensitive data, enforce fine-grained access with Lake Formation where appropriate, restrict network paths, and monitor access through CloudTrail and security tooling.",
+    "tags": ["aws", "security", "pii", "iam", "kms"]
+  },
+  {
+    "id": "aws_arch_enterprise_006",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "hard",
+    "concept": "Data mesh on AWS",
+    "scenario": "Leadership wants to move toward data mesh while keeping an AWS shared platform.",
+    "question": "How would you translate data mesh principles into AWS implementation choices?",
+    "expected_points": [
+      {"point": "Defines domain-owned data products", "keywords": ["domain", "data product", "owner"], "weight": 3},
+      {"point": "Provides shared platform capabilities", "keywords": ["platform", "shared", "self-service"], "weight": 2},
+      {"point": "Applies federated governance", "keywords": ["federated", "governance", "standard"], "weight": 3},
+      {"point": "Defines discoverability and quality contracts", "keywords": ["discover", "quality", "contract"], "weight": 2}
+    ],
+    "explanation": "Data mesh is an operating model as much as a technology choice; AWS services provide implementation building blocks.",
+    "ideal_answer": "I would let domains own data products in standard S3/Catalog structures, provide shared AWS platform templates for ingestion, quality, access, and observability, enforce federated governance through catalog metadata and Lake Formation, and require quality, ownership, and contract standards.",
+    "tags": ["aws", "data_mesh", "enterprise_architecture", "governance"]
+  },
+  {
+    "id": "aws_arch_gov_007",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Metadata and lineage strategy",
+    "scenario": "Auditors ask where a regulatory metric came from, but lineage across Glue jobs, S3 tables, and Redshift marts is incomplete.",
+    "question": "What metadata and lineage strategy would you put in place?",
+    "expected_points": [
+      {"point": "Defines catalog metadata standards", "keywords": ["catalog", "metadata", "standard"], "weight": 2},
+      {"point": "Captures pipeline and transformation lineage", "keywords": ["lineage", "pipeline", "transformation"], "weight": 3},
+      {"point": "Links business definitions to physical assets", "keywords": ["business", "definition", "metric"], "weight": 3},
+      {"point": "Includes governance processes for critical data", "keywords": ["governance", "critical", "review"], "weight": 2}
+    ],
+    "explanation": "Lineage and metadata enable trust, auditability, ownership, and impact analysis.",
+    "ideal_answer": "I would define metadata standards in the catalog, capture lineage from ingestion through Glue/Spark transformations to Redshift marts, link business metric definitions to physical datasets, and require stewardship reviews for regulatory data products.",
+    "tags": ["aws", "metadata", "lineage", "governance"]
+  },
+  {
+    "id": "aws_arch_cost_008",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Lakehouse workload placement",
+    "scenario": "Every team wants dedicated compute for their data workloads, but utilization is low and platform cost is high.",
+    "question": "How would you rationalize compute choices across AWS services?",
+    "expected_points": [
+      {"point": "Classifies workloads by latency, scale, and concurrency", "keywords": ["latency", "scale", "concurrency"], "weight": 3},
+      {"point": "Chooses serverless/shared/dedicated compute appropriately", "keywords": ["serverless", "shared", "dedicated"], "weight": 3},
+      {"point": "Considers utilization and operational overhead", "keywords": ["utilization", "operation", "overhead"], "weight": 2},
+      {"point": "Defines standards and exception process", "keywords": ["standard", "exception", "process"], "weight": 2}
+    ],
+    "explanation": "Enterprise platforms need workload placement standards so compute matches business need and cost profile.",
+    "ideal_answer": "I would classify workloads by latency, size, concurrency, and criticality, use serverless options like Athena/Glue where they fit, shared warehouse capacity for governed BI, dedicated EMR or Redshift only when justified, and define standards with an exception process.",
+    "tags": ["aws", "compute", "cost", "architecture"]
+  },
+  {
+    "id": "aws_arch_reliability_009",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Multi-region DR trade-offs",
+    "scenario": "An executive asks for active-active multi-region data analytics on AWS for all data products.",
+    "question": "How would you evaluate and respond?",
+    "expected_points": [
+      {"point": "Challenges requirement using business criticality", "keywords": ["requirement", "criticality", "business"], "weight": 3},
+      {"point": "Explains cost and complexity of active-active", "keywords": ["cost", "complexity", "active-active"], "weight": 3},
+      {"point": "Defines tiered DR by RTO/RPO", "keywords": ["tier", "rto", "rpo"], "weight": 2},
+      {"point": "Includes testing and operational readiness", "keywords": ["test", "runbook", "readiness"], "weight": 2}
+    ],
+    "explanation": "Active-active analytics is expensive and complex; architecture should be tiered by actual business risk.",
+    "ideal_answer": "I would avoid making all analytics active-active by default. I would classify data products by criticality, define RTO/RPO tiers, replicate only critical data where justified, document failover and recovery procedures, and test them regularly.",
+    "tags": ["aws", "dr", "multi_region", "reliability"]
+  },
+  {
+    "id": "aws_arch_security_010",
+    "domain": "AWS",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "hard",
+    "concept": "Enterprise auditability",
+    "scenario": "The board wants assurance that sensitive analytical data access is controlled and auditable across AWS accounts.",
+    "question": "What controls and evidence would you design for?",
+    "expected_points": [
+      {"point": "Centralizes audit logs and access events", "keywords": ["audit", "cloudtrail", "log"], "weight": 3},
+      {"point": "Reviews access and entitlement regularly", "keywords": ["review", "entitlement", "access"], "weight": 2},
+      {"point": "Enforces least privilege and approved workflows", "keywords": ["least privilege", "approval", "workflow"], "weight": 3},
+      {"point": "Provides evidence dashboards or reports", "keywords": ["evidence", "dashboard", "report"], "weight": 2}
+    ],
+    "explanation": "Auditability requires logging, controls, review processes, and evidence that can be shown to stakeholders.",
+    "ideal_answer": "I would centralize CloudTrail and service access logs, enforce least-privilege access through approved workflows, run periodic entitlement reviews, monitor unusual access, and produce evidence reports for sensitive data access and policy compliance.",
+    "tags": ["aws", "audit", "security", "compliance"]
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "azure_senior_scenario_001",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Azure lakehouse ingestion design",
+    "scenario": "Your company receives database extracts, product events, and partner files. They need to become trusted analytical datasets on Azure.",
+    "question": "How would you design the ingestion and curation flow?",
+    "expected_points": [
+      {"point": "Uses ADLS raw/bronze and curated/gold layers", "keywords": ["adls", "raw", "bronze", "curated"], "weight": 2},
+      {"point": "Handles batch and streaming sources appropriately", "keywords": ["batch", "stream", "event hubs"], "weight": 2},
+      {"point": "Transforms to optimized formats and partitions", "keywords": ["parquet", "partition", "transform"], "weight": 2},
+      {"point": "Includes quality, monitoring, and replay/backfill", "keywords": ["quality", "monitor", "backfill", "replay"], "weight": 4}
+    ],
+    "explanation": "A senior-level Azure design should separate storage zones, processing patterns, quality gates, observability, and recovery.",
+    "ideal_answer": "I would land source data in immutable ADLS bronze/raw zones, ingest streams through Event Hubs, orchestrate batch with ADF, transform with Synapse Spark or Azure Databricks into partitioned Parquet curated layers, and add quality checks, monitoring, lineage, and backfill/replay procedures.",
+    "tags": ["azure", "lakehouse", "ingestion", "architecture"]
+  },
+  {
+    "id": "azure_senior_trouble_002",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "ADF pipeline incident",
+    "scenario": "A critical ADF pipeline succeeded, but downstream reports show incomplete data.",
+    "question": "How would you investigate and prevent recurrence?",
+    "expected_points": [
+      {"point": "Checks pipeline activity outputs and source completeness", "keywords": ["activity", "source", "completeness"], "weight": 3},
+      {"point": "Validates row counts, freshness, and data quality", "keywords": ["row count", "freshness", "quality"], "weight": 3},
+      {"point": "Adds quality gates before publishing", "keywords": ["gate", "publish", "curated"], "weight": 2},
+      {"point": "Adds alerts and runbook improvements", "keywords": ["alert", "runbook", "monitor"], "weight": 2}
+    ],
+    "explanation": "Pipeline success does not always mean data correctness; quality gates should prevent incomplete data from being published.",
+    "ideal_answer": "I would trace activity outputs, source file counts, row counts, and freshness, compare expected versus actual data, quarantine incomplete outputs, add quality gates before promotion, and improve alerts/runbooks so successful-but-incomplete runs are detected.",
+    "tags": ["azure", "adf", "incident", "data_quality"]
+  },
+  {
+    "id": "azure_senior_design_003",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "medium",
+    "concept": "ADF vs Databricks vs Synapse",
+    "scenario": "A team is deciding whether to transform large datasets in ADF Mapping Data Flows, Azure Databricks, or Synapse Spark.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Compares orchestration/low-code and Spark-based transformations", "keywords": ["adf", "databricks", "synapse", "spark"], "weight": 3},
+      {"point": "Considers complexity, scale, and team skills", "keywords": ["complexity", "scale", "skills"], "weight": 3},
+      {"point": "Considers cost and operational overhead", "keywords": ["cost", "operation", "cluster"], "weight": 2},
+      {"point": "Considers governance and maintainability", "keywords": ["governance", "maintain", "standard"], "weight": 2}
+    ],
+    "explanation": "Transformation tool choice should reflect workload complexity, scale, maintainability, cost, and team capability.",
+    "ideal_answer": "I would use ADF primarily for orchestration and simpler data movement, Databricks or Synapse Spark for complex scalable transformations, and decide based on data size, complexity, team skills, cost, governance, and operational standards.",
+    "tags": ["azure", "adf", "databricks", "synapse", "tradeoffs"]
+  },
+  {
+    "id": "azure_senior_cost_004",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Azure data platform cost controls",
+    "scenario": "ADLS, Databricks, Synapse, and ADF costs are rising faster than usage.",
+    "question": "How would you reduce cost without hurting reliability?",
+    "expected_points": [
+      {"point": "Adds storage lifecycle and cleanup policies", "keywords": ["lifecycle", "retention", "cleanup"], "weight": 3},
+      {"point": "Optimizes file formats and partitioning", "keywords": ["parquet", "partition", "small files"], "weight": 2},
+      {"point": "Reviews compute sizing, autoscaling, and schedules", "keywords": ["compute", "autoscale", "schedule"], "weight": 3},
+      {"point": "Uses budgets, tags, and ownership", "keywords": ["budget", "tag", "owner"], "weight": 2}
+    ],
+    "explanation": "Azure data cost optimization combines storage lifecycle, efficient layout, compute discipline, and ownership visibility.",
+    "ideal_answer": "I would add ADLS lifecycle and retention rules, clean up intermediate data, optimize curated files as partitioned Parquet, right-size Databricks/Synapse compute, stop idle clusters, and enforce tags, budgets, and owner-based cost reporting.",
+    "tags": ["azure", "cost", "finops", "adls_gen2", "databricks"]
+  },
+  {
+    "id": "azure_senior_scenario_005",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Purview governance rollout",
+    "scenario": "Several teams publish data assets to ADLS and Synapse, but consumers cannot find owners, definitions, or PII classification.",
+    "question": "How would you improve governance using Azure-native capabilities?",
+    "expected_points": [
+      {"point": "Uses Purview catalog and classification", "keywords": ["purview", "catalog", "classification"], "weight": 3},
+      {"point": "Defines ownership and business metadata", "keywords": ["owner", "metadata", "definition"], "weight": 3},
+      {"point": "Links governance to access controls", "keywords": ["access", "rbac", "policy"], "weight": 2},
+      {"point": "Adds stewardship workflow and auditability", "keywords": ["steward", "workflow", "audit"], "weight": 2}
+    ],
+    "explanation": "Governance requires discoverability, ownership, classification, and access processes, not only a catalog tool.",
+    "ideal_answer": "I would scan assets into Purview, classify sensitive data, require owner and business metadata, connect catalog entries to access request workflows, and establish stewardship reviews for critical datasets.",
+    "tags": ["azure", "purview", "governance", "metadata"]
+  },
+  {
+    "id": "azure_senior_trouble_006",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Event Hubs lag incident",
+    "scenario": "An Event Hubs ingestion pipeline is falling behind during peak traffic, causing stale operational dashboards.",
+    "question": "How would you respond and prevent recurrence?",
+    "expected_points": [
+      {"point": "Checks consumer lag, throughput, and errors", "keywords": ["lag", "throughput", "consumer", "error"], "weight": 3},
+      {"point": "Reviews partitioning and scaling capacity", "keywords": ["partition", "scale", "capacity"], "weight": 3},
+      {"point": "Protects replay and data durability", "keywords": ["replay", "retention", "durability"], "weight": 2},
+      {"point": "Adds monitoring, runbooks, and load tests", "keywords": ["monitor", "runbook", "load test"], "weight": 2}
+    ],
+    "explanation": "Streaming incidents require immediate lag mitigation and longer-term capacity and observability improvements.",
+    "ideal_answer": "I would check Event Hubs throughput, consumer lag, partition distribution, downstream errors, and retention. I would scale consumers or throughput, preserve replay ability, communicate dashboard freshness impact, and add alerts, runbooks, and peak-load testing.",
+    "tags": ["azure", "event_hubs", "streaming", "incident"]
+  },
+  {
+    "id": "azure_senior_design_007",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Private networking for data platforms",
+    "scenario": "Security asks that ADLS, Key Vault, Azure SQL, and Synapse should not be exposed through public endpoints.",
+    "question": "How would you design secure network access for pipelines and users?",
+    "expected_points": [
+      {"point": "Uses private endpoints/private link where appropriate", "keywords": ["private endpoint", "private link", "network"], "weight": 3},
+      {"point": "Combines network controls with identity controls", "keywords": ["rbac", "managed identity", "identity"], "weight": 3},
+      {"point": "Considers integration runtime and workspace access", "keywords": ["integration runtime", "workspace", "vnet"], "weight": 2},
+      {"point": "Balances security with operational usability", "keywords": ["security", "operation", "usability"], "weight": 2}
+    ],
+    "explanation": "Private endpoints reduce public exposure but must be designed with identity, DNS, runtime connectivity, and supportability.",
+    "ideal_answer": "I would use private endpoints for sensitive services, configure DNS and VNet connectivity, ensure ADF integration runtimes and workspaces can reach resources, use managed identities and RBAC, and document access patterns so security does not break operations.",
+    "tags": ["azure", "private_endpoint", "security", "networking"]
+  },
+  {
+    "id": "azure_senior_scenario_008",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Data quality architecture",
+    "scenario": "Executives distrust dashboards because Azure pipelines sometimes publish stale or incomplete Gold datasets.",
+    "question": "How would you design data quality gates?",
+    "expected_points": [
+      {"point": "Validates freshness, completeness, and schema", "keywords": ["freshness", "completeness", "schema"], "weight": 3},
+      {"point": "Prevents bad data promotion", "keywords": ["prevent", "promote", "gold"], "weight": 3},
+      {"point": "Adds alerts, ownership, and runbooks", "keywords": ["alert", "owner", "runbook"], "weight": 2},
+      {"point": "Tracks quality trends and incidents", "keywords": ["trend", "incident", "metric"], "weight": 2}
+    ],
+    "explanation": "Data quality gates protect trusted layers from incomplete data and give teams operational visibility.",
+    "ideal_answer": "I would validate freshness, row counts, schema, required fields, duplicates, and reconciliation before publishing Gold data. Failed checks should block promotion, alert owners, preserve prior good outputs when appropriate, and feed quality metrics and incident reviews.",
+    "tags": ["azure", "data_quality", "gold_layer", "monitoring"]
+  },
+  {
+    "id": "azure_senior_trouble_009",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Synapse query regression",
+    "scenario": "A reporting query in Synapse became slow after a new large fact dataset was introduced.",
+    "question": "How would you diagnose and improve performance?",
+    "expected_points": [
+      {"point": "Reviews query plan and workload metrics", "keywords": ["query plan", "metric", "workload"], "weight": 3},
+      {"point": "Checks data distribution, partitioning, and file layout", "keywords": ["distribution", "partition", "file"], "weight": 3},
+      {"point": "Checks joins, skew, and data volume", "keywords": ["join", "skew", "volume"], "weight": 2},
+      {"point": "Considers materialization or aggregate layer", "keywords": ["materialized", "aggregate", "summary"], "weight": 2}
+    ],
+    "explanation": "Synapse performance depends on query patterns, data layout, distribution, concurrency, and serving-model choices.",
+    "ideal_answer": "I would inspect query plans, workload metrics, table/file layout, partitioning, distribution, joins, skew, and data volume, then consider table design changes, materialized or aggregate layers, and workload tuning.",
+    "tags": ["azure", "synapse", "performance", "troubleshooting"]
+  },
+  {
+    "id": "azure_senior_cost_010",
+    "domain": "Azure",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Streaming cost control",
+    "scenario": "A streaming pipeline uses Event Hubs, Functions, Databricks, and ADLS, but the business only requires five-minute freshness.",
+    "question": "How would you optimize the architecture?",
+    "expected_points": [
+      {"point": "Confirms freshness and latency requirement", "keywords": ["freshness", "latency", "requirement"], "weight": 2},
+      {"point": "Considers micro-batch or scheduled processing", "keywords": ["micro-batch", "schedule", "batch"], "weight": 3},
+      {"point": "Tunes streaming capacity and compute", "keywords": ["event hubs", "compute", "cluster"], "weight": 2},
+      {"point": "Balances cost, reliability, and latency", "keywords": ["cost", "reliability", "latency"], "weight": 3}
+    ],
+    "explanation": "Architecture should match the real freshness requirement instead of defaulting to high-cost always-on streaming.",
+    "ideal_answer": "I would confirm the five-minute SLA, evaluate micro-batch processing, tune Event Hubs throughput and consumer compute, avoid idle clusters, and choose the lowest-cost design that still meets freshness and reliability requirements.",
+    "tags": ["azure", "streaming", "cost", "latency"]
+  }
+]

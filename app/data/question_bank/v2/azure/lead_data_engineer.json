@@ -1,0 +1,192 @@
+[
+  {
+    "id": "azure_lead_arch_001",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Azure data platform reference architecture",
+    "scenario": "Multiple teams need a shared Azure platform for batch analytics, streaming events, governed access, and BI consumption.",
+    "question": "What reference architecture would you propose?",
+    "expected_points": [
+      {"point": "Defines storage, processing, catalog, and serving layers", "keywords": ["adls", "processing", "catalog", "serving"], "weight": 3},
+      {"point": "Includes batch and streaming ingestion", "keywords": ["batch", "streaming", "event hubs"], "weight": 2},
+      {"point": "Includes governance, identity, and network security", "keywords": ["governance", "identity", "private endpoint"], "weight": 3},
+      {"point": "Includes observability and operational standards", "keywords": ["observability", "monitor", "standard"], "weight": 2}
+    ],
+    "explanation": "A lead-level Azure platform design should combine technical layers with governance and operational maturity.",
+    "ideal_answer": "I would define ADLS Gen2 lake zones, ADF for orchestration, Databricks or Synapse for processing, Purview for catalog/governance, Synapse or Power BI serving layers, Event Hubs for streaming, managed identities/RBAC/private endpoints for security, and standards for monitoring, quality, CI/CD, and cost ownership.",
+    "tags": ["azure", "architecture", "data_platform", "governance"]
+  },
+  {
+    "id": "azure_lead_trade_002",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Synapse vs Databricks",
+    "scenario": "Teams disagree whether the enterprise standard should be Synapse or Azure Databricks for transformations.",
+    "question": "How would you guide the decision?",
+    "expected_points": [
+      {"point": "Compares workload fit and ecosystem strengths", "keywords": ["synapse", "databricks", "workload"], "weight": 3},
+      {"point": "Considers governance and platform standards", "keywords": ["governance", "standard", "platform"], "weight": 2},
+      {"point": "Considers skill sets and maintainability", "keywords": ["skill", "maintain", "team"], "weight": 2},
+      {"point": "Considers cost, operations, and lock-in", "keywords": ["cost", "operation", "lock-in"], "weight": 3}
+    ],
+    "explanation": "A platform standard should be driven by workload needs, governance, cost, skills, and long-term operating model.",
+    "ideal_answer": "I would not pick by preference alone. I would compare SQL warehouse needs, Spark complexity, ML integration, governance, team skills, cost, CI/CD, and operations, then define standards for which workloads use Synapse, Databricks, or both.",
+    "tags": ["azure", "synapse", "databricks", "tradeoffs"]
+  },
+  {
+    "id": "azure_lead_stakeholder_003",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Governance adoption",
+    "scenario": "Compliance wants strict Purview classification and access reviews, but analytics teams worry it will slow delivery.",
+    "question": "How would you lead the rollout?",
+    "expected_points": [
+      {"point": "Balances compliance and productivity", "keywords": ["compliance", "productivity", "balance"], "weight": 3},
+      {"point": "Phases rollout based on risk and sensitivity", "keywords": ["phase", "risk", "sensitive"], "weight": 2},
+      {"point": "Defines access and stewardship workflows", "keywords": ["access", "steward", "workflow"], "weight": 3},
+      {"point": "Communicates value and measures friction", "keywords": ["communicate", "measure", "friction"], "weight": 2}
+    ],
+    "explanation": "Governance adoption needs stakeholder management, phased delivery, and measurable improvement.",
+    "ideal_answer": "I would start with high-risk data, automate Purview scanning/classification where possible, define owner-based access workflows with clear SLAs, provide templates and enablement, and measure both compliance coverage and user friction.",
+    "tags": ["azure", "purview", "stakeholders", "governance"]
+  },
+  {
+    "id": "azure_lead_gov_004",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Data ownership model",
+    "scenario": "Several Gold datasets have no clear owner, and incidents are repeatedly routed to the central platform team.",
+    "question": "How would you establish ownership and accountability?",
+    "expected_points": [
+      {"point": "Defines domain or data product ownership", "keywords": ["owner", "domain", "data product"], "weight": 3},
+      {"point": "Requires metadata and contacts in catalog", "keywords": ["metadata", "catalog", "contact"], "weight": 2},
+      {"point": "Defines quality SLAs and escalation paths", "keywords": ["sla", "quality", "escalation"], "weight": 3},
+      {"point": "Separates platform support from data ownership", "keywords": ["platform", "support", "ownership"], "weight": 2}
+    ],
+    "explanation": "Ownership clarity is essential for quality, access approvals, and incident accountability.",
+    "ideal_answer": "I would assign domain owners for critical datasets, require owner and SLA metadata in Purview, define escalation paths, and make the platform team responsible for shared tooling while data product teams own quality and business definitions.",
+    "tags": ["azure", "ownership", "governance", "purview"]
+  },
+  {
+    "id": "azure_lead_reliability_005",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Azure pipeline reliability standards",
+    "scenario": "Different teams build ADF, Databricks, Functions, and Synapse pipelines with inconsistent retries, alerts, and backfill practices.",
+    "question": "What reliability standards would you introduce?",
+    "expected_points": [
+      {"point": "Standardizes retries, idempotency, and backfills", "keywords": ["retry", "idempotent", "backfill"], "weight": 3},
+      {"point": "Defines monitoring, alerts, and runbooks", "keywords": ["monitor", "alert", "runbook"], "weight": 3},
+      {"point": "Defines freshness and quality SLAs", "keywords": ["freshness", "quality", "sla"], "weight": 2},
+      {"point": "Uses incident reviews and reliability metrics", "keywords": ["incident", "metric", "review"], "weight": 2}
+    ],
+    "explanation": "Reliability standards make data pipelines easier to operate consistently across teams.",
+    "ideal_answer": "I would standardize idempotent writes, retry policies, dead-letter handling, backfill procedures, freshness and quality SLAs, Azure Monitor alerts, runbooks, and incident reviews across Azure data pipelines.",
+    "tags": ["azure", "reliability", "operations", "standards"]
+  },
+  {
+    "id": "azure_lead_arch_006",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Multi-subscription data platform",
+    "scenario": "Your company uses separate Azure subscriptions for dev, prod, platform, and business domains.",
+    "question": "How would you design deployment and data access across subscriptions?",
+    "expected_points": [
+      {"point": "Uses subscription separation for isolation", "keywords": ["subscription", "isolation", "environment"], "weight": 2},
+      {"point": "Defines cross-subscription identity and RBAC", "keywords": ["rbac", "managed identity", "cross-subscription"], "weight": 3},
+      {"point": "Uses IaC and CI/CD for consistency", "keywords": ["iac", "ci", "deployment"], "weight": 3},
+      {"point": "Centralizes monitoring and governance", "keywords": ["monitor", "purview", "governance"], "weight": 2}
+    ],
+    "explanation": "Multi-subscription architectures improve isolation but need disciplined identity, deployment, and governance patterns.",
+    "ideal_answer": "I would separate environments and domains by subscription, manage resources through IaC and CI/CD, use managed identities and RBAC for cross-subscription access, standardize private networking, and centralize monitoring, policy, and Purview governance.",
+    "tags": ["azure", "multi_subscription", "rbac", "platform"]
+  },
+  {
+    "id": "azure_lead_trade_007",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Centralized vs domain-owned pipelines",
+    "scenario": "Leadership is debating whether Azure data pipelines should be owned by a central platform team or by domain teams.",
+    "question": "What operating model would you recommend?",
+    "expected_points": [
+      {"point": "Separates platform ownership from data ownership", "keywords": ["platform", "data ownership", "domain"], "weight": 3},
+      {"point": "Balances standards and autonomy", "keywords": ["standard", "autonomy", "governance"], "weight": 3},
+      {"point": "Defines support and escalation model", "keywords": ["support", "escalation", "incident"], "weight": 2},
+      {"point": "Considers team maturity and enablement", "keywords": ["maturity", "enablement", "skill"], "weight": 2}
+    ],
+    "explanation": "A strong operating model lets domain teams own business data while platform teams provide safe, governed tooling.",
+    "ideal_answer": "I would make the platform team own shared Azure patterns, templates, monitoring, governance, and CI/CD standards, while domain teams own their data products and pipeline logic within those guardrails.",
+    "tags": ["azure", "operating_model", "data_platform", "governance"]
+  },
+  {
+    "id": "azure_lead_stakeholder_008",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Cost accountability",
+    "scenario": "Azure data platform costs are rising, but teams cannot connect spend to their workloads.",
+    "question": "How would you create cost accountability without slowing teams down?",
+    "expected_points": [
+      {"point": "Requires tags and ownership metadata", "keywords": ["tag", "owner", "metadata"], "weight": 3},
+      {"point": "Creates domain-level cost reporting", "keywords": ["report", "domain", "cost"], "weight": 2},
+      {"point": "Defines budgets and anomaly alerts", "keywords": ["budget", "alert", "anomaly"], "weight": 2},
+      {"point": "Provides optimization playbooks", "keywords": ["playbook", "optimize", "enable"], "weight": 3}
+    ],
+    "explanation": "FinOps works when teams can see, explain, and improve their own costs.",
+    "ideal_answer": "I would enforce cost tags and ownership, build domain-level cost dashboards, add budgets and anomaly alerts, and provide optimization playbooks for ADLS lifecycle, Databricks clusters, Synapse workloads, and ADF pipeline usage.",
+    "tags": ["azure", "finops", "cost", "stakeholders"]
+  },
+  {
+    "id": "azure_lead_gov_009",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Sensitive data governance",
+    "scenario": "Customer PII exists in Bronze and Gold lake layers, and several analytics identities can access it.",
+    "question": "What governance controls would you prioritize?",
+    "expected_points": [
+      {"point": "Classifies and inventories PII", "keywords": ["classify", "inventory", "pii"], "weight": 3},
+      {"point": "Restricts access with least privilege", "keywords": ["least privilege", "rbac", "acl"], "weight": 3},
+      {"point": "Uses encryption, private networking, and audit logs", "keywords": ["encryption", "private", "audit"], "weight": 2},
+      {"point": "Defines retention and masking standards", "keywords": ["retention", "mask", "token"], "weight": 2}
+    ],
+    "explanation": "Sensitive data governance requires discovery, access control, network/security protections, and lifecycle rules.",
+    "ideal_answer": "I would classify PII with Purview, restrict access through least-privilege RBAC/ACLs, use managed identities and private endpoints, encrypt data, audit access, and define retention and masking standards.",
+    "tags": ["azure", "pii", "security", "governance"]
+  },
+  {
+    "id": "azure_lead_reliability_010",
+    "domain": "Azure",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Data platform DR",
+    "scenario": "A critical Azure analytics platform has no documented disaster recovery strategy.",
+    "question": "How would you define a pragmatic DR approach?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by criticality", "keywords": ["rto", "rpo", "critical"], "weight": 3},
+      {"point": "Protects source, transformed data, and metadata", "keywords": ["adls", "metadata", "backup"], "weight": 2},
+      {"point": "Uses IaC and recovery runbooks", "keywords": ["iac", "runbook", "restore"], "weight": 2},
+      {"point": "Tests recovery regularly", "keywords": ["test", "drill", "recovery"], "weight": 3}
+    ],
+    "explanation": "DR should be tied to business criticality and validated through recovery tests.",
+    "ideal_answer": "I would classify data products by criticality, define RTO/RPO, protect ADLS data and metadata, manage infrastructure through IaC, document recovery runbooks, and perform regular DR drills for critical pipelines.",
+    "tags": ["azure", "dr", "reliability", "operations"]
+  }
+]
