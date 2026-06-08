@@ -1,1 +1,159 @@
-[]
+[
+  {
+    "id": "terraform_junior_mcq_001",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Plan review",
+    "question": "Why should a data engineer review terraform plan output before applying changes?",
+    "options": ["To catch unintended creates, updates, or destroys", "To load CSV files faster", "To replace unit tests", "To hide infrastructure drift"],
+    "correct_answer": "To catch unintended creates, updates, or destroys",
+    "explanation": "The plan output shows proposed infrastructure changes and helps catch mistakes before they affect production resources.",
+    "ideal_answer": "Review terraform plan to confirm expected changes and catch unintended updates or destroys before terraform apply.",
+    "tags": ["terraform", "plan", "review", "safety"]
+  },
+  {
+    "id": "terraform_junior_fill_002",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Environment naming",
+    "question": "Fill in the blank: Terraform variables often include environment names such as dev, staging, and ____.",
+    "correct_answer": "prod",
+    "acceptable_answers": ["prod", "production", "PROD"],
+    "explanation": "Environment variables let teams deploy similar infrastructure patterns to different lifecycle stages.",
+    "ideal_answer": "Use environment values like dev, staging, and prod to parameterize names, labels, and configuration safely.",
+    "tags": ["terraform", "variables", "environments"]
+  },
+  {
+    "id": "terraform_junior_short_003",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Remote state locking",
+    "question": "Why is state locking important when multiple engineers use Terraform?",
+    "expected_points": [
+      {"point": "Prevents concurrent state writes", "keywords": ["concurrent", "state", "write"], "weight": 5},
+      {"point": "Reduces risk of corrupted or conflicting infrastructure changes", "keywords": ["corrupt", "conflict", "risk"], "weight": 5}
+    ],
+    "explanation": "State locking prevents multiple Terraform operations from modifying the same state at the same time.",
+    "ideal_answer": "State locking prevents two users or CI jobs from writing state simultaneously, reducing the chance of corrupted state or conflicting infrastructure changes.",
+    "tags": ["terraform", "state", "locking", "team_workflow"]
+  },
+  {
+    "id": "terraform_junior_light_004",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "Creating a data landing bucket",
+    "scenario": "Your team needs a GCS bucket for raw partner files used by ingestion pipelines.",
+    "question": "What Terraform configuration choices should you think about?",
+    "expected_points": [
+      {"point": "Bucket naming and environment separation", "keywords": ["name", "environment", "dev", "prod"], "weight": 3},
+      {"point": "Location and storage settings", "keywords": ["location", "region", "storage"], "weight": 2},
+      {"point": "IAM access for pipeline service accounts", "keywords": ["iam", "service account", "permission"], "weight": 3},
+      {"point": "Lifecycle or retention settings", "keywords": ["lifecycle", "retention", "delete"], "weight": 2}
+    ],
+    "explanation": "A landing bucket should be designed for environment separation, access control, location, and data lifecycle.",
+    "ideal_answer": "I would parameterize the bucket name by environment, choose the correct location, grant only pipeline service accounts needed access, and configure lifecycle or retention policies for raw files.",
+    "tags": ["terraform", "gcs", "data_lake", "iam"]
+  },
+  {
+    "id": "terraform_junior_mcq_005",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Least privilege",
+    "question": "Which Terraform practice best supports least-privilege access for pipelines?",
+    "options": ["Grant specific roles to dedicated service accounts", "Give every pipeline owner/admin permissions", "Store credentials in output values", "Disable IAM review"],
+    "correct_answer": "Grant specific roles to dedicated service accounts",
+    "explanation": "Terraform can codify narrow IAM grants for workload identities, making permissions reviewable.",
+    "ideal_answer": "Create dedicated service accounts and grant only the roles required for each pipeline resource.",
+    "tags": ["terraform", "iam", "least_privilege", "security"]
+  },
+  {
+    "id": "terraform_junior_short_006",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Terraform drift",
+    "question": "What does infrastructure drift mean in Terraform?",
+    "expected_points": [
+      {"point": "Real infrastructure no longer matches Terraform configuration/state", "keywords": ["real", "infrastructure", "configuration", "state"], "weight": 6},
+      {"point": "Can happen through manual console changes", "keywords": ["manual", "console", "change"], "weight": 4}
+    ],
+    "explanation": "Drift happens when resources are changed outside Terraform or state no longer represents reality.",
+    "ideal_answer": "Drift means actual cloud resources differ from Terraform configuration or state, often because someone changed resources manually in the console.",
+    "tags": ["terraform", "drift", "operations"]
+  },
+  {
+    "id": "terraform_junior_match_007",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Terraform files",
+    "question": "Match each common Terraform file to its purpose.",
+    "left_items": ["main.tf", "variables.tf", "outputs.tf"],
+    "right_items": ["Defines primary resources/modules", "Declares configurable inputs", "Declares returned values"],
+    "correct_pairs": {"main.tf": "Defines primary resources/modules", "variables.tf": "Declares configurable inputs", "outputs.tf": "Declares returned values"},
+    "explanation": "Common file names make Terraform modules easier to understand and maintain.",
+    "ideal_answer": "Use main.tf for resources/modules, variables.tf for inputs, and outputs.tf for useful returned values.",
+    "tags": ["terraform", "module_structure", "maintainability"]
+  },
+  {
+    "id": "terraform_junior_light_008",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "BigQuery dataset module",
+    "scenario": "You need to create BigQuery datasets for raw, staging, and curated layers.",
+    "question": "How could a Terraform module help?",
+    "expected_points": [
+      {"point": "Reuses standard dataset configuration", "keywords": ["reuse", "standard", "dataset"], "weight": 4},
+      {"point": "Parameterizes layer/environment names", "keywords": ["parameter", "layer", "environment"], "weight": 3},
+      {"point": "Applies consistent labels/IAM/location", "keywords": ["label", "iam", "location"], "weight": 3}
+    ],
+    "explanation": "A module can enforce consistent dataset configuration across layers and environments.",
+    "ideal_answer": "A dataset module can take layer and environment inputs, create consistently named datasets, and apply standard labels, locations, and IAM bindings.",
+    "tags": ["terraform", "bigquery", "modules", "data_modeling"]
+  },
+  {
+    "id": "terraform_junior_mcq_009",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Sensitive outputs",
+    "question": "What should you do if a Terraform output contains a sensitive value?",
+    "options": ["Mark the output as sensitive and avoid exposing secrets unnecessarily", "Print it in CI logs", "Commit it to README.md", "Use it as a dataset name"],
+    "correct_answer": "Mark the output as sensitive and avoid exposing secrets unnecessarily",
+    "explanation": "Sensitive outputs reduce accidental display, but secrets should still be handled carefully outside Terraform state.",
+    "ideal_answer": "Mark sensitive outputs appropriately and avoid putting secrets in outputs or logs unless absolutely necessary.",
+    "tags": ["terraform", "security", "sensitive_values"]
+  },
+  {
+    "id": "terraform_junior_short_010",
+    "domain": "Terraform",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Tags and labels",
+    "question": "Why are labels or tags useful on cloud data platform resources managed by Terraform?",
+    "expected_points": [
+      {"point": "Support cost attribution", "keywords": ["cost", "attribution", "billing"], "weight": 4},
+      {"point": "Identify owner and environment", "keywords": ["owner", "environment", "team"], "weight": 3},
+      {"point": "Improve governance and operations", "keywords": ["governance", "operations", "inventory"], "weight": 3}
+    ],
+    "explanation": "Labels and tags help teams understand ownership, environment, cost, and resource purpose.",
+    "ideal_answer": "Use labels or tags for owner, environment, cost center, data classification, and application so resources are easier to govern and charge back.",
+    "tags": ["terraform", "labels", "cost", "governance"]
+  }
+]

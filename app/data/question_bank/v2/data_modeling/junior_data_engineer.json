@@ -1,1 +1,152 @@
-[]
+[
+  {
+    "id": "data_modeling_junior_mcq_001",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Normalization",
+    "question": "What is a common goal of normalization?",
+    "options": ["Reduce duplicate data and update anomalies", "Make every query scan more data", "Remove all primary keys", "Store metrics only in dashboards"],
+    "correct_answer": "Reduce duplicate data and update anomalies",
+    "explanation": "Normalization organizes data into related tables to reduce duplication and improve consistency.",
+    "ideal_answer": "Normalization reduces duplicate data and update anomalies by separating related entities into well-structured tables.",
+    "tags": ["data_modeling", "normalization", "oltp"]
+  },
+  {
+    "id": "data_modeling_junior_fill_002",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Foreign key",
+    "question": "Fill in the blank: A foreign key creates a relationship to a ____ key in another table.",
+    "correct_answer": "primary",
+    "acceptable_answers": ["primary", "primary key", "unique"],
+    "explanation": "A foreign key references a key in another table, often the primary key.",
+    "ideal_answer": "A foreign key references a primary or unique key in another table to represent relationships.",
+    "tags": ["data_modeling", "foreign_key", "relationships"]
+  },
+  {
+    "id": "data_modeling_junior_match_003",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "Fact and dimension examples",
+    "question": "Match each table to the best modeling role.",
+    "left_items": ["fact_orders", "dim_customer", "dim_date"],
+    "right_items": ["Order measurements and keys", "Customer descriptive attributes", "Calendar attributes"],
+    "correct_pairs": {"fact_orders": "Order measurements and keys", "dim_customer": "Customer descriptive attributes", "dim_date": "Calendar attributes"},
+    "explanation": "Fact tables store events and measures, while dimensions describe who, what, when, and where.",
+    "ideal_answer": "fact_orders stores order events, dim_customer describes customers, and dim_date describes calendar attributes.",
+    "tags": ["data_modeling", "facts", "dimensions", "star_schema"]
+  },
+  {
+    "id": "data_modeling_junior_short_004",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Fact table grain",
+    "question": "Why should you define the grain of a fact table before adding columns?",
+    "expected_points": [
+      {"point": "Clarifies what each row represents", "keywords": ["row", "represents", "grain"], "weight": 5},
+      {"point": "Prevents double counting and incorrect joins", "keywords": ["double count", "incorrect", "join"], "weight": 5}
+    ],
+    "explanation": "Fact grain determines which measures and dimensions belong in the table.",
+    "ideal_answer": "Define grain first because every measure and key must match what one row represents. This prevents double counting and confusing joins.",
+    "tags": ["data_modeling", "grain", "fact_tables"]
+  },
+  {
+    "id": "data_modeling_junior_mcq_005",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Star schema",
+    "question": "Which statement best describes a star schema?",
+    "options": ["A central fact table connected to dimension tables", "A table without keys", "A normalized OLTP transaction model only", "A log file format"],
+    "correct_answer": "A central fact table connected to dimension tables",
+    "explanation": "A star schema has a central fact table surrounded by dimensions, making analytical queries easier.",
+    "ideal_answer": "A star schema connects a central fact table to descriptive dimensions like customer, product, and date.",
+    "tags": ["data_modeling", "star_schema", "analytics"]
+  },
+  {
+    "id": "data_modeling_junior_short_006",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Surrogate keys",
+    "question": "Why might a dimension table use a surrogate key instead of only a natural key?",
+    "expected_points": [
+      {"point": "Surrogate keys are stable warehouse-controlled identifiers", "keywords": ["stable", "warehouse", "identifier"], "weight": 4},
+      {"point": "They support slowly changing dimensions", "keywords": ["slowly changing", "scd", "history"], "weight": 4},
+      {"point": "They avoid relying only on source-system keys", "keywords": ["source", "natural", "key"], "weight": 2}
+    ],
+    "explanation": "Surrogate keys help the warehouse manage history and avoid coupling too tightly to source identifiers.",
+    "ideal_answer": "A surrogate key is controlled by the warehouse and can distinguish multiple historical versions of the same natural key in an SCD table.",
+    "tags": ["data_modeling", "surrogate_keys", "scd"]
+  },
+  {
+    "id": "data_modeling_junior_fill_007",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "SCD Type 1",
+    "question": "Fill in the blank: SCD Type ____ overwrites old dimension values and does not keep history.",
+    "correct_answer": "1",
+    "acceptable_answers": ["1", "one", "type 1", "Type 1"],
+    "explanation": "SCD Type 1 updates the current value in place and does not preserve historical versions.",
+    "ideal_answer": "SCD Type 1 overwrites old values, which is useful when history is not needed or corrections should replace prior values.",
+    "tags": ["data_modeling", "scd_type_1", "dimensions"]
+  },
+  {
+    "id": "data_modeling_junior_match_008",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "SCD types",
+    "question": "Match each SCD type to its behavior.",
+    "left_items": ["SCD Type 1", "SCD Type 2", "Current flag"],
+    "right_items": ["Overwrites history", "Keeps historical versions", "Marks active dimension row"],
+    "correct_pairs": {"SCD Type 1": "Overwrites history", "SCD Type 2": "Keeps historical versions", "Current flag": "Marks active dimension row"},
+    "explanation": "SCD Type 1 and Type 2 handle changing dimension values differently.",
+    "ideal_answer": "Type 1 overwrites, Type 2 stores versions, and a current flag identifies the active version.",
+    "tags": ["data_modeling", "scd", "history"]
+  },
+  {
+    "id": "data_modeling_junior_mcq_009",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Conformed dimensions",
+    "question": "Why are conformed dimensions useful?",
+    "options": ["They let different fact tables use the same dimension definitions", "They remove all joins", "They replace data quality checks", "They store only streaming events"],
+    "correct_answer": "They let different fact tables use the same dimension definitions",
+    "explanation": "Conformed dimensions support consistent reporting across multiple subject areas.",
+    "ideal_answer": "A conformed dimension, such as dim_customer, can be shared across facts so reports use consistent customer definitions.",
+    "tags": ["data_modeling", "conformed_dimensions", "analytics"]
+  },
+  {
+    "id": "data_modeling_junior_short_010",
+    "domain": "Data Modeling",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Source-to-target mapping",
+    "question": "What should a source-to-target mapping document include?",
+    "expected_points": [
+      {"point": "Source fields and target fields", "keywords": ["source", "target", "field"], "weight": 4},
+      {"point": "Transformation rules", "keywords": ["transform", "rule", "logic"], "weight": 3},
+      {"point": "Data types and quality expectations", "keywords": ["type", "quality", "validation"], "weight": 3}
+    ],
+    "explanation": "Source-to-target mappings clarify how data moves and changes between systems.",
+    "ideal_answer": "It should include source fields, target fields, data types, transformation rules, defaults, filters, and validation expectations.",
+    "tags": ["data_modeling", "source_to_target", "documentation"]
+  }
+]

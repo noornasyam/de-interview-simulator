@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "data_modeling_senior_scenario_001",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Dimensional model design",
+    "scenario": "You need to model orders, order items, customers, products, discounts, and payments for analytics.",
+    "question": "How would you design the core dimensional model?",
+    "expected_points": [
+      {"point": "Defines fact grain clearly", "keywords": ["grain", "order item", "fact"], "weight": 3},
+      {"point": "Identifies dimensions and conformed dimensions", "keywords": ["dimension", "customer", "product", "date"], "weight": 3},
+      {"point": "Handles payments/discounts at correct grain", "keywords": ["payment", "discount", "grain"], "weight": 2},
+      {"point": "Adds quality checks and metric definitions", "keywords": ["quality", "metric", "definition"], "weight": 2}
+    ],
+    "explanation": "Senior modeling starts with grain, then aligns measures, keys, and dimensions to that grain.",
+    "ideal_answer": "I would define facts at order-item grain for product revenue, separate payment facts if needed, use conformed customer/product/date dimensions, and document metric definitions and quality checks.",
+    "tags": ["data_modeling", "dimensional_modeling", "ecommerce"]
+  },
+  {
+    "id": "data_modeling_senior_trouble_002",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Metric disagreement",
+    "scenario": "Finance and product dashboards show different monthly revenue from supposedly trusted models.",
+    "question": "How would you investigate the modeling issue?",
+    "expected_points": [
+      {"point": "Compares metric definitions and filters", "keywords": ["definition", "filter", "metric"], "weight": 3},
+      {"point": "Checks fact grain and joins", "keywords": ["grain", "join", "fact"], "weight": 3},
+      {"point": "Checks source-to-target mapping and transformations", "keywords": ["source-to-target", "transform", "mapping"], "weight": 2},
+      {"point": "Creates reconciled source of truth", "keywords": ["reconcile", "source of truth", "trusted"], "weight": 2}
+    ],
+    "explanation": "Metric disagreement often comes from different definitions, filters, grains, or transformation assumptions.",
+    "ideal_answer": "I would compare definitions, filters, source tables, grains, joins, and transformation logic, then reconcile to an agreed metric model owned with finance/product.",
+    "tags": ["data_modeling", "metrics", "reconciliation"]
+  },
+  {
+    "id": "data_modeling_senior_design_003",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "SCD Type 1 vs Type 2",
+    "scenario": "Customer segment changes over time, and stakeholders disagree on whether reports should use current or historical segment.",
+    "question": "How would you decide between SCD Type 1 and Type 2?",
+    "expected_points": [
+      {"point": "Clarifies reporting requirements", "keywords": ["requirement", "current", "historical"], "weight": 3},
+      {"point": "Explains Type 1 overwrite vs Type 2 history", "keywords": ["type 1", "type 2", "history"], "weight": 3},
+      {"point": "Considers query complexity and storage", "keywords": ["complexity", "storage", "cost"], "weight": 2},
+      {"point": "May support both current and historical views", "keywords": ["both", "current", "historical"], "weight": 2}
+    ],
+    "explanation": "SCD choice depends on how the business wants historical reports to behave.",
+    "ideal_answer": "I would clarify whether reports need segment at event time or current segment. Type 2 preserves history; Type 1 overwrites. Often I expose both historical and current attributes clearly.",
+    "tags": ["data_modeling", "scd", "tradeoffs"]
+  },
+  {
+    "id": "data_modeling_senior_trade_004",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "trade_off",
+    "difficulty": "scenario",
+    "concept": "Denormalization trade-off",
+    "scenario": "A wide customer_orders mart would make dashboards faster but duplicate many dimension attributes.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Balances query simplicity/performance against duplication", "keywords": ["performance", "simplicity", "duplication"], "weight": 3},
+      {"point": "Considers freshness and update complexity", "keywords": ["freshness", "update", "complexity"], "weight": 2},
+      {"point": "Considers warehouse cost", "keywords": ["cost", "scan", "storage"], "weight": 2},
+      {"point": "Keeps governed source of truth", "keywords": ["governed", "source of truth", "metric"], "weight": 3}
+    ],
+    "explanation": "Denormalization improves usability and performance but can duplicate logic and increase maintenance.",
+    "ideal_answer": "I would allow a wide mart for common reporting if it has clear ownership, governed upstream definitions, documented grain, and monitored storage/scan cost.",
+    "tags": ["data_modeling", "denormalization", "performance", "cost"]
+  },
+  {
+    "id": "data_modeling_senior_scenario_005",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Semantic layer",
+    "scenario": "Different BI teams calculate active users and churn differently.",
+    "question": "How would a semantic layer help, and what would you model there?",
+    "expected_points": [
+      {"point": "Centralizes metric definitions", "keywords": ["metric", "definition", "central"], "weight": 3},
+      {"point": "Defines dimensions and relationships", "keywords": ["dimension", "relationship", "join"], "weight": 2},
+      {"point": "Improves consistency across tools", "keywords": ["consistent", "bi", "tool"], "weight": 3},
+      {"point": "Requires ownership and governance", "keywords": ["owner", "governance", "review"], "weight": 2}
+    ],
+    "explanation": "A semantic layer can standardize metrics and dimensions across reports and teams.",
+    "ideal_answer": "I would define active users, churn, dimensions, joins, and filters in a governed semantic layer with owners and review so BI tools reuse consistent logic.",
+    "tags": ["data_modeling", "semantic_layer", "metrics", "governance"]
+  },
+  {
+    "id": "data_modeling_senior_trouble_006",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Schema evolution breakage",
+    "scenario": "An upstream field changed meaning from gross_amount to net_amount without changing the column name.",
+    "question": "How would you detect and prevent this kind of semantic breakage?",
+    "expected_points": [
+      {"point": "Adds semantic/data contract checks", "keywords": ["semantic", "contract", "meaning"], "weight": 3},
+      {"point": "Uses reconciliation and anomaly detection", "keywords": ["reconcile", "anomaly", "trend"], "weight": 3},
+      {"point": "Requires producer communication/change process", "keywords": ["producer", "communication", "change"], "weight": 2},
+      {"point": "Documents source-to-target assumptions", "keywords": ["document", "source-to-target", "assumption"], "weight": 2}
+    ],
+    "explanation": "Schema checks catch structural changes, but semantic changes need contracts, reconciliation, and producer governance.",
+    "ideal_answer": "I would add data contracts covering meaning, reconciliation checks for expected totals, anomaly detection, documented mappings, and a producer change notification process.",
+    "tags": ["data_modeling", "schema_evolution", "data_contracts", "quality"]
+  },
+  {
+    "id": "data_modeling_senior_design_007",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Data Vault basics",
+    "scenario": "A company wants auditable integration of many source systems before creating marts.",
+    "question": "When might Data Vault concepts be useful?",
+    "expected_points": [
+      {"point": "Useful for integrating multiple sources with auditability", "keywords": ["multiple sources", "audit", "integration"], "weight": 3},
+      {"point": "Separates hubs, links, and satellites", "keywords": ["hub", "link", "satellite"], "weight": 3},
+      {"point": "Adds complexity compared with dimensional marts", "keywords": ["complexity", "dimensional", "mart"], "weight": 2},
+      {"point": "Still needs business-friendly marts downstream", "keywords": ["business", "mart", "downstream"], "weight": 2}
+    ],
+    "explanation": "Data Vault can help with auditable integration but is not a replacement for usable reporting marts.",
+    "ideal_answer": "Data Vault can help integrate many changing sources with history and auditability using hubs, links, and satellites, but I would still build dimensional marts for analytics consumers.",
+    "tags": ["data_modeling", "data_vault", "integration", "tradeoffs"]
+  },
+  {
+    "id": "data_modeling_senior_trade_008",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Modeling for ML vs reporting",
+    "scenario": "Data scientists want features from the warehouse, while BI users want clean reporting marts.",
+    "question": "How do model designs differ for ML/AI and reporting use cases?",
+    "expected_points": [
+      {"point": "Reporting prioritizes stable business metrics", "keywords": ["reporting", "metric", "stable"], "weight": 3},
+      {"point": "ML needs point-in-time correctness and feature history", "keywords": ["point-in-time", "feature", "history"], "weight": 3},
+      {"point": "Avoids leakage for ML", "keywords": ["leakage", "future", "training"], "weight": 2},
+      {"point": "May share curated foundations", "keywords": ["shared", "curated", "foundation"], "weight": 2}
+    ],
+    "explanation": "Reporting and ML models can share foundations but have different correctness requirements.",
+    "ideal_answer": "Reporting marts focus on trusted metrics and dimensions, while ML feature models need point-in-time correctness, history, and leakage prevention. Both should reuse governed curated data where possible.",
+    "tags": ["data_modeling", "ml_features", "reporting", "tradeoffs"]
+  },
+  {
+    "id": "data_modeling_senior_scenario_009",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "PII classification",
+    "scenario": "A customer dimension includes email, phone, signup date, country, and marketing consent.",
+    "question": "How would PII classification affect the model design?",
+    "expected_points": [
+      {"point": "Classifies sensitive fields", "keywords": ["classify", "pii", "sensitive"], "weight": 3},
+      {"point": "Limits broad exposure of raw PII", "keywords": ["limit", "raw", "exposure"], "weight": 3},
+      {"point": "Uses masking/hashing or separate secure dimension", "keywords": ["mask", "hash", "secure"], "weight": 2},
+      {"point": "Documents access and ownership", "keywords": ["access", "owner", "document"], "weight": 2}
+    ],
+    "explanation": "Modeling sensitive attributes affects table design, access control, and downstream contracts.",
+    "ideal_answer": "I would classify email/phone as PII, restrict raw access, expose masked or hashed values for broad analytics, and document ownership and allowed use cases.",
+    "tags": ["data_modeling", "pii", "security", "governance"]
+  },
+  {
+    "id": "data_modeling_senior_trouble_010",
+    "domain": "Data Modeling",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Conformed dimension drift",
+    "scenario": "Two domains forked dim_customer and now report different customer counts.",
+    "question": "How would you resolve this modeling drift?",
+    "expected_points": [
+      {"point": "Compares definitions and source mappings", "keywords": ["definition", "source", "mapping"], "weight": 3},
+      {"point": "Establishes governed conformed dimension", "keywords": ["conformed", "governed", "dimension"], "weight": 3},
+      {"point": "Plans migration and compatibility", "keywords": ["migration", "compatibility", "consumer"], "weight": 2},
+      {"point": "Defines ownership/change process", "keywords": ["owner", "change", "process"], "weight": 2}
+    ],
+    "explanation": "Conformed dimensions need ownership and governance to prevent teams from drifting into incompatible definitions.",
+    "ideal_answer": "I would compare the forks, agree on a governed customer definition, migrate consumers with compatibility planning, and set ownership plus change review for the conformed dimension.",
+    "tags": ["data_modeling", "conformed_dimensions", "governance"]
+  }
+]

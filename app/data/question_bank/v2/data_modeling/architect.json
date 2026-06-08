@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "data_modeling_arch_enterprise_001",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise data model standards",
+    "scenario": "A large enterprise has inconsistent customer, product, and revenue models across regions.",
+    "question": "What enterprise data modeling standards would you define?",
+    "expected_points": [
+      {"point": "Defines canonical entities and conformed dimensions", "keywords": ["canonical", "conformed", "dimension"], "weight": 3},
+      {"point": "Defines metric and semantic standards", "keywords": ["metric", "semantic", "definition"], "weight": 3},
+      {"point": "Defines ownership and governance process", "keywords": ["owner", "governance", "process"], "weight": 2},
+      {"point": "Allows controlled regional extensions", "keywords": ["regional", "extension", "controlled"], "weight": 2}
+    ],
+    "explanation": "Enterprise modeling standards align shared business concepts while allowing local variation where needed.",
+    "ideal_answer": "I would define canonical entities, conformed dimensions, metric definitions, ownership, change governance, and controlled extension patterns for regional needs.",
+    "tags": ["data_modeling", "enterprise_architecture", "standards"]
+  },
+  {
+    "id": "data_modeling_arch_platform_002",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "advanced",
+    "concept": "Modeling platform design",
+    "scenario": "Teams need tooling to build, test, document, and discover trusted data models.",
+    "question": "What platform capabilities would you design?",
+    "expected_points": [
+      {"point": "Supports modeling code, tests, and CI/CD", "keywords": ["code", "test", "ci"], "weight": 3},
+      {"point": "Provides catalog, lineage, and documentation", "keywords": ["catalog", "lineage", "documentation"], "weight": 3},
+      {"point": "Supports semantic layer and metric governance", "keywords": ["semantic", "metric", "governance"], "weight": 2},
+      {"point": "Includes access controls and quality monitoring", "keywords": ["access", "quality", "monitor"], "weight": 2}
+    ],
+    "explanation": "A modeling platform should support the full lifecycle from design to discovery and operations.",
+    "ideal_answer": "I would provide versioned model code, CI tests, documentation, catalog/lineage, semantic metrics, access controls, and quality monitoring.",
+    "tags": ["data_modeling", "platform_design", "catalog", "lineage"]
+  },
+  {
+    "id": "data_modeling_arch_gov_003",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "Model ownership governance",
+    "scenario": "Critical models have unclear owners and conflicting change requests.",
+    "question": "How would you design model governance?",
+    "expected_points": [
+      {"point": "Assigns business and technical owners", "keywords": ["business owner", "technical owner", "owner"], "weight": 3},
+      {"point": "Defines change control and review", "keywords": ["change", "review", "control"], "weight": 3},
+      {"point": "Classifies certified models", "keywords": ["certified", "classification", "trusted"], "weight": 2},
+      {"point": "Tracks incidents and quality", "keywords": ["incident", "quality", "monitor"], "weight": 2}
+    ],
+    "explanation": "Governance clarifies who can change trusted models and how quality is maintained.",
+    "ideal_answer": "I would assign business and technical owners, define change review, classify certified models, and track quality/incidents for critical assets.",
+    "tags": ["data_modeling", "governance", "ownership"]
+  },
+  {
+    "id": "data_modeling_arch_cost_004",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "Cloud warehouse modeling cost",
+    "scenario": "Cloud warehouse costs are high because models scan wide tables and recompute the same aggregates.",
+    "question": "How would modeling choices reduce cost?",
+    "expected_points": [
+      {"point": "Designs appropriate marts and aggregates", "keywords": ["mart", "aggregate", "precompute"], "weight": 3},
+      {"point": "Uses partitioning/clustering-friendly grains", "keywords": ["partition", "cluster", "grain"], "weight": 3},
+      {"point": "Avoids unnecessary wide scans", "keywords": ["wide", "scan", "column"], "weight": 2},
+      {"point": "Balances storage against compute", "keywords": ["storage", "compute", "cost"], "weight": 2}
+    ],
+    "explanation": "Model design affects query shape, scanned data, storage, and repeated compute.",
+    "ideal_answer": "I would create fit-for-purpose marts and aggregates, model at query-friendly grains, use partitioning/clustering keys, reduce wide scans, and balance extra storage against lower compute.",
+    "tags": ["data_modeling", "cost_optimization", "cloud_warehouse"]
+  },
+  {
+    "id": "data_modeling_arch_reliability_005",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Model reliability architecture",
+    "scenario": "Model changes frequently break executive dashboards and ML features.",
+    "question": "How would you design reliability into the modeling architecture?",
+    "expected_points": [
+      {"point": "Uses contracts and compatibility policies", "keywords": ["contract", "compatibility", "policy"], "weight": 3},
+      {"point": "Uses automated tests and quality gates", "keywords": ["test", "quality gate", "automated"], "weight": 3},
+      {"point": "Tracks lineage and impact", "keywords": ["lineage", "impact", "blast radius"], "weight": 2},
+      {"point": "Defines release and rollback process", "keywords": ["release", "rollback", "process"], "weight": 2}
+    ],
+    "explanation": "Reliable modeling architecture treats model changes like product releases with contracts, tests, and impact analysis.",
+    "ideal_answer": "I would add model contracts, compatibility rules, automated tests, quality gates, lineage-based impact analysis, and controlled release/rollback processes.",
+    "tags": ["data_modeling", "reliability", "contracts", "lineage"]
+  },
+  {
+    "id": "data_modeling_arch_security_006",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "expert",
+    "concept": "Security-aware model design",
+    "scenario": "An enterprise customer model contains PII used by analytics, support, and ML teams.",
+    "question": "How would you design the model to support security and usability?",
+    "expected_points": [
+      {"point": "Classifies sensitive attributes", "keywords": ["classify", "sensitive", "pii"], "weight": 3},
+      {"point": "Separates raw sensitive and analytical attributes", "keywords": ["separate", "raw", "analytical"], "weight": 2},
+      {"point": "Uses masking/tokenization/access controls", "keywords": ["mask", "token", "access"], "weight": 3},
+      {"point": "Audits usage and ownership", "keywords": ["audit", "usage", "owner"], "weight": 2}
+    ],
+    "explanation": "Security-aware modeling minimizes sensitive exposure while preserving valid analytical use cases.",
+    "ideal_answer": "I would classify PII, separate raw sensitive attributes from broad analytics models, expose masked/tokenized values where possible, enforce access controls, and audit usage.",
+    "tags": ["data_modeling", "security", "pii", "access_control"]
+  },
+  {
+    "id": "data_modeling_arch_enterprise_007",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "Canonical data model",
+    "scenario": "Multiple source systems represent customers, accounts, and households differently.",
+    "question": "How would you approach a canonical data model?",
+    "expected_points": [
+      {"point": "Aligns business definitions across systems", "keywords": ["business", "definition", "align"], "weight": 3},
+      {"point": "Separates source-specific from canonical representation", "keywords": ["source-specific", "canonical", "representation"], "weight": 3},
+      {"point": "Handles identity resolution and keys", "keywords": ["identity", "key", "resolution"], "weight": 2},
+      {"point": "Documents assumptions and stewardship", "keywords": ["document", "steward", "assumption"], "weight": 2}
+    ],
+    "explanation": "Canonical models standardize shared business concepts across inconsistent source representations.",
+    "ideal_answer": "I would align definitions with business owners, map source-specific structures into canonical entities, design identity/key rules, and document assumptions and stewardship.",
+    "tags": ["data_modeling", "canonical_model", "identity_resolution"]
+  },
+  {
+    "id": "data_modeling_arch_gov_008",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Semantic layer governance",
+    "scenario": "The company wants one semantic layer for BI, reverse ETL, and AI agents.",
+    "question": "What governance concerns would you address?",
+    "expected_points": [
+      {"point": "Defines metric ownership and approval", "keywords": ["metric", "owner", "approval"], "weight": 3},
+      {"point": "Controls access to dimensions and measures", "keywords": ["access", "dimension", "measure"], "weight": 2},
+      {"point": "Versions changes and manages compatibility", "keywords": ["version", "compatibility", "change"], "weight": 3},
+      {"point": "Monitors usage and correctness", "keywords": ["usage", "correctness", "monitor"], "weight": 2}
+    ],
+    "explanation": "A semantic layer becomes a shared contract and needs governance across tools and consumers.",
+    "ideal_answer": "I would govern metric ownership, approval, access, versioning, compatibility, usage monitoring, and correctness checks before exposing the semantic layer broadly.",
+    "tags": ["data_modeling", "semantic_layer", "governance", "ai"]
+  },
+  {
+    "id": "data_modeling_arch_platform_009",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "Modeling for AI use cases",
+    "scenario": "The organization wants curated models to support BI, ML features, and retrieval-augmented AI applications.",
+    "question": "How would you design models for these mixed consumers?",
+    "expected_points": [
+      {"point": "Defines shared governed foundations", "keywords": ["shared", "governed", "foundation"], "weight": 3},
+      {"point": "Separates BI metrics from ML feature needs", "keywords": ["bi", "metric", "feature"], "weight": 3},
+      {"point": "Ensures point-in-time and lineage requirements", "keywords": ["point-in-time", "lineage", "history"], "weight": 2},
+      {"point": "Handles access and sensitivity", "keywords": ["access", "sensitive", "security"], "weight": 2}
+    ],
+    "explanation": "BI, ML, and AI consumers can share curated foundations but need different serving contracts.",
+    "ideal_answer": "I would create governed foundational entities/events, publish BI marts and semantic metrics separately from point-in-time feature models, preserve lineage/history, and enforce access controls.",
+    "tags": ["data_modeling", "ml", "ai", "platform_design"]
+  },
+  {
+    "id": "data_modeling_arch_reliability_010",
+    "domain": "Data Modeling",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "Enterprise model change management",
+    "scenario": "A change to the enterprise customer model could affect hundreds of dashboards and pipelines.",
+    "question": "How would you manage the change safely?",
+    "expected_points": [
+      {"point": "Uses lineage and impact analysis", "keywords": ["lineage", "impact", "analysis"], "weight": 3},
+      {"point": "Provides compatibility and deprecation plan", "keywords": ["compatibility", "deprecation", "plan"], "weight": 3},
+      {"point": "Communicates with owners and stakeholders", "keywords": ["communicate", "owner", "stakeholder"], "weight": 2},
+      {"point": "Validates and monitors after rollout", "keywords": ["validate", "monitor", "rollout"], "weight": 2}
+    ],
+    "explanation": "Enterprise model changes require controlled rollout because models become contracts for many consumers.",
+    "ideal_answer": "I would run lineage impact analysis, create compatibility views or versioned models, communicate timelines to owners, validate outputs, and monitor after rollout.",
+    "tags": ["data_modeling", "change_management", "lineage", "reliability"]
+  }
+]

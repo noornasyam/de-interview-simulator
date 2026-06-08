@@ -25,6 +25,7 @@ GEMINI_EVALUATED_TYPES = {
     "architecture_review",
     "multi_region",
     "security",
+    "platform_design",
 }
 
 

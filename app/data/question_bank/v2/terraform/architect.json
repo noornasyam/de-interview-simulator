@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "terraform_arch_enterprise_001",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise IaC operating model",
+    "scenario": "A global enterprise wants Terraform as the standard for data platform infrastructure across clouds and business units.",
+    "question": "What operating model and architecture would you define?",
+    "expected_points": [
+      {"point": "Defines central standards, modules, and policies", "keywords": ["standard", "module", "policy"], "weight": 3},
+      {"point": "Enables domain teams through self-service guardrails", "keywords": ["domain", "self-service", "guardrail"], "weight": 3},
+      {"point": "Separates state, access, and environments", "keywords": ["state", "access", "environment"], "weight": 2},
+      {"point": "Includes compliance, audit, and training", "keywords": ["compliance", "audit", "training"], "weight": 2}
+    ],
+    "explanation": "Enterprise IaC needs both technical architecture and a governance model for distributed teams.",
+    "ideal_answer": "I would create a platform-owned Terraform framework with approved modules, policy checks, state/access standards, and self-service paths for domain teams, supported by audit evidence, documentation, and training.",
+    "tags": ["terraform", "enterprise_architecture", "operating_model", "governance"]
+  },
+  {
+    "id": "terraform_arch_gov_002",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "Policy as code architecture",
+    "scenario": "The company must enforce security and cost controls across all Terraform repositories.",
+    "question": "How would you design policy as code for Terraform?",
+    "expected_points": [
+      {"point": "Defines mandatory policies for IAM, networking, and data protection", "keywords": ["iam", "network", "data protection"], "weight": 3},
+      {"point": "Runs checks in CI before apply", "keywords": ["ci", "before apply", "check"], "weight": 3},
+      {"point": "Supports exception workflow", "keywords": ["exception", "waiver", "approval"], "weight": 2},
+      {"point": "Reports policy compliance centrally", "keywords": ["report", "compliance", "central"], "weight": 2}
+    ],
+    "explanation": "Policy as code turns governance into automated, reviewable controls rather than informal guidance.",
+    "ideal_answer": "I would define policies for IAM, public exposure, encryption, labels, and deletion protection, enforce them in CI, allow reviewed exceptions, and report compliance across repositories.",
+    "tags": ["terraform", "policy_as_code", "governance", "security"]
+  },
+  {
+    "id": "terraform_arch_cost_003",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "FinOps by design",
+    "scenario": "Cloud data platform costs are growing because infrastructure is easy to create but hard to attribute.",
+    "question": "How would you make cost management part of Terraform design?",
+    "expected_points": [
+      {"point": "Requires tags/labels for ownership and cost center", "keywords": ["tag", "label", "owner", "cost center"], "weight": 3},
+      {"point": "Creates budgets/alerts and lifecycle defaults", "keywords": ["budget", "alert", "lifecycle"], "weight": 3},
+      {"point": "Uses modules with cost-aware defaults", "keywords": ["module", "default", "cost-aware"], "weight": 2},
+      {"point": "Tracks cost impact during review", "keywords": ["review", "impact", "cost"], "weight": 2}
+    ],
+    "explanation": "Cost controls work best when they are encoded into resource creation patterns and review workflows.",
+    "ideal_answer": "I would require ownership/cost labels, add lifecycle defaults and budgets, expose cost-impact checks in PRs, and build modules that make cost-conscious settings the default.",
+    "tags": ["terraform", "finops", "cost_optimization", "architecture"]
+  },
+  {
+    "id": "terraform_arch_reliability_004",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Terraform control plane reliability",
+    "scenario": "Terraform is now required to deploy critical data infrastructure changes.",
+    "question": "How would you design Terraform's control plane for reliability?",
+    "expected_points": [
+      {"point": "Uses resilient remote state with locking and versioning", "keywords": ["remote state", "locking", "versioning"], "weight": 3},
+      {"point": "Uses CI/CD with approvals and audit trail", "keywords": ["ci", "approval", "audit"], "weight": 3},
+      {"point": "Separates duties and environments", "keywords": ["separation", "environment", "duty"], "weight": 2},
+      {"point": "Defines recovery for state/backend failures", "keywords": ["recovery", "backend", "failure"], "weight": 2}
+    ],
+    "explanation": "Once Terraform controls critical infrastructure, its backend, workflow, and access model become part of production reliability.",
+    "ideal_answer": "I would use versioned remote state with locking, restrict backend access, run all changes through CI plans and approvals, separate environments, and document state/backend recovery procedures.",
+    "tags": ["terraform", "reliability", "state", "cicd"]
+  },
+  {
+    "id": "terraform_arch_security_005",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "advanced",
+    "concept": "Secrets and state security",
+    "scenario": "Terraform state may contain sensitive values for data platform resources across many teams.",
+    "question": "What security architecture would you require?",
+    "expected_points": [
+      {"point": "Restricts state backend access", "keywords": ["state", "backend", "access"], "weight": 3},
+      {"point": "Encrypts state and audits usage", "keywords": ["encrypt", "audit", "usage"], "weight": 3},
+      {"point": "Avoids placing raw secrets in Terraform", "keywords": ["avoid", "secret", "secret manager"], "weight": 2},
+      {"point": "Rotates exposed credentials and manages exceptions", "keywords": ["rotate", "credential", "exception"], "weight": 2}
+    ],
+    "explanation": "Terraform state must be protected because it can contain sensitive infrastructure attributes.",
+    "ideal_answer": "I would restrict and audit backend access, ensure encryption, avoid raw secrets in Terraform by referencing secret managers, and rotate any secrets that were exposed.",
+    "tags": ["terraform", "security", "state", "secrets"]
+  },
+  {
+    "id": "terraform_arch_trade_006",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "trade_off",
+    "difficulty": "expert",
+    "concept": "IaC standardization vs innovation",
+    "scenario": "Platform standards are slowing adoption of new cloud data services that domain teams want to test.",
+    "question": "How would you balance standardization with innovation?",
+    "expected_points": [
+      {"point": "Provides sandbox path for experimentation", "keywords": ["sandbox", "experiment", "innovation"], "weight": 3},
+      {"point": "Keeps production governed through standards", "keywords": ["production", "governed", "standard"], "weight": 3},
+      {"point": "Creates promotion criteria for new patterns", "keywords": ["promotion", "criteria", "pattern"], "weight": 2},
+      {"point": "Manages risk through policies and cost limits", "keywords": ["risk", "policy", "cost"], "weight": 2}
+    ],
+    "explanation": "Architects should allow controlled experimentation while keeping production infrastructure safe and auditable.",
+    "ideal_answer": "I would allow sandbox experimentation with cost and security guardrails, require production standards for real workloads, and define criteria for promoting new patterns into supported Terraform modules.",
+    "tags": ["terraform", "innovation", "governance", "tradeoffs"]
+  },
+  {
+    "id": "terraform_arch_enterprise_007",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "Multi-account data platform foundation",
+    "scenario": "A data platform spans multiple cloud accounts/projects for dev, staging, prod, security, and shared services.",
+    "question": "How would Terraform manage this foundation safely?",
+    "expected_points": [
+      {"point": "Separates accounts/projects and state by boundary", "keywords": ["account", "project", "state", "boundary"], "weight": 3},
+      {"point": "Uses bootstrap process for foundational resources", "keywords": ["bootstrap", "foundation", "backend"], "weight": 2},
+      {"point": "Defines cross-account/project IAM carefully", "keywords": ["cross-account", "iam", "permission"], "weight": 3},
+      {"point": "Applies consistent policy and observability", "keywords": ["policy", "observability", "consistent"], "weight": 2}
+    ],
+    "explanation": "Foundational Terraform must isolate blast radius while enabling shared platform capabilities.",
+    "ideal_answer": "I would separate state by account/project/environment, bootstrap state backends and identities carefully, manage cross-boundary IAM explicitly, and enforce consistent policies and monitoring.",
+    "tags": ["terraform", "foundation", "multi_account", "architecture"]
+  },
+  {
+    "id": "terraform_arch_gov_008",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Drift management at scale",
+    "scenario": "Hundreds of Terraform-managed data resources are occasionally changed manually by operations teams.",
+    "question": "How would you manage drift at enterprise scale?",
+    "expected_points": [
+      {"point": "Detects drift regularly", "keywords": ["detect", "drift", "regular"], "weight": 3},
+      {"point": "Defines ownership and remediation process", "keywords": ["owner", "remediate", "process"], "weight": 3},
+      {"point": "Limits manual changes through access controls", "keywords": ["manual", "access", "control"], "weight": 2},
+      {"point": "Prioritizes critical resources", "keywords": ["critical", "priority", "risk"], "weight": 2}
+    ],
+    "explanation": "Enterprise drift management requires detection, ownership, access controls, and risk-based remediation.",
+    "ideal_answer": "I would run scheduled drift detection, assign owners for remediation, restrict manual changes on critical resources, and prioritize drift by production risk and data impact.",
+    "tags": ["terraform", "drift", "governance", "operations"]
+  },
+  {
+    "id": "terraform_arch_cost_009",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "Terraform and chargeback",
+    "scenario": "Finance wants chargeback for shared data platform infrastructure created through Terraform.",
+    "question": "How would you design Terraform metadata to support chargeback?",
+    "expected_points": [
+      {"point": "Requires cost center and owner metadata", "keywords": ["cost center", "owner", "metadata"], "weight": 3},
+      {"point": "Standardizes labels/tags through modules", "keywords": ["label", "tag", "module"], "weight": 3},
+      {"point": "Validates metadata in CI/policy", "keywords": ["validate", "ci", "policy"], "weight": 2},
+      {"point": "Handles shared resources allocation", "keywords": ["shared", "allocation", "chargeback"], "weight": 2}
+    ],
+    "explanation": "Chargeback depends on consistent metadata and agreed allocation rules for shared resources.",
+    "ideal_answer": "I would require owner, cost center, product, and environment labels through modules, validate them in CI, and define allocation rules for shared platform resources.",
+    "tags": ["terraform", "chargeback", "cost", "labels"]
+  },
+  {
+    "id": "terraform_arch_reliability_010",
+    "domain": "Terraform",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "Disaster recovery for IaC",
+    "scenario": "A state backend outage or state corruption could block urgent production infrastructure recovery.",
+    "question": "What DR plan would you create for Terraform-managed data infrastructure?",
+    "expected_points": [
+      {"point": "Backs up/version-controls state and configuration", "keywords": ["backup", "version", "state", "configuration"], "weight": 3},
+      {"point": "Documents recovery and restore procedure", "keywords": ["recover", "restore", "procedure"], "weight": 3},
+      {"point": "Tests recovery in non-production", "keywords": ["test", "non-production", "drill"], "weight": 2},
+      {"point": "Controls access during emergency changes", "keywords": ["access", "emergency", "control"], "weight": 2}
+    ],
+    "explanation": "Terraform DR should cover both configuration repositories and state backends, with tested recovery processes.",
+    "ideal_answer": "I would version code, enable state backend versioning/backups, document restore steps, test recovery in lower environments, and define emergency access controls for critical production recovery.",
+    "tags": ["terraform", "dr", "state", "reliability"]
+  }
+]

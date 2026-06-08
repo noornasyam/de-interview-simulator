@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "airflow_lead_arch_001",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "Enterprise DAG standards",
+    "scenario": "Many teams write Airflow DAGs with inconsistent schedules, alerts, retries, and ownership.",
+    "question": "What standards would you introduce for production DAGs?",
+    "expected_points": [
+      {"point": "Requires owners, retries, timeouts, and alerts", "keywords": ["owner", "retry", "timeout", "alert"], "weight": 3},
+      {"point": "Requires idempotency and partition awareness", "keywords": ["idempotent", "partition", "rerun"], "weight": 3},
+      {"point": "Defines naming, tags, and documentation", "keywords": ["naming", "tag", "documentation"], "weight": 2},
+      {"point": "Adds CI parse/tests and review gates", "keywords": ["ci", "parse", "review"], "weight": 2}
+    ],
+    "explanation": "Production Airflow standards make DAGs easier to operate, debug, and govern across teams.",
+    "ideal_answer": "I would require owners, tags, docs, retries, timeouts, alerts, idempotent partition-aware tasks, CI parse tests, and review gates for all production DAGs.",
+    "tags": ["airflow", "standards", "production", "governance"]
+  },
+  {
+    "id": "airflow_lead_trade_002",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Centralized vs domain-owned orchestration",
+    "scenario": "Platform wants one central Airflow team, while domains want to own their own DAGs.",
+    "question": "What operating model would you recommend?",
+    "expected_points": [
+      {"point": "Separates platform ownership from DAG business logic", "keywords": ["platform", "domain", "ownership"], "weight": 3},
+      {"point": "Defines guardrails and standards", "keywords": ["guardrail", "standard", "policy"], "weight": 3},
+      {"point": "Keeps domain teams accountable for their DAGs", "keywords": ["domain", "accountable", "owner"], "weight": 2},
+      {"point": "Provides shared templates and support", "keywords": ["template", "support", "enablement"], "weight": 2}
+    ],
+    "explanation": "A federated Airflow model often balances platform reliability with domain ownership.",
+    "ideal_answer": "I would let the platform team own Composer/Airflow infrastructure, standards, templates, and guardrails, while domain teams own DAG logic and operational accountability.",
+    "tags": ["airflow", "operating_model", "tradeoffs", "platform"]
+  },
+  {
+    "id": "airflow_lead_stake_003",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Orchestration incident communication",
+    "scenario": "A scheduler issue delays dozens of business-critical DAGs on month-end close.",
+    "question": "How would you manage the incident?",
+    "expected_points": [
+      {"point": "Prioritizes critical DAG recovery", "keywords": ["critical", "priority", "recover"], "weight": 3},
+      {"point": "Communicates impact and ETA", "keywords": ["communicate", "impact", "eta"], "weight": 3},
+      {"point": "Coordinates technical remediation", "keywords": ["remediation", "scheduler", "worker"], "weight": 2},
+      {"point": "Runs postmortem and prevention actions", "keywords": ["postmortem", "prevent", "action"], "weight": 2}
+    ],
+    "explanation": "Orchestration incidents can affect many downstream teams and need triage, communication, and durable follow-up.",
+    "ideal_answer": "I would triage critical DAGs first, communicate affected datasets and ETA, coordinate scheduler/worker remediation, then run a postmortem with prevention actions.",
+    "tags": ["airflow", "incident_management", "stakeholders", "scheduler"]
+  },
+  {
+    "id": "airflow_lead_gov_004",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "scenario",
+    "concept": "Access controls",
+    "scenario": "Many users can edit or trigger production DAGs in Airflow.",
+    "question": "How would you design access controls?",
+    "expected_points": [
+      {"point": "Separates viewer, operator, and admin access", "keywords": ["viewer", "operator", "admin"], "weight": 3},
+      {"point": "Limits production edit/deploy permissions", "keywords": ["production", "edit", "deploy"], "weight": 3},
+      {"point": "Uses service accounts and secrets properly", "keywords": ["service account", "secret", "connection"], "weight": 2},
+      {"point": "Audits access and actions", "keywords": ["audit", "access", "action"], "weight": 2}
+    ],
+    "explanation": "Airflow access controls protect production workflows from accidental or unauthorized changes.",
+    "ideal_answer": "I would separate read, trigger, deploy, and admin permissions, restrict production edits to CI/CD, use service accounts and secrets backends, and audit user actions.",
+    "tags": ["airflow", "access_control", "security", "governance"]
+  },
+  {
+    "id": "airflow_lead_reliability_005",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Composer reliability model",
+    "scenario": "Cloud Composer is the orchestrator for several critical business pipelines.",
+    "question": "What reliability model would you define?",
+    "expected_points": [
+      {"point": "Defines SLAs/SLOs by DAG criticality", "keywords": ["sla", "slo", "criticality"], "weight": 3},
+      {"point": "Adds monitoring for scheduler, workers, and DAG freshness", "keywords": ["scheduler", "worker", "freshness"], "weight": 3},
+      {"point": "Defines owners and runbooks", "keywords": ["owner", "runbook", "on-call"], "weight": 2},
+      {"point": "Controls backfills and concurrency", "keywords": ["backfill", "concurrency", "pool"], "weight": 2}
+    ],
+    "explanation": "Composer reliability must cover both platform health and DAG-level business outcomes.",
+    "ideal_answer": "I would classify DAG criticality, define freshness/completion SLOs, monitor scheduler/workers/queues, assign owners and runbooks, and control backfills with pools and concurrency limits.",
+    "tags": ["airflow", "cloud_composer", "reliability", "slo"]
+  },
+  {
+    "id": "airflow_lead_arch_006",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Reusable DAG templates",
+    "scenario": "Teams repeatedly build similar ingestion DAGs with inconsistent failure handling.",
+    "question": "How would you standardize ingestion DAG patterns?",
+    "expected_points": [
+      {"point": "Provides reusable templates or libraries", "keywords": ["template", "library", "reusable"], "weight": 3},
+      {"point": "Standardizes retries, alerts, and quality checks", "keywords": ["retry", "alert", "quality"], "weight": 3},
+      {"point": "Supports configuration without slow parse-time logic", "keywords": ["config", "parse", "performance"], "weight": 2},
+      {"point": "Documents examples and ownership", "keywords": ["documentation", "example", "owner"], "weight": 2}
+    ],
+    "explanation": "Reusable DAG templates improve consistency while reducing repeated operational mistakes.",
+    "ideal_answer": "I would provide a configurable ingestion DAG template with standard retries, alerts, quality checks, idempotency patterns, and examples that avoid heavy parse-time logic.",
+    "tags": ["airflow", "templates", "ingestion", "platform"]
+  },
+  {
+    "id": "airflow_lead_trade_007",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Airflow vs managed pipeline tools",
+    "scenario": "Leadership asks whether to keep Airflow or migrate some workflows to a managed event-driven orchestration service.",
+    "question": "How would you evaluate the trade-off?",
+    "expected_points": [
+      {"point": "Compares workflow type and latency needs", "keywords": ["workflow", "latency", "event"], "weight": 3},
+      {"point": "Considers operational burden and team skills", "keywords": ["operation", "skills", "maintenance"], "weight": 3},
+      {"point": "Considers cost and reliability", "keywords": ["cost", "reliability", "sla"], "weight": 2},
+      {"point": "Suggests coexistence where appropriate", "keywords": ["coexist", "hybrid", "migrate"], "weight": 2}
+    ],
+    "explanation": "Airflow is strong for scheduled dependency workflows, but not every orchestration use case belongs in Airflow.",
+    "ideal_answer": "I would keep Airflow for scheduled dependency-heavy workflows and consider event-driven services for low-latency event workflows, comparing cost, reliability, operations, and team expertise.",
+    "tags": ["airflow", "migration", "tradeoffs", "event_driven"]
+  },
+  {
+    "id": "airflow_lead_gov_008",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Secrets governance",
+    "scenario": "DAG authors store API tokens in Airflow Variables and logs sometimes expose connection details.",
+    "question": "What governance changes would you introduce?",
+    "expected_points": [
+      {"point": "Moves secrets to a secrets backend or managed secret store", "keywords": ["secrets backend", "secret manager", "vault"], "weight": 3},
+      {"point": "Restricts access to connections and variables", "keywords": ["restrict", "connection", "variable"], "weight": 2},
+      {"point": "Prevents logging sensitive values", "keywords": ["log", "sensitive", "redact"], "weight": 3},
+      {"point": "Rotates exposed credentials", "keywords": ["rotate", "credential", "token"], "weight": 2}
+    ],
+    "explanation": "Secrets in Airflow should be managed centrally and protected from UI or log exposure.",
+    "ideal_answer": "I would move secrets to a managed secrets backend, restrict who can view/edit connections and variables, redact logs, rotate exposed tokens, and document secure DAG patterns.",
+    "tags": ["airflow", "secrets", "security", "governance"]
+  },
+  {
+    "id": "airflow_lead_reliability_009",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "DAG dependency design",
+    "scenario": "A monolithic DAG with 200 tasks is hard to debug and frequently blocks unrelated data products.",
+    "question": "How would you redesign it?",
+    "expected_points": [
+      {"point": "Splits by ownership or data product boundary", "keywords": ["split", "ownership", "data product"], "weight": 3},
+      {"point": "Defines clear inter-DAG dependencies or dataset triggers", "keywords": ["dependency", "dataset", "trigger"], "weight": 2},
+      {"point": "Reduces blast radius", "keywords": ["blast radius", "unrelated", "failure"], "weight": 3},
+      {"point": "Improves observability and recovery", "keywords": ["observability", "recovery", "debug"], "weight": 2}
+    ],
+    "explanation": "Very large DAGs can hide ownership boundaries and amplify failures across unrelated workflows.",
+    "ideal_answer": "I would split the monolith along data product or ownership boundaries, define explicit dataset/inter-DAG dependencies, and reduce blast radius while improving alerts and recovery.",
+    "tags": ["airflow", "dag_design", "reliability", "blast_radius"]
+  },
+  {
+    "id": "airflow_lead_stake_010",
+    "domain": "Airflow",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Migration roadmap",
+    "scenario": "You need to migrate hundreds of DAGs from an old Airflow environment to Cloud Composer.",
+    "question": "How would you plan the migration?",
+    "expected_points": [
+      {"point": "Inventories DAGs by criticality and dependencies", "keywords": ["inventory", "criticality", "dependency"], "weight": 3},
+      {"point": "Migrates in waves with validation", "keywords": ["wave", "validation", "parallel"], "weight": 3},
+      {"point": "Communicates ownership and cutover plan", "keywords": ["owner", "cutover", "communicate"], "weight": 2},
+      {"point": "Plans rollback and compatibility checks", "keywords": ["rollback", "compatibility", "test"], "weight": 2}
+    ],
+    "explanation": "Orchestration migrations are risky because they affect many downstream data products and schedules.",
+    "ideal_answer": "I would inventory DAGs, rank by criticality, migrate in waves, run old/new validation where needed, communicate cutovers, and keep rollback options for critical workflows.",
+    "tags": ["airflow", "cloud_composer", "migration", "stakeholders"]
+  }
+]

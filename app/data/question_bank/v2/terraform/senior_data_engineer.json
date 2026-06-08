@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "terraform_senior_desc_001",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "descriptive",
+    "difficulty": "medium",
+    "concept": "Data platform IaC strategy",
+    "scenario": "Your team manages buckets, datasets, service accounts, Composer environments, and IAM manually across environments.",
+    "question": "How would you introduce Terraform safely?",
+    "expected_points": [
+      {"point": "Inventory existing resources and ownership", "keywords": ["inventory", "ownership", "resource"], "weight": 2},
+      {"point": "Import or recreate resources carefully", "keywords": ["import", "migrate", "state"], "weight": 3},
+      {"point": "Separate environments and remote state", "keywords": ["environment", "remote state", "backend"], "weight": 2},
+      {"point": "Use CI review, plan, and approval", "keywords": ["ci", "plan", "approval"], "weight": 3}
+    ],
+    "explanation": "Introducing Terraform to an existing platform requires migration discipline and safe review workflows.",
+    "ideal_answer": "I would inventory resources, decide what to import versus recreate, define modules and remote state per environment, migrate in small batches, and require CI plans plus approvals before applying.",
+    "tags": ["terraform", "migration", "data_platform", "iac"]
+  },
+  {
+    "id": "terraform_senior_scenario_002",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Terraform for BigQuery governance",
+    "scenario": "Finance-critical BigQuery datasets need consistent labels, access controls, and deletion protection.",
+    "question": "How would you design Terraform modules for those datasets?",
+    "expected_points": [
+      {"point": "Standardizes labels and metadata", "keywords": ["label", "metadata", "standard"], "weight": 2},
+      {"point": "Applies least-privilege IAM", "keywords": ["iam", "least privilege", "role"], "weight": 3},
+      {"point": "Uses prevent_destroy or deletion protection", "keywords": ["prevent_destroy", "delete", "protection"], "weight": 2},
+      {"point": "Parameterizes environment/location", "keywords": ["environment", "location", "variable"], "weight": 3}
+    ],
+    "explanation": "Critical warehouse resources benefit from reusable modules that encode governance and safety defaults.",
+    "ideal_answer": "I would create a BigQuery dataset module with required labels, location, environment inputs, least-privilege IAM bindings, and deletion protection for production datasets.",
+    "tags": ["terraform", "bigquery", "governance", "modules"]
+  },
+  {
+    "id": "terraform_senior_trouble_003",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "State drift incident",
+    "scenario": "A production data pipeline service account was manually modified, and Terraform now wants to remove permissions that are currently being used.",
+    "question": "How would you handle this drift?",
+    "expected_points": [
+      {"point": "Identifies why manual change happened", "keywords": ["manual", "why", "change"], "weight": 2},
+      {"point": "Assesses production dependency and risk", "keywords": ["dependency", "risk", "production"], "weight": 3},
+      {"point": "Reconciles desired state through code", "keywords": ["code", "desired state", "reconcile"], "weight": 3},
+      {"point": "Prevents future manual drift", "keywords": ["prevent", "policy", "process"], "weight": 2}
+    ],
+    "explanation": "Drift should be resolved by understanding production impact and updating code or removing unsafe manual changes intentionally.",
+    "ideal_answer": "I would confirm which workload needs the permission, update Terraform if the access is legitimate, remove it if not needed, apply through review, and add process or policy to avoid manual IAM changes.",
+    "tags": ["terraform", "drift", "iam", "incident"]
+  },
+  {
+    "id": "terraform_senior_design_004",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "Workspaces vs directories",
+    "scenario": "A team wants to use Terraform workspaces for dev, staging, and prod data platform resources.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Explains workspace convenience and risk", "keywords": ["workspace", "convenience", "risk"], "weight": 3},
+      {"point": "Considers state separation and blast radius", "keywords": ["state", "separation", "blast radius"], "weight": 3},
+      {"point": "Considers review and access controls", "keywords": ["review", "access", "approval"], "weight": 2},
+      {"point": "May prefer separate directories/accounts for prod", "keywords": ["directory", "account", "prod"], "weight": 2}
+    ],
+    "explanation": "Environment isolation affects safety, permissions, and operational clarity.",
+    "ideal_answer": "Workspaces can reduce duplication, but for production I often prefer stronger separation with separate state, variables, and access controls to reduce accidental cross-environment changes.",
+    "tags": ["terraform", "environments", "state", "tradeoffs"]
+  },
+  {
+    "id": "terraform_senior_scenario_005",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Policy as code",
+    "scenario": "Security wants to prevent public buckets and overly broad IAM grants in data platform Terraform.",
+    "question": "How would you enforce this without relying only on manual review?",
+    "expected_points": [
+      {"point": "Adds policy-as-code checks in CI", "keywords": ["policy", "ci", "check"], "weight": 3},
+      {"point": "Checks public access and broad IAM patterns", "keywords": ["public", "iam", "broad"], "weight": 3},
+      {"point": "Provides exceptions with review", "keywords": ["exception", "review", "approval"], "weight": 2},
+      {"point": "Educates module consumers with safe defaults", "keywords": ["safe default", "module", "education"], "weight": 2}
+    ],
+    "explanation": "Policy as code catches unsafe infrastructure patterns early and consistently.",
+    "ideal_answer": "I would add CI policy checks for public buckets and broad IAM, build modules with safe defaults, require reviewed exceptions, and report violations clearly in pull requests.",
+    "tags": ["terraform", "policy_as_code", "security", "ci"]
+  },
+  {
+    "id": "terraform_senior_trouble_006",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Provider upgrade risk",
+    "scenario": "A Terraform provider upgrade changes the plan for several BigQuery IAM resources.",
+    "question": "How would you safely handle the upgrade?",
+    "expected_points": [
+      {"point": "Reviews provider changelog and breaking changes", "keywords": ["changelog", "breaking", "provider"], "weight": 3},
+      {"point": "Tests upgrade in lower environment", "keywords": ["test", "dev", "staging"], "weight": 2},
+      {"point": "Reviews plan carefully for IAM impact", "keywords": ["plan", "iam", "impact"], "weight": 3},
+      {"point": "Pins versions and rolls out gradually", "keywords": ["pin", "version", "gradual"], "weight": 2}
+    ],
+    "explanation": "Provider upgrades can change resource behavior and must be tested like production code changes.",
+    "ideal_answer": "I would read the changelog, pin the new provider version in a branch, test in lower environments, inspect IAM diffs carefully, and roll out gradually with rollback options.",
+    "tags": ["terraform", "providers", "upgrade", "iam"]
+  },
+  {
+    "id": "terraform_senior_cost_007",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Cost controls as code",
+    "scenario": "Teams create data infrastructure without consistent labels, lifecycle policies, or budget guardrails.",
+    "question": "How would you use Terraform to support FinOps?",
+    "expected_points": [
+      {"point": "Requires labels/tags for owner and cost center", "keywords": ["label", "tag", "cost center", "owner"], "weight": 3},
+      {"point": "Configures lifecycle policies", "keywords": ["lifecycle", "retention", "delete"], "weight": 2},
+      {"point": "Creates budgets/alerts where supported", "keywords": ["budget", "alert", "cost"], "weight": 3},
+      {"point": "Provides modules with cost-conscious defaults", "keywords": ["module", "default", "cost"], "weight": 2}
+    ],
+    "explanation": "Terraform can encode cost attribution and lifecycle controls directly into platform resource creation.",
+    "ideal_answer": "I would enforce labels for owner and cost center, add lifecycle policies for storage, create budgets and alerts where possible, and provide modules with cost-conscious defaults.",
+    "tags": ["terraform", "finops", "cost", "governance"]
+  },
+  {
+    "id": "terraform_senior_design_008",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Monorepo vs multi-repo",
+    "scenario": "Your company is deciding whether Terraform for data infrastructure should live in one central repo or several domain-owned repos.",
+    "question": "How would you decide?",
+    "expected_points": [
+      {"point": "Considers ownership and review boundaries", "keywords": ["ownership", "review", "boundary"], "weight": 3},
+      {"point": "Considers shared modules and standards", "keywords": ["module", "standard", "shared"], "weight": 3},
+      {"point": "Considers blast radius and CI performance", "keywords": ["blast radius", "ci", "performance"], "weight": 2},
+      {"point": "Supports domain autonomy with governance", "keywords": ["domain", "autonomy", "governance"], "weight": 2}
+    ],
+    "explanation": "Repo strategy affects team ownership, review flow, standards, and release risk.",
+    "ideal_answer": "I would centralize shared modules and standards, but let domain teams own environment stacks where appropriate, with CI/policy checks and clear review ownership.",
+    "tags": ["terraform", "repo_strategy", "governance", "tradeoffs"]
+  },
+  {
+    "id": "terraform_senior_scenario_009",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Composer environment as code",
+    "scenario": "A production Composer environment has been configured manually and is difficult to reproduce.",
+    "question": "How would you bring it under Terraform safely?",
+    "expected_points": [
+      {"point": "Documents current configuration", "keywords": ["document", "current", "configuration"], "weight": 2},
+      {"point": "Imports or recreates with migration plan", "keywords": ["import", "recreate", "migration"], "weight": 3},
+      {"point": "Separates DAG code deployment from environment infra", "keywords": ["dag", "code", "environment"], "weight": 2},
+      {"point": "Tests lower environment and plans rollback", "keywords": ["test", "rollback", "lower"], "weight": 3}
+    ],
+    "explanation": "Managed orchestration environments are sensitive infrastructure and should be migrated carefully.",
+    "ideal_answer": "I would document current Composer settings, create Terraform matching the environment, import or recreate with a migration plan, test in lower environments, and keep rollback available.",
+    "tags": ["terraform", "composer", "migration", "orchestration"]
+  },
+  {
+    "id": "terraform_senior_trouble_010",
+    "domain": "Terraform",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "State file sensitivity",
+    "scenario": "A team discovers that Terraform state contains sensitive connection details for a data pipeline resource.",
+    "question": "How would you respond?",
+    "expected_points": [
+      {"point": "Recognizes state can contain sensitive values", "keywords": ["state", "sensitive", "secret"], "weight": 3},
+      {"point": "Secures backend access and encryption", "keywords": ["backend", "access", "encryption"], "weight": 3},
+      {"point": "Rotates exposed credentials if needed", "keywords": ["rotate", "credential", "secret"], "weight": 2},
+      {"point": "Avoids storing secrets in Terraform where possible", "keywords": ["avoid", "secret manager", "reference"], "weight": 2}
+    ],
+    "explanation": "Terraform state may include sensitive data and must be protected like a production secret store.",
+    "ideal_answer": "I would restrict and audit backend access, ensure encryption, rotate any exposed credentials, and redesign the resource to reference secrets from a secret manager rather than storing secret values in Terraform.",
+    "tags": ["terraform", "state", "security", "secrets"]
+  }
+]

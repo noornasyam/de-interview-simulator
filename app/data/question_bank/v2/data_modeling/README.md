@@ -1,1 +1,1 @@
-Data Modeling v2 question bank is pending. Until curated files are populated, the app falls back to Gemini-generated questions for this domain.
+Data Modeling v2 question bank is complete across Beginner, Junior Data Engineer, Mid-Level Data Engineer, Senior Data Engineer, Lead Data Engineer, and Architect.

@@ -1,1 +1,176 @@
-[]
+[
+  {
+    "id": "airflow_mid_mcq_001",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Pools",
+    "question": "What are Airflow pools commonly used for?",
+    "options": ["Limiting concurrency against shared resources", "Encrypting DAG source code", "Replacing task retries", "Creating database schemas"],
+    "correct_answer": "Limiting concurrency against shared resources",
+    "explanation": "Pools limit how many tasks can use a constrained resource at the same time.",
+    "ideal_answer": "Use pools to control concurrency for shared systems like APIs, warehouses, or limited worker resources.",
+    "tags": ["airflow", "pools", "concurrency"]
+  },
+  {
+    "id": "airflow_mid_short_002",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Task idempotency",
+    "question": "What makes an Airflow task idempotent in a data pipeline?",
+    "expected_points": [
+      {"point": "Reruns produce the same final state", "keywords": ["rerun", "same", "final"], "weight": 4},
+      {"point": "Writes are partitioned, upserted, or otherwise deterministic", "keywords": ["partition", "upsert", "deterministic"], "weight": 4},
+      {"point": "Avoids duplicate side effects", "keywords": ["duplicate", "side effect", "safe"], "weight": 2}
+    ],
+    "explanation": "Airflow retries and backfills depend on tasks being safe to run more than once.",
+    "ideal_answer": "An idempotent task can rerun for the same logical date and produce the same final output, often by overwriting a partition or using a stable upsert key.",
+    "tags": ["airflow", "idempotency", "backfill"]
+  },
+  {
+    "id": "airflow_mid_scenario_003",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Backfill planning",
+    "scenario": "You need to backfill a DAG for 180 daily partitions after fixing a transformation bug.",
+    "question": "How would you run the backfill safely?",
+    "expected_points": [
+      {"point": "Confirms tasks are idempotent and partition-aware", "keywords": ["idempotent", "partition", "logical date"], "weight": 3},
+      {"point": "Limits concurrency using pools or max active runs", "keywords": ["pool", "concurrency", "max active"], "weight": 3},
+      {"point": "Monitors failures and data validation", "keywords": ["monitor", "failure", "validation"], "weight": 2},
+      {"point": "Communicates expected load and impact", "keywords": ["communicate", "load", "impact"], "weight": 2}
+    ],
+    "explanation": "Large backfills can overload systems or corrupt data if task design and concurrency are not controlled.",
+    "ideal_answer": "I would verify idempotent partition writes, run in controlled batches with max_active_runs/pools, monitor failures and validation checks, and communicate expected resource impact.",
+    "tags": ["airflow", "backfill", "reliability", "concurrency"]
+  },
+  {
+    "id": "airflow_mid_trouble_004",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Stuck tasks",
+    "scenario": "Several Airflow tasks remain queued for a long time and do not start.",
+    "question": "What would you check?",
+    "expected_points": [
+      {"point": "Checks worker capacity and executor status", "keywords": ["worker", "capacity", "executor"], "weight": 3},
+      {"point": "Checks pools, queues, and concurrency limits", "keywords": ["pool", "queue", "concurrency"], "weight": 3},
+      {"point": "Checks scheduler health", "keywords": ["scheduler", "health", "heartbeat"], "weight": 2},
+      {"point": "Reviews logs for resource or dependency issues", "keywords": ["logs", "resource", "dependency"], "weight": 2}
+    ],
+    "explanation": "Queued tasks usually point to scheduler, executor, worker, pool, queue, or concurrency constraints.",
+    "ideal_answer": "I would inspect scheduler heartbeat, executor and worker capacity, task pool/queue assignments, DAG concurrency settings, and logs for resource or dependency issues.",
+    "tags": ["airflow", "queued_tasks", "troubleshooting", "scheduler"]
+  },
+  {
+    "id": "airflow_mid_short_005",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "DAG parsing performance",
+    "question": "Why should DAG files avoid expensive top-level code?",
+    "expected_points": [
+      {"point": "Scheduler parses DAG files repeatedly", "keywords": ["scheduler", "parse", "repeated"], "weight": 5},
+      {"point": "Expensive imports or API calls slow scheduling", "keywords": ["expensive", "import", "api", "slow"], "weight": 5}
+    ],
+    "explanation": "Airflow repeatedly parses DAG files; slow top-level code can delay scheduling across the environment.",
+    "ideal_answer": "Avoid expensive top-level work because the scheduler imports DAG files repeatedly. Put heavy work inside tasks, not at DAG parse time.",
+    "tags": ["airflow", "dag_parsing", "scheduler", "performance"]
+  },
+  {
+    "id": "airflow_mid_mcq_006",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "max_active_runs",
+    "question": "What does max_active_runs help control?",
+    "options": ["How many DAG runs can be active at the same time", "How many columns a task can output", "How long logs are retained", "How many variables a DAG can use"],
+    "correct_answer": "How many DAG runs can be active at the same time",
+    "explanation": "max_active_runs limits concurrent active DAG runs, which is important for backfills and slow pipelines.",
+    "ideal_answer": "Use max_active_runs to prevent too many runs of the same DAG from executing simultaneously and overloading dependencies.",
+    "tags": ["airflow", "concurrency", "max_active_runs"]
+  },
+  {
+    "id": "airflow_mid_scenario_007",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Sensor design",
+    "scenario": "A DAG waits for a partner file that sometimes arrives hours late.",
+    "question": "How would you design the waiting logic?",
+    "expected_points": [
+      {"point": "Uses a sensor or deferrable sensor where available", "keywords": ["sensor", "deferrable", "wait"], "weight": 3},
+      {"point": "Sets timeout and poke interval appropriately", "keywords": ["timeout", "poke", "interval"], "weight": 3},
+      {"point": "Avoids wasting worker slots", "keywords": ["worker", "slot", "reschedule"], "weight": 2},
+      {"point": "Alerts when file is late beyond SLA", "keywords": ["alert", "late", "sla"], "weight": 2}
+    ],
+    "explanation": "Sensors should wait efficiently and fail clearly when external data misses expected arrival times.",
+    "ideal_answer": "I would use a reschedule/deferrable sensor if available, set sensible timeout and poke intervals, avoid holding workers unnecessarily, and alert if the file misses the SLA.",
+    "tags": ["airflow", "sensors", "sla", "efficiency"]
+  },
+  {
+    "id": "airflow_mid_trouble_008",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Failed tasks",
+    "scenario": "A task that loads data into BigQuery failed overnight and downstream tasks did not run.",
+    "question": "How would you investigate and recover?",
+    "expected_points": [
+      {"point": "Checks task logs and external job logs", "keywords": ["task logs", "bigquery", "job logs"], "weight": 3},
+      {"point": "Determines if rerun is safe", "keywords": ["rerun", "safe", "idempotent"], "weight": 3},
+      {"point": "Checks data quality before downstream resume", "keywords": ["quality", "downstream", "validate"], "weight": 2},
+      {"point": "Communicates impact if SLA is missed", "keywords": ["communicate", "impact", "sla"], "weight": 2}
+    ],
+    "explanation": "Recovery requires understanding the failure and ensuring reruns will not create duplicate or partial data.",
+    "ideal_answer": "I would inspect Airflow logs and the BigQuery job, confirm whether the load is idempotent, rerun only the failed partition if safe, validate output, then resume downstream tasks and communicate any SLA impact.",
+    "tags": ["airflow", "failed_tasks", "bigquery", "incident"]
+  },
+  {
+    "id": "airflow_mid_short_009",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "DAG testing",
+    "question": "What should you test before deploying a new Airflow DAG?",
+    "expected_points": [
+      {"point": "DAG parses successfully", "keywords": ["parse", "import", "dag"], "weight": 3},
+      {"point": "Dependencies and schedules are correct", "keywords": ["dependency", "schedule", "catchup"], "weight": 3},
+      {"point": "Task logic is unit/integration tested", "keywords": ["unit", "integration", "task"], "weight": 2},
+      {"point": "Configuration and connections are valid", "keywords": ["config", "connection", "variable"], "weight": 2}
+    ],
+    "explanation": "Testing DAGs catches parse errors, dependency mistakes, and task logic issues before production.",
+    "ideal_answer": "I would test DAG import/parsing, dependency graph, schedule/catchup behavior, task functions, and required Variables/Connections in CI or a lower environment.",
+    "tags": ["airflow", "testing", "cicd"]
+  },
+  {
+    "id": "airflow_mid_scenario_010",
+    "domain": "Airflow",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Cloud Composer worker scaling",
+    "scenario": "A Cloud Composer environment struggles during morning batch processing but is mostly idle later.",
+    "question": "What would you investigate before increasing resources?",
+    "expected_points": [
+      {"point": "Checks task concurrency and worker utilization", "keywords": ["concurrency", "worker", "utilization"], "weight": 3},
+      {"point": "Checks DAG schedule clustering", "keywords": ["schedule", "cluster", "morning"], "weight": 2},
+      {"point": "Uses pools/queues or rescheduling to smooth load", "keywords": ["pool", "queue", "smooth"], "weight": 3},
+      {"point": "Considers cost impact of scaling", "keywords": ["cost", "scale", "resource"], "weight": 2}
+    ],
+    "explanation": "Composer scaling decisions should be based on workload shape, bottlenecks, and cost, not only peak failures.",
+    "ideal_answer": "I would inspect worker utilization, queued tasks, concurrency limits, schedule clustering, and external bottlenecks, then use pools/queues or schedule smoothing before blindly scaling up.",
+    "tags": ["airflow", "cloud_composer", "scaling", "cost"]
+  }
+]

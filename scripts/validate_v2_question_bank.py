@@ -35,6 +35,7 @@ DESCRIPTIVE_TYPES = {
     "reliability",
     "multi_region",
     "security",
+    "platform_design",
 }
 
 

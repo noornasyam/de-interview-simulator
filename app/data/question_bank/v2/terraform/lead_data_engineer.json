@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "terraform_lead_arch_001",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "Terraform platform standards",
+    "scenario": "Multiple data squads write Terraform differently for buckets, datasets, service accounts, and orchestration resources.",
+    "question": "How would you establish Terraform standards across squads?",
+    "expected_points": [
+      {"point": "Defines shared modules and naming conventions", "keywords": ["module", "naming", "standard"], "weight": 3},
+      {"point": "Adds CI checks and policy controls", "keywords": ["ci", "policy", "check"], "weight": 3},
+      {"point": "Documents ownership and review process", "keywords": ["owner", "review", "documentation"], "weight": 2},
+      {"point": "Supports team autonomy through paved paths", "keywords": ["autonomy", "paved path", "template"], "weight": 2}
+    ],
+    "explanation": "Lead-level Terraform governance should create consistency without blocking domain teams.",
+    "ideal_answer": "I would define shared modules, naming/labeling standards, CI and policy checks, ownership rules, and paved-path templates so squads can move quickly within guardrails.",
+    "tags": ["terraform", "standards", "platform", "leadership"]
+  },
+  {
+    "id": "terraform_lead_trade_002",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Central modules vs custom Terraform",
+    "scenario": "Domain teams want custom Terraform, while platform wants all data resources created through central modules.",
+    "question": "How would you balance reuse and flexibility?",
+    "expected_points": [
+      {"point": "Uses central modules for common governed resources", "keywords": ["central", "module", "governed"], "weight": 3},
+      {"point": "Allows escape hatches with review", "keywords": ["escape", "exception", "review"], "weight": 3},
+      {"point": "Keeps modules configurable but not overly complex", "keywords": ["configurable", "complex", "simple"], "weight": 2},
+      {"point": "Collects feedback from domain teams", "keywords": ["feedback", "domain", "team"], "weight": 2}
+    ],
+    "explanation": "Central modules improve governance, but rigid modules can slow teams if they do not fit real use cases.",
+    "ideal_answer": "I would use central modules for common resources like datasets and service accounts, keep them configurable with safe defaults, and allow reviewed exceptions when a domain has a valid special case.",
+    "tags": ["terraform", "modules", "tradeoffs", "governance"]
+  },
+  {
+    "id": "terraform_lead_stake_003",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Production deletion risk",
+    "scenario": "A Terraform plan unexpectedly proposes deleting a production BigQuery dataset before a critical reporting deadline.",
+    "question": "How would you handle the situation with engineers and stakeholders?",
+    "expected_points": [
+      {"point": "Stops the apply and protects production", "keywords": ["stop", "apply", "protect"], "weight": 3},
+      {"point": "Assesses impact and root cause", "keywords": ["impact", "root cause", "plan"], "weight": 3},
+      {"point": "Communicates risk and ETA", "keywords": ["communicate", "risk", "eta"], "weight": 2},
+      {"point": "Adds controls to prevent recurrence", "keywords": ["prevent_destroy", "policy", "approval"], "weight": 2}
+    ],
+    "explanation": "High-risk Terraform plans require immediate containment and transparent stakeholder communication.",
+    "ideal_answer": "I would block the apply, inspect the diff and root cause, notify stakeholders of the risk and mitigation, then add deletion protection, policy checks, and stronger approval gates.",
+    "tags": ["terraform", "incident", "bigquery", "stakeholders"]
+  },
+  {
+    "id": "terraform_lead_gov_004",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "scenario",
+    "concept": "IAM governance",
+    "scenario": "Terraform changes frequently add broad IAM roles to data platform service accounts.",
+    "question": "What governance model would you introduce?",
+    "expected_points": [
+      {"point": "Defines approved role patterns", "keywords": ["approved", "role", "pattern"], "weight": 3},
+      {"point": "Uses policy checks for broad grants", "keywords": ["policy", "broad", "grant"], "weight": 3},
+      {"point": "Requires security review for exceptions", "keywords": ["security", "exception", "review"], "weight": 2},
+      {"point": "Audits permissions over time", "keywords": ["audit", "permission", "review"], "weight": 2}
+    ],
+    "explanation": "IAM governance in Terraform should combine safe defaults, automated checks, and exception workflows.",
+    "ideal_answer": "I would define allowed IAM patterns by resource type, add CI policy checks for broad grants, require reviewed exceptions, and audit service account permissions regularly.",
+    "tags": ["terraform", "iam", "governance", "security"]
+  },
+  {
+    "id": "terraform_lead_reliability_005",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Terraform release reliability",
+    "scenario": "Infrastructure changes regularly break data pipelines after deployment.",
+    "question": "How would you improve Terraform release reliability?",
+    "expected_points": [
+      {"point": "Adds plan review and approval gates", "keywords": ["plan", "review", "approval"], "weight": 3},
+      {"point": "Tests changes in lower environments", "keywords": ["test", "staging", "lower"], "weight": 2},
+      {"point": "Adds policy checks and integration validation", "keywords": ["policy", "integration", "validation"], "weight": 3},
+      {"point": "Defines rollback or recovery procedure", "keywords": ["rollback", "recovery", "procedure"], "weight": 2}
+    ],
+    "explanation": "Terraform release reliability needs the same discipline as application deployments: testing, review, policy, and recovery.",
+    "ideal_answer": "I would require CI plans, peer approval, policy checks, lower-environment validation, and documented rollback or recovery for risky data platform changes.",
+    "tags": ["terraform", "release_management", "reliability", "ci"]
+  },
+  {
+    "id": "terraform_lead_arch_006",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Multi-cloud Terraform structure",
+    "scenario": "The company runs data platforms on AWS and GCP, and teams want reusable Terraform patterns.",
+    "question": "How would you organize Terraform code for multi-cloud data infrastructure?",
+    "expected_points": [
+      {"point": "Separates cloud-specific modules from common standards", "keywords": ["cloud-specific", "module", "standard"], "weight": 3},
+      {"point": "Keeps state and credentials isolated", "keywords": ["state", "credential", "isolated"], "weight": 3},
+      {"point": "Uses consistent naming/labels/policy", "keywords": ["naming", "label", "policy"], "weight": 2},
+      {"point": "Avoids false abstraction across unlike services", "keywords": ["abstraction", "unlike", "service"], "weight": 2}
+    ],
+    "explanation": "Multi-cloud Terraform should share standards without pretending all cloud services are identical.",
+    "ideal_answer": "I would create cloud-specific modules with common tagging/naming/policy standards, isolate state and credentials per cloud/environment, and avoid over-abstracting services that behave differently.",
+    "tags": ["terraform", "multi_cloud", "architecture", "modules"]
+  },
+  {
+    "id": "terraform_lead_trade_007",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Terraform ownership model",
+    "scenario": "Platform wants to own all Terraform, but domain teams want to own infrastructure for their pipelines.",
+    "question": "What ownership model would you recommend?",
+    "expected_points": [
+      {"point": "Separates platform-owned foundations from domain-owned stacks", "keywords": ["platform", "domain", "foundation"], "weight": 3},
+      {"point": "Defines guardrails and review requirements", "keywords": ["guardrail", "review", "requirement"], "weight": 3},
+      {"point": "Keeps business-specific infrastructure close to domain teams", "keywords": ["business", "domain", "ownership"], "weight": 2},
+      {"point": "Maintains central visibility and compliance", "keywords": ["visibility", "compliance", "central"], "weight": 2}
+    ],
+    "explanation": "A federated ownership model often balances speed with platform governance.",
+    "ideal_answer": "I would let platform own foundations, modules, and policies, while domain teams own their pipeline stacks within guardrails and review requirements.",
+    "tags": ["terraform", "ownership", "operating_model", "tradeoffs"]
+  },
+  {
+    "id": "terraform_lead_gov_008",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Compliance evidence",
+    "scenario": "Auditors ask how your data platform proves infrastructure changes are reviewed and controlled.",
+    "question": "How can Terraform and CI/CD help provide evidence?",
+    "expected_points": [
+      {"point": "Uses pull requests as change records", "keywords": ["pull request", "change", "record"], "weight": 3},
+      {"point": "Stores plans, approvals, and CI results", "keywords": ["plan", "approval", "ci"], "weight": 3},
+      {"point": "Links changes to deployed state", "keywords": ["state", "apply", "deployed"], "weight": 2},
+      {"point": "Uses policy checks for control enforcement", "keywords": ["policy", "control", "enforce"], "weight": 2}
+    ],
+    "explanation": "Infrastructure as code creates an auditable trail for changes, approvals, and control checks.",
+    "ideal_answer": "Terraform changes through PRs can show diffs, plans, approvals, CI checks, policy results, and apply logs, creating evidence that infrastructure changes are reviewed and controlled.",
+    "tags": ["terraform", "compliance", "audit", "cicd"]
+  },
+  {
+    "id": "terraform_lead_reliability_009",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "State backend resilience",
+    "scenario": "Your remote state backend is a critical dependency for all data platform infrastructure changes.",
+    "question": "How would you design and operate the backend safely?",
+    "expected_points": [
+      {"point": "Uses durable remote storage with versioning", "keywords": ["durable", "versioning", "remote"], "weight": 3},
+      {"point": "Restricts and audits access", "keywords": ["access", "audit", "iam"], "weight": 3},
+      {"point": "Supports locking", "keywords": ["lock", "locking", "concurrent"], "weight": 2},
+      {"point": "Has backup/recovery procedure", "keywords": ["backup", "recovery", "restore"], "weight": 2}
+    ],
+    "explanation": "Terraform state is a critical control-plane artifact and should be protected accordingly.",
+    "ideal_answer": "I would use a durable remote backend with versioning and locking, restrict access, audit reads/writes, and document recovery procedures for state corruption or accidental deletion.",
+    "tags": ["terraform", "state", "backend", "reliability"]
+  },
+  {
+    "id": "terraform_lead_stake_010",
+    "domain": "Terraform",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Terraform adoption roadmap",
+    "scenario": "Leadership asks for a roadmap to move all manually managed data infrastructure into Terraform.",
+    "question": "How would you sequence the roadmap?",
+    "expected_points": [
+      {"point": "Prioritizes critical and repeatable resources", "keywords": ["critical", "repeatable", "priority"], "weight": 3},
+      {"point": "Builds foundational modules and CI first", "keywords": ["module", "ci", "foundation"], "weight": 3},
+      {"point": "Migrates incrementally with risk controls", "keywords": ["incremental", "risk", "migration"], "weight": 2},
+      {"point": "Tracks adoption and training", "keywords": ["adoption", "training", "enablement"], "weight": 2}
+    ],
+    "explanation": "Terraform adoption is a change-management effort, not just a technical migration.",
+    "ideal_answer": "I would start with standards, modules, remote state, and CI, then migrate high-value repeatable resources in waves, train teams, and track adoption, drift reduction, and incident reduction.",
+    "tags": ["terraform", "roadmap", "adoption", "leadership"]
+  }
+]

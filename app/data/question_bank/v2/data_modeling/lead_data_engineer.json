@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "data_modeling_lead_arch_001",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "Enterprise dimensional standards",
+    "scenario": "Different squads model facts and dimensions inconsistently across domains.",
+    "question": "What modeling standards would you introduce?",
+    "expected_points": [
+      {"point": "Defines naming, grain, and key standards", "keywords": ["naming", "grain", "key"], "weight": 3},
+      {"point": "Standardizes facts, dimensions, and SCD patterns", "keywords": ["fact", "dimension", "scd"], "weight": 3},
+      {"point": "Requires ownership and documentation", "keywords": ["owner", "documentation", "definition"], "weight": 2},
+      {"point": "Adds data quality tests", "keywords": ["quality", "test", "constraint"], "weight": 2}
+    ],
+    "explanation": "Modeling standards improve consistency, reuse, and trust across domains.",
+    "ideal_answer": "I would define standards for table naming, grain, keys, SCD handling, conformed dimensions, ownership, documentation, and quality tests.",
+    "tags": ["data_modeling", "standards", "architecture", "governance"]
+  },
+  {
+    "id": "data_modeling_lead_trade_002",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Star vs snowflake schema",
+    "scenario": "A team wants to normalize all dimensions to reduce duplication, but analysts prefer simpler queries.",
+    "question": "How would you decide between star and snowflake schema?",
+    "expected_points": [
+      {"point": "Balances query simplicity against normalization", "keywords": ["simplicity", "normalization", "query"], "weight": 3},
+      {"point": "Considers performance and join cost", "keywords": ["performance", "join", "cost"], "weight": 3},
+      {"point": "Considers governance and reuse", "keywords": ["governance", "reuse", "dimension"], "weight": 2},
+      {"point": "Chooses based on consumer needs", "keywords": ["consumer", "analyst", "need"], "weight": 2}
+    ],
+    "explanation": "Star schemas are often easier for analytics, while snowflaking can reduce duplication at the cost of more joins.",
+    "ideal_answer": "I would prefer star schemas for common BI consumption unless normalization provides clear governance or maintenance benefits that outweigh extra join complexity.",
+    "tags": ["data_modeling", "star_schema", "snowflake_schema", "tradeoffs"]
+  },
+  {
+    "id": "data_modeling_lead_stake_003",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Metric ownership",
+    "scenario": "Product, finance, and sales disagree on the definition of active customer.",
+    "question": "How would you lead the modeling and stakeholder process?",
+    "expected_points": [
+      {"point": "Facilitates business definition alignment", "keywords": ["business", "definition", "align"], "weight": 3},
+      {"point": "Documents metric ownership and logic", "keywords": ["owner", "document", "logic"], "weight": 3},
+      {"point": "Implements metric in governed semantic/model layer", "keywords": ["semantic", "governed", "model"], "weight": 2},
+      {"point": "Communicates migration and impact", "keywords": ["communicate", "migration", "impact"], "weight": 2}
+    ],
+    "explanation": "Metric modeling is a socio-technical process requiring business alignment and technical enforcement.",
+    "ideal_answer": "I would align stakeholders on the definition, assign a metric owner, implement it in a governed semantic/model layer, document assumptions, and communicate migration impacts.",
+    "tags": ["data_modeling", "metrics", "stakeholders", "semantic_layer"]
+  },
+  {
+    "id": "data_modeling_lead_gov_004",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "scenario",
+    "concept": "PII and access control",
+    "scenario": "Several marts duplicate customer PII fields for convenience.",
+    "question": "What governance changes would you introduce?",
+    "expected_points": [
+      {"point": "Classifies and minimizes PII duplication", "keywords": ["classify", "pii", "minimize"], "weight": 3},
+      {"point": "Creates secure dimensions or masked views", "keywords": ["secure", "masked", "view"], "weight": 3},
+      {"point": "Defines access roles and ownership", "keywords": ["access", "role", "owner"], "weight": 2},
+      {"point": "Audits downstream usage", "keywords": ["audit", "usage", "downstream"], "weight": 2}
+    ],
+    "explanation": "Data models should minimize sensitive data spread and expose PII through controlled interfaces.",
+    "ideal_answer": "I would classify PII, remove unnecessary duplication, expose masked or secure dimensions, define access roles and owners, and audit downstream usage.",
+    "tags": ["data_modeling", "pii", "governance", "access_control"]
+  },
+  {
+    "id": "data_modeling_lead_reliability_005",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Model reliability",
+    "scenario": "Critical marts are frequently broken by upstream source changes.",
+    "question": "How would you improve model reliability?",
+    "expected_points": [
+      {"point": "Introduces data contracts and schema checks", "keywords": ["contract", "schema", "check"], "weight": 3},
+      {"point": "Adds model-level data quality tests", "keywords": ["quality", "test", "constraint"], "weight": 3},
+      {"point": "Tracks lineage and blast radius", "keywords": ["lineage", "blast radius", "impact"], "weight": 2},
+      {"point": "Defines owners and incident process", "keywords": ["owner", "incident", "process"], "weight": 2}
+    ],
+    "explanation": "Reliable models require producer contracts, tests, lineage, and operational ownership.",
+    "ideal_answer": "I would add data contracts with producers, schema/semantic checks, model quality tests, lineage-based impact analysis, owners, alerts, and an incident process.",
+    "tags": ["data_modeling", "reliability", "data_contracts", "lineage"]
+  },
+  {
+    "id": "data_modeling_lead_arch_006",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Layered data model architecture",
+    "scenario": "Your warehouse has raw tables, copied SQL, and inconsistent marts.",
+    "question": "What layered modeling architecture would you propose?",
+    "expected_points": [
+      {"point": "Defines raw/staging/intermediate/mart layers", "keywords": ["raw", "staging", "intermediate", "mart"], "weight": 4},
+      {"point": "Separates technical cleanup from business logic", "keywords": ["cleanup", "business logic", "separate"], "weight": 2},
+      {"point": "Adds quality gates and documentation", "keywords": ["quality", "documentation", "test"], "weight": 2},
+      {"point": "Defines ownership by layer", "keywords": ["owner", "layer", "responsibility"], "weight": 2}
+    ],
+    "explanation": "Layered models make transformations easier to reason about and govern.",
+    "ideal_answer": "I would define raw, staging, intermediate, and mart layers, separate source cleanup from business logic, add quality/documentation, and assign ownership by layer.",
+    "tags": ["data_modeling", "layered_architecture", "data_marts"]
+  },
+  {
+    "id": "data_modeling_lead_trade_007",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Data Vault vs dimensional marts",
+    "scenario": "A team proposes Data Vault for the enterprise warehouse, while analysts want dimensional marts.",
+    "question": "How would you position both approaches?",
+    "expected_points": [
+      {"point": "Recognizes Data Vault as integration/audit layer", "keywords": ["data vault", "integration", "audit"], "weight": 3},
+      {"point": "Recognizes dimensional marts as analytics-friendly", "keywords": ["dimensional", "mart", "analytics"], "weight": 3},
+      {"point": "Considers complexity and team skill", "keywords": ["complexity", "skill", "team"], "weight": 2},
+      {"point": "May use both in layered architecture", "keywords": ["both", "layer", "architecture"], "weight": 2}
+    ],
+    "explanation": "Data Vault and dimensional modeling solve different problems and can coexist.",
+    "ideal_answer": "I would use Data Vault where auditable multi-source integration is needed, but still publish dimensional marts or semantic models for analysts.",
+    "tags": ["data_modeling", "data_vault", "dimensional_modeling", "tradeoffs"]
+  },
+  {
+    "id": "data_modeling_lead_gov_008",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "Model review process",
+    "scenario": "New marts are created without review and later become business-critical.",
+    "question": "What review and promotion process would you define?",
+    "expected_points": [
+      {"point": "Separates experimental from certified models", "keywords": ["experimental", "certified", "promote"], "weight": 3},
+      {"point": "Requires review of grain, keys, and metrics", "keywords": ["grain", "key", "metric"], "weight": 3},
+      {"point": "Requires tests and documentation", "keywords": ["test", "documentation", "quality"], "weight": 2},
+      {"point": "Assigns ownership and support expectations", "keywords": ["owner", "support", "expectation"], "weight": 2}
+    ],
+    "explanation": "Promotion controls help prevent ungoverned models from silently becoming trusted assets.",
+    "ideal_answer": "I would classify models as experimental or certified, require review of grain/keys/metrics, add tests/docs, and assign owners before promotion to trusted status.",
+    "tags": ["data_modeling", "governance", "certified_models"]
+  },
+  {
+    "id": "data_modeling_lead_reliability_009",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Backward compatibility",
+    "scenario": "A dimension refactor will rename columns used by many reports.",
+    "question": "How would you manage compatibility and migration?",
+    "expected_points": [
+      {"point": "Identifies consumers through lineage/usage", "keywords": ["lineage", "consumer", "usage"], "weight": 3},
+      {"point": "Provides compatibility views or deprecation window", "keywords": ["compatibility", "view", "deprecation"], "weight": 3},
+      {"point": "Communicates migration timeline", "keywords": ["communicate", "timeline", "migration"], "weight": 2},
+      {"point": "Validates new model outputs", "keywords": ["validate", "output", "test"], "weight": 2}
+    ],
+    "explanation": "Breaking model changes need migration support to avoid disrupting downstream users.",
+    "ideal_answer": "I would identify consumers, provide compatibility views or aliases, communicate a deprecation timeline, validate outputs, and migrate critical reports first.",
+    "tags": ["data_modeling", "schema_evolution", "compatibility", "lineage"]
+  },
+  {
+    "id": "data_modeling_lead_stake_010",
+    "domain": "Data Modeling",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Modeling roadmap",
+    "scenario": "Executives want faster reporting, data science wants features, and governance wants better controls.",
+    "question": "How would you prioritize the data modeling roadmap?",
+    "expected_points": [
+      {"point": "Balances business impact and risk", "keywords": ["business impact", "risk", "priority"], "weight": 3},
+      {"point": "Identifies shared foundational models", "keywords": ["shared", "foundation", "model"], "weight": 3},
+      {"point": "Sequences reporting, ML, and governance needs", "keywords": ["reporting", "ml", "governance"], "weight": 2},
+      {"point": "Communicates trade-offs and milestones", "keywords": ["communicate", "trade-off", "milestone"], "weight": 2}
+    ],
+    "explanation": "A modeling roadmap should prioritize shared foundations that unlock multiple stakeholder needs.",
+    "ideal_answer": "I would prioritize foundational conformed dimensions and critical facts, then sequence reporting marts, ML feature models, and governance controls by business impact and risk.",
+    "tags": ["data_modeling", "roadmap", "stakeholders", "prioritization"]
+  }
+]

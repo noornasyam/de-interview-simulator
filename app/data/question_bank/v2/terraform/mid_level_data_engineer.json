@@ -1,1 +1,174 @@
-[]
+[
+  {
+    "id": "terraform_mid_mcq_001",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Terraform import",
+    "question": "What is terraform import commonly used for?",
+    "options": ["Bringing an existing resource under Terraform state management", "Loading CSV data into a warehouse", "Running SQL joins", "Compressing logs"],
+    "correct_answer": "Bringing an existing resource under Terraform state management",
+    "explanation": "terraform import associates an existing real resource with Terraform state, but configuration still needs to be written.",
+    "ideal_answer": "Use terraform import when a resource already exists and you want Terraform to track it, then ensure configuration matches the imported resource.",
+    "tags": ["terraform", "import", "state"]
+  },
+  {
+    "id": "terraform_mid_short_002",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Module versioning",
+    "question": "Why should shared Terraform modules be versioned?",
+    "expected_points": [
+      {"point": "Prevents unexpected changes for consumers", "keywords": ["unexpected", "consumer", "change"], "weight": 4},
+      {"point": "Allows controlled upgrades", "keywords": ["upgrade", "version", "controlled"], "weight": 3},
+      {"point": "Improves reproducibility", "keywords": ["reproducible", "pin", "stable"], "weight": 3}
+    ],
+    "explanation": "Versioned modules let teams consume infrastructure patterns without being surprised by breaking changes.",
+    "ideal_answer": "Version shared modules and pin versions in callers so teams can upgrade intentionally and reproduce prior infrastructure behavior.",
+    "tags": ["terraform", "modules", "versioning"]
+  },
+  {
+    "id": "terraform_mid_scenario_003",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Terraform CI/CD",
+    "scenario": "Your team wants Terraform changes for data platform resources to go through pull requests.",
+    "question": "What CI/CD checks would you add before apply?",
+    "expected_points": [
+      {"point": "Runs fmt and validate", "keywords": ["fmt", "validate"], "weight": 2},
+      {"point": "Runs plan and posts/reviews output", "keywords": ["plan", "review", "pull request"], "weight": 3},
+      {"point": "Adds policy/security checks", "keywords": ["policy", "security", "iam"], "weight": 3},
+      {"point": "Separates plan from approved apply", "keywords": ["apply", "approval", "separate"], "weight": 2}
+    ],
+    "explanation": "Terraform CI/CD should catch syntax, planning, policy, and approval issues before modifying infrastructure.",
+    "ideal_answer": "I would run terraform fmt, validate, and plan in PRs, post the plan for review, run policy/security checks for IAM and public resources, and require approval before apply.",
+    "tags": ["terraform", "cicd", "policy", "review"]
+  },
+  {
+    "id": "terraform_mid_trouble_004",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "State lock failure",
+    "scenario": "A CI job fails because Terraform cannot acquire the state lock.",
+    "question": "How would you investigate and resolve this safely?",
+    "expected_points": [
+      {"point": "Checks whether another apply is running", "keywords": ["another", "apply", "running"], "weight": 3},
+      {"point": "Avoids blindly force-unlocking", "keywords": ["force-unlock", "blind", "safe"], "weight": 3},
+      {"point": "Reviews backend lock metadata/logs", "keywords": ["backend", "lock", "metadata"], "weight": 2},
+      {"point": "Force unlocks only after confirming stale lock", "keywords": ["stale", "confirm", "unlock"], "weight": 2}
+    ],
+    "explanation": "State locks protect Terraform state; force unlock should be used only after confirming no active operation owns the lock.",
+    "ideal_answer": "I would check CI and team activity for an active plan/apply, inspect backend lock details, wait or cancel the active job if needed, and force-unlock only if the lock is confirmed stale.",
+    "tags": ["terraform", "state", "locking", "troubleshooting"]
+  },
+  {
+    "id": "terraform_mid_short_005",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "for_each",
+    "question": "Why is for_each often safer than count for creating named resources like datasets?",
+    "expected_points": [
+      {"point": "Keys provide stable identity", "keywords": ["key", "stable", "identity"], "weight": 5},
+      {"point": "Avoids index-shift replacement issues", "keywords": ["index", "shift", "replace"], "weight": 5}
+    ],
+    "explanation": "for_each uses stable keys, while count indexes can shift when lists change.",
+    "ideal_answer": "for_each is safer for named resources because each resource is tied to a stable key, reducing accidental replacement when list order changes.",
+    "tags": ["terraform", "for_each", "resource_identity"]
+  },
+  {
+    "id": "terraform_mid_mcq_006",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Lifecycle prevent_destroy",
+    "question": "Which Terraform lifecycle setting can help protect a critical production dataset from accidental deletion?",
+    "options": ["prevent_destroy", "ignore_print", "auto_join", "force_delete_everything"],
+    "correct_answer": "prevent_destroy",
+    "explanation": "prevent_destroy blocks plans that would destroy a protected resource unless the setting is removed intentionally.",
+    "ideal_answer": "Use lifecycle { prevent_destroy = true } on critical resources, while still having a documented break-glass process for intentional deletion.",
+    "tags": ["terraform", "lifecycle", "safety", "production"]
+  },
+  {
+    "id": "terraform_mid_scenario_007",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Environment promotion",
+    "scenario": "A Terraform module creates BigQuery datasets in dev and prod, but prod must be changed more carefully.",
+    "question": "How would you manage environment promotion?",
+    "expected_points": [
+      {"point": "Uses separate variables/workspaces or directories carefully", "keywords": ["variables", "workspace", "directory"], "weight": 3},
+      {"point": "Requires review and approval for prod", "keywords": ["approval", "review", "prod"], "weight": 3},
+      {"point": "Promotes tested module versions", "keywords": ["version", "promote", "tested"], "weight": 2},
+      {"point": "Keeps state separated by environment", "keywords": ["state", "separate", "environment"], "weight": 2}
+    ],
+    "explanation": "Production Terraform should use controlled promotion, separated state, and stronger approval gates.",
+    "ideal_answer": "I would keep environment state separate, test module versions in dev/staging, promote pinned versions to prod through review and approval, and use environment-specific variables.",
+    "tags": ["terraform", "environments", "promotion", "production"]
+  },
+  {
+    "id": "terraform_mid_trouble_008",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Unexpected replacement",
+    "scenario": "terraform plan shows that a production storage bucket will be replaced.",
+    "question": "What would you do before allowing the change?",
+    "expected_points": [
+      {"point": "Stops and investigates why replacement is required", "keywords": ["stop", "investigate", "replacement"], "weight": 3},
+      {"point": "Checks immutable fields and configuration changes", "keywords": ["immutable", "field", "config"], "weight": 3},
+      {"point": "Assesses data loss and downtime risk", "keywords": ["data loss", "downtime", "risk"], "weight": 2},
+      {"point": "Uses migration/import/state fix if needed", "keywords": ["migration", "import", "state"], "weight": 2}
+    ],
+    "explanation": "Resource replacement can destroy or recreate critical infrastructure, so the cause and impact must be understood first.",
+    "ideal_answer": "I would not apply immediately. I would inspect the diff, identify immutable changes, assess data loss and downtime risk, and choose a migration, state correction, or safer configuration change.",
+    "tags": ["terraform", "plan", "troubleshooting", "production"]
+  },
+  {
+    "id": "terraform_mid_short_009",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Data sources",
+    "question": "What is a Terraform data source used for?",
+    "expected_points": [
+      {"point": "Reads information about existing resources", "keywords": ["read", "existing", "resource"], "weight": 5},
+      {"point": "Lets configuration reference external/current values", "keywords": ["reference", "external", "value"], "weight": 5}
+    ],
+    "explanation": "Data sources read information from providers without creating the resource.",
+    "ideal_answer": "A data source reads existing provider information, such as a project, network, or service account, so Terraform can reference it in resource configuration.",
+    "tags": ["terraform", "data_sources", "configuration"]
+  },
+  {
+    "id": "terraform_mid_scenario_010",
+    "domain": "Terraform",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "IAM module design",
+    "scenario": "Multiple pipelines need different access to raw, staging, and curated datasets.",
+    "question": "How would you model IAM in Terraform without creating unreviewable sprawl?",
+    "expected_points": [
+      {"point": "Defines roles by pipeline and dataset layer", "keywords": ["pipeline", "dataset", "layer"], "weight": 3},
+      {"point": "Uses modules or maps for consistent grants", "keywords": ["module", "map", "consistent"], "weight": 3},
+      {"point": "Applies least privilege", "keywords": ["least privilege", "minimum", "permission"], "weight": 2},
+      {"point": "Keeps changes reviewable", "keywords": ["review", "diff", "readable"], "weight": 2}
+    ],
+    "explanation": "IAM as code should be consistent and reviewable while preserving least-privilege access.",
+    "ideal_answer": "I would model grants by dataset layer and service account, use a module or structured map for consistency, grant only required roles, and keep plans readable for review.",
+    "tags": ["terraform", "iam", "bigquery", "least_privilege"]
+  }
+]

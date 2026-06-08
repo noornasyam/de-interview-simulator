@@ -1,1 +1,177 @@
-[]
+[
+  {
+    "id": "data_modeling_mid_mcq_001",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Snowflake schema",
+    "question": "How does a snowflake schema differ from a star schema?",
+    "options": ["Some dimensions are normalized into related tables", "It has no fact tables", "It can only store JSON", "It removes all keys"],
+    "correct_answer": "Some dimensions are normalized into related tables",
+    "explanation": "A snowflake schema normalizes dimension attributes into additional related tables.",
+    "ideal_answer": "A snowflake schema is like a star schema, but some dimensions are normalized into sub-dimensions, which can reduce duplication but add joins.",
+    "tags": ["data_modeling", "snowflake_schema", "star_schema"]
+  },
+  {
+    "id": "data_modeling_mid_short_002",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Many-to-many relationships",
+    "question": "How can a dimensional model represent a many-to-many relationship?",
+    "expected_points": [
+      {"point": "Uses a bridge table", "keywords": ["bridge", "table"], "weight": 5},
+      {"point": "Connects entities or dimensions through relationship rows", "keywords": ["relationship", "many-to-many", "connect"], "weight": 3},
+      {"point": "May include allocation weights where needed", "keywords": ["allocation", "weight", "percentage"], "weight": 2}
+    ],
+    "explanation": "Bridge tables represent many-to-many relationships without duplicating facts incorrectly.",
+    "ideal_answer": "Use a bridge table between the related entities or dimensions, and include allocation weights if measures must be split across relationships.",
+    "tags": ["data_modeling", "bridge_tables", "many_to_many"]
+  },
+  {
+    "id": "data_modeling_mid_scenario_003",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Fact grain mismatch",
+    "scenario": "A revenue report doubles after joining order facts to product category data.",
+    "question": "What modeling issue might be causing this, and how would you investigate?",
+    "expected_points": [
+      {"point": "Checks fact and dimension grain", "keywords": ["grain", "fact", "dimension"], "weight": 3},
+      {"point": "Identifies one-to-many or many-to-many join", "keywords": ["one-to-many", "many-to-many", "join"], "weight": 3},
+      {"point": "Uses bridge or deduplicated dimension if needed", "keywords": ["bridge", "deduplicate", "dimension"], "weight": 2},
+      {"point": "Validates row counts and revenue before/after join", "keywords": ["row count", "revenue", "validate"], "weight": 2}
+    ],
+    "explanation": "Metric inflation often happens when joins change the grain of the result.",
+    "ideal_answer": "I would compare row counts and revenue before/after the join, inspect product-category cardinality, and fix the model using a deduplicated dimension or bridge table if the relationship is many-to-many.",
+    "tags": ["data_modeling", "grain", "joins", "troubleshooting"]
+  },
+  {
+    "id": "data_modeling_mid_trouble_004",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "SCD Type 2 duplicates",
+    "scenario": "A customer dimension has multiple current rows for the same customer natural key.",
+    "question": "How would you debug and fix the SCD Type 2 logic?",
+    "expected_points": [
+      {"point": "Checks current flag and validity date logic", "keywords": ["current", "valid_from", "valid_to"], "weight": 3},
+      {"point": "Checks natural key matching", "keywords": ["natural key", "business key", "customer"], "weight": 2},
+      {"point": "Finds overlapping effective date ranges", "keywords": ["overlap", "effective", "range"], "weight": 3},
+      {"point": "Adds uniqueness/overlap tests", "keywords": ["test", "unique", "overlap"], "weight": 2}
+    ],
+    "explanation": "SCD Type 2 tables should have one current row per natural key and non-overlapping validity windows.",
+    "ideal_answer": "I would inspect natural-key matching, current flag updates, valid_from/valid_to windows, and add tests preventing multiple current rows or overlapping ranges.",
+    "tags": ["data_modeling", "scd_type_2", "data_quality"]
+  },
+  {
+    "id": "data_modeling_mid_short_005",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Schema evolution",
+    "question": "Why is schema evolution important in data platform modeling?",
+    "expected_points": [
+      {"point": "Sources change over time", "keywords": ["source", "change", "evolve"], "weight": 3},
+      {"point": "Models must avoid breaking downstream consumers", "keywords": ["downstream", "consumer", "break"], "weight": 4},
+      {"point": "Needs versioning or compatibility rules", "keywords": ["version", "compatible", "contract"], "weight": 3}
+    ],
+    "explanation": "Schema evolution handles source changes while protecting downstream reports, models, and pipelines.",
+    "ideal_answer": "Schema evolution matters because source fields change. Good models define compatibility, versioning, and migration rules so downstream consumers are not surprised.",
+    "tags": ["data_modeling", "schema_evolution", "contracts"]
+  },
+  {
+    "id": "data_modeling_mid_mcq_006",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Event modeling",
+    "question": "What does an event model usually emphasize?",
+    "options": ["Something that happened at a point in time", "Only the current customer profile", "A static list of table owners", "A database backup policy"],
+    "correct_answer": "Something that happened at a point in time",
+    "explanation": "Event modeling captures actions or occurrences such as clicks, orders, payments, or status changes.",
+    "ideal_answer": "An event model represents things that happened, usually with an event timestamp, actor, object, and event attributes.",
+    "tags": ["data_modeling", "event_modeling", "analytics"]
+  },
+  {
+    "id": "data_modeling_mid_scenario_007",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Reporting model design",
+    "scenario": "Product managers need a weekly active users report by country, device, and acquisition channel.",
+    "question": "What model design would support this report?",
+    "expected_points": [
+      {"point": "Defines user activity fact grain", "keywords": ["grain", "activity", "fact"], "weight": 3},
+      {"point": "Uses dimensions for country, device, and channel", "keywords": ["country", "device", "channel", "dimension"], "weight": 3},
+      {"point": "Handles time/week logic clearly", "keywords": ["week", "date", "time"], "weight": 2},
+      {"point": "Considers aggregation or semantic metric definition", "keywords": ["aggregate", "semantic", "metric"], "weight": 2}
+    ],
+    "explanation": "Reporting models should make common grouping dimensions and metric definitions explicit.",
+    "ideal_answer": "I would create an activity fact at user-day or event grain, join conformed dimensions for country/device/channel, define week logic clearly, and expose weekly active users through a semantic metric or mart.",
+    "tags": ["data_modeling", "reporting", "semantic_layer"]
+  },
+  {
+    "id": "data_modeling_mid_trouble_008",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Natural key instability",
+    "scenario": "A source system reuses account numbers after account closure, causing warehouse joins to mix old and new accounts.",
+    "question": "What modeling change would you consider?",
+    "expected_points": [
+      {"point": "Recognizes natural key is not stable enough", "keywords": ["natural key", "stable", "reuse"], "weight": 3},
+      {"point": "Introduces surrogate key or composite business key", "keywords": ["surrogate", "composite", "business key"], "weight": 3},
+      {"point": "Includes effective dates or source identifiers", "keywords": ["effective", "date", "source"], "weight": 2},
+      {"point": "Backfills and validates affected joins", "keywords": ["backfill", "validate", "join"], "weight": 2}
+    ],
+    "explanation": "Natural keys that can be reused should not be treated as globally stable identity without additional qualifiers.",
+    "ideal_answer": "I would stop relying only on account number, introduce a warehouse surrogate key or composite key with source/effective dates, and backfill affected facts and dimensions.",
+    "tags": ["data_modeling", "natural_keys", "surrogate_keys", "identity"]
+  },
+  {
+    "id": "data_modeling_mid_short_009",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Data quality constraints",
+    "question": "Which data quality constraints would you add to a customer dimension?",
+    "expected_points": [
+      {"point": "Unique key constraint or test", "keywords": ["unique", "key", "duplicate"], "weight": 3},
+      {"point": "Not-null required fields", "keywords": ["not null", "required", "null"], "weight": 3},
+      {"point": "Valid ranges or accepted values", "keywords": ["range", "accepted", "valid"], "weight": 2},
+      {"point": "SCD current row or date overlap tests if applicable", "keywords": ["current", "overlap", "scd"], "weight": 2}
+    ],
+    "explanation": "Dimension quality checks protect joins, filters, and reporting consistency.",
+    "ideal_answer": "I would test unique customer keys, required fields, accepted values such as status/country, and SCD rules like one current row and no overlapping date ranges.",
+    "tags": ["data_modeling", "data_quality", "constraints"]
+  },
+  {
+    "id": "data_modeling_mid_scenario_010",
+    "domain": "Data Modeling",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Data mart design",
+    "scenario": "Marketing wants a data mart for campaign performance across emails, ads, and purchases.",
+    "question": "How would you approach the model design?",
+    "expected_points": [
+      {"point": "Defines key business questions and metrics", "keywords": ["business", "metric", "question"], "weight": 3},
+      {"point": "Identifies facts and dimensions", "keywords": ["fact", "dimension", "campaign"], "weight": 3},
+      {"point": "Handles attribution and grain carefully", "keywords": ["attribution", "grain", "purchase"], "weight": 2},
+      {"point": "Documents assumptions", "keywords": ["document", "assumption", "definition"], "weight": 2}
+    ],
+    "explanation": "Campaign models require careful metric definitions, grain, and attribution assumptions.",
+    "ideal_answer": "I would clarify metrics and attribution rules, define facts for sends/clicks/spend/purchases, use conformed campaign/date/customer dimensions, and document grain and assumptions.",
+    "tags": ["data_modeling", "data_mart", "marketing", "attribution"]
+  }
+]

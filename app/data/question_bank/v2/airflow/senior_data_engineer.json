@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "airflow_senior_scenario_001",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Production DAG design",
+    "scenario": "You are designing a DAG that extracts API data, loads raw files, runs warehouse transformations, and publishes a curated table.",
+    "question": "How would you design the DAG for production reliability?",
+    "expected_points": [
+      {"point": "Breaks workflow into clear idempotent tasks", "keywords": ["idempotent", "task", "clear"], "weight": 3},
+      {"point": "Uses retries, timeouts, and dependencies carefully", "keywords": ["retry", "timeout", "dependency"], "weight": 3},
+      {"point": "Adds quality checks before publish", "keywords": ["quality", "check", "publish"], "weight": 2},
+      {"point": "Adds alerts and run context", "keywords": ["alert", "context", "log"], "weight": 2}
+    ],
+    "explanation": "Production DAGs should orchestrate reliable, observable, and rerunnable units of work.",
+    "ideal_answer": "I would split extract/load/transform/quality/publish into idempotent tasks, configure retries/timeouts, use explicit dependencies, add quality gates, and alert with partition and task context.",
+    "tags": ["airflow", "dag_design", "production", "reliability"]
+  },
+  {
+    "id": "airflow_senior_trouble_002",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "medium",
+    "concept": "Scheduler issues",
+    "scenario": "DAGs are not being scheduled on time, and the Airflow UI feels slow.",
+    "question": "How would you investigate scheduler health?",
+    "expected_points": [
+      {"point": "Checks scheduler logs and heartbeat", "keywords": ["scheduler", "logs", "heartbeat"], "weight": 3},
+      {"point": "Reviews DAG parse time and import errors", "keywords": ["parse", "import", "dag"], "weight": 3},
+      {"point": "Checks metadata database and executor pressure", "keywords": ["metadata", "database", "executor"], "weight": 2},
+      {"point": "Reduces top-level DAG code overhead", "keywords": ["top-level", "code", "overhead"], "weight": 2}
+    ],
+    "explanation": "Scheduler delays can come from parse bottlenecks, metadata DB pressure, executor issues, or broken DAG files.",
+    "ideal_answer": "I would inspect scheduler heartbeat/logs, DAG parse duration and import errors, metadata database health, executor queues, and remove expensive top-level code from DAG files.",
+    "tags": ["airflow", "scheduler", "troubleshooting", "performance"]
+  },
+  {
+    "id": "airflow_senior_design_003",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "Airflow vs event-driven orchestration",
+    "scenario": "A team wants Airflow to trigger every time a new event arrives in Pub/Sub.",
+    "question": "Would you use Airflow for this event-driven workload? Explain the trade-off.",
+    "expected_points": [
+      {"point": "Recognizes Airflow is schedule/workflow oriented", "keywords": ["schedule", "workflow", "batch"], "weight": 3},
+      {"point": "Considers event-driven alternatives", "keywords": ["event-driven", "pub/sub", "cloud function", "dataflow"], "weight": 3},
+      {"point": "Considers latency and operational complexity", "keywords": ["latency", "complexity", "operation"], "weight": 2},
+      {"point": "May use Airflow for batch coordination around streams", "keywords": ["batch", "coordination", "stream"], "weight": 2}
+    ],
+    "explanation": "Airflow is often not the best engine for high-frequency event-per-message orchestration.",
+    "ideal_answer": "I would avoid triggering Airflow per event. Use Pub/Sub with Dataflow or serverless handlers for event processing, and use Airflow for scheduled coordination, backfills, and batch dependencies.",
+    "tags": ["airflow", "event_driven", "pubsub", "tradeoffs"]
+  },
+  {
+    "id": "airflow_senior_reliability_004",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "scenario",
+    "concept": "SLAs and alerting",
+    "scenario": "Analysts find out about stale data before engineering does.",
+    "question": "How would you improve Airflow monitoring and alerting?",
+    "expected_points": [
+      {"point": "Defines freshness/SLA expectations", "keywords": ["freshness", "sla", "expectation"], "weight": 3},
+      {"point": "Alerts on task failure and lateness", "keywords": ["alert", "failure", "late"], "weight": 3},
+      {"point": "Adds data quality checks", "keywords": ["quality", "check", "validation"], "weight": 2},
+      {"point": "Includes owner and runbook context", "keywords": ["owner", "runbook", "context"], "weight": 2}
+    ],
+    "explanation": "Good Airflow alerts focus on business impact, not just task state.",
+    "ideal_answer": "I would define freshness SLAs, alert on task failures and late DAG completion, add data quality checks, and include owner, partition, impact, and runbook links in alerts.",
+    "tags": ["airflow", "monitoring", "alerting", "sla"]
+  },
+  {
+    "id": "airflow_senior_scenario_005",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Dynamic DAGs",
+    "scenario": "A team generates hundreds of similar DAGs from configuration files.",
+    "question": "What should you watch out for with dynamic DAG generation?",
+    "expected_points": [
+      {"point": "Avoids slow parsing and external calls at import time", "keywords": ["parse", "external", "import"], "weight": 3},
+      {"point": "Keeps DAG IDs stable and predictable", "keywords": ["stable", "dag id", "predictable"], "weight": 2},
+      {"point": "Validates configuration", "keywords": ["validate", "configuration", "schema"], "weight": 2},
+      {"point": "Keeps generated DAGs observable and owned", "keywords": ["observable", "owner", "monitor"], "weight": 3}
+    ],
+    "explanation": "Dynamic DAGs can scale patterns but can also create scheduler performance and ownership problems.",
+    "ideal_answer": "I would keep generation lightweight, avoid network calls at parse time, validate config, keep stable DAG IDs, and ensure each generated DAG has owner, alerts, and clear documentation.",
+    "tags": ["airflow", "dynamic_dags", "scheduler", "governance"]
+  },
+  {
+    "id": "airflow_senior_trouble_006",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Backfill incident",
+    "scenario": "A large backfill overwhelmed the warehouse and delayed normal production DAGs.",
+    "question": "How would you recover and prevent recurrence?",
+    "expected_points": [
+      {"point": "Pauses/throttles backfill to restore production", "keywords": ["pause", "throttle", "production"], "weight": 3},
+      {"point": "Uses pools/concurrency controls", "keywords": ["pool", "concurrency", "max active"], "weight": 3},
+      {"point": "Separates backfill capacity or schedule", "keywords": ["capacity", "schedule", "separate"], "weight": 2},
+      {"point": "Communicates impact and adds runbook", "keywords": ["communicate", "impact", "runbook"], "weight": 2}
+    ],
+    "explanation": "Backfills need capacity controls so historical repair work does not starve daily production workloads.",
+    "ideal_answer": "I would pause or throttle the backfill, restore critical production DAGs, rerun backfill in controlled batches with pools/max_active_runs, and document a backfill runbook.",
+    "tags": ["airflow", "backfill", "incident", "concurrency"]
+  },
+  {
+    "id": "airflow_senior_design_007",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "XCom alternatives",
+    "scenario": "A DAG passes large intermediate results through XCom and the metadata database is growing quickly.",
+    "question": "What would you change?",
+    "expected_points": [
+      {"point": "Recognizes XCom should be small metadata only", "keywords": ["xcom", "small", "metadata"], "weight": 3},
+      {"point": "Stores large data in external storage", "keywords": ["storage", "gcs", "s3", "table"], "weight": 3},
+      {"point": "Passes references through XCom", "keywords": ["reference", "path", "id"], "weight": 2},
+      {"point": "Considers metadata DB performance", "keywords": ["metadata", "database", "performance"], "weight": 2}
+    ],
+    "explanation": "Large XCom payloads can harm Airflow metadata database performance.",
+    "ideal_answer": "I would move large intermediate data to object storage or tables, pass only paths or IDs through XCom, and clean up existing large XCom usage.",
+    "tags": ["airflow", "xcom", "metadata_db", "performance"]
+  },
+  {
+    "id": "airflow_senior_reliability_008",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "DAG CI/CD",
+    "scenario": "DAG changes are manually copied into production and sometimes break at parse time.",
+    "question": "How would you build a safer DAG deployment process?",
+    "expected_points": [
+      {"point": "Uses version control and pull requests", "keywords": ["git", "pull request", "version"], "weight": 2},
+      {"point": "Runs DAG parse/import tests in CI", "keywords": ["parse", "import", "ci"], "weight": 3},
+      {"point": "Runs unit tests for task logic", "keywords": ["unit", "test", "logic"], "weight": 2},
+      {"point": "Deploys through automated controlled pipeline", "keywords": ["deploy", "pipeline", "automated"], "weight": 3}
+    ],
+    "explanation": "DAG deployment should be treated like software delivery, with tests and controlled rollout.",
+    "ideal_answer": "I would store DAGs in Git, require PR review, run parse and unit tests in CI, then deploy through an automated pipeline to lower environments and production.",
+    "tags": ["airflow", "cicd", "testing", "deployment"]
+  },
+  {
+    "id": "airflow_senior_trouble_009",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Cloud Composer worker scaling",
+    "scenario": "Composer workers are maxed out, but increasing worker count did not improve DAG completion time.",
+    "question": "What else would you investigate?",
+    "expected_points": [
+      {"point": "Checks external system bottlenecks", "keywords": ["external", "warehouse", "api", "bottleneck"], "weight": 3},
+      {"point": "Checks pools, queues, and task duration", "keywords": ["pool", "queue", "duration"], "weight": 2},
+      {"point": "Checks scheduler and metadata DB", "keywords": ["scheduler", "metadata", "database"], "weight": 3},
+      {"point": "Reviews DAG design and task parallelism", "keywords": ["dag", "parallelism", "design"], "weight": 2}
+    ],
+    "explanation": "Worker count is only one bottleneck; external systems, scheduler, metadata DB, and DAG design can dominate runtime.",
+    "ideal_answer": "I would inspect whether tasks are waiting on external systems, pools, queues, scheduler throughput, metadata DB performance, and whether the DAG actually has parallelizable work.",
+    "tags": ["airflow", "cloud_composer", "scaling", "troubleshooting"]
+  },
+  {
+    "id": "airflow_senior_design_010",
+    "domain": "Airflow",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Branching and data quality",
+    "scenario": "A pipeline should publish curated data only if validation passes; otherwise it should stop and notify owners.",
+    "question": "How would you model this in Airflow?",
+    "expected_points": [
+      {"point": "Runs explicit data quality task before publish", "keywords": ["quality", "validation", "before publish"], "weight": 3},
+      {"point": "Uses branching or short-circuiting carefully", "keywords": ["branch", "short circuit", "skip"], "weight": 3},
+      {"point": "Alerts with failure context", "keywords": ["alert", "context", "owner"], "weight": 2},
+      {"point": "Avoids publishing partial/bad data", "keywords": ["avoid", "publish", "bad"], "weight": 2}
+    ],
+    "explanation": "Airflow can enforce quality gates before downstream publication tasks run.",
+    "ideal_answer": "I would add a quality-check task before publish, branch or fail based on results, stop publish on failure, and alert owners with the failed checks and affected partition.",
+    "tags": ["airflow", "data_quality", "branching", "publishing"]
+  }
+]

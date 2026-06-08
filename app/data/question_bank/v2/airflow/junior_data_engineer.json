@@ -1,1 +1,150 @@
-[]
+[
+  {
+    "id": "airflow_junior_mcq_001",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Catchup",
+    "question": "What does catchup=False usually mean for an Airflow DAG?",
+    "options": ["Airflow will not automatically run all missed historical intervals", "Airflow will retry forever", "Tasks cannot fail", "The DAG has no schedule"],
+    "correct_answer": "Airflow will not automatically run all missed historical intervals",
+    "explanation": "catchup=False prevents Airflow from automatically creating runs for every missed interval since start_date.",
+    "ideal_answer": "catchup=False means Airflow normally schedules only current/future runs rather than backfilling every missed interval automatically.",
+    "tags": ["airflow", "catchup", "scheduling"]
+  },
+  {
+    "id": "airflow_junior_fill_002",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Task idempotency",
+    "question": "Fill in the blank: Airflow tasks should be ____ so retries do not create duplicate or corrupt data.",
+    "correct_answer": "idempotent",
+    "acceptable_answers": ["idempotent", "rerunnable", "safe to retry"],
+    "explanation": "Idempotent tasks can be retried or rerun without changing the final result incorrectly.",
+    "ideal_answer": "Tasks should be idempotent, for example writing to a partition deterministically rather than blindly appending duplicates.",
+    "tags": ["airflow", "idempotency", "retries"]
+  },
+  {
+    "id": "airflow_junior_match_003",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "easy",
+    "concept": "Task states",
+    "question": "Match each Airflow task state to its meaning.",
+    "left_items": ["success", "failed", "skipped"],
+    "right_items": ["Task completed successfully", "Task ended with an error", "Task was intentionally not run"],
+    "correct_pairs": {"success": "Task completed successfully", "failed": "Task ended with an error", "skipped": "Task was intentionally not run"},
+    "explanation": "Task states help operators understand workflow progress and failure behavior.",
+    "ideal_answer": "success means completed, failed means errored, and skipped means the task was intentionally bypassed, often through branching.",
+    "tags": ["airflow", "task_states", "monitoring"]
+  },
+  {
+    "id": "airflow_junior_short_004",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Retries and retry delay",
+    "question": "Why should retries have a delay instead of retrying immediately in a production DAG?",
+    "expected_points": [
+      {"point": "Allows transient systems time to recover", "keywords": ["transient", "recover", "temporary"], "weight": 5},
+      {"point": "Avoids hammering external systems", "keywords": ["hammer", "external", "rate", "load"], "weight": 5}
+    ],
+    "explanation": "Retry delay reduces pressure on unstable dependencies and improves recovery from temporary failures.",
+    "ideal_answer": "Retries should wait because many failures are temporary, and immediate retries can overload APIs, warehouses, or storage systems.",
+    "tags": ["airflow", "retries", "production"]
+  },
+  {
+    "id": "airflow_junior_mcq_005",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "XCom usage",
+    "question": "Which is the best use of XCom in Airflow?",
+    "options": ["Passing small metadata such as a file path or count between tasks", "Passing a 5 GB DataFrame between tasks", "Storing database passwords permanently", "Replacing object storage"],
+    "correct_answer": "Passing small metadata such as a file path or count between tasks",
+    "explanation": "XCom is designed for small task metadata, not large datasets or secrets.",
+    "ideal_answer": "Use XCom for small values like file paths, partition IDs, or row counts; store large data in external storage.",
+    "tags": ["airflow", "xcom", "metadata"]
+  },
+  {
+    "id": "airflow_junior_short_006",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Backfills",
+    "question": "What is a backfill in Airflow?",
+    "expected_points": [
+      {"point": "Runs historical DAG intervals", "keywords": ["historical", "interval", "past"], "weight": 5},
+      {"point": "Requires idempotent and partition-aware tasks", "keywords": ["idempotent", "partition", "rerun"], "weight": 5}
+    ],
+    "explanation": "Backfills run previous scheduled intervals and can create duplicate or incorrect data if tasks are not rerunnable.",
+    "ideal_answer": "A backfill runs historical DAG intervals, so tasks should write by logical date or partition and be safe to rerun.",
+    "tags": ["airflow", "backfill", "idempotency"]
+  },
+  {
+    "id": "airflow_junior_fill_007",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "Connections",
+    "question": "Fill in the blank: Airflow ____ store connection details for external systems such as databases or cloud services.",
+    "correct_answer": "connections",
+    "acceptable_answers": ["connections", "connection"],
+    "explanation": "Connections centralize external system connection information used by hooks and operators.",
+    "ideal_answer": "Airflow Connections store external system connection details and should be integrated with a secrets backend for sensitive values where possible.",
+    "tags": ["airflow", "connections", "secrets"]
+  },
+  {
+    "id": "airflow_junior_match_008",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "match",
+    "difficulty": "medium",
+    "concept": "Common operators",
+    "question": "Match each operator style to its common use.",
+    "left_items": ["PythonOperator", "BashOperator", "BigQuery operator"],
+    "right_items": ["Runs Python callable", "Runs shell command", "Submits BigQuery work"],
+    "correct_pairs": {"PythonOperator": "Runs Python callable", "BashOperator": "Runs shell command", "BigQuery operator": "Submits BigQuery work"},
+    "explanation": "Operators should match the kind of work the task needs to perform.",
+    "ideal_answer": "Use PythonOperator for Python functions, BashOperator for shell commands, and cloud-specific operators for managed service jobs.",
+    "tags": ["airflow", "operators", "bigquery"]
+  },
+  {
+    "id": "airflow_junior_mcq_009",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Branching",
+    "question": "What does branching let an Airflow DAG do?",
+    "options": ["Choose different downstream paths based on logic", "Increase disk size automatically", "Hide all task logs", "Disable scheduling forever"],
+    "correct_answer": "Choose different downstream paths based on logic",
+    "explanation": "Branching allows a DAG to select one or more paths while skipping others.",
+    "ideal_answer": "Branching lets a DAG choose different task paths based on conditions, such as whether a file exists or a quality check passes.",
+    "tags": ["airflow", "branching", "control_flow"]
+  },
+  {
+    "id": "airflow_junior_short_010",
+    "domain": "Airflow",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Airflow Variables",
+    "question": "What is a good and bad use of Airflow Variables?",
+    "expected_points": [
+      {"point": "Good for small runtime config", "keywords": ["small", "config", "runtime"], "weight": 5},
+      {"point": "Bad for secrets or large changing data", "keywords": ["secret", "large", "data"], "weight": 5}
+    ],
+    "explanation": "Variables are useful for simple configuration but are not a substitute for secrets managers or data storage.",
+    "ideal_answer": "Use Variables for small non-sensitive configuration, but avoid storing secrets, large payloads, or frequently changing operational data in them.",
+    "tags": ["airflow", "variables", "configuration"]
+  }
+]

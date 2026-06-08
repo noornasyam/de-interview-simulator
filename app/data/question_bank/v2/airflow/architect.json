@@ -1,1 +1,192 @@
-[]
+[
+  {
+    "id": "airflow_arch_enterprise_001",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise orchestration strategy",
+    "scenario": "A global company has many orchestration tools and wants a standard for data workflows.",
+    "question": "How would you define where Airflow fits in the enterprise orchestration strategy?",
+    "expected_points": [
+      {"point": "Defines Airflow for scheduled dependency workflows", "keywords": ["scheduled", "dependency", "workflow"], "weight": 3},
+      {"point": "Separates event-driven and streaming use cases", "keywords": ["event-driven", "streaming", "separate"], "weight": 3},
+      {"point": "Defines governance and standards", "keywords": ["governance", "standard", "policy"], "weight": 2},
+      {"point": "Supports migration and coexistence", "keywords": ["migration", "coexist", "tool"], "weight": 2}
+    ],
+    "explanation": "Enterprise orchestration needs clear tool boundaries rather than forcing every workflow into one system.",
+    "ideal_answer": "I would position Airflow for scheduled dependency-based workflows, use event-driven services for low-latency triggers, define standards and ownership, and plan coexistence or migration by workload type.",
+    "tags": ["airflow", "enterprise_architecture", "orchestration", "strategy"]
+  },
+  {
+    "id": "airflow_arch_platform_002",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "advanced",
+    "concept": "Cloud Composer platform design",
+    "scenario": "Multiple teams need a managed Airflow platform on GCP.",
+    "question": "How would you design the Composer platform?",
+    "expected_points": [
+      {"point": "Defines environment isolation strategy", "keywords": ["environment", "isolation", "team"], "weight": 3},
+      {"point": "Standardizes CI/CD and DAG deployment", "keywords": ["ci", "cd", "deployment"], "weight": 3},
+      {"point": "Adds monitoring, logging, and alerting", "keywords": ["monitoring", "logging", "alerting"], "weight": 2},
+      {"point": "Defines IAM, secrets, and network controls", "keywords": ["iam", "secret", "network"], "weight": 2}
+    ],
+    "explanation": "Composer platform design must cover environment boundaries, deployment, observability, security, and cost.",
+    "ideal_answer": "I would define whether teams share or own Composer environments, standardize DAG CI/CD, configure monitoring and alerts, secure IAM/secrets/networking, and set cost and reliability standards.",
+    "tags": ["airflow", "cloud_composer", "platform_design", "gcp"]
+  },
+  {
+    "id": "airflow_arch_gov_003",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "Orchestration governance",
+    "scenario": "Production DAGs lack consistent owners, SLAs, access control, and deployment standards.",
+    "question": "What governance model would you implement?",
+    "expected_points": [
+      {"point": "Requires ownership and criticality classification", "keywords": ["owner", "criticality", "classification"], "weight": 3},
+      {"point": "Defines SLA/SLO and alerting standards", "keywords": ["sla", "slo", "alert"], "weight": 3},
+      {"point": "Controls production deployment and access", "keywords": ["deployment", "access", "production"], "weight": 2},
+      {"point": "Audits changes and incidents", "keywords": ["audit", "change", "incident"], "weight": 2}
+    ],
+    "explanation": "Governance turns orchestration from ad hoc scheduling into an operated platform capability.",
+    "ideal_answer": "I would require owner and criticality metadata, SLA/SLO standards, CI/CD deployment controls, role-based access, auditability, and incident review for critical DAGs.",
+    "tags": ["airflow", "governance", "access_control", "slo"]
+  },
+  {
+    "id": "airflow_arch_cost_004",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "Composer cost optimization",
+    "scenario": "Composer costs are rising, but teams say their workflows are business-critical.",
+    "question": "How would you optimize cost without hurting reliability?",
+    "expected_points": [
+      {"point": "Measures environment and worker utilization", "keywords": ["utilization", "worker", "environment"], "weight": 3},
+      {"point": "Right-sizes environments and schedules", "keywords": ["right-size", "schedule", "resource"], "weight": 3},
+      {"point": "Controls inefficient sensors/backfills", "keywords": ["sensor", "backfill", "inefficient"], "weight": 2},
+      {"point": "Attributes cost by team/workflow", "keywords": ["cost", "team", "workflow"], "weight": 2}
+    ],
+    "explanation": "Composer cost optimization should focus on utilization, workload shape, and inefficient orchestration patterns.",
+    "ideal_answer": "I would measure environment and worker utilization, right-size environments, smooth schedules, use efficient sensors, govern backfills, and attribute costs by team and DAG criticality.",
+    "tags": ["airflow", "cloud_composer", "cost_optimization", "finops"]
+  },
+  {
+    "id": "airflow_arch_reliability_005",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Enterprise orchestration reliability",
+    "scenario": "Airflow coordinates datasets used by finance, operations, and executive reporting.",
+    "question": "How would you design reliability for enterprise orchestration?",
+    "expected_points": [
+      {"point": "Defines critical DAG tiers and SLOs", "keywords": ["tier", "slo", "critical"], "weight": 3},
+      {"point": "Monitors scheduler, workers, metadata DB, and DAG freshness", "keywords": ["scheduler", "worker", "metadata", "freshness"], "weight": 3},
+      {"point": "Creates runbooks and incident process", "keywords": ["runbook", "incident", "process"], "weight": 2},
+      {"point": "Controls blast radius through environment design", "keywords": ["blast radius", "environment", "isolation"], "weight": 2}
+    ],
+    "explanation": "Enterprise Airflow reliability includes platform health, workflow outcomes, and blast-radius management.",
+    "ideal_answer": "I would tier DAGs by criticality, define completion/freshness SLOs, monitor platform and DAG health, create runbooks and incidents, and isolate critical workloads where needed.",
+    "tags": ["airflow", "reliability", "enterprise", "monitoring"]
+  },
+  {
+    "id": "airflow_arch_security_006",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "expert",
+    "concept": "Airflow security architecture",
+    "scenario": "Airflow has access to cloud services, databases, and production datasets.",
+    "question": "What security controls would you require?",
+    "expected_points": [
+      {"point": "Uses least-privilege service accounts", "keywords": ["least privilege", "service account", "iam"], "weight": 3},
+      {"point": "Uses secrets backend for credentials", "keywords": ["secrets backend", "credential", "secret"], "weight": 3},
+      {"point": "Restricts UI and DAG deployment access", "keywords": ["ui", "deploy", "access"], "weight": 2},
+      {"point": "Audits actions and protects logs", "keywords": ["audit", "logs", "sensitive"], "weight": 2}
+    ],
+    "explanation": "Airflow security must protect both the orchestration platform and the powerful credentials it uses.",
+    "ideal_answer": "I would use least-privilege service accounts, a managed secrets backend, restricted UI/deploy access, audit logs, network controls, and log redaction for sensitive values.",
+    "tags": ["airflow", "security", "secrets", "iam"]
+  },
+  {
+    "id": "airflow_arch_platform_007",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "platform_design",
+    "difficulty": "expert",
+    "concept": "Multi-tenant Airflow",
+    "scenario": "Dozens of teams want to run DAGs on a shared Airflow platform.",
+    "question": "How would you design multi-tenancy?",
+    "expected_points": [
+      {"point": "Defines isolation by environment, namespace, or queue", "keywords": ["isolation", "environment", "queue"], "weight": 3},
+      {"point": "Controls resource usage with pools/concurrency", "keywords": ["pool", "concurrency", "resource"], "weight": 3},
+      {"point": "Defines ownership and access boundaries", "keywords": ["owner", "access", "boundary"], "weight": 2},
+      {"point": "Monitors noisy-neighbor impact", "keywords": ["noisy", "neighbor", "monitor"], "weight": 2}
+    ],
+    "explanation": "Multi-tenant Airflow requires isolation and resource controls to avoid one team's DAGs harming others.",
+    "ideal_answer": "I would separate critical workloads where needed, use pools/queues/concurrency limits, enforce access boundaries and ownership, and monitor noisy-neighbor effects.",
+    "tags": ["airflow", "multi_tenant", "platform_design", "governance"]
+  },
+  {
+    "id": "airflow_arch_gov_008",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "DAG lifecycle governance",
+    "scenario": "The Airflow environment has hundreds of old DAGs with unclear ownership and unknown business value.",
+    "question": "How would you govern DAG lifecycle?",
+    "expected_points": [
+      {"point": "Inventories DAG ownership and usage", "keywords": ["inventory", "owner", "usage"], "weight": 3},
+      {"point": "Classifies criticality and SLAs", "keywords": ["criticality", "sla", "classification"], "weight": 2},
+      {"point": "Defines deprecation and archival process", "keywords": ["deprecate", "archive", "lifecycle"], "weight": 3},
+      {"point": "Reviews stale or failing DAGs regularly", "keywords": ["review", "stale", "failing"], "weight": 2}
+    ],
+    "explanation": "DAG lifecycle governance reduces operational noise and makes ownership clear.",
+    "ideal_answer": "I would inventory DAGs, require owners and criticality, track usage and failures, define deprecation/archival rules, and regularly remove or migrate stale workflows.",
+    "tags": ["airflow", "governance", "lifecycle", "ownership"]
+  },
+  {
+    "id": "airflow_arch_reliability_009",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "Orchestration DR",
+    "scenario": "A Composer environment outage could block critical financial pipelines.",
+    "question": "What disaster recovery approach would you design?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO for orchestration and data outputs", "keywords": ["rto", "rpo", "orchestration"], "weight": 3},
+      {"point": "Keeps DAG code, configs, and dependencies reproducible", "keywords": ["dag", "config", "dependency", "reproducible"], "weight": 3},
+      {"point": "Plans environment recreation or failover", "keywords": ["recreate", "failover", "environment"], "weight": 2},
+      {"point": "Tests recovery process", "keywords": ["test", "drill", "recovery"], "weight": 2}
+    ],
+    "explanation": "Airflow DR should cover DAG code, platform configuration, secrets/connections, and recovery runbooks.",
+    "ideal_answer": "I would define RTO/RPO, keep DAGs/config/dependencies in version control, automate environment recreation, document connection/secrets restoration, and test recovery drills.",
+    "tags": ["airflow", "dr", "cloud_composer", "reliability"]
+  },
+  {
+    "id": "airflow_arch_cost_010",
+    "domain": "Airflow",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "Migration from Airflow",
+    "scenario": "Some workloads in Airflow are expensive, event-driven, and difficult to operate.",
+    "question": "How would you decide whether to migrate them to another orchestration or event platform?",
+    "expected_points": [
+      {"point": "Classifies workloads by trigger pattern and latency", "keywords": ["trigger", "latency", "workload"], "weight": 3},
+      {"point": "Compares cost, reliability, and operations", "keywords": ["cost", "reliability", "operations"], "weight": 3},
+      {"point": "Plans incremental migration with validation", "keywords": ["incremental", "migration", "validation"], "weight": 2},
+      {"point": "Keeps Airflow where it fits best", "keywords": ["airflow", "scheduled", "dependency"], "weight": 2}
+    ],
+    "explanation": "Migration decisions should be workload-driven and preserve reliability during transition.",
+    "ideal_answer": "I would classify workloads, migrate low-latency event-driven flows to event platforms where beneficial, keep scheduled dependency-heavy DAGs in Airflow, and validate migrations incrementally.",
+    "tags": ["airflow", "migration", "cost_optimization", "architecture"]
+  }
+]
