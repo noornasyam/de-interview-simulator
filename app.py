@@ -19,6 +19,15 @@ from app.services.adk_interview_service import (
     is_adk_configured,
     start_ai_interview,
 )
+from app.services.hybrid_evaluation_service import (
+    evaluate_objective_question,
+    should_use_gemini,
+)
+from app.services.question_bank_service import (
+    has_complete_v2_bank,
+    load_v2_questions,
+    select_session_questions,
+)
 
 
 CERTIFICATION_QUESTION_LIMIT = 5
@@ -60,6 +69,9 @@ AI_SESSION_DEFAULTS = {
     "ai_incorrect_count": 0,
     "ai_phase": "main_answer",
     "ai_interview": None,
+    "ai_session_questions": [],
+    "ai_using_question_bank": False,
+    "ai_bank_warning": "",
 }
 
 
@@ -103,6 +115,9 @@ def reset_session():
         "ai_incorrect_count",
         "ai_phase",
         "ai_interview",
+        "ai_session_questions",
+        "ai_using_question_bank",
+        "ai_bank_warning",
         "adk_interview",
         "adk_current_question",
         "adk_question_index",
@@ -389,6 +404,58 @@ def show_progress(label, current, total):
     st.progress(progress_value)
 
 
+def get_active_ai_question_count():
+    session_questions = st.session_state.get("ai_session_questions", [])
+    if st.session_state.get("ai_using_question_bank") and session_questions:
+        return len(session_questions)
+    return MAX_QUESTIONS
+
+
+def question_bank_requires_gemini(questions):
+    return any(should_use_gemini(question) for question in questions)
+
+
+def render_ai_answer_input(question, index):
+    question_type = str(question.get("type") or question.get("question_type") or "").lower()
+    question_id = question.get("id", f"ai_question_{index}")
+
+    if question_type == "mcq":
+        options = question.get("options", [])
+        if not options:
+            st.warning("This curated MCQ has no options configured.")
+            return ""
+        return st.radio("Choose your answer", options, key=f"ai_answer_{question_id}_{index}")
+
+    if question_type == "fill_blank":
+        return st.text_input("Your answer", key=f"ai_answer_{question_id}_{index}")
+
+    if question_type == "match":
+        right_items = question.get("right_items", [])
+        answer = {}
+        for left_item in question.get("left_items", []):
+            answer[left_item] = st.selectbox(
+                left_item,
+                [""] + right_items,
+                key=f"ai_match_{question_id}_{index}_{left_item}",
+            )
+        return answer
+
+    height = 120 if question_type in {"short_answer", "light_scenario"} else 190
+    return st.text_area("Your answer", key=f"ai_answer_{question_id}_{index}", height=height)
+
+
+def is_empty_ai_answer(answer):
+    if isinstance(answer, dict):
+        return not all(str(value).strip() for value in answer.values())
+    return not str(answer).strip()
+
+
+def format_ai_answer(answer):
+    if isinstance(answer, dict):
+        return "\n".join(f"{left}: {right}" for left, right in answer.items())
+    return str(answer).strip()
+
+
 def build_interview_report(results):
     if not results:
         return {
@@ -547,6 +614,19 @@ else:
 
 selected_level = st.selectbox("Select level", AI_ROLES, index=3)
 selected_domain = st.selectbox("Select domain", AI_DOMAINS, index=2)
+available_bank_questions = load_v2_questions(selected_domain, selected_level)
+has_curated_bank = has_complete_v2_bank(selected_domain, selected_level, minimum_count=MAX_QUESTIONS)
+bank_needs_gemini = question_bank_requires_gemini(available_bank_questions)
+
+if has_curated_bank:
+    st.info("Using curated question bank + AI feedback")
+    if bank_needs_gemini and not gemini_ready:
+        st.warning(
+            "This curated session includes open-ended questions that need Gemini evaluation. "
+            "Choose Beginner or Junior SQL for local-only scoring, or configure GOOGLE_API_KEY."
+        )
+else:
+    st.info("Using Gemini-generated questions")
 
 selection_key = f"ai:{selected_level}:{selected_domain}"
 if st.session_state.get("selection_key") != selection_key:
@@ -555,21 +635,34 @@ if st.session_state.get("selection_key") != selection_key:
     initialize_ai_session_state()
 
 if not st.session_state.get("ai_started"):
-    st.write(f"Start a {MAX_QUESTIONS}-question AI interview. Gemini will evaluate each answer as you go.")
-    if st.button("Start Interview", disabled=not gemini_ready):
+    st.write(f"Start a {MAX_QUESTIONS}-question interview. Curated objective questions are scored locally; open-ended questions use Gemini.")
+    can_start = gemini_ready or (has_curated_bank and not bank_needs_gemini)
+    if st.button("Start Interview", disabled=not can_start):
         reset_session()
         initialize_ai_session_state()
+        session_questions = select_session_questions(selected_domain, selected_level, MAX_QUESTIONS)
+        using_question_bank = bool(session_questions)
         st.session_state.ai_started = True
         st.session_state.ai_complete = False
         st.session_state.ai_level = selected_level
         st.session_state.ai_domain = selected_domain
+        st.session_state.ai_session_questions = session_questions
+        st.session_state.ai_using_question_bank = using_question_bank
+        st.session_state.ai_bank_warning = (
+            f"Only {len(session_questions)} curated questions are available for this selection."
+            if using_question_bank and len(session_questions) < MAX_QUESTIONS
+            else ""
+        )
         st.session_state.ai_interview = start_ai_interview(selected_level, selected_domain)
-        st.session_state.ai_current_question = generate_ai_question(selected_level, selected_domain, [])
+        if using_question_bank:
+            st.session_state.ai_current_question = session_questions[0]
+        else:
+            st.session_state.ai_current_question = generate_ai_question(selected_level, selected_domain, [])
         st.session_state.ai_phase = "main_answer"
         st.rerun()
 
-    if not gemini_ready:
-        st.info("AI interviews require Gemini. The old local modes remain in the repo but are no longer shown in the main UI.")
+    if not can_start:
+        st.info("Configure Gemini to use generated interviews or open-ended curated evaluations. SQL Beginner and Junior can run locally once selected.")
 elif st.session_state.get("ai_complete"):
     history = st.session_state.get("ai_history", [])
     report = st.session_state.get("ai_final_report")
@@ -578,7 +671,7 @@ elif st.session_state.get("ai_complete"):
         st.session_state.ai_final_report = report
 
     st.subheader("Final Interview Report")
-    show_progress("Interview progress", len(history), MAX_QUESTIONS)
+    show_progress("Interview progress", len(history), get_active_ai_question_count())
     col_score, col_ready = st.columns(2)
     col_score.metric("Overall score", f"{report.get('total_score', report.get('overall_score', 0))}/100")
     col_ready.metric("Readiness", f"{report.get('readiness_percentage', 0)}%")
@@ -677,9 +770,13 @@ else:
     question = st.session_state.get("ai_current_question")
     index = st.session_state.get("ai_question_index", 0)
     history = st.session_state.get("ai_history", [])
+    active_question_count = get_active_ai_question_count()
 
-    show_progress("Question", index + 1, MAX_QUESTIONS)
-    st.caption(f"{level} • {domain} • Gemini Flash")
+    show_progress("Question", index + 1, active_question_count)
+    mode_label = "Curated bank + hybrid evaluation" if st.session_state.get("ai_using_question_bank") else "Gemini Flash"
+    st.caption(f"{level} • {domain} • {mode_label}")
+    if st.session_state.get("ai_bank_warning"):
+        st.warning(st.session_state.ai_bank_warning)
 
     if not isinstance(question, dict):
         st.error("No AI question is loaded. Restart the interview to generate a new question.")
@@ -698,8 +795,9 @@ else:
 
     if question.get("scenario"):
         st.write(question["scenario"])
-    if question.get("question_type"):
-        st.caption(f"{question.get('question_type')} • {question.get('complexity', '')}")
+    question_type_label = question.get("question_type") or question.get("type")
+    if question_type_label:
+        st.caption(f"{question_type_label} • {question.get('complexity') or question.get('difficulty', '')}")
     st.write(question.get("question", "No question available."))
 
     if st.session_state.get("ai_phase") == "feedback":
@@ -709,14 +807,14 @@ else:
         if evaluation.get("short_feedback"):
             st.write(evaluation["short_feedback"])
 
-        button_label = "Finish Interview" if index + 1 >= MAX_QUESTIONS else "Continue"
+        button_label = "Finish Interview" if index + 1 >= active_question_count else "Continue"
         if st.button(button_label):
             next_index = index + 1
             st.session_state.ai_question_index = next_index
             st.session_state.ai_current_answer = ""
             st.session_state.ai_current_evaluation = None
             st.session_state.ai_phase = "main_answer"
-            if next_index >= MAX_QUESTIONS:
+            if next_index >= active_question_count:
                 st.session_state.ai_complete = True
                 st.session_state.ai_final_report = generate_ai_final_report(
                     st.session_state.ai_history,
@@ -724,30 +822,37 @@ else:
                     domain,
                 )
             else:
-                st.session_state.ai_current_question = generate_ai_question(
-                    level,
-                    domain,
-                    st.session_state.ai_history,
-                )
+                session_questions = st.session_state.get("ai_session_questions", [])
+                if st.session_state.get("ai_using_question_bank") and session_questions:
+                    st.session_state.ai_current_question = session_questions[next_index]
+                else:
+                    st.session_state.ai_current_question = generate_ai_question(
+                        level,
+                        domain,
+                        st.session_state.ai_history,
+                    )
             st.rerun()
     else:
-        answer = st.text_area("Your answer", key=f"ai_answer_{index}", height=190)
+        answer = render_ai_answer_input(question, index)
         if st.button("Submit Answer"):
-            if not answer.strip():
+            if is_empty_ai_answer(answer):
                 st.warning("Please write an answer before submitting.")
             else:
-                evaluation = evaluate_ai_answer(question, answer.strip(), level, domain, history)
+                if should_use_gemini(question):
+                    evaluation = evaluate_ai_answer(question, format_ai_answer(answer), level, domain, history)
+                else:
+                    evaluation = evaluate_objective_question(question, answer)
                 if evaluation.get("error"):
                     st.error(evaluation["error"])
                 else:
                     result = {
                         "question": question,
-                        "answer": answer.strip(),
+                        "answer": format_ai_answer(answer),
                         "evaluation": evaluation,
                     }
                     st.session_state.ai_history.append(result)
                     st.session_state.ai_answers.append(
-                        {"question_id": question.get("id"), "answer": answer.strip()}
+                        {"question_id": question.get("id"), "answer": format_ai_answer(answer)}
                     )
                     st.session_state.ai_evaluations.append(evaluation)
                     st.session_state.ai_current_evaluation = evaluation

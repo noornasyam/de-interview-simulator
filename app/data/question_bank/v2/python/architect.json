@@ -1,0 +1,192 @@
+[
+  {
+    "id": "python_arch_enterprise_001",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise Python platform",
+    "scenario": "A large organization has hundreds of Python data pipelines across teams and clouds.",
+    "question": "What enterprise architecture would you define for Python data engineering?",
+    "expected_points": [
+      {"point": "Standardizes packaging, runtime, and deployment", "keywords": ["package", "runtime", "deployment"], "weight": 3},
+      {"point": "Provides shared libraries for common concerns", "keywords": ["shared", "library", "common"], "weight": 2},
+      {"point": "Defines observability and reliability standards", "keywords": ["observability", "reliability", "standard"], "weight": 3},
+      {"point": "Supports governance and security", "keywords": ["governance", "security", "policy"], "weight": 2}
+    ],
+    "explanation": "Enterprise Python architecture should reduce operational fragmentation while preserving team delivery speed.",
+    "ideal_answer": "I would define standard packaging, dependency locking, containerized runtimes, CI/CD, shared ingestion/validation libraries, observability standards, and security/governance controls for secrets and data access.",
+    "tags": ["python", "enterprise_architecture", "platform", "governance"]
+  },
+  {
+    "id": "python_arch_governance_002",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "Dependency governance",
+    "scenario": "Python dependency versions vary widely, and security teams find vulnerable packages in production pipelines.",
+    "question": "How would you govern Python dependencies at enterprise scale?",
+    "expected_points": [
+      {"point": "Uses dependency locking and approved package sources", "keywords": ["lock", "approved", "package"], "weight": 3},
+      {"point": "Scans for vulnerabilities", "keywords": ["scan", "vulnerability", "security"], "weight": 3},
+      {"point": "Defines upgrade and exception process", "keywords": ["upgrade", "exception", "process"], "weight": 2},
+      {"point": "Uses reproducible builds", "keywords": ["reproducible", "container", "artifact"], "weight": 2}
+    ],
+    "explanation": "Dependency governance reduces supply-chain risk and production instability.",
+    "ideal_answer": "I would require lockfiles or pinned builds, approved registries, vulnerability scanning, reproducible containers, and a managed upgrade/exception process for critical pipelines.",
+    "tags": ["python", "dependencies", "security", "governance"]
+  },
+  {
+    "id": "python_arch_cost_003",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "Compute cost architecture",
+    "scenario": "Python jobs run on oversized always-on clusters even for small ingestion tasks.",
+    "question": "How would you reduce compute cost across Python workloads?",
+    "expected_points": [
+      {"point": "Profiles workload size and runtime needs", "keywords": ["profile", "workload", "runtime"], "weight": 3},
+      {"point": "Matches jobs to right-sized execution environments", "keywords": ["right-size", "serverless", "batch", "cluster"], "weight": 3},
+      {"point": "Uses autoscaling or ephemeral compute", "keywords": ["autoscale", "ephemeral", "on-demand"], "weight": 2},
+      {"point": "Adds cost visibility by pipeline/team", "keywords": ["cost", "team", "visibility"], "weight": 2}
+    ],
+    "explanation": "Python workload cost improves when execution environments match workload size and are observable by owner.",
+    "ideal_answer": "I would classify workloads, move lightweight ingestion to serverless or batch jobs, reserve clusters for distributed workloads, use autoscaling/ephemeral compute, and show cost by pipeline and team.",
+    "tags": ["python", "cost_optimization", "platform", "compute"]
+  },
+  {
+    "id": "python_arch_reliability_004",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Pipeline reliability standards",
+    "scenario": "Business-critical Python pipelines have no consistent SLOs, alerting, or ownership.",
+    "question": "How would you define reliability standards?",
+    "expected_points": [
+      {"point": "Defines SLOs for freshness, completeness, and success rate", "keywords": ["slo", "freshness", "success"], "weight": 4},
+      {"point": "Requires owners and runbooks", "keywords": ["owner", "runbook", "on-call"], "weight": 2},
+      {"point": "Standardizes alerts and incident response", "keywords": ["alert", "incident", "response"], "weight": 2},
+      {"point": "Uses quality gates for critical data", "keywords": ["quality", "gate", "critical"], "weight": 2}
+    ],
+    "explanation": "Reliability for Python data pipelines should be defined as an operational contract with owners and measurable outcomes.",
+    "ideal_answer": "I would define SLOs for freshness, completeness, and job success, assign owners, require runbooks, standardize alerting and incident response, and add quality gates for critical datasets.",
+    "tags": ["python", "reliability", "slo", "operations"]
+  },
+  {
+    "id": "python_arch_trade_005",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "trade_off",
+    "difficulty": "advanced",
+    "concept": "Python vs SQL vs distributed engines",
+    "scenario": "Teams use Python for transformations that could be done in SQL or Spark.",
+    "question": "What framework would you use to decide the right execution technology?",
+    "expected_points": [
+      {"point": "Considers data volume and transformation complexity", "keywords": ["volume", "complexity", "transform"], "weight": 3},
+      {"point": "Considers maintainability and team skills", "keywords": ["maintainability", "skills", "team"], "weight": 2},
+      {"point": "Considers cost and operational burden", "keywords": ["cost", "operation", "burden"], "weight": 3},
+      {"point": "Sets standards while allowing exceptions", "keywords": ["standard", "exception", "guideline"], "weight": 2}
+    ],
+    "explanation": "Architects should guide teams to the simplest reliable execution model for each workload.",
+    "ideal_answer": "I would prefer warehouse SQL for set-based transformations near the data, Python for orchestration, APIs, and custom logic, and Spark/Beam for large distributed processing, with exceptions justified by cost, skills, and reliability.",
+    "tags": ["python", "architecture", "tradeoffs", "execution"]
+  },
+  {
+    "id": "python_arch_enterprise_006",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "Multi-tenant pipeline platform",
+    "scenario": "Multiple business units need to run Python pipelines on a shared platform.",
+    "question": "How would you design the platform for isolation, reuse, and governance?",
+    "expected_points": [
+      {"point": "Provides tenant isolation for compute and permissions", "keywords": ["tenant", "isolation", "permission"], "weight": 3},
+      {"point": "Offers shared templates and libraries", "keywords": ["template", "library", "reuse"], "weight": 2},
+      {"point": "Centralizes observability and policy controls", "keywords": ["observability", "policy", "control"], "weight": 3},
+      {"point": "Supports cost attribution", "keywords": ["cost", "attribution", "chargeback"], "weight": 2}
+    ],
+    "explanation": "A multi-tenant Python platform needs guardrails for isolation while still enabling reuse.",
+    "ideal_answer": "I would isolate tenants by project/namespace and permissions, provide shared templates and libraries, centralize logs/metrics/policies, and attribute compute cost by team and pipeline.",
+    "tags": ["python", "multi_tenant", "platform", "governance"]
+  },
+  {
+    "id": "python_arch_governance_007",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Sensitive data in Python",
+    "scenario": "Python notebooks and scripts are used to process PII before data lands in governed warehouse tables.",
+    "question": "What controls would you introduce?",
+    "expected_points": [
+      {"point": "Restricts access to raw PII", "keywords": ["restrict", "pii", "access"], "weight": 3},
+      {"point": "Uses masking/tokenization where possible", "keywords": ["mask", "token", "hash"], "weight": 2},
+      {"point": "Audits data access and movement", "keywords": ["audit", "lineage", "movement"], "weight": 3},
+      {"point": "Prevents secrets or PII in logs/artifacts", "keywords": ["log", "artifact", "secret"], "weight": 2}
+    ],
+    "explanation": "Python processing can bypass warehouse governance unless access, logging, and artifact controls are explicit.",
+    "ideal_answer": "I would restrict raw PII access, tokenize or mask where possible, audit data movement, prevent PII in logs or notebooks, and require approved runtimes for sensitive processing.",
+    "tags": ["python", "pii", "security", "governance"]
+  },
+  {
+    "id": "python_arch_cost_008",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "FinOps for Python pipelines",
+    "scenario": "Python workloads are cheap individually but expensive in aggregate across hundreds of schedules.",
+    "question": "How would you implement FinOps for Python data workloads?",
+    "expected_points": [
+      {"point": "Attributes cost to pipelines and owners", "keywords": ["attribute", "pipeline", "owner"], "weight": 3},
+      {"point": "Identifies high-frequency or inefficient jobs", "keywords": ["frequency", "inefficient", "top"], "weight": 3},
+      {"point": "Introduces budgets and guardrails", "keywords": ["budget", "guardrail", "quota"], "weight": 2},
+      {"point": "Optimizes schedules and runtimes", "keywords": ["schedule", "runtime", "optimize"], "weight": 2}
+    ],
+    "explanation": "FinOps requires visibility, ownership, and actionable optimization guidance.",
+    "ideal_answer": "I would tag workloads by owner, report cost by pipeline, identify frequent or inefficient jobs, tune schedules and runtimes, and add budgets or guardrails with exception paths.",
+    "tags": ["python", "finops", "cost", "operations"]
+  },
+  {
+    "id": "python_arch_reliability_009",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "Disaster recovery",
+    "scenario": "Critical Python pipelines run in one region and produce regulatory datasets.",
+    "question": "What disaster recovery strategy would you design?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by pipeline criticality", "keywords": ["rto", "rpo", "critical"], "weight": 3},
+      {"point": "Replicates code, config, state, and data dependencies", "keywords": ["replicate", "config", "state", "dependency"], "weight": 3},
+      {"point": "Tests failover regularly", "keywords": ["test", "failover", "drill"], "weight": 2},
+      {"point": "Balances cost with regulatory risk", "keywords": ["cost", "regulatory", "risk"], "weight": 2}
+    ],
+    "explanation": "DR for Python pipelines includes code and runtime state, not just output data.",
+    "ideal_answer": "I would define RTO/RPO, replicate code artifacts, configs, secrets references, state/watermarks, and required data, run failover drills, and balance standby cost against regulatory exposure.",
+    "tags": ["python", "dr", "reliability", "regulatory"]
+  },
+  {
+    "id": "python_arch_trade_010",
+    "domain": "Python",
+    "level": "Architect",
+    "type": "trade_off",
+    "difficulty": "expert",
+    "concept": "Central platform vs embedded ownership",
+    "scenario": "Leadership asks whether a central team should own all Python data pipelines or let domain teams own them.",
+    "question": "How would you recommend an operating model?",
+    "expected_points": [
+      {"point": "Separates platform standards from domain logic ownership", "keywords": ["platform", "domain", "ownership"], "weight": 3},
+      {"point": "Defines shared guardrails and paved paths", "keywords": ["guardrail", "paved path", "standard"], "weight": 3},
+      {"point": "Keeps business logic close to domain teams", "keywords": ["business logic", "domain", "team"], "weight": 2},
+      {"point": "Uses governance for critical shared datasets", "keywords": ["governance", "critical", "shared"], "weight": 2}
+    ],
+    "explanation": "A federated model often works best: central platform enables standards, while domain teams own business logic.",
+    "ideal_answer": "I would recommend a federated model: central platform owns runtimes, templates, libraries, observability, and guardrails; domain teams own pipeline logic, with stronger governance for critical shared datasets.",
+    "tags": ["python", "operating_model", "platform", "tradeoffs"]
+  }
+]

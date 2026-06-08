@@ -1,0 +1,159 @@
+[
+  {
+    "id": "sql_junior_mcq_001",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "LEFT JOIN",
+    "scenario": "You need all customers, including customers who have never placed an order.",
+    "question": "Which join should you use from customers to orders?",
+    "options": ["LEFT JOIN", "INNER JOIN", "CROSS JOIN", "RIGHT SEMI JOIN"],
+    "correct_answer": "LEFT JOIN",
+    "explanation": "LEFT JOIN preserves all rows from the left table and fills unmatched right-side columns with NULL.",
+    "ideal_answer": "Use customers LEFT JOIN orders ON customers.customer_id = orders.customer_id so customers without orders are still returned.",
+    "tags": ["sql", "joins", "left_join"]
+  },
+  {
+    "id": "sql_junior_fill_002",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "HAVING",
+    "question": "Fill in the blank: After GROUP BY, filter aggregate results using ____.",
+    "correct_answer": "HAVING",
+    "acceptable_answers": ["HAVING", "having"],
+    "explanation": "HAVING filters grouped aggregate results, while WHERE filters rows before aggregation.",
+    "ideal_answer": "Use HAVING, such as HAVING COUNT(*) > 10, to filter groups after aggregation.",
+    "tags": ["sql", "having", "aggregation"]
+  },
+  {
+    "id": "sql_junior_short_003",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "COUNT variants",
+    "question": "Explain the difference between COUNT(*) and COUNT(email).",
+    "expected_points": [
+      {"point": "COUNT(*) counts rows", "keywords": ["count(*)", "rows"], "weight": 5},
+      {"point": "COUNT(column) counts non-null values", "keywords": ["non-null", "null", "column"], "weight": 5}
+    ],
+    "explanation": "COUNT(*) counts every row, while COUNT(email) ignores rows where email is NULL.",
+    "ideal_answer": "COUNT(*) counts all rows in the result. COUNT(email) counts only rows where email is not NULL, so it can be lower when email is missing.",
+    "tags": ["sql", "count", "nulls"]
+  },
+  {
+    "id": "sql_junior_mcq_004",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "DISTINCT",
+    "question": "What does SELECT DISTINCT country FROM customers return?",
+    "options": ["One row per unique country", "All customer rows", "Only countries with nulls", "A sorted list by default"],
+    "correct_answer": "One row per unique country",
+    "explanation": "DISTINCT removes duplicate result rows for the selected column combination.",
+    "ideal_answer": "It returns each unique country value once. It does not guarantee sorted order unless ORDER BY is used.",
+    "tags": ["sql", "distinct", "deduplication"]
+  },
+  {
+    "id": "sql_junior_short_005",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "COALESCE",
+    "scenario": "A report should show zero when discount_amount is missing.",
+    "question": "How would you handle the NULL discount values?",
+    "expected_points": [
+      {"point": "Use COALESCE", "keywords": ["coalesce"], "weight": 4},
+      {"point": "Replace NULL with 0", "keywords": ["0", "zero", "default"], "weight": 3},
+      {"point": "Preserve numeric calculations", "keywords": ["calculation", "sum", "numeric"], "weight": 3}
+    ],
+    "explanation": "COALESCE returns the first non-null value, making calculations safer when defaults are appropriate.",
+    "ideal_answer": "Use COALESCE(discount_amount, 0) so missing discounts become zero before display or aggregation.",
+    "tags": ["sql", "nulls", "coalesce"]
+  },
+  {
+    "id": "sql_junior_fill_006",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "Aliases",
+    "question": "Fill in the blank: SELECT SUM(amount) ____ total_revenue FROM orders;",
+    "correct_answer": "AS",
+    "acceptable_answers": ["AS", "as"],
+    "explanation": "AS gives a readable alias to a selected column or expression.",
+    "ideal_answer": "Use AS: SELECT SUM(amount) AS total_revenue FROM orders;",
+    "tags": ["sql", "aliases", "readability"]
+  },
+  {
+    "id": "sql_junior_light_007",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "Date filtering",
+    "scenario": "A dashboard needs orders from the last 7 days.",
+    "question": "What should you be careful about when filtering by date?",
+    "expected_points": [
+      {"point": "Use a date or timestamp column", "keywords": ["date", "timestamp"], "weight": 3},
+      {"point": "Use a clear range predicate", "keywords": ["between", ">=", "<", "range"], "weight": 4},
+      {"point": "Consider timezone or boundary behavior", "keywords": ["timezone", "boundary", "inclusive"], "weight": 3}
+    ],
+    "explanation": "Date filters need clear boundaries so reports are repeatable and do not accidentally drop or double-count rows.",
+    "ideal_answer": "Filter on a real date/timestamp column with an explicit range, such as order_ts >= start_ts and order_ts < end_ts, and confirm timezone boundaries.",
+    "tags": ["sql", "dates", "filtering"]
+  },
+  {
+    "id": "sql_junior_mcq_008",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Logical query order",
+    "question": "Which clause is logically evaluated before GROUP BY?",
+    "options": ["WHERE", "HAVING", "ORDER BY", "SELECT alias output"],
+    "correct_answer": "WHERE",
+    "explanation": "WHERE filters individual rows before GROUP BY creates aggregate groups.",
+    "ideal_answer": "WHERE runs before GROUP BY in logical query processing, so use WHERE for row filters and HAVING for grouped filters.",
+    "tags": ["sql", "query_order", "group_by"]
+  },
+  {
+    "id": "sql_junior_short_009",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Duplicate joins",
+    "scenario": "Your order count doubles after joining orders to order_items.",
+    "question": "What is a likely reason?",
+    "expected_points": [
+      {"point": "One-to-many join expands rows", "keywords": ["one-to-many", "many", "multiple", "duplicate"], "weight": 5},
+      {"point": "Need correct grain before aggregation", "keywords": ["grain", "aggregate", "deduplicate"], "weight": 5}
+    ],
+    "explanation": "Joining a fact table to a lower-grain table can multiply rows if aggregation is done at the wrong grain.",
+    "ideal_answer": "The join likely changed the grain: each order can have multiple order_items, so rows expand. Aggregate at the correct grain or deduplicate before counting orders.",
+    "tags": ["sql", "joins", "grain"]
+  },
+  {
+    "id": "sql_junior_light_010",
+    "domain": "SQL",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "LIMIT and determinism",
+    "scenario": "A teammate previews 100 rows using LIMIT 100 and sees different rows on different runs.",
+    "question": "What should they add for deterministic results?",
+    "expected_points": [
+      {"point": "Use ORDER BY", "keywords": ["order by", "sort"], "weight": 6},
+      {"point": "Choose a stable ordering column", "keywords": ["stable", "id", "timestamp"], "weight": 4}
+    ],
+    "explanation": "LIMIT restricts row count but does not define which rows are returned unless paired with ORDER BY.",
+    "ideal_answer": "Add ORDER BY on a stable column, such as ORDER BY created_at DESC, id, before LIMIT 100.",
+    "tags": ["sql", "limit", "determinism"]
+  }
+]

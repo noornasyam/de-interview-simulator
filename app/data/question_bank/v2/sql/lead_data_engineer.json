@@ -1,0 +1,192 @@
+[
+  {
+    "id": "sql_lead_arch_001",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "Semantic layer governance",
+    "scenario": "Multiple teams define revenue differently across SQL models and dashboards.",
+    "question": "How would you lead the effort to create a trusted revenue definition?",
+    "expected_points": [
+      {"point": "Align stakeholders on metric definition", "keywords": ["stakeholder", "definition", "revenue"], "weight": 3},
+      {"point": "Centralize logic in governed models or semantic layer", "keywords": ["semantic", "central", "model"], "weight": 3},
+      {"point": "Add tests and reconciliation", "keywords": ["test", "reconcile", "quality"], "weight": 2},
+      {"point": "Document ownership and change process", "keywords": ["owner", "documentation", "change"], "weight": 2}
+    ],
+    "explanation": "Metric consistency is both a technical and organizational problem requiring governance and shared ownership.",
+    "ideal_answer": "I would align finance/product stakeholders on the revenue definition, centralize the SQL in a governed semantic model, add reconciliation tests, document ownership, and create a change process for future metric updates.",
+    "tags": ["sql", "metrics", "governance", "leadership"]
+  },
+  {
+    "id": "sql_lead_trade_002",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Centralization vs team autonomy",
+    "scenario": "Analytics engineers want freedom to create team-specific SQL marts, while platform leadership wants standardization.",
+    "question": "How would you balance speed and governance?",
+    "expected_points": [
+      {"point": "Separates governed core models from team marts", "keywords": ["core", "mart", "governed"], "weight": 3},
+      {"point": "Defines standards and review criteria", "keywords": ["standard", "review", "contract"], "weight": 3},
+      {"point": "Preserves team autonomy where risk is lower", "keywords": ["autonomy", "speed", "self-service"], "weight": 2},
+      {"point": "Monitors quality and usage", "keywords": ["monitor", "usage", "quality"], "weight": 2}
+    ],
+    "explanation": "A lead should create guardrails that protect shared business definitions without blocking local analysis.",
+    "ideal_answer": "I would govern shared core models and metrics tightly, allow team marts for lower-risk use cases, define review standards for promotion, and monitor quality, usage, and ownership.",
+    "tags": ["sql", "governance", "tradeoffs", "self_service"]
+  },
+  {
+    "id": "sql_lead_stake_003",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Incident communication",
+    "scenario": "A SQL deployment caused incorrect executive dashboard numbers during a board reporting week.",
+    "question": "How would you handle the incident technically and with stakeholders?",
+    "expected_points": [
+      {"point": "Stops or rolls back incorrect data quickly", "keywords": ["rollback", "stop", "disable"], "weight": 3},
+      {"point": "Quantifies impact and affected metrics", "keywords": ["impact", "affected", "metrics"], "weight": 3},
+      {"point": "Communicates status and ETA clearly", "keywords": ["communicate", "eta", "stakeholder"], "weight": 2},
+      {"point": "Runs root cause and prevention actions", "keywords": ["root cause", "postmortem", "prevention"], "weight": 2}
+    ],
+    "explanation": "High-impact data incidents require fast containment, clear communication, and durable prevention.",
+    "ideal_answer": "I would roll back or disable the bad model, quantify affected metrics and time windows, communicate impact and ETA, fix and validate the data, then run a postmortem with tests and deployment controls to prevent recurrence.",
+    "tags": ["sql", "incident_management", "stakeholders"]
+  },
+  {
+    "id": "sql_lead_arch_004",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "scenario",
+    "concept": "Model layering",
+    "scenario": "A warehouse has hundreds of long SQL queries copied across dashboards.",
+    "question": "What layered model architecture would you introduce?",
+    "expected_points": [
+      {"point": "Introduces staging, intermediate, and mart layers", "keywords": ["staging", "intermediate", "mart"], "weight": 4},
+      {"point": "Defines ownership and naming conventions", "keywords": ["owner", "naming", "standard"], "weight": 2},
+      {"point": "Adds tests and documentation", "keywords": ["tests", "docs", "documentation"], "weight": 2},
+      {"point": "Plans migration without breaking dashboards", "keywords": ["migration", "backward", "dashboard"], "weight": 2}
+    ],
+    "explanation": "Layering SQL models reduces duplication and creates stable interfaces for downstream consumers.",
+    "ideal_answer": "I would build source/staging models, intermediate business logic models, and curated marts, with naming standards, owners, tests, docs, and a phased migration from copied dashboard SQL.",
+    "tags": ["sql", "architecture", "dbt", "modeling"]
+  },
+  {
+    "id": "sql_lead_trade_005",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Freshness vs cost",
+    "scenario": "Product wants near-real-time SQL dashboards, but the warehouse bill is already high.",
+    "question": "How would you decide between real-time, hourly, and daily refreshes?",
+    "expected_points": [
+      {"point": "Clarifies business SLA and decision latency", "keywords": ["sla", "latency", "business"], "weight": 3},
+      {"point": "Compares cost and complexity", "keywords": ["cost", "complexity", "compute"], "weight": 3},
+      {"point": "Segments use cases by freshness need", "keywords": ["segment", "tier", "use case"], "weight": 2},
+      {"point": "Adds monitoring and usage review", "keywords": ["monitor", "usage", "review"], "weight": 2}
+    ],
+    "explanation": "Freshness should match the business decision being supported, not default to the fastest possible refresh.",
+    "ideal_answer": "I would define the decision SLA with product, tier dashboards by business need, use near-real-time only where it changes action, keep lower-value metrics hourly/daily, and monitor cost and usage.",
+    "tags": ["sql", "freshness", "cost", "tradeoffs"]
+  },
+  {
+    "id": "sql_lead_desc_006",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "descriptive",
+    "difficulty": "hard",
+    "concept": "SQL code review standards",
+    "scenario": "Your team has inconsistent SQL quality and production regressions after merges.",
+    "question": "What standards would you introduce for SQL code reviews?",
+    "expected_points": [
+      {"point": "Reviews correctness and grain", "keywords": ["correctness", "grain", "metric"], "weight": 3},
+      {"point": "Reviews performance and cost", "keywords": ["performance", "cost", "partition"], "weight": 2},
+      {"point": "Requires tests and documentation", "keywords": ["tests", "documentation", "docs"], "weight": 3},
+      {"point": "Uses style conventions and ownership", "keywords": ["style", "owner", "convention"], "weight": 2}
+    ],
+    "explanation": "SQL reviews should catch semantic errors, cost problems, and maintainability issues before deployment.",
+    "ideal_answer": "I would require reviewers to check grain, metric definitions, join cardinality, filters, cost, partition use, tests, docs, naming, and ownership before production merge.",
+    "tags": ["sql", "code_review", "quality"]
+  },
+  {
+    "id": "sql_lead_arch_007",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Data quality platform",
+    "scenario": "Each team writes ad hoc SQL checks, but no one trusts the alerts.",
+    "question": "How would you standardize SQL-based data quality across teams?",
+    "expected_points": [
+      {"point": "Defines critical data elements and SLAs", "keywords": ["critical", "sla", "data element"], "weight": 3},
+      {"point": "Standardizes tests and severity", "keywords": ["standard", "severity", "test"], "weight": 3},
+      {"point": "Routes alerts to owners", "keywords": ["owner", "alert", "routing"], "weight": 2},
+      {"point": "Tracks trends and false positives", "keywords": ["trend", "false positive", "monitor"], "weight": 2}
+    ],
+    "explanation": "Data quality needs ownership, severity, and actionability, not just more SQL checks.",
+    "ideal_answer": "I would identify critical datasets, define SLAs, standardize SQL tests and severity levels, route alerts to owners, and track failures plus false positives to keep alerts trusted.",
+    "tags": ["sql", "data_quality", "observability"]
+  },
+  {
+    "id": "sql_lead_trade_008",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Denormalization",
+    "scenario": "A team wants one very wide reporting table to simplify dashboard SQL.",
+    "question": "What trade-offs would you discuss before approving it?",
+    "expected_points": [
+      {"point": "Balances simplicity against duplication", "keywords": ["simple", "duplication", "wide"], "weight": 3},
+      {"point": "Considers freshness and update complexity", "keywords": ["freshness", "update", "complexity"], "weight": 2},
+      {"point": "Considers storage and query cost", "keywords": ["storage", "cost", "scan"], "weight": 2},
+      {"point": "Keeps governed source of truth", "keywords": ["source of truth", "governed", "metric"], "weight": 3}
+    ],
+    "explanation": "Wide marts can improve usability but can also duplicate logic, increase cost, and create stale definitions.",
+    "ideal_answer": "I would allow a wide mart if it serves a clear use case, but keep governed core metrics upstream, document grain, watch storage and scan cost, and define refresh expectations.",
+    "tags": ["sql", "denormalization", "tradeoffs"]
+  },
+  {
+    "id": "sql_lead_stake_009",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Prioritization",
+    "scenario": "Finance asks for a correctness fix while product asks for a new SQL mart for experimentation.",
+    "question": "How would you prioritize the work?",
+    "expected_points": [
+      {"point": "Assesses business impact and risk", "keywords": ["impact", "risk", "finance"], "weight": 3},
+      {"point": "Prioritizes correctness for trusted reporting", "keywords": ["correctness", "trusted", "reporting"], "weight": 3},
+      {"point": "Communicates trade-offs and timeline", "keywords": ["communicate", "timeline", "trade-off"], "weight": 2},
+      {"point": "Looks for parallelization or scoped delivery", "keywords": ["scope", "parallel", "phased"], "weight": 2}
+    ],
+    "explanation": "Lead engineers should prioritize based on business risk, trust, and stakeholder alignment.",
+    "ideal_answer": "I would usually prioritize the finance correctness fix because trusted reporting is high risk, communicate the rationale and timeline to product, and see if the experiment mart can be scoped or parallelized.",
+    "tags": ["sql", "prioritization", "stakeholders"]
+  },
+  {
+    "id": "sql_lead_arch_010",
+    "domain": "SQL",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Migration strategy",
+    "scenario": "You need to migrate legacy SQL pipelines to dbt without breaking downstream users.",
+    "question": "What migration strategy would you lead?",
+    "expected_points": [
+      {"point": "Inventory lineage and dependencies", "keywords": ["lineage", "dependency", "inventory"], "weight": 3},
+      {"point": "Migrate incrementally with parity checks", "keywords": ["incremental", "parity", "reconcile"], "weight": 3},
+      {"point": "Use contracts, tests, and documentation", "keywords": ["contract", "test", "documentation"], "weight": 2},
+      {"point": "Plan cutover and rollback", "keywords": ["cutover", "rollback", "release"], "weight": 2}
+    ],
+    "explanation": "Warehouse migrations need dependency awareness, output parity, and a safe cutover plan.",
+    "ideal_answer": "I would inventory lineage, migrate models in dependency order, run old/new parity checks, add tests and docs, communicate cutover windows, and keep rollback paths until users verify outputs.",
+    "tags": ["sql", "migration", "dbt", "lineage"]
+  }
+]

@@ -1,0 +1,160 @@
+[
+  {
+    "id": "python_junior_mcq_001",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "CSV loading",
+    "question": "Which pandas function is commonly used to load a CSV file into a DataFrame?",
+    "options": ["read_csv", "load_table", "parse_rows", "open_dataframe"],
+    "correct_answer": "read_csv",
+    "explanation": "pandas.read_csv reads delimited text files into a DataFrame.",
+    "ideal_answer": "Use pandas.read_csv(path) to load a CSV into a DataFrame, then validate columns and row counts before processing.",
+    "tags": ["python", "pandas", "csv", "file_handling"]
+  },
+  {
+    "id": "python_junior_fill_002",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Environment variables",
+    "question": "Fill in the blank: Use os.environ or os.getenv to read configuration from ____ variables.",
+    "correct_answer": "environment",
+    "acceptable_answers": ["environment", "env", "ENV"],
+    "explanation": "Environment variables keep deploy-time configuration outside the code.",
+    "ideal_answer": "Read configuration from environment variables, for example os.getenv('BUCKET_NAME'), instead of hardcoding values.",
+    "tags": ["python", "configuration", "production"]
+  },
+  {
+    "id": "python_junior_short_003",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Idempotency",
+    "question": "What does idempotency mean in a Python ETL job?",
+    "expected_points": [
+      {"point": "Rerunning produces the same final result", "keywords": ["same", "rerun", "result"], "weight": 5},
+      {"point": "Avoids duplicate outputs or side effects", "keywords": ["duplicate", "side effect", "safe"], "weight": 5}
+    ],
+    "explanation": "Idempotent jobs can be retried safely after failures without corrupting outputs.",
+    "ideal_answer": "An idempotent ETL job can be rerun and produce the same final state, for example by overwriting a partition or upserting by a stable key instead of blindly appending duplicates.",
+    "tags": ["python", "etl", "idempotency"]
+  },
+  {
+    "id": "python_junior_light_004",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "API pagination",
+    "scenario": "An API returns only 100 records per request and includes a next_page token.",
+    "question": "How should your Python extractor retrieve all records?",
+    "expected_points": [
+      {"point": "Loop until no next page remains", "keywords": ["loop", "next_page", "token"], "weight": 4},
+      {"point": "Accumulate or stream records safely", "keywords": ["accumulate", "stream", "records"], "weight": 3},
+      {"point": "Handle errors or rate limits", "keywords": ["error", "retry", "rate limit"], "weight": 3}
+    ],
+    "explanation": "Paginated APIs require repeated requests until the API indicates there are no more pages.",
+    "ideal_answer": "Call the API in a loop, pass the next_page token each time, stop when it is missing, and include retries or rate-limit handling.",
+    "tags": ["python", "apis", "pagination", "etl"]
+  },
+  {
+    "id": "python_junior_mcq_005",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Safe file writes",
+    "question": "Which approach helps avoid leaving a corrupt output file if a job fails halfway?",
+    "options": ["Write to a temporary path, then rename or move after success", "Always append to the final file immediately", "Ignore exceptions during writes", "Disable logging"],
+    "correct_answer": "Write to a temporary path, then rename or move after success",
+    "explanation": "Writing to a temporary location and committing only after success prevents partial files from being treated as complete.",
+    "ideal_answer": "Write to a temporary path first, validate the output, then atomically move or rename it to the final path.",
+    "tags": ["python", "file_handling", "reliability"]
+  },
+  {
+    "id": "python_junior_short_006",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Logging context",
+    "question": "What information would you include in logs for a batch file-processing job?",
+    "expected_points": [
+      {"point": "File or batch identifier", "keywords": ["file", "batch", "id"], "weight": 3},
+      {"point": "Row counts or record counts", "keywords": ["row", "count", "records"], "weight": 3},
+      {"point": "Errors with enough context to debug", "keywords": ["error", "context", "debug"], "weight": 2},
+      {"point": "Start/end or duration", "keywords": ["start", "end", "duration"], "weight": 2}
+    ],
+    "explanation": "Operational logs should help identify what ran, what data was processed, and where failures occurred.",
+    "ideal_answer": "I would log batch/file name, input/output row counts, start and end times, duration, and errors with enough context to identify the failed record or step.",
+    "tags": ["python", "logging", "batch_processing"]
+  },
+  {
+    "id": "python_junior_fill_007",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "Unit testing",
+    "question": "Fill in the blank: In pytest, test files commonly start with test_ and test functions commonly start with ____.",
+    "correct_answer": "test_",
+    "acceptable_answers": ["test_", "test"],
+    "explanation": "pytest discovers tests by naming convention, including files and functions that start with test_.",
+    "ideal_answer": "Name test functions with the test_ prefix, such as def test_parse_record():, so pytest discovers them.",
+    "tags": ["python", "pytest", "testing"]
+  },
+  {
+    "id": "python_junior_light_008",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "Bad records",
+    "scenario": "A CSV contains a few malformed rows, but the pipeline should still process valid rows.",
+    "question": "How would you handle malformed records in Python?",
+    "expected_points": [
+      {"point": "Validate records before transformation", "keywords": ["validate", "schema", "check"], "weight": 3},
+      {"point": "Separate or quarantine bad rows", "keywords": ["quarantine", "dead letter", "bad"], "weight": 3},
+      {"point": "Log counts and examples safely", "keywords": ["log", "count", "example"], "weight": 2},
+      {"point": "Avoid silently dropping data", "keywords": ["silent", "drop", "alert"], "weight": 2}
+    ],
+    "explanation": "Pipelines should handle bad records explicitly so valid data can continue while quality issues remain visible.",
+    "ideal_answer": "Validate each row, write malformed rows to a quarantine/dead-letter location, log counts and safe examples, and alert if the bad-record rate crosses a threshold.",
+    "tags": ["python", "data_quality", "error_handling"]
+  },
+  {
+    "id": "python_junior_mcq_009",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Memory efficient iteration",
+    "question": "Which pattern is more memory friendly for processing a very large file line by line?",
+    "options": ["Iterate over the file object", "Read the entire file into a list first", "Convert the file to a string", "Duplicate the file in memory"],
+    "correct_answer": "Iterate over the file object",
+    "explanation": "Iterating over the file object reads incrementally instead of loading the whole file at once.",
+    "ideal_answer": "Use with open(path) as f: and iterate for line in f: so the script does not load the whole file into memory.",
+    "tags": ["python", "performance", "file_handling"]
+  },
+  {
+    "id": "python_junior_short_010",
+    "domain": "Python",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Function design",
+    "question": "Why is it useful to split an ETL script into small functions?",
+    "expected_points": [
+      {"point": "Improves readability and reuse", "keywords": ["readability", "reuse", "small"], "weight": 3},
+      {"point": "Makes unit testing easier", "keywords": ["test", "unit", "pytest"], "weight": 4},
+      {"point": "Separates extract, transform, and load concerns", "keywords": ["extract", "transform", "load", "separate"], "weight": 3}
+    ],
+    "explanation": "Small functions are easier to test, debug, reuse, and reason about in production pipelines.",
+    "ideal_answer": "Split ETL code into small extract, transform, and load functions so each step is readable, reusable, and easy to test independently.",
+    "tags": ["python", "etl", "testing", "maintainability"]
+  }
+]

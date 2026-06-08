@@ -1,0 +1,192 @@
+[
+  {
+    "id": "gcp_bigquery_lead_arch_001",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "GCP data platform architecture",
+    "scenario": "Your organization wants a standard GCP data platform for batch and streaming analytics.",
+    "question": "What core architecture would you propose?",
+    "expected_points": [
+      {"point": "Uses GCS landing, Dataflow/Composer processing, and BigQuery serving", "keywords": ["gcs", "dataflow", "composer", "bigquery"], "weight": 4},
+      {"point": "Handles batch and streaming patterns", "keywords": ["batch", "streaming", "pub/sub"], "weight": 2},
+      {"point": "Includes IAM, monitoring, and data quality", "keywords": ["iam", "monitoring", "quality"], "weight": 2},
+      {"point": "Defines ownership and standards", "keywords": ["owner", "standard", "governance"], "weight": 2}
+    ],
+    "explanation": "A lead-level GCP platform connects ingestion, processing, storage, orchestration, governance, and operations.",
+    "ideal_answer": "I would use GCS for landing, Pub/Sub/Dataflow for streaming, Composer for orchestration, BigQuery for curated analytics, and standardize IAM, monitoring, data quality, naming, and ownership.",
+    "tags": ["gcp", "architecture", "bigquery", "dataflow", "composer"]
+  },
+  {
+    "id": "gcp_bigquery_lead_trade_002",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Reservations vs on-demand",
+    "scenario": "Leadership asks whether to buy BigQuery reservations or keep on-demand pricing.",
+    "question": "What trade-offs would you evaluate?",
+    "expected_points": [
+      {"point": "Analyzes workload predictability and volume", "keywords": ["predictable", "volume", "workload"], "weight": 3},
+      {"point": "Compares cost stability vs flexibility", "keywords": ["cost", "stability", "flexibility"], "weight": 3},
+      {"point": "Considers workload isolation", "keywords": ["isolation", "reservation", "assignment"], "weight": 2},
+      {"point": "Uses historical usage data", "keywords": ["historical", "usage", "slot"], "weight": 2}
+    ],
+    "explanation": "Reservations can improve predictability and isolation, but on-demand may suit variable or smaller workloads.",
+    "ideal_answer": "I would analyze historical bytes/slot usage, workload predictability, concurrency needs, and team isolation. Reservations fit steady high-volume workloads; on-demand is simpler for variable usage.",
+    "tags": ["gcp", "bigquery", "reservations", "cost", "tradeoffs"]
+  },
+  {
+    "id": "gcp_bigquery_lead_stake_003",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Data incident communication",
+    "scenario": "A BigQuery table used for executive reporting is stale before a board meeting.",
+    "question": "How would you handle the situation with engineering and business stakeholders?",
+    "expected_points": [
+      {"point": "Assesses freshness gap and business impact", "keywords": ["freshness", "impact", "board"], "weight": 3},
+      {"point": "Communicates status and ETA", "keywords": ["communicate", "eta", "status"], "weight": 2},
+      {"point": "Runs remediation or fallback plan", "keywords": ["remediate", "fallback", "restore"], "weight": 3},
+      {"point": "Adds prevention actions", "keywords": ["prevent", "monitor", "postmortem"], "weight": 2}
+    ],
+    "explanation": "Lead engineers must manage both technical recovery and executive trust during data incidents.",
+    "ideal_answer": "I would quantify how stale the table is, communicate affected metrics and ETA, restore from a known-good path or rerun the pipeline, and follow up with freshness alerts and a postmortem.",
+    "tags": ["gcp", "bigquery", "incident_management", "stakeholders"]
+  },
+  {
+    "id": "gcp_bigquery_lead_gov_004",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "scenario",
+    "concept": "Dataset access model",
+    "scenario": "Many teams request direct access to raw BigQuery datasets containing sensitive customer data.",
+    "question": "What access model would you recommend?",
+    "expected_points": [
+      {"point": "Minimizes raw sensitive access", "keywords": ["raw", "sensitive", "minimize"], "weight": 3},
+      {"point": "Uses curated datasets/views for broad consumption", "keywords": ["curated", "view", "authorized"], "weight": 3},
+      {"point": "Applies least privilege and service accounts", "keywords": ["least privilege", "service account", "iam"], "weight": 2},
+      {"point": "Audits access and reviews permissions", "keywords": ["audit", "review", "permission"], "weight": 2}
+    ],
+    "explanation": "Governed access should expose the minimum necessary data through trusted layers.",
+    "ideal_answer": "I would restrict raw sensitive datasets, expose curated or authorized views for most users, grant least-privilege IAM, and monitor access with audit logs and periodic reviews.",
+    "tags": ["gcp", "bigquery", "governance", "iam", "security"]
+  },
+  {
+    "id": "gcp_bigquery_lead_reliability_005",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Critical pipeline SLOs",
+    "scenario": "Several GCP pipelines support revenue reporting, but there are no reliability expectations.",
+    "question": "What SLOs and operational practices would you define?",
+    "expected_points": [
+      {"point": "Defines freshness, completeness, and correctness SLOs", "keywords": ["freshness", "completeness", "correctness", "slo"], "weight": 4},
+      {"point": "Adds alerts and ownership", "keywords": ["alert", "owner", "on-call"], "weight": 2},
+      {"point": "Adds quality gates before publishing", "keywords": ["quality gate", "publish", "validation"], "weight": 2},
+      {"point": "Runs incident reviews", "keywords": ["incident", "postmortem", "review"], "weight": 2}
+    ],
+    "explanation": "Critical data products need explicit reliability targets and operational ownership.",
+    "ideal_answer": "I would define SLOs for freshness, completeness, and correctness, assign owners, add alerts and quality gates, and run incident reviews for breaches.",
+    "tags": ["gcp", "reliability", "slo", "monitoring"]
+  },
+  {
+    "id": "gcp_bigquery_lead_arch_006",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Dataflow template strategy",
+    "scenario": "Teams repeatedly build similar Dataflow pipelines from Pub/Sub to BigQuery.",
+    "question": "How would you standardize this pattern?",
+    "expected_points": [
+      {"point": "Creates reusable templates or libraries", "keywords": ["template", "library", "reusable"], "weight": 3},
+      {"point": "Standardizes error handling and dead-letter outputs", "keywords": ["dead letter", "error", "handling"], "weight": 3},
+      {"point": "Includes schema validation and monitoring", "keywords": ["schema", "monitoring", "validation"], "weight": 2},
+      {"point": "Supports configurable source/sink parameters", "keywords": ["config", "source", "sink"], "weight": 2}
+    ],
+    "explanation": "Reusable Dataflow patterns reduce repeated production mistakes and speed up new streaming pipelines.",
+    "ideal_answer": "I would provide a reusable Dataflow template with configurable Pub/Sub topics and BigQuery sinks, standard dead-letter handling, schema validation, metrics, and examples for teams.",
+    "tags": ["gcp", "dataflow", "pubsub", "platform"]
+  },
+  {
+    "id": "gcp_bigquery_lead_trade_007",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Centralized vs domain-owned datasets",
+    "scenario": "A central team owns all BigQuery marts, but domain teams complain delivery is slow.",
+    "question": "How would you balance governance and domain ownership?",
+    "expected_points": [
+      {"point": "Separates certified core datasets from domain marts", "keywords": ["certified", "core", "domain"], "weight": 3},
+      {"point": "Defines standards and promotion workflow", "keywords": ["standard", "promotion", "review"], "weight": 3},
+      {"point": "Keeps domain logic close to domain teams", "keywords": ["domain", "ownership", "logic"], "weight": 2},
+      {"point": "Maintains governance for critical metrics", "keywords": ["governance", "metric", "critical"], "weight": 2}
+    ],
+    "explanation": "A federated model can preserve trusted core data while allowing domains to move faster.",
+    "ideal_answer": "I would keep certified shared datasets and metrics governed centrally, let domain teams own marts within standards, and define a promotion process for assets that become broadly trusted.",
+    "tags": ["gcp", "bigquery", "governance", "operating_model"]
+  },
+  {
+    "id": "gcp_bigquery_lead_gov_008",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "governance",
+    "difficulty": "hard",
+    "concept": "VPC Service Controls",
+    "scenario": "Security asks how to reduce data exfiltration risk around sensitive BigQuery datasets.",
+    "question": "How would you explain the role of VPC Service Controls at a high level?",
+    "expected_points": [
+      {"point": "Explains perimeter around supported services", "keywords": ["perimeter", "service", "boundary"], "weight": 3},
+      {"point": "Reduces exfiltration risk", "keywords": ["exfiltration", "risk", "data"], "weight": 3},
+      {"point": "Does not replace IAM", "keywords": ["iam", "not replace", "permission"], "weight": 2},
+      {"point": "Requires careful design and testing", "keywords": ["design", "test", "break"], "weight": 2}
+    ],
+    "explanation": "VPC Service Controls can add a service perimeter, but IAM and operational design are still required.",
+    "ideal_answer": "VPC Service Controls create a perimeter around supported services to reduce exfiltration risk. They complement IAM, need careful exception design, and should be tested because they can break legitimate workflows.",
+    "tags": ["gcp", "vpc_service_controls", "security", "governance"]
+  },
+  {
+    "id": "gcp_bigquery_lead_reliability_009",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "reliability",
+    "difficulty": "hard",
+    "concept": "Backfill operations",
+    "scenario": "A source bug requires backfilling six months of data through GCS, Dataflow, and BigQuery.",
+    "question": "How would you plan and operate the backfill?",
+    "expected_points": [
+      {"point": "Runs by bounded partitions or windows", "keywords": ["partition", "window", "bounded"], "weight": 3},
+      {"point": "Controls capacity and cost impact", "keywords": ["capacity", "cost", "slot"], "weight": 2},
+      {"point": "Validates output and reconciles counts", "keywords": ["validate", "reconcile", "count"], "weight": 3},
+      {"point": "Communicates progress and rollback plan", "keywords": ["progress", "rollback", "communicate"], "weight": 2}
+    ],
+    "explanation": "Large backfills need controlled execution, validation, and stakeholder communication.",
+    "ideal_answer": "I would backfill in partition windows, control Dataflow/BigQuery capacity, validate row counts and metrics per window, communicate progress, and keep rollback or restore plans ready.",
+    "tags": ["gcp", "backfill", "dataflow", "bigquery", "reliability"]
+  },
+  {
+    "id": "gcp_bigquery_lead_stake_010",
+    "domain": "GCP / BigQuery",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Cost governance",
+    "scenario": "BigQuery costs are rising and leadership wants immediate cuts without hurting critical analytics.",
+    "question": "How would you lead the cost reduction effort?",
+    "expected_points": [
+      {"point": "Identifies top cost drivers by team/workload", "keywords": ["top", "driver", "team", "workload"], "weight": 3},
+      {"point": "Protects critical workloads", "keywords": ["critical", "protect", "priority"], "weight": 2},
+      {"point": "Applies technical optimizations and guardrails", "keywords": ["partition", "guardrail", "quota"], "weight": 3},
+      {"point": "Communicates trade-offs and tracks savings", "keywords": ["communicate", "trade-off", "savings"], "weight": 2}
+    ],
+    "explanation": "Cost leadership requires visibility, prioritization, technical fixes, and stakeholder alignment.",
+    "ideal_answer": "I would identify top cost drivers, protect critical reports, apply partitioning/materialization/query guardrails, educate teams, and report savings plus any trade-offs to leadership.",
+    "tags": ["gcp", "bigquery", "cost", "stakeholders"]
+  }
+]

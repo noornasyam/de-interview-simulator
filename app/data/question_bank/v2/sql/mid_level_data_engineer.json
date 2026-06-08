@@ -1,0 +1,175 @@
+[
+  {
+    "id": "sql_mid_mcq_001",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Window functions",
+    "question": "Which function is commonly used to rank rows within each customer partition?",
+    "options": ["ROW_NUMBER()", "COUNT(*)", "COALESCE()", "UNION ALL"],
+    "correct_answer": "ROW_NUMBER()",
+    "explanation": "ROW_NUMBER assigns an ordered sequence inside each partition, which is useful for latest-record or deduplication logic.",
+    "ideal_answer": "Use ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY event_ts DESC) to rank rows per customer.",
+    "tags": ["sql", "window_functions", "ranking"]
+  },
+  {
+    "id": "sql_mid_short_002",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Deduplication",
+    "scenario": "A CDC table contains multiple versions of each customer record.",
+    "question": "How would you keep only the latest version per customer?",
+    "expected_points": [
+      {"point": "Use ROW_NUMBER or similar window function", "keywords": ["row_number", "rank", "window"], "weight": 4},
+      {"point": "Partition by business key", "keywords": ["partition", "customer_id", "business key"], "weight": 3},
+      {"point": "Order by update timestamp or sequence", "keywords": ["order", "timestamp", "sequence", "updated_at"], "weight": 3}
+    ],
+    "explanation": "Latest-record deduplication requires identifying the entity key and a reliable ordering column.",
+    "ideal_answer": "Use ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY updated_at DESC, cdc_sequence DESC) and keep rows where row_number = 1.",
+    "tags": ["sql", "deduplication", "cdc"]
+  },
+  {
+    "id": "sql_mid_scenario_003",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Incremental models",
+    "scenario": "A daily dbt model in BigQuery scans a 4 TB events table every morning and costs are rising.",
+    "question": "How would you redesign the SQL model to reduce scanned data while keeping results correct?",
+    "expected_points": [
+      {"point": "Use incremental processing", "keywords": ["incremental", "merge", "watermark"], "weight": 3},
+      {"point": "Filter by partition column", "keywords": ["partition", "date", "pruning"], "weight": 3},
+      {"point": "Handle late-arriving data", "keywords": ["late", "lookback", "reprocess"], "weight": 2},
+      {"point": "Validate row counts and freshness", "keywords": ["test", "freshness", "validation"], "weight": 2}
+    ],
+    "explanation": "Large analytical tables should be filtered by partition and processed incrementally when the business logic allows it.",
+    "ideal_answer": "I would convert the model to an incremental MERGE keyed by the event or business key, filter source reads by the partition date, include a small lookback window for late data, and add freshness plus reconciliation checks.",
+    "tags": ["sql", "bigquery", "incremental", "cost"]
+  },
+  {
+    "id": "sql_mid_trouble_004",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Join grain",
+    "scenario": "A revenue dashboard doubled overnight after a new product dimension join was added.",
+    "question": "How would you debug the SQL query?",
+    "expected_points": [
+      {"point": "Check row counts before and after each join", "keywords": ["row count", "before", "after", "join"], "weight": 3},
+      {"point": "Inspect join keys and dimension uniqueness", "keywords": ["join key", "unique", "dimension"], "weight": 3},
+      {"point": "Confirm table grain", "keywords": ["grain", "one-to-many", "many-to-many"], "weight": 2},
+      {"point": "Fix with deduplication or correct join condition", "keywords": ["deduplicate", "qualify", "condition"], "weight": 2}
+    ],
+    "explanation": "Revenue duplication after a join usually means the join changed the row grain or used a non-unique dimension key.",
+    "ideal_answer": "I would compare row counts and revenue before and after each join, verify product dimension uniqueness on the join key, inspect the grain, and fix the join by deduplicating the dimension or joining on the correct effective-dated key.",
+    "tags": ["sql", "troubleshooting", "joins", "grain"]
+  },
+  {
+    "id": "sql_mid_short_005",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Sargable predicates",
+    "question": "Why can wrapping a partition column in a function make a query slower?",
+    "expected_points": [
+      {"point": "May prevent partition pruning or index use", "keywords": ["partition pruning", "index", "pruning"], "weight": 6},
+      {"point": "Use range predicates on raw columns", "keywords": ["range", "raw column", ">=", "<"], "weight": 4}
+    ],
+    "explanation": "Functions on filter columns can make it harder for the engine to skip irrelevant partitions or index ranges.",
+    "ideal_answer": "Wrapping a date column in a function can prevent pruning. Prefer raw range filters like event_date >= '2026-06-01' AND event_date < '2026-06-08'.",
+    "tags": ["sql", "performance", "partitioning"]
+  },
+  {
+    "id": "sql_mid_mcq_006",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "UNION vs UNION ALL",
+    "question": "Which operator keeps duplicates and usually avoids the deduplication cost?",
+    "options": ["UNION ALL", "UNION", "INTERSECT", "EXCEPT"],
+    "correct_answer": "UNION ALL",
+    "explanation": "UNION ALL appends rows without removing duplicates. UNION performs distinct deduplication.",
+    "ideal_answer": "Use UNION ALL when duplicates are valid or already controlled upstream; use UNION only when deduplication is required.",
+    "tags": ["sql", "union", "performance"]
+  },
+  {
+    "id": "sql_mid_scenario_007",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Data quality checks",
+    "scenario": "A pipeline creates a daily fact_orders table used by finance.",
+    "question": "Which SQL data quality checks would you add before publishing?",
+    "expected_points": [
+      {"point": "Check primary key uniqueness", "keywords": ["unique", "primary key", "duplicate"], "weight": 3},
+      {"point": "Check not-null required fields", "keywords": ["not null", "required", "null"], "weight": 2},
+      {"point": "Reconcile totals or row counts", "keywords": ["reconcile", "row count", "totals"], "weight": 3},
+      {"point": "Check accepted values or ranges", "keywords": ["range", "accepted values", "negative"], "weight": 2}
+    ],
+    "explanation": "Finance-facing facts need checks for uniqueness, completeness, reconciliation, and valid business values.",
+    "ideal_answer": "I would test order_id uniqueness, required fields like order_date and amount, revenue reconciliation against source totals, and valid ranges such as non-negative quantities unless returns are explicitly modeled.",
+    "tags": ["sql", "data_quality", "finance"]
+  },
+  {
+    "id": "sql_mid_trouble_008",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Late-arriving data",
+    "scenario": "Yesterday's sales report is missing some orders that arrived late from an upstream system.",
+    "question": "How would you adjust the SQL pipeline?",
+    "expected_points": [
+      {"point": "Use a lookback window", "keywords": ["lookback", "window", "reprocess"], "weight": 4},
+      {"point": "Merge/upsert instead of append-only duplicates", "keywords": ["merge", "upsert", "idempotent"], "weight": 3},
+      {"point": "Monitor lateness and freshness", "keywords": ["monitor", "freshness", "late"], "weight": 3}
+    ],
+    "explanation": "Late-arriving records require reprocessing recent partitions and idempotent updates.",
+    "ideal_answer": "I would reprocess a small rolling lookback window, MERGE records by stable order_id, and monitor upstream freshness plus late-arrival counts.",
+    "tags": ["sql", "late_data", "incremental"]
+  },
+  {
+    "id": "sql_mid_short_009",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "CTEs",
+    "question": "What is a good reason to use CTEs in analytical SQL?",
+    "expected_points": [
+      {"point": "Improve readability by breaking logic into steps", "keywords": ["readability", "steps", "logic"], "weight": 5},
+      {"point": "Make intermediate grains easier to inspect", "keywords": ["intermediate", "grain", "debug"], "weight": 3},
+      {"point": "Do not assume CTEs always improve performance", "keywords": ["performance", "optimizer", "materialize"], "weight": 2}
+    ],
+    "explanation": "CTEs are useful for readable staged transformations, but their performance behavior depends on the SQL engine.",
+    "ideal_answer": "CTEs help structure complex transformations into readable steps and make intermediate results easier to validate. I would not assume they automatically improve performance.",
+    "tags": ["sql", "ctes", "readability"]
+  },
+  {
+    "id": "sql_mid_scenario_010",
+    "domain": "SQL",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Slow query optimization",
+    "scenario": "A query for monthly active users runs for 40 minutes and scans most of the events table.",
+    "question": "What SQL-level changes would you investigate first?",
+    "expected_points": [
+      {"point": "Filter early using partitions", "keywords": ["filter early", "partition", "date"], "weight": 3},
+      {"point": "Reduce selected columns and data volume", "keywords": ["columns", "select", "scan"], "weight": 2},
+      {"point": "Pre-aggregate at useful grain", "keywords": ["pre-aggregate", "daily", "grain"], "weight": 3},
+      {"point": "Review joins and distinct operations", "keywords": ["join", "distinct", "shuffle"], "weight": 2}
+    ],
+    "explanation": "Slow analytical SQL often improves by reducing scanned partitions, lowering data volume, and aggregating at the right grain.",
+    "ideal_answer": "I would add partition filters, avoid SELECT *, pre-aggregate events by user and day if acceptable, and inspect joins or DISTINCT operations that cause large shuffles.",
+    "tags": ["sql", "performance", "optimization"]
+  }
+]

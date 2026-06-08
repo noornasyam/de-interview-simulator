@@ -1,0 +1,192 @@
+[
+  {
+    "id": "gcp_bigquery_senior_desc_001",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "descriptive",
+    "difficulty": "medium",
+    "concept": "Production BigQuery model design",
+    "scenario": "A BigQuery fact table powers finance and product dashboards.",
+    "question": "How would you design the table and pipeline for correctness, performance, and operations?",
+    "expected_points": [
+      {"point": "Defines grain, schema, and business rules", "keywords": ["grain", "schema", "business"], "weight": 3},
+      {"point": "Uses partitioning and clustering based on query patterns", "keywords": ["partition", "cluster", "query pattern"], "weight": 3},
+      {"point": "Adds data quality and reconciliation checks", "keywords": ["quality", "reconcile", "validation"], "weight": 2},
+      {"point": "Adds monitoring, ownership, and documentation", "keywords": ["monitor", "owner", "documentation"], "weight": 2}
+    ],
+    "explanation": "Senior BigQuery design combines data modeling, cost/performance layout, validation, and operational ownership.",
+    "ideal_answer": "I would define the fact grain and schema, partition by a common date filter, cluster by frequent filters or joins, add quality and reconciliation checks, document metric logic, and monitor freshness, failures, and cost.",
+    "tags": ["gcp", "bigquery", "modeling", "production"]
+  },
+  {
+    "id": "gcp_bigquery_senior_cost_002",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "medium",
+    "concept": "BigQuery cost optimization",
+    "scenario": "A daily transformation scans 30 TB and is now the top BigQuery cost driver.",
+    "question": "How would you reduce cost while preserving correctness?",
+    "expected_points": [
+      {"point": "Inspect job details and query plan", "keywords": ["job details", "query plan", "bytes"], "weight": 2},
+      {"point": "Add partition pruning and clustering", "keywords": ["partition", "cluster", "pruning"], "weight": 3},
+      {"point": "Incrementalize or pre-aggregate", "keywords": ["incremental", "pre-aggregate", "materialized"], "weight": 3},
+      {"point": "Validate output against baseline", "keywords": ["validate", "baseline", "reconcile"], "weight": 2}
+    ],
+    "explanation": "Cost reductions must be measured and validated, especially for business-critical transforms.",
+    "ideal_answer": "I would inspect bytes scanned and execution plan, add partition filters and clustering, convert full refreshes to incremental or pre-aggregated models, and reconcile results before rollout.",
+    "tags": ["gcp", "bigquery", "cost_optimization", "performance"]
+  },
+  {
+    "id": "gcp_bigquery_senior_trouble_003",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Streaming lag",
+    "scenario": "A Pub/Sub to Dataflow to BigQuery streaming pipeline is delayed by 45 minutes during peak traffic.",
+    "question": "How would you investigate and stabilize it?",
+    "expected_points": [
+      {"point": "Checks Pub/Sub backlog and Dataflow worker metrics", "keywords": ["backlog", "dataflow", "worker"], "weight": 3},
+      {"point": "Reviews autoscaling, hot keys, and transform bottlenecks", "keywords": ["autoscaling", "hot key", "bottleneck"], "weight": 3},
+      {"point": "Checks BigQuery sink errors or quotas", "keywords": ["bigquery", "sink", "quota"], "weight": 2},
+      {"point": "Adds alerts and capacity planning", "keywords": ["alert", "capacity", "monitor"], "weight": 2}
+    ],
+    "explanation": "Streaming lag can come from message backlog, worker bottlenecks, hot keys, sink errors, or insufficient capacity.",
+    "ideal_answer": "I would inspect Pub/Sub backlog, Dataflow system lag and worker metrics, identify hot keys or slow transforms, check BigQuery write errors/quotas, tune autoscaling, and add alerts on backlog and end-to-end latency.",
+    "tags": ["gcp", "pubsub", "dataflow", "bigquery", "troubleshooting"]
+  },
+  {
+    "id": "gcp_bigquery_senior_design_004",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "Batch vs streaming ingestion",
+    "scenario": "Product asks for near-real-time order analytics, but finance only needs daily reconciled numbers.",
+    "question": "How would you choose between streaming and batch ingestion?",
+    "expected_points": [
+      {"point": "Clarifies latency requirements by use case", "keywords": ["latency", "use case", "requirement"], "weight": 3},
+      {"point": "Compares cost and operational complexity", "keywords": ["cost", "complexity", "operation"], "weight": 3},
+      {"point": "Considers data correctness and reconciliation", "keywords": ["correctness", "reconcile", "finance"], "weight": 2},
+      {"point": "May use hybrid architecture", "keywords": ["hybrid", "batch", "streaming"], "weight": 2}
+    ],
+    "explanation": "Not all consumers need the same freshness; streaming adds value only when low latency changes decisions.",
+    "ideal_answer": "I would use streaming for operational/product use cases that need low latency, keep daily batch for finance-grade reconciliation, and design a clear contract between real-time estimates and final batch numbers.",
+    "tags": ["gcp", "ingestion", "streaming", "batch", "tradeoffs"]
+  },
+  {
+    "id": "gcp_bigquery_senior_scenario_005",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Reservations and slots",
+    "scenario": "Analyst queries and scheduled pipelines compete for BigQuery capacity during business hours.",
+    "question": "How would you use reservations or workload management to reduce contention?",
+    "expected_points": [
+      {"point": "Separates workloads by priority or team", "keywords": ["workload", "priority", "team"], "weight": 3},
+      {"point": "Uses reservations/assignments where appropriate", "keywords": ["reservation", "assignment", "slot"], "weight": 3},
+      {"point": "Schedules heavy batch jobs off peak", "keywords": ["schedule", "off peak", "batch"], "weight": 2},
+      {"point": "Monitors slot utilization and queueing", "keywords": ["utilization", "queue", "monitor"], "weight": 2}
+    ],
+    "explanation": "Reservations can isolate capacity for critical workloads and reduce noisy-neighbor effects.",
+    "ideal_answer": "I would classify workloads, assign critical scheduled pipelines and interactive analytics to appropriate reservations, move heavy batch jobs off peak, and monitor slot utilization, queueing, and cost.",
+    "tags": ["gcp", "bigquery", "slots", "reservations", "capacity"]
+  },
+  {
+    "id": "gcp_bigquery_senior_trouble_006",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Composer DAG failure",
+    "scenario": "A Cloud Composer DAG intermittently fails after launching BigQuery jobs, but manual reruns often succeed.",
+    "question": "How would you debug the intermittent failure?",
+    "expected_points": [
+      {"point": "Checks Composer task logs and BigQuery job IDs", "keywords": ["composer", "logs", "job id"], "weight": 3},
+      {"point": "Distinguishes transient failures from logic errors", "keywords": ["transient", "logic", "retry"], "weight": 2},
+      {"point": "Reviews retries, timeouts, and idempotency", "keywords": ["retry", "timeout", "idempotent"], "weight": 3},
+      {"point": "Checks quotas, permissions, and dependencies", "keywords": ["quota", "permission", "dependency"], "weight": 2}
+    ],
+    "explanation": "Intermittent orchestration failures often require correlating Airflow task logs with downstream service job logs.",
+    "ideal_answer": "I would correlate Composer task logs with BigQuery job IDs, identify whether failures are transient, permission, quota, or dependency-related, then tune retries/timeouts and ensure reruns are idempotent.",
+    "tags": ["gcp", "composer", "bigquery", "troubleshooting"]
+  },
+  {
+    "id": "gcp_bigquery_senior_design_007",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "External vs native BigQuery tables",
+    "scenario": "A team wants to keep Parquet data in GCS and query it through BigQuery external tables for all analytics.",
+    "question": "What trade-offs would you discuss?",
+    "expected_points": [
+      {"point": "Compares storage simplicity against query performance", "keywords": ["storage", "performance", "external"], "weight": 3},
+      {"point": "Considers governance and table features", "keywords": ["governance", "feature", "policy"], "weight": 2},
+      {"point": "Considers cost and access patterns", "keywords": ["cost", "access", "query"], "weight": 3},
+      {"point": "Suggests native tables for high-use curated data", "keywords": ["native", "curated", "load"], "weight": 2}
+    ],
+    "explanation": "External tables are useful for data lake access, but curated high-use analytics often benefit from native BigQuery tables.",
+    "ideal_answer": "I would use external tables for exploration or lake access, but load high-use curated datasets into native BigQuery tables for better performance, governance features, and predictable cost.",
+    "tags": ["gcp", "bigquery", "external_tables", "tradeoffs"]
+  },
+  {
+    "id": "gcp_bigquery_senior_cost_008",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "cost_optimization",
+    "difficulty": "hard",
+    "concept": "Query guardrails",
+    "scenario": "Junior analysts accidentally run expensive BigQuery queries over full history.",
+    "question": "What guardrails would you introduce without blocking useful analysis?",
+    "expected_points": [
+      {"point": "Uses partition filters and table design", "keywords": ["partition", "filter", "table"], "weight": 3},
+      {"point": "Sets maximum bytes billed or quotas", "keywords": ["maximum bytes", "quota", "limit"], "weight": 3},
+      {"point": "Provides curated views or marts", "keywords": ["view", "mart", "curated"], "weight": 2},
+      {"point": "Educates users with cost visibility", "keywords": ["educate", "cost", "visibility"], "weight": 2}
+    ],
+    "explanation": "Cost guardrails should combine technical limits, curated access paths, and user education.",
+    "ideal_answer": "I would require partition filters on large tables, set max bytes billed or quotas, provide curated marts for common analysis, and expose cost guidance so analysts understand query impact.",
+    "tags": ["gcp", "bigquery", "cost", "governance"]
+  },
+  {
+    "id": "gcp_bigquery_senior_scenario_009",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "IAM and least privilege",
+    "scenario": "A pipeline service account currently has BigQuery Admin across the project.",
+    "question": "How would you reduce risk while keeping the pipeline working?",
+    "expected_points": [
+      {"point": "Identifies required actions and resources", "keywords": ["required", "resource", "permission"], "weight": 3},
+      {"point": "Uses least-privilege roles at dataset/table scope", "keywords": ["least privilege", "dataset", "role"], "weight": 3},
+      {"point": "Separates read/write/admin identities if needed", "keywords": ["separate", "identity", "admin"], "weight": 2},
+      {"point": "Verifies with audit logs and tests", "keywords": ["audit", "test", "verify"], "weight": 2}
+    ],
+    "explanation": "Over-permissioned service accounts increase blast radius if credentials or workload identity are misused.",
+    "ideal_answer": "I would inventory required reads/writes, grant narrow BigQuery roles at dataset/table scope, separate deployment/admin identity from runtime identity, and validate using tests and audit logs.",
+    "tags": ["gcp", "iam", "service_accounts", "security"]
+  },
+  {
+    "id": "gcp_bigquery_senior_trouble_010",
+    "domain": "GCP / BigQuery",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Schema evolution",
+    "scenario": "A load job starts failing after a source adds a new nullable column to a JSON feed.",
+    "question": "How would you handle schema evolution safely?",
+    "expected_points": [
+      {"point": "Confirms schema change and failure reason", "keywords": ["schema", "change", "failure"], "weight": 2},
+      {"point": "Uses controlled schema updates", "keywords": ["schema update", "nullable", "add column"], "weight": 3},
+      {"point": "Prevents breaking downstream consumers", "keywords": ["downstream", "consumer", "contract"], "weight": 3},
+      {"point": "Adds monitoring and contract checks", "keywords": ["monitor", "contract", "check"], "weight": 2}
+    ],
+    "explanation": "Schema evolution should be controlled so compatible changes are accepted and breaking changes are caught early.",
+    "ideal_answer": "I would confirm the new nullable field, update the schema through a controlled process if compatible, validate downstream models, and add contract/schema checks to catch future changes before failed loads.",
+    "tags": ["gcp", "bigquery", "schema_evolution", "troubleshooting"]
+  }
+]

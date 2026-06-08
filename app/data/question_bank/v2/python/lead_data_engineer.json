@@ -1,0 +1,192 @@
+[
+  {
+    "id": "python_lead_arch_001",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "medium",
+    "concept": "Shared ingestion framework",
+    "scenario": "Several teams maintain separate Python API ingestion jobs with duplicated retry, logging, and schema logic.",
+    "question": "How would you lead the creation of a shared ingestion framework?",
+    "expected_points": [
+      {"point": "Standardizes common concerns such as retries and logging", "keywords": ["retry", "logging", "standard"], "weight": 3},
+      {"point": "Keeps source-specific logic pluggable", "keywords": ["plugin", "source", "config"], "weight": 3},
+      {"point": "Adds tests, examples, and documentation", "keywords": ["test", "example", "documentation"], "weight": 2},
+      {"point": "Plans adoption and migration", "keywords": ["adoption", "migration", "rollout"], "weight": 2}
+    ],
+    "explanation": "A lead-level framework should remove repeated production plumbing while allowing teams to add source-specific behavior.",
+    "ideal_answer": "I would build a small framework for retries, timeouts, logging, metrics, schema validation, and checkpointing, keep source connectors pluggable, provide docs/examples/tests, and migrate high-value jobs first.",
+    "tags": ["python", "platform", "ingestion", "leadership"]
+  },
+  {
+    "id": "python_lead_trade_002",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "medium",
+    "concept": "Framework vs simple scripts",
+    "scenario": "A team wants to build a large internal Python framework for all pipelines.",
+    "question": "What trade-offs would you evaluate before approving it?",
+    "expected_points": [
+      {"point": "Balances consistency against complexity", "keywords": ["consistency", "complexity", "framework"], "weight": 3},
+      {"point": "Checks whether repeated pain points justify abstraction", "keywords": ["repeated", "pain", "abstraction"], "weight": 3},
+      {"point": "Considers maintainability and onboarding", "keywords": ["maintainability", "onboarding", "documentation"], "weight": 2},
+      {"point": "Starts small and evolves from real use cases", "keywords": ["small", "iterate", "use case"], "weight": 2}
+    ],
+    "explanation": "Frameworks can reduce duplication, but over-abstracting too early can slow teams down.",
+    "ideal_answer": "I would approve only a small framework around repeated operational needs, avoid abstracting every pipeline pattern, document it well, and evolve it from real usage rather than designing a huge platform upfront.",
+    "tags": ["python", "architecture", "tradeoffs", "platform"]
+  },
+  {
+    "id": "python_lead_stake_003",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "scenario",
+    "concept": "Operational incident",
+    "scenario": "A Python pipeline failure delayed executive reporting, and several business teams are asking for updates.",
+    "question": "How would you manage the incident and follow-up?",
+    "expected_points": [
+      {"point": "Restores service or rolls back quickly", "keywords": ["restore", "rollback", "mitigate"], "weight": 3},
+      {"point": "Communicates impact, ETA, and ownership", "keywords": ["communicate", "impact", "eta"], "weight": 3},
+      {"point": "Coordinates technical root cause analysis", "keywords": ["root cause", "rca", "debug"], "weight": 2},
+      {"point": "Adds prevention actions", "keywords": ["prevent", "test", "alert"], "weight": 2}
+    ],
+    "explanation": "Lead engineers are responsible for both technical recovery and stakeholder communication.",
+    "ideal_answer": "I would restore the last good output or rollback, communicate affected reports and ETA, coordinate root cause analysis, then add tests, alerts, and deployment controls based on the failure mode.",
+    "tags": ["python", "incident_management", "stakeholders", "operations"]
+  },
+  {
+    "id": "python_lead_arch_004",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "scenario",
+    "concept": "Testing strategy",
+    "scenario": "Python pipeline quality varies widely across squads.",
+    "question": "What testing strategy would you standardize across teams?",
+    "expected_points": [
+      {"point": "Requires unit tests for transformation logic", "keywords": ["unit", "transform", "logic"], "weight": 3},
+      {"point": "Uses integration tests for external boundaries", "keywords": ["integration", "api", "storage"], "weight": 3},
+      {"point": "Adds data quality and regression tests", "keywords": ["quality", "regression", "fixture"], "weight": 2},
+      {"point": "Runs tests in CI before deployment", "keywords": ["ci", "deployment", "pipeline"], "weight": 2}
+    ],
+    "explanation": "A production Python testing strategy should cover logic, interfaces, data behavior, and deployment gates.",
+    "ideal_answer": "I would standardize unit tests for transforms, mocked integration tests for clients, fixture-based regression tests, data quality checks, and CI gates before deployment.",
+    "tags": ["python", "testing", "ci", "quality"]
+  },
+  {
+    "id": "python_lead_trade_005",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Python orchestration location",
+    "scenario": "A team runs heavy Python transformations inside Airflow tasks, causing scheduler pressure and operational failures.",
+    "question": "What trade-offs would you discuss and what architecture would you recommend?",
+    "expected_points": [
+      {"point": "Avoids heavy compute in the orchestrator", "keywords": ["orchestrator", "heavy", "compute"], "weight": 3},
+      {"point": "Runs compute in appropriate execution environment", "keywords": ["kubernetes", "spark", "cloud run", "dataflow"], "weight": 3},
+      {"point": "Keeps Airflow focused on orchestration", "keywords": ["airflow", "orchestration", "trigger"], "weight": 2},
+      {"point": "Considers observability and retries", "keywords": ["observability", "retry", "logs"], "weight": 2}
+    ],
+    "explanation": "Orchestrators should coordinate work; heavy Python processing usually belongs in scalable execution environments.",
+    "ideal_answer": "I would move heavy Python work to a scalable runtime like Kubernetes, Dataflow, Spark, or Cloud Run, keep Airflow as the orchestrator, and preserve logs, retries, and status reporting.",
+    "tags": ["python", "airflow", "architecture", "tradeoffs"]
+  },
+  {
+    "id": "python_lead_desc_006",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "descriptive",
+    "difficulty": "hard",
+    "concept": "Code review standards",
+    "scenario": "Your team merges Python data pipeline changes with inconsistent quality.",
+    "question": "What would your Python code review checklist include?",
+    "expected_points": [
+      {"point": "Checks correctness and edge cases", "keywords": ["correctness", "edge", "case"], "weight": 3},
+      {"point": "Checks logging, errors, and retry behavior", "keywords": ["logging", "error", "retry"], "weight": 3},
+      {"point": "Checks tests and maintainability", "keywords": ["test", "maintainability", "readability"], "weight": 2},
+      {"point": "Checks security and configuration", "keywords": ["security", "secret", "config"], "weight": 2}
+    ],
+    "explanation": "Python data pipeline reviews should inspect operational behavior, not only style.",
+    "ideal_answer": "I would review data correctness, edge cases, idempotency, retries, logging, metrics, tests, dependency changes, secrets handling, configuration, and whether the code is easy to operate.",
+    "tags": ["python", "code_review", "production", "security"]
+  },
+  {
+    "id": "python_lead_arch_007",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Reusable data quality library",
+    "scenario": "Teams implement duplicate, null, and schema checks differently in Python.",
+    "question": "How would you design a shared data quality library?",
+    "expected_points": [
+      {"point": "Provides reusable check primitives", "keywords": ["reusable", "check", "primitive"], "weight": 3},
+      {"point": "Supports configurable severity and actions", "keywords": ["severity", "config", "action"], "weight": 3},
+      {"point": "Integrates with logging/metrics/alerts", "keywords": ["logging", "metric", "alert"], "weight": 2},
+      {"point": "Includes documentation and examples", "keywords": ["documentation", "example", "adoption"], "weight": 2}
+    ],
+    "explanation": "A shared library can standardize checks and reporting while reducing duplicated validation code.",
+    "ideal_answer": "I would build reusable schema, null, uniqueness, range, and freshness checks with configurable severity, integrate results with logs/metrics/alerts, and publish examples for common pipelines.",
+    "tags": ["python", "data_quality", "library", "platform"]
+  },
+  {
+    "id": "python_lead_trade_008",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "trade_off",
+    "difficulty": "hard",
+    "concept": "Build vs buy",
+    "scenario": "The team wants to build a custom Python connector for a SaaS source that already has a managed ingestion option.",
+    "question": "How would you decide between custom Python and managed ingestion?",
+    "expected_points": [
+      {"point": "Compares feature fit and source complexity", "keywords": ["feature", "fit", "complexity"], "weight": 2},
+      {"point": "Considers operational burden and reliability", "keywords": ["operation", "reliability", "maintenance"], "weight": 3},
+      {"point": "Considers cost and vendor lock-in", "keywords": ["cost", "lock-in", "vendor"], "weight": 2},
+      {"point": "Evaluates security and compliance", "keywords": ["security", "compliance", "credential"], "weight": 3}
+    ],
+    "explanation": "Custom connectors give control but create long-term maintenance and reliability ownership.",
+    "ideal_answer": "I would choose managed ingestion if it meets SLA, security, and transformation needs at reasonable cost; custom Python is justified when source behavior, compliance, or business logic cannot be handled by the managed option.",
+    "tags": ["python", "ingestion", "build_vs_buy", "tradeoffs"]
+  },
+  {
+    "id": "python_lead_stake_009",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "stakeholder_impact",
+    "difficulty": "hard",
+    "concept": "Migration planning",
+    "scenario": "You need to migrate critical Python pipelines to a new runtime without delaying product roadmap work.",
+    "question": "How would you plan the migration?",
+    "expected_points": [
+      {"point": "Prioritizes by criticality and risk", "keywords": ["criticality", "risk", "priority"], "weight": 3},
+      {"point": "Runs old and new paths in parallel for validation", "keywords": ["parallel", "validation", "parity"], "weight": 3},
+      {"point": "Communicates timelines and impact", "keywords": ["communicate", "timeline", "impact"], "weight": 2},
+      {"point": "Defines rollback and success criteria", "keywords": ["rollback", "success", "criteria"], "weight": 2}
+    ],
+    "explanation": "Lead-level migrations need technical safety and stakeholder-aware sequencing.",
+    "ideal_answer": "I would inventory pipelines, rank by criticality, migrate in waves, run old/new outputs in parallel with parity checks, communicate milestones, and keep rollback paths until success criteria are met.",
+    "tags": ["python", "migration", "stakeholders", "reliability"]
+  },
+  {
+    "id": "python_lead_arch_010",
+    "domain": "Python",
+    "level": "Lead Data Engineer",
+    "type": "architecture",
+    "difficulty": "hard",
+    "concept": "Developer experience",
+    "scenario": "New engineers take weeks to set up and safely modify Python data pipelines.",
+    "question": "What would you improve in the developer experience?",
+    "expected_points": [
+      {"point": "Standardizes local setup and templates", "keywords": ["setup", "template", "standard"], "weight": 3},
+      {"point": "Adds quality automation", "keywords": ["lint", "format", "test", "ci"], "weight": 3},
+      {"point": "Improves docs and examples", "keywords": ["docs", "example", "onboarding"], "weight": 2},
+      {"point": "Provides safe test data and sandboxing", "keywords": ["sandbox", "test data", "safe"], "weight": 2}
+    ],
+    "explanation": "Good developer experience improves speed while reducing production mistakes.",
+    "ideal_answer": "I would provide project templates, pinned dependencies, local setup scripts, lint/format/test automation, sample data, sandbox environments, and clear runbooks for common pipeline changes.",
+    "tags": ["python", "developer_experience", "platform", "ci"]
+  }
+]

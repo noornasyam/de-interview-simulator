@@ -1,0 +1,192 @@
+[
+  {
+    "id": "python_senior_desc_001",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "descriptive",
+    "difficulty": "medium",
+    "concept": "Production ETL design",
+    "scenario": "You are building a Python ETL job that extracts API data, transforms it, and writes to a warehouse.",
+    "question": "How would you structure the code for reliability, testability, and operations?",
+    "expected_points": [
+      {"point": "Separates extract, transform, and load logic", "keywords": ["extract", "transform", "load", "separate"], "weight": 3},
+      {"point": "Uses retries, timeouts, and idempotent writes", "keywords": ["retry", "timeout", "idempotent"], "weight": 3},
+      {"point": "Adds logging, metrics, and alerts", "keywords": ["logging", "metrics", "alert"], "weight": 2},
+      {"point": "Adds tests and configuration management", "keywords": ["test", "config", "environment"], "weight": 2}
+    ],
+    "explanation": "Senior Python ETL design includes code structure, failure handling, observability, and testability.",
+    "ideal_answer": "I would split extractor, transformer, and loader modules, inject external clients, use timeouts/retries and idempotent writes, add structured logs and metrics, and cover transformation logic with unit and fixture tests.",
+    "tags": ["python", "etl", "production", "testing"]
+  },
+  {
+    "id": "python_senior_scenario_002",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Backfill design",
+    "scenario": "A business rule changed and you need to backfill two years of data using a Python pipeline.",
+    "question": "How would you design the backfill so it is safe and observable?",
+    "expected_points": [
+      {"point": "Processes data in bounded partitions or batches", "keywords": ["partition", "batch", "window"], "weight": 3},
+      {"point": "Makes writes idempotent", "keywords": ["idempotent", "overwrite", "upsert"], "weight": 3},
+      {"point": "Adds checkpoints and restartability", "keywords": ["checkpoint", "restart", "resume"], "weight": 2},
+      {"point": "Monitors counts and reconciles output", "keywords": ["monitor", "count", "reconcile"], "weight": 2}
+    ],
+    "explanation": "Large backfills need bounded execution, safe retries, and clear validation.",
+    "ideal_answer": "I would run the backfill by date partitions, write idempotently per partition, checkpoint completed windows, monitor throughput and failures, and reconcile counts/metrics before publishing.",
+    "tags": ["python", "backfill", "etl", "reliability"]
+  },
+  {
+    "id": "python_senior_trouble_003",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Data corruption incident",
+    "scenario": "A Python job silently converted large numeric IDs to floats, causing downstream join failures.",
+    "question": "How would you investigate and prevent recurrence?",
+    "expected_points": [
+      {"point": "Identifies type inference or serialization issue", "keywords": ["type", "inference", "float", "serialization"], "weight": 3},
+      {"point": "Checks affected data range and blast radius", "keywords": ["blast radius", "affected", "range"], "weight": 2},
+      {"point": "Adds explicit schema or dtype handling", "keywords": ["schema", "dtype", "string"], "weight": 3},
+      {"point": "Adds tests and validation checks", "keywords": ["test", "validation", "quality"], "weight": 2}
+    ],
+    "explanation": "Python/pandas type inference can corrupt identifiers unless schemas are explicit.",
+    "ideal_answer": "I would trace where IDs became floats, quantify affected outputs, restore from source if needed, force ID columns to string or explicit nullable types, and add schema validation plus regression tests.",
+    "tags": ["python", "pandas", "schema", "incident"]
+  },
+  {
+    "id": "python_senior_design_004",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "pandas vs distributed processing",
+    "scenario": "A pandas job works for 5 GB of data but will soon process 500 GB daily.",
+    "question": "Would you keep optimizing pandas or move to a distributed engine? Explain your decision.",
+    "expected_points": [
+      {"point": "Evaluates data volume and memory limits", "keywords": ["volume", "memory", "limits"], "weight": 3},
+      {"point": "Considers chunking and algorithm improvements first", "keywords": ["chunk", "optimize", "algorithm"], "weight": 2},
+      {"point": "Recognizes when Spark/Beam/distributed processing is appropriate", "keywords": ["spark", "beam", "distributed"], "weight": 3},
+      {"point": "Discusses operational complexity and cost", "keywords": ["complexity", "cost", "operation"], "weight": 2}
+    ],
+    "explanation": "The right tool depends on volume, latency, complexity, team skills, and operational cost.",
+    "ideal_answer": "I would first remove obvious pandas inefficiencies, but at 500 GB daily I would likely move the heavy transform to Spark/Beam or warehouse SQL, while considering cost, operations, and team maintainability.",
+    "tags": ["python", "pandas", "performance", "tradeoffs"]
+  },
+  {
+    "id": "python_senior_scenario_005",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Secrets handling",
+    "scenario": "A Python extractor needs credentials for several APIs and cloud storage.",
+    "question": "How would you manage secrets in production?",
+    "expected_points": [
+      {"point": "Avoids hardcoding secrets", "keywords": ["hardcode", "secret", "code"], "weight": 2},
+      {"point": "Uses secret manager or environment injection", "keywords": ["secret manager", "environment", "vault"], "weight": 4},
+      {"point": "Limits permissions", "keywords": ["least privilege", "permission", "scope"], "weight": 2},
+      {"point": "Avoids logging sensitive values", "keywords": ["log", "redact", "sensitive"], "weight": 2}
+    ],
+    "explanation": "Production Python jobs should retrieve secrets from managed systems and avoid exposing them in code or logs.",
+    "ideal_answer": "I would store credentials in a secret manager, inject them at runtime, use least-privilege service accounts, rotate them, and ensure logs never print raw secrets.",
+    "tags": ["python", "security", "secrets", "production"]
+  },
+  {
+    "id": "python_senior_trouble_006",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Duplicate ingestion",
+    "scenario": "A Python job retry caused duplicate records in the warehouse after a transient failure.",
+    "question": "How would you fix the job design?",
+    "expected_points": [
+      {"point": "Identifies non-idempotent write behavior", "keywords": ["idempotent", "append", "duplicate"], "weight": 3},
+      {"point": "Uses stable keys and upsert/merge/deduplication", "keywords": ["key", "upsert", "merge", "deduplicate"], "weight": 3},
+      {"point": "Commits checkpoints after successful writes", "keywords": ["checkpoint", "commit", "success"], "weight": 2},
+      {"point": "Adds duplicate detection tests", "keywords": ["test", "duplicate", "quality"], "weight": 2}
+    ],
+    "explanation": "Retries must be safe; append-only writes often duplicate data when failures happen after partial success.",
+    "ideal_answer": "I would make writes idempotent using stable keys and merge/upsert logic, commit state only after successful writes, add duplicate checks, and backfill cleanup for affected partitions.",
+    "tags": ["python", "idempotency", "incident", "etl"]
+  },
+  {
+    "id": "python_senior_design_007",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Package structure",
+    "scenario": "A collection of one-off Python pipeline scripts has become hard to maintain.",
+    "question": "How would you turn them into a maintainable internal package?",
+    "expected_points": [
+      {"point": "Defines shared modules for clients, transforms, and utilities", "keywords": ["module", "client", "transform", "utility"], "weight": 3},
+      {"point": "Adds packaging and dependency management", "keywords": ["package", "dependency", "requirements", "pyproject"], "weight": 2},
+      {"point": "Adds tests and CI", "keywords": ["test", "ci", "lint"], "weight": 3},
+      {"point": "Keeps pipeline entrypoints clear", "keywords": ["entrypoint", "cli", "job"], "weight": 2}
+    ],
+    "explanation": "Internal packages reduce duplication and make pipeline code easier to test, version, and deploy.",
+    "ideal_answer": "I would create a package with shared clients, transforms, schemas, and utilities, define clear job entrypoints, manage dependencies, and add tests, linting, and CI before rollout.",
+    "tags": ["python", "packaging", "maintainability", "ci"]
+  },
+  {
+    "id": "python_senior_scenario_008",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Observability",
+    "scenario": "A Python ingestion job has no dashboard, and failures are discovered by analysts hours later.",
+    "question": "What observability would you add?",
+    "expected_points": [
+      {"point": "Structured logs with run and batch context", "keywords": ["structured", "log", "run", "batch"], "weight": 3},
+      {"point": "Metrics for counts, latency, and failures", "keywords": ["metric", "count", "latency", "failure"], "weight": 3},
+      {"point": "Alerts tied to meaningful thresholds", "keywords": ["alert", "threshold", "sla"], "weight": 2},
+      {"point": "Data quality checks", "keywords": ["quality", "validation", "freshness"], "weight": 2}
+    ],
+    "explanation": "Pipeline observability should show whether the job ran, processed expected data, met latency expectations, and produced valid outputs.",
+    "ideal_answer": "I would add structured logs with run IDs, metrics for records read/written, latency and failures, freshness and quality checks, and alerts when SLAs or quality thresholds are breached.",
+    "tags": ["python", "observability", "monitoring", "data_quality"]
+  },
+  {
+    "id": "python_senior_trouble_009",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Dependency failures",
+    "scenario": "A Python pipeline starts failing in production after a dependency was upgraded automatically.",
+    "question": "How would you diagnose and prevent this class of failure?",
+    "expected_points": [
+      {"point": "Checks dependency/version changes", "keywords": ["dependency", "version", "upgrade"], "weight": 3},
+      {"point": "Pins or locks dependencies", "keywords": ["pin", "lock", "requirements"], "weight": 3},
+      {"point": "Runs tests in CI before deployment", "keywords": ["test", "ci", "deployment"], "weight": 2},
+      {"point": "Uses reproducible build artifacts", "keywords": ["reproducible", "container", "artifact"], "weight": 2}
+    ],
+    "explanation": "Uncontrolled dependency upgrades can break runtime behavior, especially in production ETL environments.",
+    "ideal_answer": "I would diff dependency versions, reproduce the failure in the same image, pin or lock dependencies, add CI tests, and deploy immutable artifacts rather than installing floating versions at runtime.",
+    "tags": ["python", "dependencies", "ci", "production"]
+  },
+  {
+    "id": "python_senior_design_010",
+    "domain": "Python",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Validation framework",
+    "scenario": "Several Python pipelines implement different ad hoc data validation logic.",
+    "question": "How would you standardize validation across pipelines?",
+    "expected_points": [
+      {"point": "Defines reusable validation utilities or framework", "keywords": ["reusable", "framework", "utility"], "weight": 3},
+      {"point": "Supports schema and business-rule checks", "keywords": ["schema", "business rule", "check"], "weight": 3},
+      {"point": "Reports failures consistently", "keywords": ["report", "failure", "consistent"], "weight": 2},
+      {"point": "Allows severity and quarantine behavior", "keywords": ["severity", "quarantine", "warning"], "weight": 2}
+    ],
+    "explanation": "Standard validation makes pipeline behavior consistent and easier to operate across teams.",
+    "ideal_answer": "I would build shared validation utilities for schema, nulls, ranges, and business rules, standardize failure reporting and severity, and support quarantine or fail-fast behavior depending on dataset criticality.",
+    "tags": ["python", "data_quality", "validation", "platform"]
+  }
+]

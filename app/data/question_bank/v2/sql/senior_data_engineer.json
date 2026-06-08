@@ -1,0 +1,192 @@
+[
+  {
+    "id": "sql_senior_desc_001",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "descriptive",
+    "difficulty": "medium",
+    "concept": "Production SQL design",
+    "scenario": "A critical revenue model is used by finance, product, and executive dashboards.",
+    "question": "How would you design the SQL transformation so it is correct, explainable, and maintainable?",
+    "expected_points": [
+      {"point": "Defines table grain and business rules explicitly", "keywords": ["grain", "business rules", "definition"], "weight": 3},
+      {"point": "Uses staged transformations with tests", "keywords": ["staging", "tests", "dbt"], "weight": 3},
+      {"point": "Adds reconciliation and data quality checks", "keywords": ["reconcile", "quality", "validation"], "weight": 2},
+      {"point": "Documents assumptions and ownership", "keywords": ["documentation", "owner", "assumption"], "weight": 2}
+    ],
+    "explanation": "Senior SQL work is not only query writing; it includes model contracts, quality checks, and maintainability.",
+    "ideal_answer": "I would define the fact grain and metric rules, stage raw sources into clean models, build the revenue fact from tested intermediate models, add uniqueness/not-null/reconciliation checks, document assumptions, and assign ownership for changes.",
+    "tags": ["sql", "modeling", "data_quality", "dbt"]
+  },
+  {
+    "id": "sql_senior_scenario_002",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "medium",
+    "concept": "Slow warehouse queries",
+    "scenario": "A BigQuery transformation scans 20 TB daily and has become the largest cost driver in the warehouse.",
+    "question": "What steps would you take to reduce cost without changing business results?",
+    "expected_points": [
+      {"point": "Inspect query plan and scanned bytes", "keywords": ["query plan", "bytes", "scan"], "weight": 2},
+      {"point": "Use partition pruning and clustering", "keywords": ["partition", "cluster", "pruning"], "weight": 3},
+      {"point": "Incrementalize or pre-aggregate", "keywords": ["incremental", "pre-aggregate", "materialized"], "weight": 3},
+      {"point": "Validate results against baseline", "keywords": ["validate", "reconcile", "baseline"], "weight": 2}
+    ],
+    "explanation": "Cost optimization must preserve correctness, so every reduction needs a validation strategy.",
+    "ideal_answer": "I would inspect bytes scanned and the plan, add partition filters and clustering where useful, convert full refreshes to incremental processing or pre-aggregates, and reconcile output against the previous model before rollout.",
+    "tags": ["sql", "bigquery", "cost_optimization"]
+  },
+  {
+    "id": "sql_senior_trouble_003",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Metric regression",
+    "scenario": "After a schema migration, active users dropped by 18% in the dashboard but raw event volume is normal.",
+    "question": "How would you investigate the SQL and data path?",
+    "expected_points": [
+      {"point": "Compare before/after model outputs", "keywords": ["before", "after", "compare", "diff"], "weight": 2},
+      {"point": "Check schema changes, joins, filters, and null handling", "keywords": ["schema", "join", "filter", "null"], "weight": 4},
+      {"point": "Trace lineage from raw to dashboard", "keywords": ["lineage", "raw", "dashboard"], "weight": 2},
+      {"point": "Communicate impact and rollback if needed", "keywords": ["rollback", "impact", "communicate"], "weight": 2}
+    ],
+    "explanation": "A metric regression with normal raw volume often comes from transformation logic, schema mapping, filters, or joins.",
+    "ideal_answer": "I would diff outputs before and after migration, inspect changed columns and type casts, test joins and filters, trace lineage to the dashboard metric, quantify impact, and rollback or patch the model if finance/product users are affected.",
+    "tags": ["sql", "incident", "lineage", "troubleshooting"]
+  },
+  {
+    "id": "sql_senior_design_004",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "scenario",
+    "concept": "Incremental strategy",
+    "scenario": "You are building an orders fact table from a mutable source where order status can change for 30 days.",
+    "question": "Would you use append-only inserts or MERGE-based incremental processing? Explain the trade-off.",
+    "expected_points": [
+      {"point": "Recognizes mutable records require updates", "keywords": ["mutable", "update", "status"], "weight": 3},
+      {"point": "Uses MERGE/upsert with stable key", "keywords": ["merge", "upsert", "key"], "weight": 3},
+      {"point": "Handles lookback/reprocessing window", "keywords": ["lookback", "30 days", "reprocess"], "weight": 2},
+      {"point": "Mentions cost and idempotency", "keywords": ["cost", "idempotent", "partition"], "weight": 2}
+    ],
+    "explanation": "Mutable business entities usually need idempotent upsert logic, not simple append-only processing.",
+    "ideal_answer": "I would use MERGE keyed by order_id and reprocess a rolling window covering possible status changes. It costs more than append-only but preserves correctness and can be controlled with partition filters.",
+    "tags": ["sql", "incremental", "merge", "tradeoffs"]
+  },
+  {
+    "id": "sql_senior_scenario_005",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Data contracts",
+    "scenario": "An upstream team often changes column meaning without warning, breaking downstream SQL models.",
+    "question": "How would you reduce breakage and improve reliability?",
+    "expected_points": [
+      {"point": "Define data contracts or interface expectations", "keywords": ["contract", "schema", "expectation"], "weight": 3},
+      {"point": "Add schema and semantic tests", "keywords": ["test", "schema", "semantic"], "weight": 3},
+      {"point": "Set ownership and change process", "keywords": ["owner", "change management", "communication"], "weight": 2},
+      {"point": "Monitor downstream impact", "keywords": ["monitor", "alert", "lineage"], "weight": 2}
+    ],
+    "explanation": "Reliable SQL systems need clear producer-consumer contracts, not only downstream defensive code.",
+    "ideal_answer": "I would define a data contract for required columns and meanings, add schema and semantic tests, set ownership and change notification, and monitor lineage so downstream breakage is detected quickly.",
+    "tags": ["sql", "data_contracts", "reliability"]
+  },
+  {
+    "id": "sql_senior_trouble_006",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Null semantics",
+    "scenario": "A retention query suddenly excludes many users after a nullable marketing_channel field was added to the join condition.",
+    "question": "What SQL behavior might explain this, and how would you fix it?",
+    "expected_points": [
+      {"point": "Explains NULL comparison behavior", "keywords": ["null", "unknown", "comparison"], "weight": 3},
+      {"point": "Checks join/filter logic", "keywords": ["join", "filter", "condition"], "weight": 3},
+      {"point": "Uses explicit null handling", "keywords": ["coalesce", "is null", "null-safe"], "weight": 2},
+      {"point": "Validates counts by segment", "keywords": ["validate", "counts", "segment"], "weight": 2}
+    ],
+    "explanation": "NULLs do not compare equal with normal equality and can silently drop rows in joins or filters.",
+    "ideal_answer": "The join may be dropping rows because NULL = NULL is unknown. I would inspect the join condition, use explicit null-safe logic or COALESCE if semantically valid, and validate row counts by channel before release.",
+    "tags": ["sql", "nulls", "joins", "incident"]
+  },
+  {
+    "id": "sql_senior_design_007",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "Materialization",
+    "scenario": "A business metric is expensive to compute but queried frequently by several dashboards.",
+    "question": "When would you materialize the metric instead of leaving it as a view?",
+    "expected_points": [
+      {"point": "Considers query frequency and latency", "keywords": ["frequency", "latency", "dashboard"], "weight": 3},
+      {"point": "Considers compute cost vs storage cost", "keywords": ["compute", "storage", "cost"], "weight": 3},
+      {"point": "Plans refresh and freshness expectations", "keywords": ["refresh", "freshness", "schedule"], "weight": 2},
+      {"point": "Adds validation and ownership", "keywords": ["validation", "owner", "test"], "weight": 2}
+    ],
+    "explanation": "Materialization trades storage and refresh complexity for faster and cheaper repeated reads.",
+    "ideal_answer": "I would materialize it if repeated dashboard queries make view computation expensive or slow, define refresh and freshness expectations, compare storage vs compute cost, and add validation tests.",
+    "tags": ["sql", "materialization", "cost", "dashboards"]
+  },
+  {
+    "id": "sql_senior_desc_008",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "descriptive",
+    "difficulty": "hard",
+    "concept": "Slowly changing dimensions",
+    "scenario": "Customer attributes change over time, and analysts need historical reporting based on the value at order time.",
+    "question": "How would you model and query this in SQL?",
+    "expected_points": [
+      {"point": "Uses SCD Type 2 or effective dating", "keywords": ["type 2", "effective", "valid_from", "valid_to"], "weight": 4},
+      {"point": "Joins facts by timestamp between validity ranges", "keywords": ["between", "order date", "valid"], "weight": 3},
+      {"point": "Handles current flag and late changes", "keywords": ["current", "late", "backfill"], "weight": 2},
+      {"point": "Tests overlapping ranges", "keywords": ["overlap", "test", "range"], "weight": 1}
+    ],
+    "explanation": "Historical reporting needs attributes as they were at event time, not just the latest dimension value.",
+    "ideal_answer": "I would maintain a Type 2 dimension with valid_from and valid_to, join orders where order_ts falls in the validity range, test for overlapping ranges, and handle backfills for late attribute corrections.",
+    "tags": ["sql", "scd2", "data_modeling"]
+  },
+  {
+    "id": "sql_senior_trouble_009",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "hard",
+    "concept": "Query correctness",
+    "scenario": "A COUNT(DISTINCT user_id) metric differs between two trusted reports.",
+    "question": "How would you reconcile the discrepancy?",
+    "expected_points": [
+      {"point": "Align metric definition and filters", "keywords": ["definition", "filter", "scope"], "weight": 3},
+      {"point": "Compare source tables and time windows", "keywords": ["source", "window", "date"], "weight": 3},
+      {"point": "Inspect deduplication and identity logic", "keywords": ["dedup", "identity", "user_id"], "weight": 2},
+      {"point": "Produce a reproducible diff", "keywords": ["diff", "sample", "reproduce"], "weight": 2}
+    ],
+    "explanation": "Metric reconciliation starts by proving that both reports use the same definition, source, and time window.",
+    "ideal_answer": "I would compare metric definitions, filters, source tables, and time windows, then produce a user-level diff to identify whether identity resolution, deduplication, or filtering causes the gap.",
+    "tags": ["sql", "metrics", "reconciliation"]
+  },
+  {
+    "id": "sql_senior_design_010",
+    "domain": "SQL",
+    "level": "Senior Data Engineer",
+    "type": "design_decision",
+    "difficulty": "hard",
+    "concept": "PII handling",
+    "scenario": "A SQL model exposes customer email and phone to a broad analytics dataset.",
+    "question": "What changes would you recommend for security and governance?",
+    "expected_points": [
+      {"point": "Limit PII exposure by default", "keywords": ["pii", "mask", "minimize"], "weight": 3},
+      {"point": "Use access controls or authorized views", "keywords": ["access", "authorized", "role"], "weight": 3},
+      {"point": "Hash or tokenize when raw value is not needed", "keywords": ["hash", "tokenize", "pseudonymize"], "weight": 2},
+      {"point": "Audit usage and document classification", "keywords": ["audit", "classification", "governance"], "weight": 2}
+    ],
+    "explanation": "SQL models should minimize sensitive data exposure and enforce access through governance controls.",
+    "ideal_answer": "I would remove raw PII from broad datasets, expose masked or hashed values where sufficient, restrict raw PII through roles or authorized views, and add classification plus audit monitoring.",
+    "tags": ["sql", "security", "governance", "pii"]
+  }
+]

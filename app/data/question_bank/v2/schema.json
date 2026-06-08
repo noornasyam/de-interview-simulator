@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DailyDEHub v2 Question Bank",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "domain", "level", "type", "difficulty", "concept", "question", "explanation", "ideal_answer", "tags"],
+    "properties": {
+      "id": { "type": "string" },
+      "domain": { "type": "string" },
+      "level": { "type": "string" },
+      "type": { "type": "string" },
+      "difficulty": { "type": ["string", "number"] },
+      "concept": { "type": "string" },
+      "scenario": { "type": "string" },
+      "question": { "type": "string" },
+      "options": { "type": "array", "items": { "type": "string" } },
+      "correct_answer": {},
+      "left_items": { "type": "array", "items": { "type": "string" } },
+      "right_items": { "type": "array", "items": { "type": "string" } },
+      "correct_pairs": { "type": "object" },
+      "acceptable_answers": { "type": "array", "items": { "type": "string" } },
+      "expected_points": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["point", "keywords", "weight"],
+          "properties": {
+            "point": { "type": "string" },
+            "keywords": { "type": "array", "items": { "type": "string" } },
+            "weight": { "type": "number" }
+          }
+        }
+      },
+      "explanation": { "type": "string" },
+      "ideal_answer": { "type": "string" },
+      "follow_up": { "type": "string" },
+      "tags": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}

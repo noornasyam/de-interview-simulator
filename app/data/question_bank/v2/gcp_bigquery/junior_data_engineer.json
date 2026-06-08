@@ -1,0 +1,160 @@
+[
+  {
+    "id": "gcp_bigquery_junior_mcq_001",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Load jobs",
+    "question": "Which BigQuery job type is commonly used to load files from Cloud Storage into a table?",
+    "options": ["Load job", "DNS job", "Firewall job", "Slot job"],
+    "correct_answer": "Load job",
+    "explanation": "BigQuery load jobs ingest data from files in Cloud Storage into BigQuery tables.",
+    "ideal_answer": "Use a BigQuery load job to load supported files from GCS into a destination table with the expected schema.",
+    "tags": ["gcp", "bigquery", "gcs", "load_jobs"]
+  },
+  {
+    "id": "gcp_bigquery_junior_fill_002",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "easy",
+    "concept": "Bytes scanned",
+    "question": "Fill in the blank: In BigQuery on-demand pricing, query cost is strongly related to bytes ____.",
+    "correct_answer": "scanned",
+    "acceptable_answers": ["scanned", "processed", "read"],
+    "explanation": "On-demand BigQuery query pricing is based on bytes processed/scanned by the query.",
+    "ideal_answer": "BigQuery on-demand query cost is tied to bytes scanned, so filters, selected columns, partitioning, and clustering matter.",
+    "tags": ["gcp", "bigquery", "cost", "bytes_scanned"]
+  },
+  {
+    "id": "gcp_bigquery_junior_short_003",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Partition filters",
+    "question": "Why should BigQuery queries on large partitioned tables include partition filters?",
+    "expected_points": [
+      {"point": "Reduces scanned partitions", "keywords": ["partition", "pruning", "reduce"], "weight": 5},
+      {"point": "Lowers cost and improves performance", "keywords": ["cost", "performance", "bytes"], "weight": 5}
+    ],
+    "explanation": "Partition filters let BigQuery skip irrelevant partitions, reducing scanned bytes.",
+    "ideal_answer": "Partition filters allow BigQuery to scan only relevant partitions, which usually reduces cost and improves query speed.",
+    "tags": ["gcp", "bigquery", "partitioning", "cost"]
+  },
+  {
+    "id": "gcp_bigquery_junior_light_004",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "Loading CSV safely",
+    "scenario": "A partner drops daily CSV files into a Cloud Storage bucket for ingestion into BigQuery.",
+    "question": "What basic checks would you add before loading the file?",
+    "expected_points": [
+      {"point": "Validate expected file exists and is not empty", "keywords": ["exists", "empty", "file"], "weight": 3},
+      {"point": "Validate schema or headers", "keywords": ["schema", "header", "column"], "weight": 3},
+      {"point": "Check row counts or bad records", "keywords": ["row count", "bad record", "error"], "weight": 2},
+      {"point": "Use a controlled destination or partition", "keywords": ["partition", "destination", "load"], "weight": 2}
+    ],
+    "explanation": "Simple file validation catches common upstream issues before bad data lands in BigQuery.",
+    "ideal_answer": "I would check that the file exists, is non-empty, has expected headers/schema, has reasonable row counts, and loads into the correct table or partition.",
+    "tags": ["gcp", "gcs", "bigquery", "data_quality"]
+  },
+  {
+    "id": "gcp_bigquery_junior_mcq_005",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Pub/Sub",
+    "question": "What is Pub/Sub commonly used for in GCP data pipelines?",
+    "options": ["Decoupled event messaging", "Manual spreadsheet editing", "Column-level SQL aliases", "BigQuery table encryption only"],
+    "correct_answer": "Decoupled event messaging",
+    "explanation": "Pub/Sub is a messaging service used to decouple event producers and consumers.",
+    "ideal_answer": "Use Pub/Sub to receive and distribute events from producers to downstream consumers such as Dataflow pipelines.",
+    "tags": ["gcp", "pubsub", "streaming", "ingestion"]
+  },
+  {
+    "id": "gcp_bigquery_junior_short_006",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Service accounts",
+    "question": "Why should a pipeline use a dedicated service account instead of a developer's user account?",
+    "expected_points": [
+      {"point": "Provides stable workload identity", "keywords": ["stable", "workload", "identity"], "weight": 3},
+      {"point": "Enables least-privilege IAM", "keywords": ["least privilege", "iam", "permission"], "weight": 4},
+      {"point": "Improves auditability", "keywords": ["audit", "logs", "trace"], "weight": 3}
+    ],
+    "explanation": "Service accounts are designed for workloads and make permissions and auditing cleaner.",
+    "ideal_answer": "A dedicated service account gives the pipeline a stable identity, allows least-privilege IAM, and makes audit logs clearer than using a person’s account.",
+    "tags": ["gcp", "iam", "service_accounts", "security"]
+  },
+  {
+    "id": "gcp_bigquery_junior_fill_007",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "fill_blank",
+    "difficulty": "medium",
+    "concept": "Dataflow",
+    "question": "Fill in the blank: Dataflow is Google Cloud's managed service for Apache ____ pipelines.",
+    "correct_answer": "Beam",
+    "acceptable_answers": ["Beam", "beam", "Apache Beam", "apache beam"],
+    "explanation": "Dataflow runs Apache Beam batch and streaming pipelines as a managed service.",
+    "ideal_answer": "Dataflow runs Apache Beam pipelines and is often used for scalable batch or streaming data processing.",
+    "tags": ["gcp", "dataflow", "apache_beam", "streaming"]
+  },
+  {
+    "id": "gcp_bigquery_junior_light_008",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "light_scenario",
+    "difficulty": "medium",
+    "concept": "Composer orchestration",
+    "scenario": "A daily pipeline must load files from GCS, run a BigQuery transform, and alert on failure.",
+    "question": "How could Cloud Composer help?",
+    "expected_points": [
+      {"point": "Orchestrates tasks in order", "keywords": ["orchestrate", "task", "dag"], "weight": 4},
+      {"point": "Schedules daily runs", "keywords": ["schedule", "daily"], "weight": 2},
+      {"point": "Handles retries and failure notifications", "keywords": ["retry", "failure", "alert"], "weight": 3},
+      {"point": "Calls BigQuery and GCS operations", "keywords": ["bigquery", "gcs", "operator"], "weight": 1}
+    ],
+    "explanation": "Composer manages Airflow DAGs, which schedule and coordinate pipeline steps.",
+    "ideal_answer": "Cloud Composer can define a DAG that checks for files, loads BigQuery, runs SQL transforms, retries failed tasks, and sends failure alerts.",
+    "tags": ["gcp", "composer", "airflow", "orchestration"]
+  },
+  {
+    "id": "gcp_bigquery_junior_mcq_009",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "External tables",
+    "question": "What does a BigQuery external table allow you to do?",
+    "options": ["Query data in external storage such as GCS without loading it into native BigQuery storage", "Create a VM", "Bypass IAM", "Run Airflow tasks without Composer"],
+    "correct_answer": "Query data in external storage such as GCS without loading it into native BigQuery storage",
+    "explanation": "External tables let BigQuery query data stored outside BigQuery, such as files in Cloud Storage.",
+    "ideal_answer": "Use an external table when you want BigQuery SQL access to data in GCS without first loading it into a native BigQuery table, understanding performance and governance trade-offs.",
+    "tags": ["gcp", "bigquery", "external_tables", "gcs"]
+  },
+  {
+    "id": "gcp_bigquery_junior_short_010",
+    "domain": "GCP / BigQuery",
+    "level": "Junior Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Audit logs",
+    "question": "How can audit logs help troubleshoot a BigQuery access issue?",
+    "expected_points": [
+      {"point": "Shows who attempted access", "keywords": ["who", "principal", "user"], "weight": 3},
+      {"point": "Shows target resource and action", "keywords": ["resource", "action", "table"], "weight": 3},
+      {"point": "Helps identify permission denied events", "keywords": ["permission", "denied", "iam"], "weight": 4}
+    ],
+    "explanation": "Audit logs record access attempts and administrative activity, which helps diagnose IAM and data access issues.",
+    "ideal_answer": "Audit logs can show the principal, resource, action, and permission-denied details, helping confirm whether the issue is IAM, resource scope, or the wrong identity.",
+    "tags": ["gcp", "audit_logs", "iam", "troubleshooting"]
+  }
+]

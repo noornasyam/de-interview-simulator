@@ -1,0 +1,176 @@
+[
+  {
+    "id": "python_mid_mcq_001",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "pandas merge",
+    "question": "Which pandas function is commonly used to join two DataFrames by key columns?",
+    "options": ["merge", "concat only", "groupby", "describe"],
+    "correct_answer": "merge",
+    "explanation": "pandas.merge joins DataFrames using key columns, similar to a SQL join.",
+    "ideal_answer": "Use pandas.merge(left, right, on='customer_id', how='left') and validate row counts so the join does not unexpectedly duplicate data.",
+    "tags": ["python", "pandas", "joins"]
+  },
+  {
+    "id": "python_mid_short_002",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Chunked processing",
+    "question": "How can pandas process a CSV that is too large to fit comfortably in memory?",
+    "expected_points": [
+      {"point": "Use chunksize with read_csv", "keywords": ["chunksize", "read_csv", "chunk"], "weight": 4},
+      {"point": "Process each chunk independently", "keywords": ["process", "each", "chunk"], "weight": 3},
+      {"point": "Write or aggregate incrementally", "keywords": ["write", "aggregate", "incremental"], "weight": 3}
+    ],
+    "explanation": "Chunked processing reduces peak memory usage by loading only part of the file at a time.",
+    "ideal_answer": "Use pandas.read_csv(path, chunksize=...) and process each chunk, writing results or aggregating incrementally instead of keeping the whole file in memory.",
+    "tags": ["python", "pandas", "performance", "file_handling"]
+  },
+  {
+    "id": "python_mid_scenario_003",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "API retry strategy",
+    "scenario": "A nightly Python extractor fails intermittently because the source API returns 500 errors.",
+    "question": "How would you make the extractor more reliable?",
+    "expected_points": [
+      {"point": "Add retries with backoff", "keywords": ["retry", "backoff", "exponential"], "weight": 3},
+      {"point": "Set timeouts", "keywords": ["timeout", "request"], "weight": 2},
+      {"point": "Handle rate limits and non-retryable errors separately", "keywords": ["rate limit", "429", "non-retryable"], "weight": 3},
+      {"point": "Log attempts and alert on failure", "keywords": ["log", "alert", "attempt"], "weight": 2}
+    ],
+    "explanation": "Production API extraction should distinguish transient failures from permanent failures and retry safely.",
+    "ideal_answer": "I would add request timeouts, bounded retries with exponential backoff for transient 5xx errors, specific handling for 429 rate limits, and structured logs/alerts when retries are exhausted.",
+    "tags": ["python", "apis", "retries", "reliability"]
+  },
+  {
+    "id": "python_mid_trouble_004",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Memory growth",
+    "scenario": "A Python job that processes many JSON files gets slower and eventually runs out of memory.",
+    "question": "How would you debug and fix the issue?",
+    "expected_points": [
+      {"point": "Check whether data is accumulated unnecessarily", "keywords": ["accumulate", "list", "memory"], "weight": 3},
+      {"point": "Stream or process files incrementally", "keywords": ["stream", "incremental", "generator"], "weight": 3},
+      {"point": "Profile memory usage", "keywords": ["profile", "memory", "trace"], "weight": 2},
+      {"point": "Write intermediate output instead of holding all records", "keywords": ["write", "flush", "intermediate"], "weight": 2}
+    ],
+    "explanation": "Many Python memory issues in ETL come from collecting all records in memory instead of streaming or batching.",
+    "ideal_answer": "I would inspect whether records are appended to a growing list, profile memory, process files with generators or chunks, and write batches out instead of holding every record until the end.",
+    "tags": ["python", "performance", "memory", "troubleshooting"]
+  },
+  {
+    "id": "python_mid_short_005",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Schema validation",
+    "question": "Why should a Python pipeline validate input schema before transformations?",
+    "expected_points": [
+      {"point": "Detects upstream breaking changes early", "keywords": ["upstream", "breaking", "change"], "weight": 4},
+      {"point": "Prevents incorrect transformations", "keywords": ["incorrect", "transform", "bad"], "weight": 3},
+      {"point": "Improves error messages and observability", "keywords": ["error", "log", "observability"], "weight": 3}
+    ],
+    "explanation": "Schema validation catches missing columns, type changes, and unexpected values before they corrupt downstream outputs.",
+    "ideal_answer": "Validate required columns and types before transforming so upstream changes fail fast with clear logs instead of producing incorrect data.",
+    "tags": ["python", "data_quality", "schema_validation"]
+  },
+  {
+    "id": "python_mid_mcq_006",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Vectorization",
+    "question": "In pandas, what is usually faster than looping over every row with iterrows?",
+    "options": ["Vectorized operations", "Nested Python loops", "Printing each row", "Converting every row to JSON first"],
+    "correct_answer": "Vectorized operations",
+    "explanation": "Vectorized pandas operations use optimized internals and are usually much faster than Python-level row loops.",
+    "ideal_answer": "Prefer vectorized operations such as df['net'] = df['amount'] - df['discount'] instead of iterating row by row.",
+    "tags": ["python", "pandas", "performance"]
+  },
+  {
+    "id": "python_mid_scenario_007",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Incremental extraction",
+    "scenario": "An API supports an updated_since parameter and returns records modified after a timestamp.",
+    "question": "How would you build an incremental Python extractor?",
+    "expected_points": [
+      {"point": "Store and reuse a durable watermark", "keywords": ["watermark", "state", "timestamp"], "weight": 4},
+      {"point": "Use overlap/lookback for late updates", "keywords": ["lookback", "overlap", "late"], "weight": 2},
+      {"point": "Make writes idempotent", "keywords": ["idempotent", "upsert", "deduplicate"], "weight": 3},
+      {"point": "Update watermark only after successful load", "keywords": ["success", "commit", "watermark"], "weight": 1}
+    ],
+    "explanation": "Incremental extractors need durable state and safe retry behavior so records are not skipped or duplicated.",
+    "ideal_answer": "Persist a watermark, request updated_since with a small lookback, upsert/deduplicate records by key, and update the watermark only after the load succeeds.",
+    "tags": ["python", "etl", "incremental", "apis"]
+  },
+  {
+    "id": "python_mid_trouble_008",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Timezone bugs",
+    "scenario": "A Python job loads events into the wrong daily partition around midnight.",
+    "question": "What would you check?",
+    "expected_points": [
+      {"point": "Check timezone-aware vs naive datetimes", "keywords": ["timezone", "aware", "naive"], "weight": 3},
+      {"point": "Confirm source and warehouse timezone assumptions", "keywords": ["source", "warehouse", "utc"], "weight": 3},
+      {"point": "Test boundary times around midnight", "keywords": ["midnight", "boundary", "test"], "weight": 2},
+      {"point": "Standardize conversion before partitioning", "keywords": ["convert", "standardize", "partition"], "weight": 2}
+    ],
+    "explanation": "Partition bugs often happen when local time, UTC, and naive datetimes are mixed.",
+    "ideal_answer": "I would check whether datetimes are timezone-aware, standardize event timestamps to UTC or the business timezone, test midnight boundaries, and derive partitions after conversion.",
+    "tags": ["python", "datetime", "partitioning", "troubleshooting"]
+  },
+  {
+    "id": "python_mid_short_009",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Dependency injection",
+    "question": "Why might you pass a storage client or API client into a function instead of creating it inside the function?",
+    "expected_points": [
+      {"point": "Makes code easier to test with mocks or fakes", "keywords": ["test", "mock", "fake"], "weight": 5},
+      {"point": "Separates business logic from infrastructure setup", "keywords": ["separate", "logic", "infrastructure"], "weight": 3},
+      {"point": "Improves reuse and configuration", "keywords": ["reuse", "configuration", "client"], "weight": 2}
+    ],
+    "explanation": "Passing dependencies into functions makes ETL logic easier to test and less tightly coupled to external services.",
+    "ideal_answer": "Inject the client so transformation logic can be tested with a fake client, while production code passes the real configured client.",
+    "tags": ["python", "testing", "design"]
+  },
+  {
+    "id": "python_mid_scenario_010",
+    "domain": "Python",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Pipeline tests",
+    "scenario": "You refactor a Python transformation used in a daily customer dimension pipeline.",
+    "question": "What tests would you add before releasing it?",
+    "expected_points": [
+      {"point": "Unit tests for transformation rules", "keywords": ["unit", "transform", "rule"], "weight": 3},
+      {"point": "Edge cases for nulls and malformed values", "keywords": ["null", "edge", "malformed"], "weight": 3},
+      {"point": "Integration or sample data test", "keywords": ["integration", "sample", "fixture"], "weight": 2},
+      {"point": "Regression check against known output", "keywords": ["regression", "known", "expected"], "weight": 2}
+    ],
+    "explanation": "Refactoring production transformations needs both focused unit tests and sample-based regression coverage.",
+    "ideal_answer": "I would add unit tests for each rule, edge cases for nulls and malformed values, sample fixture tests, and a regression check comparing output to known expected records.",
+    "tags": ["python", "testing", "etl", "regression"]
+  }
+]

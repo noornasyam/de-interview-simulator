@@ -1,0 +1,175 @@
+[
+  {
+    "id": "gcp_bigquery_mid_mcq_001",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "easy",
+    "concept": "Clustering",
+    "question": "Which BigQuery feature can improve query performance when filtering by high-cardinality columns inside partitions?",
+    "options": ["Clustering", "Cloud DNS", "IAM Conditions only", "Pub/Sub snapshots"],
+    "correct_answer": "Clustering",
+    "explanation": "Clustering colocates similar values, helping BigQuery read fewer blocks for filters on clustered columns.",
+    "ideal_answer": "Use clustering on frequently filtered or joined columns, especially within partitioned tables, to reduce scanned blocks.",
+    "tags": ["gcp", "bigquery", "clustering", "performance"]
+  },
+  {
+    "id": "gcp_bigquery_mid_short_002",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Materialized views",
+    "question": "When can a BigQuery materialized view help a data engineering workload?",
+    "expected_points": [
+      {"point": "Precomputes repeated query results", "keywords": ["precompute", "repeated", "query"], "weight": 4},
+      {"point": "Can reduce latency and cost", "keywords": ["latency", "cost", "performance"], "weight": 4},
+      {"point": "Has freshness and query-shape limitations", "keywords": ["freshness", "limitation", "eligible"], "weight": 2}
+    ],
+    "explanation": "Materialized views can speed repeated aggregations but must fit BigQuery's supported patterns and freshness behavior.",
+    "ideal_answer": "A materialized view helps when the same expensive aggregation is queried often and supported by BigQuery, but I would check freshness, eligibility, and maintenance cost.",
+    "tags": ["gcp", "bigquery", "materialized_views", "cost"]
+  },
+  {
+    "id": "gcp_bigquery_mid_scenario_003",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Partitioned ingestion",
+    "scenario": "A pipeline loads daily event files from GCS into a large BigQuery events table.",
+    "question": "How would you design the table and load process to keep queries efficient?",
+    "expected_points": [
+      {"point": "Partition by event date or ingestion date", "keywords": ["partition", "event date", "ingestion"], "weight": 3},
+      {"point": "Cluster by common filter dimensions", "keywords": ["cluster", "user", "country", "dimension"], "weight": 2},
+      {"point": "Load into the correct partition", "keywords": ["load", "partition", "destination"], "weight": 2},
+      {"point": "Validate schema and counts", "keywords": ["schema", "count", "validate"], "weight": 3}
+    ],
+    "explanation": "Efficient BigQuery ingestion aligns table layout, partition loading, and validation with query patterns.",
+    "ideal_answer": "I would partition by event_date, optionally cluster by common filters like user_id or country, load each file to the correct partition, and validate schema plus row counts after load.",
+    "tags": ["gcp", "bigquery", "gcs", "partitioning", "ingestion"]
+  },
+  {
+    "id": "gcp_bigquery_mid_trouble_004",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "High bytes scanned",
+    "scenario": "A dashboard query suddenly scans 8 TB even though users filter by a single day.",
+    "question": "What would you check first?",
+    "expected_points": [
+      {"point": "Confirm the table is partitioned and filter uses partition column", "keywords": ["partition", "filter", "column"], "weight": 4},
+      {"point": "Check for functions or casts preventing pruning", "keywords": ["function", "cast", "pruning"], "weight": 3},
+      {"point": "Inspect selected columns and joins", "keywords": ["select", "columns", "join"], "weight": 2},
+      {"point": "Use query plan or job details", "keywords": ["query plan", "job details", "bytes"], "weight": 1}
+    ],
+    "explanation": "Large scans on date-filtered queries often mean partition pruning is not happening.",
+    "ideal_answer": "I would check whether the query filters the actual partition column with a sargable predicate, inspect casts/functions, review selected columns and joins, and confirm bytes in job details.",
+    "tags": ["gcp", "bigquery", "troubleshooting", "cost"]
+  },
+  {
+    "id": "gcp_bigquery_mid_short_005",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "Slots",
+    "question": "What are BigQuery slots at a practical level?",
+    "expected_points": [
+      {"point": "Compute capacity used to execute queries", "keywords": ["compute", "capacity", "query"], "weight": 5},
+      {"point": "Affects concurrency and performance", "keywords": ["concurrency", "performance", "parallel"], "weight": 3},
+      {"point": "Can be managed through reservations/editions", "keywords": ["reservation", "edition", "committed"], "weight": 2}
+    ],
+    "explanation": "Slots are units of BigQuery compute capacity used to run queries and jobs.",
+    "ideal_answer": "Slots are BigQuery compute capacity. More available slots can improve concurrency or runtime, and organizations can manage capacity with reservations or editions.",
+    "tags": ["gcp", "bigquery", "slots", "reservations"]
+  },
+  {
+    "id": "gcp_bigquery_mid_mcq_006",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "mcq",
+    "difficulty": "medium",
+    "concept": "Streaming ingestion",
+    "question": "Which GCP services are commonly paired for streaming event processing into BigQuery?",
+    "options": ["Pub/Sub and Dataflow", "Cloud DNS and Cloud Armor", "Cloud Build and Artifact Registry only", "IAM and Cloud Billing only"],
+    "correct_answer": "Pub/Sub and Dataflow",
+    "explanation": "Pub/Sub receives event messages and Dataflow can process and write them to BigQuery.",
+    "ideal_answer": "Use Pub/Sub for event ingestion and Dataflow for scalable streaming transformations before writing to BigQuery.",
+    "tags": ["gcp", "pubsub", "dataflow", "streaming", "bigquery"]
+  },
+  {
+    "id": "gcp_bigquery_mid_scenario_007",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "scenario",
+    "concept": "Composer DAG design",
+    "scenario": "A Composer DAG loads raw data, runs BigQuery transformations, and publishes a curated table.",
+    "question": "What reliability practices would you add to the DAG?",
+    "expected_points": [
+      {"point": "Use task dependencies and retries carefully", "keywords": ["dependency", "retry", "task"], "weight": 3},
+      {"point": "Add data quality checks before publish", "keywords": ["quality", "check", "publish"], "weight": 3},
+      {"point": "Make tasks idempotent", "keywords": ["idempotent", "rerun", "safe"], "weight": 2},
+      {"point": "Alert with useful context", "keywords": ["alert", "context", "log"], "weight": 2}
+    ],
+    "explanation": "Composer reliability depends on idempotent tasks, quality gates, and actionable failures.",
+    "ideal_answer": "I would make each task rerunnable, add clear dependencies and bounded retries, run quality checks before publishing, and alert with DAG, task, partition, and error context.",
+    "tags": ["gcp", "composer", "airflow", "reliability"]
+  },
+  {
+    "id": "gcp_bigquery_mid_trouble_008",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "troubleshooting",
+    "difficulty": "scenario",
+    "concept": "Permission denied",
+    "scenario": "A Dataflow job fails when writing to BigQuery with a permission denied error.",
+    "question": "How would you troubleshoot it?",
+    "expected_points": [
+      {"point": "Identify the service account used by Dataflow", "keywords": ["service account", "dataflow", "identity"], "weight": 3},
+      {"point": "Check BigQuery dataset/table IAM permissions", "keywords": ["bigquery", "iam", "permission"], "weight": 3},
+      {"point": "Check GCS staging/temp bucket permissions if relevant", "keywords": ["gcs", "staging", "temp"], "weight": 2},
+      {"point": "Use logs and audit logs", "keywords": ["logs", "audit", "permission denied"], "weight": 2}
+    ],
+    "explanation": "Dataflow uses service accounts, and failures often come from missing permissions on BigQuery or staging resources.",
+    "ideal_answer": "I would confirm the Dataflow worker service account, check its BigQuery dataset/table permissions and GCS staging permissions, then use job logs and audit logs to find the exact denied permission.",
+    "tags": ["gcp", "dataflow", "bigquery", "iam", "troubleshooting"]
+  },
+  {
+    "id": "gcp_bigquery_mid_short_009",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "short_answer",
+    "difficulty": "medium",
+    "concept": "External table trade-off",
+    "question": "What is one advantage and one limitation of BigQuery external tables over native tables?",
+    "expected_points": [
+      {"point": "Can query data in GCS without loading", "keywords": ["gcs", "without loading", "external"], "weight": 5},
+      {"point": "May have performance or feature limitations", "keywords": ["performance", "limitation", "native"], "weight": 5}
+    ],
+    "explanation": "External tables are convenient for querying data in place, but native tables often perform better and support more features.",
+    "ideal_answer": "An external table lets BigQuery query files in GCS without loading them, but native BigQuery tables usually provide better performance, governance, and feature support.",
+    "tags": ["gcp", "bigquery", "external_tables", "tradeoffs"]
+  },
+  {
+    "id": "gcp_bigquery_mid_scenario_010",
+    "domain": "GCP / BigQuery",
+    "level": "Mid-Level Data Engineer",
+    "type": "scenario",
+    "difficulty": "hard",
+    "concept": "Monitoring pipeline freshness",
+    "scenario": "A daily BigQuery table sometimes arrives late, and analysts manually notice stale dashboards.",
+    "question": "How would you monitor freshness and alert earlier?",
+    "expected_points": [
+      {"point": "Track last successful load or max data timestamp", "keywords": ["last successful", "max timestamp", "freshness"], "weight": 4},
+      {"point": "Create metric or scheduled check", "keywords": ["metric", "scheduled", "check"], "weight": 2},
+      {"point": "Alert based on SLA threshold", "keywords": ["alert", "sla", "threshold"], "weight": 2},
+      {"point": "Include owner and remediation context", "keywords": ["owner", "runbook", "context"], "weight": 2}
+    ],
+    "explanation": "Freshness monitoring should detect stale data before business users find it.",
+    "ideal_answer": "I would track max event_date or last successful partition load, publish a freshness metric, alert when it exceeds the SLA, and include owner/runbook context in the alert.",
+    "tags": ["gcp", "bigquery", "monitoring", "freshness"]
+  }
+]

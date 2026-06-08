@@ -1,0 +1,192 @@
+[
+  {
+    "id": "gcp_bigquery_arch_enterprise_001",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise GCP data platform",
+    "scenario": "A global company wants a standard GCP architecture for analytics, streaming, ML feature preparation, and governed data sharing.",
+    "question": "What enterprise GCP data architecture would you propose?",
+    "expected_points": [
+      {"point": "Uses layered storage and processing services", "keywords": ["gcs", "pub/sub", "dataflow", "bigquery"], "weight": 3},
+      {"point": "Defines governance, IAM, and data classification", "keywords": ["governance", "iam", "classification"], "weight": 3},
+      {"point": "Defines observability and reliability standards", "keywords": ["observability", "reliability", "slo"], "weight": 2},
+      {"point": "Supports domain ownership and shared curated assets", "keywords": ["domain", "curated", "shared"], "weight": 2}
+    ],
+    "explanation": "Enterprise GCP data architecture should connect ingestion, processing, warehouse, governance, and operations across teams.",
+    "ideal_answer": "I would design a layered platform with GCS landing, Pub/Sub/Dataflow for streaming, Composer for orchestration, BigQuery curated and semantic layers, shared governance/IAM/classification, and platform-wide observability and SLOs.",
+    "tags": ["gcp", "enterprise_architecture", "bigquery", "data_platform"]
+  },
+  {
+    "id": "gcp_bigquery_arch_multi_002",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "multi_region",
+    "difficulty": "advanced",
+    "concept": "Multi-region dataset strategy",
+    "scenario": "The business operates in the US and EU and must respect data residency requirements.",
+    "question": "How would you design BigQuery dataset locations and data movement?",
+    "expected_points": [
+      {"point": "Aligns dataset location with residency requirements", "keywords": ["location", "residency", "region"], "weight": 4},
+      {"point": "Avoids accidental cross-region movement", "keywords": ["cross-region", "movement", "egress"], "weight": 2},
+      {"point": "Defines controlled replication or aggregation", "keywords": ["replication", "aggregate", "controlled"], "weight": 2},
+      {"point": "Includes governance and audit controls", "keywords": ["governance", "audit", "policy"], "weight": 2}
+    ],
+    "explanation": "BigQuery dataset location choices have governance, cost, and operational implications.",
+    "ideal_answer": "I would keep regional data in datasets located according to residency rules, avoid uncontrolled cross-region joins or exports, define approved replication/aggregation paths, and audit movement through policy and logs.",
+    "tags": ["gcp", "bigquery", "multi_region", "data_residency"]
+  },
+  {
+    "id": "gcp_bigquery_arch_gov_003",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "Column-level governance",
+    "scenario": "Different teams need access to the same customer table, but only some teams can see sensitive columns.",
+    "question": "What governance approach would you design in BigQuery?",
+    "expected_points": [
+      {"point": "Classifies sensitive columns", "keywords": ["classify", "sensitive", "column"], "weight": 2},
+      {"point": "Uses policy tags or authorized views where appropriate", "keywords": ["policy tag", "authorized view", "mask"], "weight": 4},
+      {"point": "Applies least-privilege IAM", "keywords": ["least privilege", "iam", "role"], "weight": 2},
+      {"point": "Audits access and reviews permissions", "keywords": ["audit", "review", "access"], "weight": 2}
+    ],
+    "explanation": "BigQuery supports governance patterns that limit access to sensitive columns while preserving useful analytics.",
+    "ideal_answer": "I would classify sensitive fields, use policy tags or authorized views/masking, grant least privilege by role, and monitor access with audit logs and regular reviews.",
+    "tags": ["gcp", "bigquery", "governance", "policy_tags", "security"]
+  },
+  {
+    "id": "gcp_bigquery_arch_cost_004",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "Enterprise BigQuery FinOps",
+    "scenario": "BigQuery usage is growing across hundreds of projects with little cost accountability.",
+    "question": "How would you design an enterprise BigQuery cost management program?",
+    "expected_points": [
+      {"point": "Attributes cost by project/team/workload", "keywords": ["attribute", "project", "team", "workload"], "weight": 3},
+      {"point": "Defines budgets, alerts, and guardrails", "keywords": ["budget", "alert", "guardrail"], "weight": 3},
+      {"point": "Optimizes top queries/tables", "keywords": ["optimize", "query", "table"], "weight": 2},
+      {"point": "Evaluates reservations/editions strategy", "keywords": ["reservation", "edition", "slot"], "weight": 2}
+    ],
+    "explanation": "Enterprise FinOps combines visibility, accountability, guardrails, and technical optimization.",
+    "ideal_answer": "I would implement cost attribution by project/team/workload, budgets and alerts, max bytes/quota guardrails, optimization of top queries and tables, and a reservation strategy for predictable workloads.",
+    "tags": ["gcp", "bigquery", "finops", "cost_optimization"]
+  },
+  {
+    "id": "gcp_bigquery_arch_reliability_005",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Critical analytics reliability",
+    "scenario": "Executive reporting depends on several GCP pipelines and BigQuery datasets.",
+    "question": "How would you define reliability architecture for critical analytics?",
+    "expected_points": [
+      {"point": "Defines SLOs for freshness, completeness, correctness, and availability", "keywords": ["freshness", "completeness", "correctness", "availability"], "weight": 4},
+      {"point": "Adds lineage, monitoring, and alerts", "keywords": ["lineage", "monitor", "alert"], "weight": 2},
+      {"point": "Adds quality gates and rollback/fallback plans", "keywords": ["quality gate", "rollback", "fallback"], "weight": 2},
+      {"point": "Defines owners and incident response", "keywords": ["owner", "incident", "runbook"], "weight": 2}
+    ],
+    "explanation": "Reliability architecture for analytics should treat critical datasets like operated products with measurable expectations.",
+    "ideal_answer": "I would define SLOs for critical datasets, track lineage and freshness, add quality gates and alerts, create fallback/rollback paths, and assign owners with runbooks and incident processes.",
+    "tags": ["gcp", "bigquery", "reliability", "observability"]
+  },
+  {
+    "id": "gcp_bigquery_arch_security_006",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "security",
+    "difficulty": "expert",
+    "concept": "Defense in depth for data",
+    "scenario": "A regulated analytics platform stores sensitive customer and transaction data in BigQuery.",
+    "question": "What defense-in-depth controls would you use?",
+    "expected_points": [
+      {"point": "Uses IAM least privilege and service accounts", "keywords": ["iam", "least privilege", "service account"], "weight": 3},
+      {"point": "Uses policy tags/masking/encryption where appropriate", "keywords": ["policy tag", "mask", "encryption"], "weight": 3},
+      {"point": "Considers VPC Service Controls for exfiltration risk", "keywords": ["vpc service controls", "exfiltration", "perimeter"], "weight": 2},
+      {"point": "Uses audit logs and access reviews", "keywords": ["audit", "review", "access"], "weight": 2}
+    ],
+    "explanation": "Security for GCP data platforms should layer identity, data controls, perimeter controls, and auditability.",
+    "ideal_answer": "I would combine least-privilege IAM, service account separation, policy tags or masking for sensitive fields, encryption/key policies where required, VPC Service Controls for exfiltration risk, audit logs, and regular access reviews.",
+    "tags": ["gcp", "security", "bigquery", "vpc_service_controls", "audit_logs"]
+  },
+  {
+    "id": "gcp_bigquery_arch_multi_007",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "multi_region",
+    "difficulty": "expert",
+    "concept": "Disaster recovery",
+    "scenario": "A regional outage could block regulatory reporting that depends on BigQuery and GCS.",
+    "question": "What DR strategy would you design?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by dataset criticality", "keywords": ["rto", "rpo", "criticality"], "weight": 3},
+      {"point": "Replicates or exports critical datasets and metadata", "keywords": ["replicate", "export", "metadata"], "weight": 3},
+      {"point": "Tests failover and query compatibility", "keywords": ["failover", "test", "query"], "weight": 2},
+      {"point": "Balances cost, residency, and risk", "keywords": ["cost", "residency", "risk"], "weight": 2}
+    ],
+    "explanation": "DR for GCP analytics requires explicit recovery objectives and tested data/process recovery, not just backups.",
+    "ideal_answer": "I would classify critical datasets, set RTO/RPO, replicate or export required BigQuery/GCS data and metadata, test failover queries and pipelines, and balance standby cost with regulatory and residency requirements.",
+    "tags": ["gcp", "bigquery", "dr", "multi_region", "reliability"]
+  },
+  {
+    "id": "gcp_bigquery_arch_gov_008",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Data sharing strategy",
+    "scenario": "Business units want to share curated BigQuery datasets internally and with selected partners.",
+    "question": "How would you govern data sharing?",
+    "expected_points": [
+      {"point": "Defines certified data products and contracts", "keywords": ["certified", "contract", "data product"], "weight": 3},
+      {"point": "Controls access through views/authorized sharing/IAM", "keywords": ["view", "authorized", "iam"], "weight": 3},
+      {"point": "Protects sensitive fields", "keywords": ["sensitive", "mask", "policy"], "weight": 2},
+      {"point": "Audits usage and lifecycle", "keywords": ["audit", "usage", "lifecycle"], "weight": 2}
+    ],
+    "explanation": "Data sharing needs contracts, controlled interfaces, sensitivity handling, and auditability.",
+    "ideal_answer": "I would publish certified data products with contracts, share through authorized views or controlled datasets, mask sensitive fields, enforce IAM, and audit partner/internal usage and lifecycle.",
+    "tags": ["gcp", "bigquery", "data_sharing", "governance"]
+  },
+  {
+    "id": "gcp_bigquery_arch_cost_009",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "Platform-level workload isolation",
+    "scenario": "Critical pipelines, ad hoc analytics, and ML feature generation all compete for BigQuery capacity.",
+    "question": "How would you design workload isolation and cost control?",
+    "expected_points": [
+      {"point": "Classifies workloads by priority and pattern", "keywords": ["classify", "priority", "workload"], "weight": 3},
+      {"point": "Uses reservations/assignments or project boundaries", "keywords": ["reservation", "assignment", "project"], "weight": 3},
+      {"point": "Applies quotas and guardrails", "keywords": ["quota", "guardrail", "limit"], "weight": 2},
+      {"point": "Monitors utilization and cost by workload", "keywords": ["utilization", "cost", "monitor"], "weight": 2}
+    ],
+    "explanation": "Workload isolation protects critical pipelines from noisy neighbors and makes cost easier to govern.",
+    "ideal_answer": "I would classify workloads, assign capacity with reservations or project boundaries, apply quotas/max-bytes guardrails to ad hoc use, and monitor utilization, queueing, and cost by workload.",
+    "tags": ["gcp", "bigquery", "reservations", "cost", "architecture"]
+  },
+  {
+    "id": "gcp_bigquery_arch_reliability_010",
+    "domain": "GCP / BigQuery",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "End-to-end lineage and blast radius",
+    "scenario": "A source schema change can affect hundreds of BigQuery models and reports.",
+    "question": "How would you design lineage and impact management?",
+    "expected_points": [
+      {"point": "Captures source-to-report lineage", "keywords": ["lineage", "source", "report"], "weight": 3},
+      {"point": "Adds schema contracts and change validation", "keywords": ["schema", "contract", "validation"], "weight": 3},
+      {"point": "Identifies blast radius before release", "keywords": ["blast radius", "impact", "release"], "weight": 2},
+      {"point": "Communicates owners and rollout plans", "keywords": ["owner", "communicate", "rollout"], "weight": 2}
+    ],
+    "explanation": "Lineage and contracts reduce surprise breakages by showing what a change can affect before it reaches production.",
+    "ideal_answer": "I would maintain source-to-report lineage, enforce schema contracts and CI checks, compute blast radius for changes, notify owners, and use staged rollout or compatibility periods for breaking changes.",
+    "tags": ["gcp", "bigquery", "lineage", "reliability", "schema_evolution"]
+  }
+]

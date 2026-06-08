@@ -1,0 +1,192 @@
+[
+  {
+    "id": "sql_arch_enterprise_001",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "advanced",
+    "concept": "Enterprise metric architecture",
+    "scenario": "A global company has regional warehouses with inconsistent SQL metric definitions.",
+    "question": "How would you design an enterprise approach for consistent metrics?",
+    "expected_points": [
+      {"point": "Defines governed metric ownership", "keywords": ["governed", "owner", "metric"], "weight": 3},
+      {"point": "Uses shared semantic or core data model", "keywords": ["semantic", "core", "model"], "weight": 3},
+      {"point": "Supports regional extensions without breaking global consistency", "keywords": ["regional", "extension", "global"], "weight": 2},
+      {"point": "Adds audits, lineage, and change control", "keywords": ["audit", "lineage", "change"], "weight": 2}
+    ],
+    "explanation": "Enterprise consistency requires technical standards plus governance across regions and business owners.",
+    "ideal_answer": "I would define global metric owners, build governed core/semantic models, allow regional extensions with contracts, and add lineage, audits, tests, and change control for metric changes.",
+    "tags": ["sql", "enterprise", "semantic_layer", "governance"]
+  },
+  {
+    "id": "sql_arch_governance_002",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "advanced",
+    "concept": "PII governance",
+    "scenario": "Thousands of SQL users can query customer data across analytics workspaces.",
+    "question": "What governance architecture would you put around sensitive columns?",
+    "expected_points": [
+      {"point": "Classifies sensitive data", "keywords": ["classification", "sensitive", "pii"], "weight": 2},
+      {"point": "Uses role-based or policy-based access", "keywords": ["role", "policy", "access"], "weight": 3},
+      {"point": "Applies masking/tokenization where appropriate", "keywords": ["mask", "token", "hash"], "weight": 2},
+      {"point": "Audits usage and reviews access", "keywords": ["audit", "review", "usage"], "weight": 3}
+    ],
+    "explanation": "Sensitive SQL access should be governed through classification, policy enforcement, and auditability.",
+    "ideal_answer": "I would classify PII columns, enforce role or policy-based access, expose masked/tokenized values for broad analytics, audit raw access, and run periodic access reviews.",
+    "tags": ["sql", "governance", "security", "pii"]
+  },
+  {
+    "id": "sql_arch_cost_003",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "advanced",
+    "concept": "Warehouse cost controls",
+    "scenario": "SQL warehouse spend has grown 3x, but teams resist platform restrictions.",
+    "question": "How would you reduce cost while preserving productivity?",
+    "expected_points": [
+      {"point": "Creates cost visibility by team/model/query", "keywords": ["visibility", "team", "query", "cost"], "weight": 3},
+      {"point": "Introduces guardrails instead of blanket blocks", "keywords": ["guardrail", "quota", "budget"], "weight": 2},
+      {"point": "Optimizes top cost drivers", "keywords": ["top", "driver", "optimize"], "weight": 2},
+      {"point": "Educates teams and tracks outcomes", "keywords": ["educate", "track", "outcome"], "weight": 3}
+    ],
+    "explanation": "Cost architecture combines observability, incentives, and optimization of the largest drivers.",
+    "ideal_answer": "I would provide cost visibility by team and model, set budgets and guardrails, optimize the largest scan-heavy queries, educate teams on partitioning/materialization, and track cost and latency outcomes.",
+    "tags": ["sql", "cost", "platform", "governance"]
+  },
+  {
+    "id": "sql_arch_reliability_004",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "advanced",
+    "concept": "Analytical data reliability",
+    "scenario": "Executives want reliability guarantees for company-level SQL metrics.",
+    "question": "How would you define and operate reliability for analytical datasets?",
+    "expected_points": [
+      {"point": "Defines SLAs/SLOs for freshness, completeness, and correctness", "keywords": ["sla", "slo", "freshness", "correctness"], "weight": 4},
+      {"point": "Adds monitoring and incident response", "keywords": ["monitor", "incident", "alert"], "weight": 2},
+      {"point": "Tracks lineage and blast radius", "keywords": ["lineage", "blast radius", "dependency"], "weight": 2},
+      {"point": "Uses quality gates before publication", "keywords": ["quality gate", "test", "publish"], "weight": 2}
+    ],
+    "explanation": "Analytical reliability needs explicit service levels and operational practices, not only scheduled jobs.",
+    "ideal_answer": "I would define SLOs for freshness, completeness, and correctness on critical datasets, add quality gates, monitor lineage and blast radius, and run incidents with ownership and postmortems.",
+    "tags": ["sql", "reliability", "observability", "slo"]
+  },
+  {
+    "id": "sql_arch_trade_005",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "trade_off",
+    "difficulty": "advanced",
+    "concept": "Lakehouse vs warehouse SQL",
+    "scenario": "Leadership asks whether to move SQL analytics from a cloud warehouse to a lakehouse platform.",
+    "question": "What decision framework would you use?",
+    "expected_points": [
+      {"point": "Evaluates workloads and performance needs", "keywords": ["workload", "performance", "concurrency"], "weight": 3},
+      {"point": "Compares governance and ecosystem fit", "keywords": ["governance", "ecosystem", "tooling"], "weight": 2},
+      {"point": "Compares cost and operational complexity", "keywords": ["cost", "operational", "complexity"], "weight": 3},
+      {"point": "Plans migration and coexistence", "keywords": ["migration", "coexist", "risk"], "weight": 2}
+    ],
+    "explanation": "Platform decisions should be workload-driven and include migration risk, not based on tool preference.",
+    "ideal_answer": "I would compare query workloads, concurrency, governance, ecosystem compatibility, cost, operations, and migration risk, then likely pilot coexistence before committing to a broad migration.",
+    "tags": ["sql", "architecture", "platform", "tradeoffs"]
+  },
+  {
+    "id": "sql_arch_enterprise_006",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "enterprise_architecture",
+    "difficulty": "expert",
+    "concept": "Data product contracts",
+    "scenario": "Business domains publish SQL datasets consumed across the enterprise.",
+    "question": "How would you design contracts for SQL-based data products?",
+    "expected_points": [
+      {"point": "Defines schema, semantics, and SLAs", "keywords": ["schema", "semantic", "sla"], "weight": 3},
+      {"point": "Includes quality expectations and ownership", "keywords": ["quality", "owner", "expectation"], "weight": 3},
+      {"point": "Uses versioning and deprecation", "keywords": ["version", "deprecate", "compatibility"], "weight": 2},
+      {"point": "Automates validation in CI/CD", "keywords": ["ci", "cd", "validation", "test"], "weight": 2}
+    ],
+    "explanation": "Data product contracts make SQL datasets safer to consume across team boundaries.",
+    "ideal_answer": "I would define schema, semantic meaning, SLAs, quality rules, owner, versioning, deprecation policy, and automated contract validation in CI/CD before publishing data products.",
+    "tags": ["sql", "data_products", "contracts"]
+  },
+  {
+    "id": "sql_arch_governance_007",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "governance",
+    "difficulty": "expert",
+    "concept": "Self-service analytics governance",
+    "scenario": "The company wants self-service SQL analytics without creating untrusted metric sprawl.",
+    "question": "What governance model would you propose?",
+    "expected_points": [
+      {"point": "Separates certified and exploratory assets", "keywords": ["certified", "exploratory", "asset"], "weight": 3},
+      {"point": "Defines promotion workflow", "keywords": ["promotion", "review", "certify"], "weight": 2},
+      {"point": "Provides discoverability and lineage", "keywords": ["catalog", "lineage", "discover"], "weight": 2},
+      {"point": "Assigns owners and quality requirements", "keywords": ["owner", "quality", "requirement"], "weight": 3}
+    ],
+    "explanation": "Self-service succeeds when users can explore freely while trusted assets are clearly governed.",
+    "ideal_answer": "I would separate exploratory SQL from certified datasets, create a promotion workflow with reviews and tests, publish certified assets in a catalog with lineage, and require ownership and quality standards.",
+    "tags": ["sql", "self_service", "governance"]
+  },
+  {
+    "id": "sql_arch_cost_008",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "cost_optimization",
+    "difficulty": "expert",
+    "concept": "Chargeback and FinOps",
+    "scenario": "Central data platform pays for all SQL compute, so product teams have little incentive to optimize.",
+    "question": "How would you introduce FinOps without harming adoption?",
+    "expected_points": [
+      {"point": "Implements showback before chargeback", "keywords": ["showback", "chargeback", "cost"], "weight": 3},
+      {"point": "Attributes spend to teams and workloads", "keywords": ["attribute", "team", "workload"], "weight": 3},
+      {"point": "Provides optimization guidance", "keywords": ["guidance", "optimize", "enable"], "weight": 2},
+      {"point": "Uses budgets and exceptions for business-critical work", "keywords": ["budget", "exception", "critical"], "weight": 2}
+    ],
+    "explanation": "FinOps should create awareness and incentives before imposing strict financial controls.",
+    "ideal_answer": "I would start with showback by team and workload, provide optimization playbooks, set budgets and alerts, then move to chargeback only after teams trust attribution and have exceptions for critical workloads.",
+    "tags": ["sql", "finops", "cost"]
+  },
+  {
+    "id": "sql_arch_reliability_009",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "reliability",
+    "difficulty": "expert",
+    "concept": "Disaster recovery for analytics",
+    "scenario": "A regional warehouse outage could block regulatory reporting.",
+    "question": "What SQL analytics DR strategy would you design?",
+    "expected_points": [
+      {"point": "Defines RTO/RPO by dataset criticality", "keywords": ["rto", "rpo", "criticality"], "weight": 3},
+      {"point": "Replicates critical data and metadata", "keywords": ["replicate", "metadata", "critical"], "weight": 3},
+      {"point": "Tests failover and query compatibility", "keywords": ["failover", "test", "compatibility"], "weight": 2},
+      {"point": "Balances cost against regulatory risk", "keywords": ["cost", "regulatory", "risk"], "weight": 2}
+    ],
+    "explanation": "DR for analytics should be risk-based and tested, especially for regulated reporting.",
+    "ideal_answer": "I would define RTO/RPO by dataset criticality, replicate regulated reporting data and metadata, test failover queries, document runbooks, and balance replication cost against regulatory exposure.",
+    "tags": ["sql", "dr", "reliability", "regulatory"]
+  },
+  {
+    "id": "sql_arch_trade_010",
+    "domain": "SQL",
+    "level": "Architect",
+    "type": "trade_off",
+    "difficulty": "expert",
+    "concept": "Standard SQL vs engine-specific SQL",
+    "scenario": "Teams use engine-specific SQL features that make platform migration difficult.",
+    "question": "How would you decide where engine-specific SQL is acceptable?",
+    "expected_points": [
+      {"point": "Defines portability requirements by workload", "keywords": ["portability", "workload", "requirement"], "weight": 3},
+      {"point": "Allows engine features for high-value performance cases", "keywords": ["performance", "feature", "value"], "weight": 3},
+      {"point": "Documents dependencies and migration risk", "keywords": ["document", "dependency", "migration"], "weight": 2},
+      {"point": "Creates standards and review gates", "keywords": ["standard", "review", "gate"], "weight": 2}
+    ],
+    "explanation": "Engine-specific SQL can be valuable, but architects should control where it creates acceptable lock-in.",
+    "ideal_answer": "I would prefer portable SQL for shared core models, allow engine-specific features where they materially improve performance or cost, document dependencies, and require review for high-lock-in patterns.",
+    "tags": ["sql", "portability", "tradeoffs", "standards"]
+  }
+]

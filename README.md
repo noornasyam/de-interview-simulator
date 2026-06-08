@@ -10,7 +10,11 @@ The current MVP is an AI-first Streamlit interview simulator powered by Google A
 - Gemini status indicator: Gemini enabled or Setup required.
 - Level selector for Beginner, Junior, Mid-Level, Senior, Lead, and Architect.
 - Domain selector for SQL, Python, GCP / BigQuery, AWS, Azure, Databricks, Git, Terraform, Airflow, dbt, Data Modeling, Production Engineering, and Mixed Interview.
-- 5-question interview sessions, one question at a time.
+- Hybrid 5-question interview sessions, one question at a time.
+- Curated v2 question bank support for objective and structured practice.
+- SQL v2 bank is complete across Beginner, Junior, Mid-Level, Senior, Lead, and Architect.
+- Python, GCP / BigQuery, Terraform, Airflow, and Data Modeling v2 folders are scaffolded and currently fall back to Gemini-generated questions.
+- Cost-saving evaluation strategy: MCQ, fill-blank, match, and short-answer questions are evaluated locally; open-ended scenario/design/troubleshooting questions use Gemini.
 - Mixed question types: conceptual, scenario-based, troubleshooting, design decision, cost optimization, security/governance, debugging/root cause analysis, and trade-off comparison.
 - Complexity increases across the session: fundamentals, practical concepts, scenario-based, troubleshooting/RCA, then design decisions/trade-offs.
 - During the interview, each answer shows only score and short feedback to reduce fatigue.
@@ -41,6 +45,14 @@ The current MVP is an AI-first Streamlit interview simulator powered by Google A
 │   │   └── final_report_agent.py
 │   ├── data/
 │   │   ├── question_bank/
+│   │   │   ├── v2/
+│   │   │   │   ├── schema.json
+│   │   │   │   ├── sql/
+│   │   │   │   ├── python/
+│   │   │   │   ├── gcp_bigquery/
+│   │   │   │   ├── terraform/
+│   │   │   │   ├── airflow/
+│   │   │   │   └── data_modeling/
 │   │   │   ├── core/
 │   │   │   │   ├── sql/
 │   │   │   │   ├── python/
@@ -55,7 +67,11 @@ The current MVP is an AI-first Streamlit interview simulator powered by Google A
 │   │   └── session_blueprints/
 │   └── services/
 │       ├── certification_engine.py
-│       └── adk_interview_service.py
+│       ├── adk_interview_service.py
+│       ├── question_bank_service.py
+│       └── hybrid_evaluation_service.py
+├── scripts/
+│   └── validate_v2_question_bank.py
 ├── GAP_ANALYSIS.md
 ├── CONTENT_ROADMAP.md
 ├── IMPLEMENTATION_ROADMAP.md
@@ -122,6 +138,27 @@ Legacy certification content remains available under:
 app/data/question_bank/{platform}/certification/level0.json
 ```
 
+## Hybrid Question Bank
+
+The app now prefers curated v2 questions when a complete bank exists for the selected domain and level. SQL is complete across all six levels:
+
+```text
+app/data/question_bank/v2/sql/beginner.json
+app/data/question_bank/v2/sql/junior_data_engineer.json
+app/data/question_bank/v2/sql/mid_level_data_engineer.json
+app/data/question_bank/v2/sql/senior_data_engineer.json
+app/data/question_bank/v2/sql/lead_data_engineer.json
+app/data/question_bank/v2/sql/architect.json
+```
+
+Priority folders for Python, GCP / BigQuery, Terraform, Airflow, and Data Modeling are present but pending curated content. Those selections continue to use Gemini-generated questions.
+
+Validate the v2 bank with:
+
+```bash
+python scripts/validate_v2_question_bank.py
+```
+
 ## Screenshots
 
 Screenshots will be added before the first tagged public release.
@@ -133,8 +170,8 @@ Screenshots will be added before the first tagged public release.
 
 ## Future Roadmap
 
-- Add automated coverage for the 5-question AI interview flow.
-- Add exportable interview reports.
+- Populate v2 banks for Python, GCP / BigQuery, Terraform, Airflow, and Data Modeling.
+- Add automated coverage for the hybrid 5-question interview flow.
 - Add optional local/offline mode behind an advanced setting.
 - Add session blueprint support for role-weighted domain mixes.
 - Add richer report export formats.
